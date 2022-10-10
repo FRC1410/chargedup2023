@@ -1,4 +1,4 @@
-package org.frc1410.framework.phase;
+package org.frc1410.framework;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 

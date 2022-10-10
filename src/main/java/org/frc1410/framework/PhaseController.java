@@ -1,4 +1,4 @@
-package org.frc1410.framework.phase;
+package org.frc1410.framework;
 
 /**
  * A state machine responsible for controlling robot phase. This class is used in

@@ -1,4 +1,4 @@
-package org.frc1410.framework.phase;
+package org.frc1410.framework;
 
 public enum Phase {
 
