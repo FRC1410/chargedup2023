@@ -1,9 +1,14 @@
 package org.frc1410.framework;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import org.frc1410.framework.flow.PhaseSequencer;
+import org.frc1410.framework.phase.*;
+import org.frc1410.framework.scheduler.TaskScheduler;
 
 public abstract class PhaseDrivenRobot extends TimedRobot {
+
 	public final PhaseController phaseController = new PhaseController();
+    private final TaskScheduler scheduler = new TaskScheduler();
 
 	@Override
 	public final void robotPeriodic() {
@@ -16,10 +21,27 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 	// <editor-fold desc="> Phase hooks" defaultstate="collapsed">
 
 	@Override
-	public void robotInit() {
+	public final void robotInit() {
 		System.out.println("!!!");
 		// Signal that we're about to transition out of INIT as soon as the scheduler does a sweep
 		phaseController.beginTransition();
+	}
+
+	public void disabledSequence(PhaseSequencer seq) {
+		/*
+		new Button(driverController, Button.X)
+		 */
+	}
+
+	public void autonomousSequence(PhaseSequencer seq) {
+	}
+
+	public void teleopSequence(PhaseSequencer seq) {
+
+	}
+
+	public void testSequence(PhaseSequencer seq) {
+
 	}
 
 	// Initialization methods.
@@ -35,7 +57,7 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 
 	@Override
 	public final void teleopInit() {
-		phaseController.transition(Phase.TElEOP);
+		phaseController.transition(Phase.TELEOP);
 	}
 
 	@Override
@@ -87,9 +109,8 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 	}
 
 	@Override
-	public void testPeriodic() {
+	public final void testPeriodic() {
 
 	}
-
 	// </editor-fold>
 }

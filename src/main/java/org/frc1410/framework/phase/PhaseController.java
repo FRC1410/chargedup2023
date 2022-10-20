@@ -1,4 +1,7 @@
-package org.frc1410.framework;
+package org.frc1410.framework.phase;
+
+import org.frc1410.framework.PhaseDrivenRobot;
+import org.frc1410.framework.util.log.Logger;
 
 /**
  * A state machine responsible for controlling robot phase. This class is used in
@@ -6,22 +9,26 @@ package org.frc1410.framework;
  * mode enter/exit methods are called.
  */
 public class PhaseController {
+
+    private static final Logger LOG = new Logger("PhaseController");
+
 	private Phase phase = Phase.INIT;
 	private Phase oldPhase = null;
 
-	void beginTransition() {
-		System.out.println("[PhaseController] Began transition out of " + phase);
+	public void beginTransition() {
+		LOG.debug("[PhaseController] Transitioning out of %s...", phase);
 
 		oldPhase = phase;
 		phase = Phase.TRANSITION;
 	}
 
-	void transition(Phase phase) {
+	public void transition(Phase phase) {
 		if (oldPhase == null) {
 			throw new IllegalStateException("Transition request was not submitted! This will lead to race conditions.");
 		}
 
-		System.out.printf("[PhaseController] Transition complete: %s -> %s\n", oldPhase, phase);
+        LOG.info("Transition complete: %s -> %s", oldPhase, phase);
+
 		this.oldPhase = null;
 		this.phase = phase;
 	}
