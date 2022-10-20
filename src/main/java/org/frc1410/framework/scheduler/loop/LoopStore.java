@@ -13,11 +13,11 @@ public final class LoopStore {
 
     private static final Loop MAIN = new Loop(-1L);
 
-    public Loop getMain() {
+    public Loop main() {
         return MAIN;
     }
 
-    public Loop getOrNew(long period) {
+    public Loop ofPeriod(long period) {
         Loop loop = loops.get(period);
         if (loop == null) {
             loop = new Loop(period);

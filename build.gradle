@@ -90,3 +90,6 @@ jar {
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+
+targetCompatibility = JavaVersion.VERSION_14
+sourceCompatibility = JavaVersion.VERSION_14
