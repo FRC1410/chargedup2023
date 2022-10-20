@@ -16,6 +16,8 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 			System.out.println("[Robot] Scheduler tick submitted during transition. Skipped.");
 			return;
 		}
+
+        //scheduler.getLoopStore().main().tick();
 	}
 
 	// <editor-fold desc="> Phase hooks" defaultstate="collapsed">

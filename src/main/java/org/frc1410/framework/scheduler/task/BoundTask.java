@@ -12,15 +12,15 @@ import org.frc1410.framework.scheduler.loop.Loop;
  */
 public class BoundTask {
 
-    private final Task task;
-    private final TaskPersistence persistence;
-    private final Observer observer;
+    public final LifecycleHandler lifecycleHandler = new LifecycleHandler(this);
+    public final Task task;
+    public final TaskPersistence persistence;
+    public final Observer observer;
+
 
     public BoundTask(Task task, TaskPersistence persistence, Observer observer) {
         this.task = task;
         this.persistence = persistence;
         this.observer = observer;
     }
-
-
 }

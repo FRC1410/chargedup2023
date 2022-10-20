@@ -2,8 +2,9 @@ package org.frc1410.framework.scheduler.task;
 
 public enum TaskState {
 
-    REQUESTING_EXECUTION,
+    FLAGGED_EXECUTION,
     EXECUTING,
-    REQUESTING_CANCELLATION,
-    CANCELED
+    FLAGGED_CANCELLATION,
+    SUSPENDED,
+    FINISHED
 }

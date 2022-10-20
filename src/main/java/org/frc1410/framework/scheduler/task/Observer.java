@@ -1,9 +1,25 @@
 package org.frc1410.framework.scheduler.task;
 
-@FunctionalInterface
 public interface Observer {
 
-    Observer DEFAULT = () -> false;
+    /**
+     * The default observer. Never cancels, and unconditionally
+     * requests execution.
+     */
+    Observer DEFAULT = new Observer() {
+
+        @Override
+        public boolean shouldCancel() {
+            return false;
+        }
+
+        @Override
+        public boolean shouldSchedule() {
+            return true;
+        }
+    };
 
     boolean shouldCancel();
+
+    boolean shouldSchedule();
 }

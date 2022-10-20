@@ -1,6 +1,7 @@
-package org.frc1410.framework.control;
+package org.frc1410.framework.control.button;
 
 import edu.wpi.first.wpilibj.XboxController;
+import org.frc1410.framework.control.ControlInput;
 import org.intellij.lang.annotations.MagicConstant;
 
 public class Button implements ControlInput {
