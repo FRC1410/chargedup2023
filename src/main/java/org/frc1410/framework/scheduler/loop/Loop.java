@@ -1,6 +1,5 @@
 package org.frc1410.framework.scheduler.loop;
 
-import org.frc1410.framework.scheduler.Task;
 import org.frc1410.framework.scheduler.task.BoundTask;
 
 import java.util.ArrayList;
