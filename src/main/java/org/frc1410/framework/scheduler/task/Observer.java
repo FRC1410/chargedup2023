@@ -1,25 +1,12 @@
 package org.frc1410.framework.scheduler.task;
 
-public interface Observer {
+public abstract class Observer {
 
-    /**
-     * The default observer. Never cancels, and unconditionally
-     * requests execution.
-     */
-    Observer DEFAULT = new Observer() {
+    protected final LifecycleHandler lifecycle;
 
-        @Override
-        public boolean shouldCancel() {
-            return false;
-        }
+    public Observer(LifecycleHandler lifecycle) {
+        this.lifecycle = lifecycle;
+    }
 
-        @Override
-        public boolean shouldSchedule() {
-            return true;
-        }
-    };
-
-    boolean shouldCancel();
-
-    boolean shouldSchedule();
+    public abstract void tick();
 }

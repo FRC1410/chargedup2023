@@ -1,5 +1,3 @@
-import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
-
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2022.4.1"
@@ -9,7 +7,7 @@ def javaVersion = JavaVersion.VERSION_11
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 
-def ROBOT_MAIN_CLASS = "org.frc1410.rapidreact2022.Main"
+def ROBOT_MAIN_CLASS = "org.frc1410.robot.Robot"
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.

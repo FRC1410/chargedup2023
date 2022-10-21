@@ -13,16 +13,16 @@ public class TaskScheduler {
 
     // Registers tasks to the default loop.
     public void schedule(Task task, TaskPersistence persistence) {
-        schedule(task.bind(persistence, Observer.DEFAULT), loops.main());
+        schedule(task.bind(persistence, null), loops.main);
     }
 
     public void schedule(Task task, TaskPersistence persistence, long period) {
-        schedule(task.bind(persistence, Observer.DEFAULT), loops.ofPeriod(period));
+        schedule(task.bind(persistence, null), loops.ofPeriod(period));
     }
 
     // TODO: These will probably be abstracted over. We don't really want to expose observers directly.
     public void schedule(Task task, TaskPersistence persistence, Observer observer) {
-        schedule(task.bind(persistence, observer), loops.main());
+        schedule(task.bind(persistence, observer), loops.main);
     }
 
     public void schedule(Task task, TaskPersistence persistence, long period, Observer observer) {

@@ -22,6 +22,7 @@ public enum TaskPersistence {
      * to buttons.
      */
     EPHEMERAL {
+        
         @Override
         public boolean shouldPersist(Phase into) {
             return false;

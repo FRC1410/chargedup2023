@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import org.frc1410.framework.control.ControlInput;
 import org.intellij.lang.annotations.MagicConstant;
 
+/**
+ * Represents an input from an {@link XboxController}. Button IDs are
+ * provided as static members of this class.
+ */
 public class Button implements ControlInput {
 
     public static final int A = 1;
@@ -28,13 +32,16 @@ public class Button implements ControlInput {
         this.id = id;
     }
 
-    @Override
     public XboxController getController() {
-        return null;
+        return controller;
+    }
+
+    public boolean isActive() {
+        return controller.getRawButton(id);
     }
 
     @Override
     public int getInputId() {
-        return 0;
+        return id;
     }
 }

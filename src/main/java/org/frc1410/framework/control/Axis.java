@@ -21,7 +21,6 @@ public class Axis implements ControlInput {
         this.id = id;
     }
 
-    @Override
     public XboxController getController() {
         return controller;
     }

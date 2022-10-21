@@ -4,7 +4,7 @@ public enum TaskState {
 
     FLAGGED_EXECUTION,
     EXECUTING,
+    FLAGGED_FINISH,
     FLAGGED_CANCELLATION,
-    SUSPENDED,
-    FINISHED
+    ENDED
 }

@@ -2,6 +2,7 @@ package org.frc1410.framework.util.log;
 
 import org.frc1410.framework.util.log.transport.Transport;
 import org.frc1410.framework.util.log.transport.Transports;
+import org.intellij.lang.annotations.PrintFormat;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -55,23 +56,23 @@ public final class Logger {
         log(LogLevel.FATAL, message);
     }
 
-    public void debug(@NotNull String format, @NotNull Object... args) {
+    public void debug(@NotNull @PrintFormat String format, @NotNull Object... args) {
         log(LogLevel.DEBUG, format, args);
     }
 
-    public void info(@NotNull String format, @NotNull Object... args) {
+    public void info(@NotNull @PrintFormat String format, @NotNull Object... args) {
         log(LogLevel.INFO, format, args);
     }
 
-    public void warn(@NotNull String format, @NotNull Object... args) {
+    public void warn(@NotNull @PrintFormat String format, @NotNull Object... args) {
         log(LogLevel.WARN, format, args);
     }
 
-    public void error(@NotNull String format, @NotNull Object... args) {
+    public void error(@NotNull @PrintFormat String format, @NotNull Object... args) {
         log(LogLevel.ERROR, format, args);
     }
 
-    public void fatal(@NotNull String format, @NotNull Object... args) {
+    public void fatal(@NotNull @PrintFormat String format, @NotNull Object... args) {
         log(LogLevel.FATAL, format, args);
     }
 }
