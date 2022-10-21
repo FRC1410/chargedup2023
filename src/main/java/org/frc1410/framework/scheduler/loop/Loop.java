@@ -1,6 +1,7 @@
 package org.frc1410.framework.scheduler.loop;
 
 import org.frc1410.framework.scheduler.task.BoundTask;
+import org.frc1410.framework.scheduler.task.LifecycleHandler;
 import org.frc1410.framework.scheduler.task.Task;
 import org.frc1410.framework.scheduler.task.TaskState;
 
@@ -44,28 +45,32 @@ public class Loop {
     }
 
     private static void process(BoundTask task) {
+        task.observer.tick();
+
         Task job = task.job;
-        switch (task.state) {
+        LifecycleHandler lifecycle = task.lifecycle;
+
+        switch (lifecycle.state) {
             case FLAGGED_EXECUTION -> {
                 job.init();
-                task.state = TaskState.EXECUTING;
+                lifecycle.state = TaskState.EXECUTING;
             }
 
             case EXECUTING -> {
                 job.execute();
                 if (job.isFinished()) {
-                    task.state = TaskState.FLAGGED_FINISH;
+                    lifecycle.state = TaskState.FLAGGED_COMPLETION;
                 }
             }
 
-            case FLAGGED_FINISH -> {
+            case FLAGGED_COMPLETION -> {
                 job.end(false);
-                task.state = TaskState.ENDED;
+                lifecycle.state = TaskState.ENDED;
             }
 
-            case FLAGGED_CANCELLATION -> {
+            case FLAGGED_INTERRUPTION -> {
                 job.end(true);
-                task.state = TaskState.ENDED;
+                lifecycle.state = TaskState.ENDED;
             }
         }
     }

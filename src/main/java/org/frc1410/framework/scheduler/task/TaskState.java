@@ -4,7 +4,17 @@ public enum TaskState {
 
     FLAGGED_EXECUTION,
     EXECUTING,
-    FLAGGED_FINISH,
-    FLAGGED_CANCELLATION,
-    ENDED
+
+    FLAGGED_COMPLETION,
+    FLAGGED_INTERRUPTION,
+
+    ENDED;
+
+    public boolean isExecuting() {
+        return this == EXECUTING || this == FLAGGED_EXECUTION;
+    }
+
+    public boolean isEnded() {
+        return this == ENDED || this == FLAGGED_COMPLETION || this == FLAGGED_INTERRUPTION;
+    }
 }

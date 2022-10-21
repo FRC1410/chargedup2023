@@ -12,11 +12,10 @@ import org.frc1410.framework.scheduler.loop.Loop;
  */
 public class BoundTask {
 
-    public final LifecycleHandler lifecycleHandler = new LifecycleHandler(this);
+    public final LifecycleHandler lifecycle = new LifecycleHandler(this);
     public final Task job;
     public final TaskPersistence persistence;
     public final Observer observer;
-    public TaskState state = TaskState.FLAGGED_EXECUTION;
 
 
     public BoundTask(Task task, TaskPersistence persistence, Observer observer) {
