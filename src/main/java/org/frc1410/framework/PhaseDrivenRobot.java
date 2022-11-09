@@ -1,9 +1,7 @@
 package org.frc1410.framework;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import org.frc1410.framework.flow.PhaseSequencer;
 import org.frc1410.framework.phase.*;
-import org.frc1410.framework.scheduler.TaskScheduler;
 import org.frc1410.framework.scheduler.loop.Loop;
 import org.frc1410.framework.scheduler.task.*;
 import org.frc1410.framework.util.log.Logger;
@@ -43,65 +41,45 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		phaseController.beginTransition();
 	}
 
-	public void disabledSequence(PhaseSequencer seq) {
-	}
+	public void disabledSequence() {
 
-	public void autonomousSequence(PhaseSequencer seq) {
-	}
+    }
 
-	public void teleopSequence(PhaseSequencer seq) {
+    public void autonomousSequence() {
 
-	}
+    }
 
-	public void testSequence(PhaseSequencer seq) {
+    public void teleopSequence() {
 
-	}
+    }
+
+    public void testSequence() {
+
+    }
 
 	// Initialization methods.
 	@Override
 	public final void disabledInit() {
 		phaseController.transition(Phase.DISABLED);
+        disabledSequence();
 	}
 
 	@Override
 	public final void autonomousInit() {
 		phaseController.transition(Phase.AUTONOMOUS);
+        autonomousSequence();
 	}
 
 	@Override
 	public final void teleopInit() {
 		phaseController.transition(Phase.TELEOP);
-
-		scheduler.schedule(new Task() {
-
-			private int i = 0;
-
-			@Override
-			public void init() {
-				LOG.info("Task init");
-			}
-
-			@Override
-			public void execute() {
-				LOG.info("Task execute %d", i);
-				i++;
-			}
-
-			@Override
-			public boolean isFinished() {
-				return i == 5;
-			}
-
-			@Override
-			public void end(boolean interrupted) {
-				LOG.info("Task end");
-			}
-		}, TaskPersistence.EPHEMERAL, 500);
+        teleopSequence();
 	}
 
 	@Override
 	public final void testInit() {
 		phaseController.transition(Phase.TEST);
+        testSequence();
 	}
 
 	@Override

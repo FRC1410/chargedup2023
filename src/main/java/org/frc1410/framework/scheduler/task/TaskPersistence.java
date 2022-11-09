@@ -1,7 +1,7 @@
 package org.frc1410.framework.scheduler.task;
 
 import org.frc1410.framework.phase.Phase;
-import org.frc1410.framework.scheduler.TaskScheduler;
+import org.frc1410.framework.scheduler.task.observer.Observer;
 
 /**
  * A model for how long a task should survive. Tasks are checked for
@@ -9,7 +9,7 @@ import org.frc1410.framework.scheduler.TaskScheduler;
  * ignored when the robot enters {@link Phase#EMERGENCY_STOPPED}.
  *
  * @see Phase
- * @see Task#bind(TaskPersistence, Observer)
+ * @see Task#bind(TaskPersistence, Observer) 
  * @see TaskScheduler
  */
 public enum TaskPersistence {
@@ -22,7 +22,7 @@ public enum TaskPersistence {
      * to buttons.
      */
     EPHEMERAL {
-        
+
         @Override
         public boolean shouldPersist(Phase into) {
             return false;
