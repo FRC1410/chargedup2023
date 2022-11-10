@@ -1,24 +1,30 @@
 package org.frc1410.framework.scheduler.loop;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import org.frc1410.framework.phase.Phase;
+import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.util.log.Logger;
 
 import java.util.*;
-
 
 public final class LoopStore {
 
     private static final Logger LOG = new Logger("LoopStore");
 
+    private final TaskScheduler scheduler;
     private final Long2ObjectOpenHashMap<Loop> loops = new Long2ObjectOpenHashMap<>();
     private final Deque<Loop> untracked = new ArrayDeque<>();
+    public final Loop main;
 
-    public final Loop main = new Loop(-1L);
+    public LoopStore(TaskScheduler scheduler) {
+        this.scheduler = scheduler;
+        this.main = new Loop(scheduler, -1L);
+    }
 
     public Loop ofPeriod(long period) {
         Loop loop = loops.get(period);
         if (loop == null) {
-            loop = new Loop(period);
+            loop = new Loop(scheduler, period);
             loops.put(period, loop);
             untracked.add(loop);
 
@@ -26,6 +32,12 @@ public final class LoopStore {
         }
 
         return loop;
+    }
+
+    public void propagateTransition(Phase newPhase) {
+        for (var loop : loops.values()) {
+            loop.flagTransition(newPhase);
+        }
     }
 
     public Deque<Loop> getUntrackedLoops() {

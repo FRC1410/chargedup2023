@@ -1,6 +1,7 @@
 package org.frc1410.framework.phase;
 
 import org.frc1410.framework.PhaseDrivenRobot;
+import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.util.log.Logger;
 
 /**
@@ -12,10 +13,15 @@ public class PhaseController {
 
     private static final Logger LOG = new Logger("PhaseController");
 
+    private final TaskScheduler scheduler;
 	private Phase phase = Phase.INIT;
 	private Phase oldPhase = null;
 
-	public void beginTransition() {
+    public PhaseController(TaskScheduler scheduler) {
+        this.scheduler = scheduler;
+    }
+
+    public void beginTransition() {
 		LOG.debug("[PhaseController] Transitioning out of %s...", phase);
 
 		oldPhase = phase;
@@ -31,6 +37,8 @@ public class PhaseController {
 
 		this.oldPhase = null;
 		this.phase = phase;
+
+        scheduler.loops.propagateTransition(this.phase);
 	}
 
 	public Phase getPhase() {

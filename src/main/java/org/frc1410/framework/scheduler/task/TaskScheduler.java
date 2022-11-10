@@ -1,5 +1,6 @@
 package org.frc1410.framework.scheduler.task;
 
+import org.frc1410.framework.phase.Phase;
 import org.frc1410.framework.scheduler.loop.Loop;
 import org.frc1410.framework.scheduler.loop.LoopStore;
 import org.frc1410.framework.scheduler.task.lock.LockHandler;
@@ -7,7 +8,7 @@ import org.frc1410.framework.scheduler.task.observer.Observer;
 
 public class TaskScheduler {
 
-    private final LoopStore loops = new LoopStore();
+    public final LoopStore loops = new LoopStore(this);
     public final LockHandler lockHandler = new LockHandler();
 
     // Registers tasks to the default loop.

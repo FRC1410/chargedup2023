@@ -1,6 +1,7 @@
 package org.frc1410.framework.scheduler.task.lock;
 
 import org.frc1410.framework.scheduler.task.BoundTask;
+import org.frc1410.framework.util.log.Logger;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 */
 public class LockHandler {
 
+    private static final Logger LOG = new Logger("LockHandler");
     private final Map<Object, BoundTask> locks = new ConcurrentHashMap<>();
 
     /**
@@ -40,6 +42,7 @@ public class LockHandler {
         if (owner.lock == null) return true;
 
         if (task.lock.priority > owner.lock.priority) {
+            LOG.info("Task %s has priority over %s, transitioning lock...", task, owner);
             locks.put(task.lock.key, task);
             return true;
         }

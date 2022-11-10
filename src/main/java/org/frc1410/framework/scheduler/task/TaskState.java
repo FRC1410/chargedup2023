@@ -6,15 +6,17 @@ public enum TaskState {
     EXECUTING,
 
     FLAGGED_COMPLETION,
-    FLAGGED_INTERRUPTION,
+    FLAGGED_SUSPENSION,
+    FLAGGED_TERMINATION,
 
-    ENDED;
+    SUSPENDED,
+    TERMINATED;
 
     public boolean isExecuting() {
         return this == EXECUTING || this == FLAGGED_EXECUTION;
     }
 
-    public boolean isEnded() {
-        return this == ENDED || this == FLAGGED_COMPLETION || this == FLAGGED_INTERRUPTION;
+    public boolean isInactive() {
+        return this == SUSPENDED || this == FLAGGED_COMPLETION || this == FLAGGED_SUSPENSION || this == FLAGGED_TERMINATION;
     }
 }

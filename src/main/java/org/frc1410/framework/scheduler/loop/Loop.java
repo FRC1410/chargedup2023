@@ -1,5 +1,6 @@
 package org.frc1410.framework.scheduler.loop;
 
+import org.frc1410.framework.phase.Phase;
 import org.frc1410.framework.scheduler.task.*;
 
 import java.util.HashSet;
@@ -22,8 +23,7 @@ public class Loop {
     private final Set<BoundTask> tasks = new HashSet<>();
     private final long period;
 
-
-    Loop(TaskScheduler scheduler, long period) {
+    public Loop(TaskScheduler scheduler, long period) {
         this.scheduler = scheduler;
         this.period = period;
     }
@@ -41,14 +41,28 @@ public class Loop {
     }
 
     public void tick() {
+        // Remove any tasks flagged for termination. If we were to do this in the process sycle, we would get CMEs.
+        tasks.removeIf(task -> task.lifecycle.state == TaskState.TERMINATED);
+        // Tick any tasks registered to this loop.
         tasks.forEach(this::process);
     }
 
+    public void flagTransition(Phase newPhase) {
+        for (var task : tasks) {
+            if (!task.persistence.shouldPersist(newPhase)) {
+                task.lifecycle.requestInterruption();
+            }
+        }
+    }
+
     private void process(BoundTask task) {
+        // Just skip this iteration entirely if the task lock is claimed. This prevents fun things like
+        // a case where an observer resumes execution of a task despite its lock being actively in use.
         if (!scheduler.lockHandler.ownsLock(task)) {
             return;
         }
 
+        // Tick the observer to update the task state.
         task.observer.tick(task.lifecycle);
 
         Task job = task.job;
@@ -62,6 +76,7 @@ public class Loop {
 
             case EXECUTING -> {
                 job.execute();
+                
                 if (job.isFinished()) {
                     lifecycle.state = TaskState.FLAGGED_COMPLETION;
                 }
@@ -69,14 +84,21 @@ public class Loop {
 
             case FLAGGED_COMPLETION -> {
                 job.end(false);
-                lifecycle.state = TaskState.ENDED;
+                lifecycle.state = TaskState.SUSPENDED;
 
                 scheduler.lockHandler.releaseLock(task);
             }
 
-            case FLAGGED_INTERRUPTION -> {
+            case FLAGGED_SUSPENSION -> {
                 job.end(true);
-                lifecycle.state = TaskState.ENDED;
+                lifecycle.state = TaskState.SUSPENDED;
+
+                scheduler.lockHandler.releaseLock(task);
+            }
+
+            case FLAGGED_TERMINATION -> {
+                job.end(true);
+                lifecycle.state = TaskState.TERMINATED;
 
                 scheduler.lockHandler.releaseLock(task);
             }
