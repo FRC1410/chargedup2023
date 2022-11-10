@@ -15,10 +15,6 @@ public class LifecycleHandler {
         }
     }
 
-    public void requestTermination() {
-        state = TaskState.FLAGGED_TERMINATION;
-    }
-
     public void requestInterruption() {
         if (!state.isInactive()) {
             state = TaskState.FLAGGED_SUSPENSION;
