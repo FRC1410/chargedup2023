@@ -1,11 +1,13 @@
 package org.frc1410.framework.scheduler.task;
 
+import org.jetbrains.annotations.NotNull;
+
 public class LifecycleHandler {
 
     public final BoundTask wrappedTask;
-    public TaskState state = TaskState.FLAGGED_EXECUTION;
+    public @NotNull TaskState state = TaskState.FLAGGED_EXECUTION;
 
-    public LifecycleHandler(BoundTask wrappedTask) {
+    public LifecycleHandler(@NotNull BoundTask wrappedTask) {
         this.wrappedTask = wrappedTask;
     }
 

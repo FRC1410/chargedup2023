@@ -16,4 +16,8 @@ public class ButtonBinding {
     public boolean isPressed() {
         return controller.getRawButton(button.id);
     }
+
+    public ButtonProxy whenPressed(Task task) {
+        return new ButtonProxy(task, new WhenPressedObserver(this));
+    }
 }

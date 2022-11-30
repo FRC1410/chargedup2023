@@ -8,9 +8,16 @@ public class SubsystemStore {
     private final List<Subsystem> subsystems = new ArrayList<>();
     private final List<TickedSubsystem> tickedSubsystems = new ArrayList<>();
 
-    public void track(Subsystem subsystem) {
+    public <S extends Subsystem> S track(S subsystem) {
+        if (subsystem instanceof TickedSubsystem) {
+            tickedSubsystems.add((TickedSubsystem) subsystem);
+        }
         subsystems.add(subsystem);
+
+        return subsystem;
     }
 
-    public void track() {}
+    public List<TickedSubsystem> getTickedSubsystems() {
+        return tickedSubsystems;
+    }
 }

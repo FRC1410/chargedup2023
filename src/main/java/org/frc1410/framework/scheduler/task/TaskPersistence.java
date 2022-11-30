@@ -9,7 +9,7 @@ import org.frc1410.framework.scheduler.task.observer.Observer;
  * ignored when the robot enters {@link Phase#EMERGENCY_STOPPED}.
  *
  * @see Phase
- * @see Task#bind(TaskPersistence, Observer) 
+ * @see Task#bind(TaskPersistence, Observer, int) 
  * @see TaskScheduler
  */
 public enum TaskPersistence {

@@ -22,6 +22,7 @@ public class Loop {
     private final TaskScheduler scheduler;
     private final Set<BoundTask> tasks = new HashSet<>();
     private final long period;
+    private boolean disabled;
 
     public Loop(TaskScheduler scheduler, long period) {
         this.scheduler = scheduler;
@@ -41,6 +42,10 @@ public class Loop {
     }
 
     public void tick() {
+        if (disabled) {
+            return;
+        }
+
         // Remove any tasks flagged for termination. If we were to do this in the process sycle, we would get CMEs.
         tasks.removeIf(task -> task.lifecycle.state == TaskState.TERMINATED);
         // Tick any tasks registered to this loop.
@@ -48,6 +53,8 @@ public class Loop {
     }
 
     public void flagTransition(Phase newPhase) {
+        disabled = newPhase == Phase.DISABLED;
+
         for (var task : tasks) {
             if (!task.persistence.shouldPersist(newPhase)) {
                 task.lifecycle.requestInterruption();

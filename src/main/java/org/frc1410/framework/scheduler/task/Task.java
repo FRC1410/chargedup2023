@@ -2,24 +2,34 @@ package org.frc1410.framework.scheduler.task;
 
 import org.frc1410.framework.scheduler.task.lock.TaskLock;
 import org.frc1410.framework.scheduler.task.observer.Observer;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface Task {
 
-    void init();
+    default void init() {
+
+    }
 
     void execute();
 
     boolean isFinished();
 
-    void end(boolean interrupted);
+    default void end(boolean interrupted) {
+        
+    }
 
     @Nullable
-    default TaskLock getLock() {
+    default Object getLockKey() {
         return null;
     }
 
-    default BoundTask bind(TaskPersistence persistence, Observer observer) {
-        return new BoundTask(this, persistence, observer, getLock());
+    default BoundTask bind(@NotNull TaskPersistence persistence, @NotNull Observer observer, int priority) {
+        var lockKey = getLockKey();
+        if (lockKey != null) {
+            return new BoundTask(this, persistence, observer, new TaskLock(priority, lockKey));
+        }
+
+        return new BoundTask(this, persistence, observer, null);
     }
 }

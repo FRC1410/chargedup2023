@@ -1,27 +1,22 @@
-package org.frc1410.framework.control.button;
+package org.frc1410.framework.control2.observer;
 
+import org.frc1410.framework.control2.Button;
 import org.frc1410.framework.scheduler.task.LifecycleHandler;
 import org.frc1410.framework.scheduler.task.observer.Observer;
 import org.jetbrains.annotations.NotNull;
 
 public class WhenPressedObserver implements Observer {
 
-    private final ButtonBinding target;
-    private boolean lastState = false;
+    private final Button button;
 
-    public WhenPressedObserver(ButtonBinding target) {
-        this.target = target;
+    public WhenPressedObserver(Button button) {
+        this.button = button;
     }
 
     @Override
     public void tick(@NotNull LifecycleHandler lifecycle) {
-        boolean currentState = target.isPressed();
-
-        if (!lastState && currentState) {
+        if (button.isActive()) {
             lifecycle.requestExecution();
         }
-
-        lastState = currentState;
     }
 }
-

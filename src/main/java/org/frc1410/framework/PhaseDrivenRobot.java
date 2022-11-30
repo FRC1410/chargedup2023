@@ -3,6 +3,8 @@ package org.frc1410.framework;
 import edu.wpi.first.wpilibj.TimedRobot;
 import org.frc1410.framework.phase.*;
 import org.frc1410.framework.scheduler.loop.Loop;
+import org.frc1410.framework.scheduler.subsystem.SubsystemPeriodicTask;
+import org.frc1410.framework.scheduler.subsystem.SubsystemStore;
 import org.frc1410.framework.scheduler.task.*;
 import org.frc1410.framework.util.log.Logger;
 
@@ -10,10 +12,11 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 
     private static final Logger LOG = new Logger("Robot");
 
-	public final PhaseController phaseController = new PhaseController();
-    private final TaskScheduler scheduler = new TaskScheduler();
+    protected final TaskScheduler scheduler = new TaskScheduler();
+	protected final PhaseController phaseController = new PhaseController(scheduler);
+    protected final SubsystemStore subsystems = new SubsystemStore();
 
-	@Override
+    @Override
 	public final void robotPeriodic() {
 		if (phaseController.isTransitioning()) {
 			LOG.warn("Scheduler tick submitted during transition. Skipped.");
@@ -21,7 +24,7 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		}
 
 		// Tick the main loop. This loop just runs on the default robot period.
-		scheduler.getLoopStore().main.tick();
+        scheduler.getLoopStore().main.tick();
 
 		var loops = scheduler.getLoopStore().getUntrackedLoops();
 		if (loops.isEmpty()) return;
@@ -39,6 +42,10 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		LOG.info("Robot initialized.");
 		// Signal that we're about to transition out of INIT as soon as the scheduler does a sweep
 		phaseController.beginTransition();
+
+        for (var subsystem : subsystems.getTickedSubsystems()) {
+            scheduler.schedule(new SubsystemPeriodicTask(subsystem), TaskPersistence.DURABLE);
+        }
 	}
 
 	public void disabledSequence() {
