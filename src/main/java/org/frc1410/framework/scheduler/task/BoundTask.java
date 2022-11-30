@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class BoundTask {
 
-    public final LifecycleHandler lifecycle = new LifecycleHandler(this);
+    public final LifecycleHandler lifecycle = new LifecycleHandler();
     public final Task job;
     public final TaskPersistence persistence;
     public final Observer observer;

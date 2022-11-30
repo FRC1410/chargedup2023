@@ -20,4 +20,8 @@ public interface Button {
     default void whileHeld(Task task, TaskPersistence persistence) {
         scheduler().schedule(task, persistence, new WhileHeldObserver(this), LockPriority.HIGH);
     }
+
+    default void toggleWhenPressed(Task task, TaskPersistence persistence) {
+        scheduler().schedule(task, persistence, new WhenPressedObserver(this), LockPriority.HIGH);
+    }
 }
