@@ -3,6 +3,7 @@ package org.frc1410.framework.control2;
 import edu.wpi.first.wpilibj.XboxController;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 
+import static edu.wpi.first.wpilibj.XboxController.Axis.*;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
 public class Controller {
@@ -23,6 +24,14 @@ public class Controller {
 
     public final Button LEFT_STICK = new StandardButton(this, kLeftStick.value);
     public final Button RIGHT_STICK = new StandardButton(this, kRightStick.value);
+
+    public final Axis LEFT_X_AXIS = new Axis(this, kLeftX.value);
+    public final Axis RIGHT_X_AXIS = new Axis(this, kRightX.value);
+    public final Axis LEFT_Y_AXIS = new Axis(this, kLeftY.value);
+    public final Axis RIGHT_Y_AXIS = new Axis(this, kRightY.value);
+
+    public final Axis LEFT_TRIGGER = new Axis(this, kLeftTrigger.value);
+    public final Axis RIGHT_TRIGGER = new Axis(this, kRightTrigger.value);
 
     public Controller(TaskScheduler scheduler, int port) {
         this.scheduler = scheduler;
