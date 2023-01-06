@@ -13,7 +13,7 @@ def ROBOT_MAIN_CLASS = "org.frc1410.chargedup2023.Main"
 deploy {
     targets {
         roborio(getTargetTypeClass("RoboRIO")) {
-            team = 1410
+            team = project.frc.getTeamNumber()
             debug = project.frc.getDebugOrDefault(false)
 
             artifacts {
