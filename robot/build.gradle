@@ -30,10 +30,10 @@ deploy {
 
 def deployArtifact = deploy.targets.roborio.artifacts.frcJava
 
-// Set to true to use debug for JNI.
+// Set to true to use debug for JNI
 wpi.java.debugJni = false
 
-// Set this to true to enable desktop support.
+// Required for unit testing or simulation
 def includeDesktopSupport = true
 
 dependencies {
@@ -57,7 +57,7 @@ dependencies {
     simulationRelease wpi.sim.enableRelease()
 }
 
-// Simulation configuration (e.g. environment variables).
+// Simulation configuration (e.g. environment variables)
 wpi.sim.addGui().defaultEnabled = true
 wpi.sim.addDriverstation()
 

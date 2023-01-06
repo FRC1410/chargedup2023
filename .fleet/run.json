@@ -1,0 +1,19 @@
+{
+    "configurations": [{
+        "type": "gradle",
+        "name": "framework/build",
+        "tasks": [":framework:build"]
+    }, {
+        "type": "gradle",
+        "name": "robot/build",
+        "tasks": [":robot:build"]
+    }, {
+        "type": "gradle",
+        "name": "robot/sim",
+        "tasks": [":robot:simulateJava"]
+    }, {
+        "name": "robot/deploy",
+        "type": "gradle",
+        "tasks": ["deploy"]
+    }]
+}
