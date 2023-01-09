@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.framework.scheduler.task.CommandTask;
-import org.frc1410.framework.scheduler.task.CountdownTask;
-import org.frc1410.framework.scheduler.task.Task;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.scheduler.task.lock.LockPriority;
