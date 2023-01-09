@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
-import static org.frc1410.chargedup2023.IDs.*;
-import static org.frc1410.chargedup2023.Constants.*;
+import static org.frc1410.chargedup2023.util.IDs.*;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Drivetrain implements TickedSubsystem {
 
