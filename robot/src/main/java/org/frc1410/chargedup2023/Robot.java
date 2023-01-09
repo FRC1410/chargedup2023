@@ -1,8 +1,10 @@
 package org.frc1410.chargedup2023;
 
+import org.frc1410.chargedup2023.commands.TankDriveLooped;
 import org.frc1410.chargedup2023.subsystem.Drivetrain;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control2.Controller;
+import org.frc1410.framework.scheduler.task.TaskPersistence;
 
 public final class Robot extends PhaseDrivenRobot {
 
@@ -13,6 +15,6 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void teleopSequence() {
-        System.out.println("Teleop!!");
+//        scheduler.scheduleDefaultCommand(new TankDriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS), TaskPersistence.GAMEPLAY);
     }
 }
