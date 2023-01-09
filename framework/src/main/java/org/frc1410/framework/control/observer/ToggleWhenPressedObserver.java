@@ -1,6 +1,6 @@
-package org.frc1410.framework.control2.observer;
+package org.frc1410.framework.control.observer;
 
-import org.frc1410.framework.control2.Button;
+import org.frc1410.framework.control.Button;
 import org.frc1410.framework.scheduler.task.LifecycleHandler;
 import org.frc1410.framework.scheduler.task.observer.Observer;
 import org.jetbrains.annotations.NotNull;
