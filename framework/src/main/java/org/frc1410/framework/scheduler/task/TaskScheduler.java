@@ -1,5 +1,6 @@
 package org.frc1410.framework.scheduler.task;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import org.frc1410.framework.scheduler.loop.Loop;
 import org.frc1410.framework.scheduler.loop.LoopStore;
 import org.frc1410.framework.scheduler.task.lock.LockHandler;
@@ -31,7 +32,7 @@ public class TaskScheduler {
     }
 
     public void scheduleDefaultCommand(@NotNull Command command, @NotNull TaskPersistence persistence) {
-        schedule(command, persistence, Observer.DEFAULT, LockPriority.LOWEST);
+        schedule(new CommandTask(command), persistence, Observer.DEFAULT, LockPriority.LOWEST);
     }
 
     private void schedule(BoundTask task, Loop loop) {

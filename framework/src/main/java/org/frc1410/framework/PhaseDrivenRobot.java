@@ -1,6 +1,8 @@
 package org.frc1410.framework;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
+import org.frc1410.framework.auto.AutoSelector;
 import org.frc1410.framework.phase.*;
 import org.frc1410.framework.scheduler.loop.Loop;
 import org.frc1410.framework.scheduler.subsystem.SubsystemPeriodicTask;

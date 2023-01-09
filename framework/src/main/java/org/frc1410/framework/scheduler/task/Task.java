@@ -5,6 +5,8 @@ import org.frc1410.framework.scheduler.task.observer.Observer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public interface Task {
 
     default void init() {
@@ -19,15 +21,20 @@ public interface Task {
         
     }
 
+    default @NotNull List<@NotNull Object> getLockKeys() {
+        return List.of();
+    }
+
     @Nullable
+    @Deprecated
     default Object getLockKey() {
         return null;
     }
 
     default BoundTask bind(@NotNull TaskPersistence persistence, @NotNull Observer observer, int priority) {
-        var lockKey = getLockKey();
-        if (lockKey != null) {
-            return new BoundTask(this, persistence, observer, new TaskLock(priority, lockKey));
+        var lockKeys = getLockKeys();
+        if (!lockKeys.isEmpty()) {
+            return new BoundTask(this, persistence, observer, new TaskLock(priority, lockKeys));
         }
 
         return new BoundTask(this, persistence, observer, null);
