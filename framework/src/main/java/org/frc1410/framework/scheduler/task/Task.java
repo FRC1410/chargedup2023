@@ -34,9 +34,9 @@ public interface Task {
     default BoundTask bind(@NotNull TaskPersistence persistence, @NotNull Observer observer, int priority) {
         var lockKeys = getLockKeys();
         if (!lockKeys.isEmpty()) {
-            return new BoundTask(this, persistence, observer, new TaskLock(priority, lockKeys));
+            return new BoundTask(new LifecycleHandle(), this, persistence, observer, new TaskLock(priority, lockKeys));
         }
 
-        return new BoundTask(this, persistence, observer, null);
+        return new BoundTask(new LifecycleHandle(), this, persistence, observer, null);
     }
 }

@@ -2,7 +2,7 @@ package org.frc1410.framework.scheduler.task;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LifecycleHandler {
+public class LifecycleHandle {
 
     public @NotNull TaskState state = TaskState.FLAGGED_EXECUTION;
 

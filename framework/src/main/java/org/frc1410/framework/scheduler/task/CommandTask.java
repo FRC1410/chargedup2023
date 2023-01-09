@@ -3,6 +3,8 @@ package org.frc1410.framework.scheduler.task;
 import edu.wpi.first.wpilibj2.command.Command;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public record CommandTask(@NotNull Command command) implements Task {
 
     @Override
@@ -25,5 +27,8 @@ public record CommandTask(@NotNull Command command) implements Task {
         command.end(interrupted);
     }
 
-
+    @Override
+    public @NotNull List<@NotNull Object> getLockKeys() {
+        return List.copyOf(command.getRequirements());
+    }
 }

@@ -1,7 +1,9 @@
 package org.frc1410.framework.control;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import org.frc1410.framework.control.observer.WhenPressedObserver;
 import org.frc1410.framework.control.observer.WhileHeldObserver;
+import org.frc1410.framework.scheduler.task.CommandTask;
 import org.frc1410.framework.scheduler.task.Task;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
@@ -15,6 +17,10 @@ public interface Button {
 
     default void whenPressed(Task task, TaskPersistence persistence) {
         scheduler().schedule(task, persistence, new WhenPressedObserver(this), LockPriority.HIGH);
+    }
+
+    default void whenPressed(Command command, TaskPersistence persistence) {
+        scheduler().schedule(new CommandTask(command), persistence, new WhenPressedObserver(this), LockPriority.HIGH);
     }
 
     default void whileHeld(Task task, TaskPersistence persistence) {

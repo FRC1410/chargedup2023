@@ -2,57 +2,49 @@ package org.frc1410.framework.scheduler.task.lock;
 
 import org.frc1410.framework.scheduler.task.BoundTask;
 import org.frc1410.framework.util.log.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
-* Developers will often encounter an issue where two commands (which are backed by tasks internally)
-* depend on the same shared resource, generally in the form of a subsystem. In order to prevent race
-* conditions and unpredictable behavior, tasks can acquire locks. When a task acquires a lock, the
-* task with the lowest priority will be suspended. Once the task that claimed possession of a lock
-* finishes (whether by cancellation or interruption), execution of the other task that laid claim
-* on the lock is rescheduled for execution.
-*/
-public class LockHandler {
+public final class LockHandler {
 
     private static final Logger LOG = new Logger("LockHandler");
-    private final Map<Object, BoundTask> locks = new ConcurrentHashMap<>();
+    private final Map<Object, @NotNull BoundTask> owners = new ConcurrentHashMap<>();
 
-    /**
-     * Checks if a lock is owned by the given task. Has the additional
-     * effect of giving ownership of the lock key to the provided task
-     * if none is assigned.
-     *
-     * <p>When a task has prior claim over a lock key but is of lower
-     * priority than the given task, access to the lock is handed to
-     * the new task.
-     *
-     * @param task The task to check
-     *
-     * @return {@code true} if the provided task owns the
-     *         lock.
-     */
-    public boolean ownsLock(BoundTask task) {
-        if (task.lock == null) return true;
+    public boolean ownsLocks(@NotNull BoundTask task) {
+        if (task.lock() == null) return true;
 
-        var owner = locks.putIfAbsent(task.lock.key, task);
+        for (var key : task.lock().keys()) {
+            var owner = owners.getOrDefault(key, task);
+            if (owner == task || owner.lock() == null) {
+                // Skip processing if this task owns the lock
+                continue;
+            }
 
-        if (owner == null || owner == task) return true;
-        if (owner.lock == null) return true;
-
-        if (task.lock.priority > owner.lock.priority) {
-            LOG.info("Task %s has priority over %s, transitioning lock...", task, owner);
-            locks.put(task.lock.key, task);
-            return true;
+            if (owner.lock().priority() > task.lock().priority()) {
+                return false;
+            }
         }
 
-        return false;
+
+        LOG.info("Task %s owns all of its locks, transferring ownership...");
+
+        // Take ownership
+        for (var key : task.lock().keys()) {
+            owners.put(key, task);
+        }
+
+        return true;
     }
 
-    public void releaseLock(BoundTask task) {
-        if (task.lock != null) {
-            locks.remove(task.lock.key, task);
+    public void releaseLocks(@NotNull BoundTask task) {
+        if (task.lock() == null) {
+            return;
+        }
+
+        for (var key : task.lock().keys()) {
+            owners.remove(key, task);
         }
     }
 }

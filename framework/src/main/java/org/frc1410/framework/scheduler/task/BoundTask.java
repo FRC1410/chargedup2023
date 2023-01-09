@@ -1,31 +1,18 @@
 package org.frc1410.framework.scheduler.task;
 
-import org.frc1410.framework.scheduler.loop.Loop;
 import org.frc1410.framework.scheduler.task.lock.TaskLock;
 import org.frc1410.framework.scheduler.task.observer.Observer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Represents a task that is bound to a loop and being actively
- * ticked. This class acts as a manager over its child task and
- * is responsible for managing its lifecycle.
- *
- * @see Task
- * @see Loop
- */
-public class BoundTask {
+import java.util.Objects;
 
-    public final LifecycleHandler lifecycle = new LifecycleHandler();
-    public final Task job;
-    public final TaskPersistence persistence;
-    public final Observer observer;
-    public final TaskLock lock;
-
-    public BoundTask(@NotNull Task task, @NotNull TaskPersistence persistence, @NotNull Observer observer, @Nullable TaskLock lock) {
-        this.job = task;
-        this.persistence = persistence;
-        this.observer = observer;
-        this.lock = lock;
+public record BoundTask(@NotNull LifecycleHandle handle, @NotNull Task job, @NotNull TaskPersistence persistence,
+                        @NotNull Observer observer, @Nullable TaskLock lock) {
+    public BoundTask {
+        Objects.requireNonNull(handle);
+        Objects.requireNonNull(job);
+        Objects.requireNonNull(persistence);
+        Objects.requireNonNull(observer);
     }
 }

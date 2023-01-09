@@ -1,15 +1,16 @@
 package org.frc1410.chargedup2023;
 
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import org.frc1410.chargedup2023.commands.groups.auto.MobilityAuto;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.AutoSelector;
+import org.frc1410.framework.control.Controller;
+import org.frc1410.framework.scheduler.task.CommandTask;
+import org.frc1410.framework.scheduler.task.TaskPersistence;
 
 public final class Robot extends PhaseDrivenRobot {
 
-    // private final Drivetrain drivetrain = new Drivetrain();
-
-    private final AutoSelector autoSelector = new AutoSelector()
-        .add("mobility", new MobilityAuto());
+    private final Controller controller = new Controller(scheduler, 0);
 
     @Override
     public void teleopSequence() {
@@ -18,6 +19,7 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void autonomousSequence() {
-
+        var command = new RunCommand(() -> System.out.println("Hello world"));
+        controller.A.whenPressed(command, TaskPersistence.GAMEPLAY);
     }
 }

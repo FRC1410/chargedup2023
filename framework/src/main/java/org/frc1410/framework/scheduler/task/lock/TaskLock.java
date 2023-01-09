@@ -2,23 +2,12 @@ package org.frc1410.framework.scheduler.task.lock;
 
 import org.intellij.lang.annotations.MagicConstant;
 
-public class TaskLock {
+import java.util.List;
 
-    @MagicConstant(valuesFromClass = LockPriority.class)
-    public final int priority;
-    public final int key;
+public record TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, List<?> keys) {
 
-    public TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, int key) {
+    public TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, List<?> keys) {
         this.priority = priority;
-        this.key = key;
-    }
-
-    public TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, Object key) {
-        this(priority, System.identityHashCode(key));
-    }
-
-    @Override
-    public int hashCode() {
-        return key;
+        this.keys = List.copyOf(keys);
     }
 }
