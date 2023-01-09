@@ -2,6 +2,8 @@ package org.frc1410.chargedup2023.subsystem;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
@@ -12,6 +14,8 @@ public class Drivetrain implements TickedSubsystem {
     public final WPI_TalonFX leftFollower = new WPI_TalonFX(DRIVETRAIN_LEFT_BACK_MOTOR_ID);
     public final WPI_TalonFX rightLeader = new WPI_TalonFX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
     public final WPI_TalonFX rightFollower = new WPI_TalonFX(DRIVETRAIN_RIGHT_BACK_MOTOR_ID);
+
+    public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
 
     private final DifferentialDrive drive;
@@ -53,5 +57,9 @@ public class Drivetrain implements TickedSubsystem {
 
     public void flip() {
         isInverted = !isInverted;
+    }
+
+    public void zeroHeading() {
+        gyro.reset();
     }
 }
