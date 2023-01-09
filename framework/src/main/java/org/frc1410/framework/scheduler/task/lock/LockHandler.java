@@ -36,6 +36,16 @@ public class LockHandler {
     public boolean ownsLock(BoundTask task) {
         if (task.lock == null) return true;
 
+        for (var key : task.lock.keys) {
+            var owner = locks.putIfAbsent(key, task);
+            if (owner == null || owner == task || owner.lock == null) continue; // We own the lock, move on
+
+            if (task.lock.priority < owner.lock.priority) {
+                return false;
+            }
+
+        }
+
         var owner = locks.putIfAbsent(task.lock.key, task);
 
         if (owner == null || owner == task) return true;
