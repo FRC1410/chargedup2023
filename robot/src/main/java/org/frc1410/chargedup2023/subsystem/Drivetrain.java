@@ -7,14 +7,22 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.networktables.DoubleTopic;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
-public class Drivetrain implements TickedSubsystem {
+public class Drivetrain implements TickedSubsystem, Subsystem {
+    NetworkTableInstance instance = NetworkTableInstance.getDefault();
+    NetworkTable table = instance.getTable("Drivetrain");
+
+    DoubleTopic headingNT = table.getDoubleTopic("Heading");
 
     // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
