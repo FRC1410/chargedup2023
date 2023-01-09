@@ -1,4 +1,4 @@
-package org.frc1410.framework.control2;
+package org.frc1410.framework.control;
 
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 

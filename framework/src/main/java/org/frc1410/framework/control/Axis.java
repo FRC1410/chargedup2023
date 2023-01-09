@@ -1,32 +1,29 @@
 package org.frc1410.framework.control;
 
-import edu.wpi.first.wpilibj.XboxController;
-import org.intellij.lang.annotations.MagicConstant;
+public class Axis {
 
-public class Axis implements ControlInput {
+    private static final double DEADZONE = 0.12;
 
-    public static final int LEFT_X = 0;
-    public static final int LEFT_Y = 1;
-    public static final int LEFT_TRIGGER = 2;
-    
-    public static final int RIGHT_TRIGGER = 3;
-    public static final int RIGHT_X = 4;
-    public static final int RIGHT_Y = 5;
-
-    private final XboxController controller;
+    private final Controller controller;
     private final int id;
 
-    public Axis(XboxController controller, @MagicConstant(valuesFromClass = Axis.class) int id) {
+    public Axis(Controller controller, int id) {
         this.controller = controller;
         this.id = id;
     }
 
-    public XboxController getController() {
-        return controller;
+    public double getRaw() {
+        return controller.backingController.getRawAxis(id);
     }
 
-    @Override
-    public int getInputId() {
-        return id;
+    public double get() {
+        double raw = getRaw();
+        double mag = Math.abs(raw);
+
+        if (mag <= DEADZONE) {
+            return 0;
+        }
+
+        return ((mag - DEADZONE) / (1 - DEADZONE)) * (raw / mag);
     }
 }
