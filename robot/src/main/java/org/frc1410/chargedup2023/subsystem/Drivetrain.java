@@ -3,24 +3,37 @@ package org.frc1410.chargedup2023.subsystem;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.chargedup2023.IDs.*;
+import static org.frc1410.chargedup2023.Constants.*;
 
 public class Drivetrain implements TickedSubsystem {
+
+    // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
     public final WPI_TalonFX leftFollower = new WPI_TalonFX(DRIVETRAIN_LEFT_BACK_MOTOR_ID);
     public final WPI_TalonFX rightLeader = new WPI_TalonFX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
     public final WPI_TalonFX rightFollower = new WPI_TalonFX(DRIVETRAIN_RIGHT_BACK_MOTOR_ID);
 
+    // Gyro
     public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-
+    // Differential Drive for Teleop control
     private final DifferentialDrive drive;
 
+    // Inverted flag for flipping driving direction in Teleop
     private boolean isInverted = false;
+
+    public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
+            new Rotation2d(), 0., 0., new Pose2d());
+
 
     public Drivetrain() {
         initFalcon(leftLeader);
@@ -44,7 +57,11 @@ public class Drivetrain implements TickedSubsystem {
 
     @Override
     public void periodic() {
-
+        poseEstimator.update(
+                new Rotation2d(gyro.getAngle()),
+                leftLeader.getSelectedSensorPosition() * ENCODER_CONSTANT,
+                rightLeader.getSelectedSensorPosition() * ENCODER_CONSTANT
+        );
     }
 
     public void tankDrive(double left, double right, boolean squared) {
@@ -53,6 +70,22 @@ public class Drivetrain implements TickedSubsystem {
         } else {
             drive.tankDrive(left, right, squared);
         }
+    }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        leftLeader.setVoltage(leftVolts);
+        rightLeader.setVoltage(rightVolts);
+        drive.feed();
+    }
+
+    public Pose2d getPoseEstimation() {
+        return poseEstimator.getEstimatedPosition();
+    }
+
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        double leftEncoderVelocity = leftLeader.getSelectedSensorVelocity() * ENCODER_CONSTANT * 10;
+        double rightEncoderVelocity = rightLeader.getSelectedSensorVelocity() * ENCODER_CONSTANT * 10;
+        return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
     }
 
     public void flip() {
