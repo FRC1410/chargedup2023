@@ -7,12 +7,11 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.networktables.DoubleTopic;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.frc1410.chargedup2023.util.Networktables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
@@ -21,8 +20,9 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 public class Drivetrain implements TickedSubsystem, Subsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
-
-    DoubleTopic headingNT = table.getDoubleTopic("Heading");
+    DoublePublisher headingPub = Networktables.PublisherFactory(table, "Heading", 0);
+    DoublePublisher xPub = Networktables.PublisherFactory(table, "X", 0);
+    DoublePublisher yPub = Networktables.PublisherFactory(table, "Y", 0);
 
     // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
@@ -70,6 +70,11 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
                 leftLeader.getSelectedSensorPosition() * ENCODER_CONSTANT,
                 rightLeader.getSelectedSensorPosition() * ENCODER_CONSTANT
         );
+
+        // NetworkTables updating
+        headingPub.set(gyro.getAngle());
+        xPub.set(poseEstimator.getEstimatedPosition().getX());
+        yPub.set(poseEstimator.getEstimatedPosition().getY());
     }
 
     public void tankDrive(double left, double right, boolean squared) {
