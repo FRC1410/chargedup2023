@@ -16,6 +16,7 @@ public interface NetworkTables {
         publisher.setDefault(startingValue);
         return publisher;
     }
+    
     static DoublePublisher PublisherFactory(NetworkTable table, String name, double startingValue, double defaultValue) {
         DoublePublisher publisher = table.getDoubleTopic(name).publish();
         publisher.set(startingValue);
