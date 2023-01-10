@@ -90,6 +90,10 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         return poseEstimator.getEstimatedPosition();
     }
 
+    public void resetPoseEstimation(Pose2d pose) {
+        poseEstimator.resetPosition(gyro.getRotation2d(), 0, 0, pose);
+    }
+
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         double leftEncoderVelocity = leftLeader.getSelectedSensorVelocity() * ENCODER_CONSTANT * 10;
         double rightEncoderVelocity = rightLeader.getSelectedSensorVelocity() * ENCODER_CONSTANT * 10;

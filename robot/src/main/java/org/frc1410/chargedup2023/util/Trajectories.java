@@ -5,15 +5,17 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import org.frc1410.chargedup2023.subsystem.Drivetrain;
 
+import java.util.List;
+
 import static org.frc1410.chargedup2023.util.Constants.*;
 import static org.frc1410.chargedup2023.util.Tuning.*;
+import static org.frc1410.chargedup2023.auto.POIs.*;
 
-public class Trajectories {
-    private final Drivetrain drivetrain;
-
+public interface Trajectories {
     TrajectoryConfig config = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
         .setKinematics(KINEMATICS)
         .setReversed(false);
@@ -21,11 +23,8 @@ public class Trajectories {
     TrajectoryConfig reverseConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
         .setKinematics(KINEMATICS)
         .setReversed(true);
-    public Trajectories(Drivetrain drivetrain) {
-        this.drivetrain = drivetrain;
-    }
 
-    public RamseteCommand generateRamsete(Trajectory trajectory) {
+    static RamseteCommand baseRamsete(Trajectory trajectory, Drivetrain drivetrain) {
         return new RamseteCommand(
                 trajectory,
                 drivetrain::getPoseEstimation,
@@ -37,5 +36,9 @@ public class Trajectories {
                 new PIDController(KP_VEL, 0, 0, 10.0 / 1000),
                 drivetrain::tankDriveVolts
         );
+    }
+
+    static RamseteCommand mobility(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(START, TEST_1_METER), config), drivetrain);
     }
 }
