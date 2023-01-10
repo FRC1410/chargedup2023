@@ -14,9 +14,9 @@ public class WhenPressedObserver implements Observer {
     }
 
     @Override
-    public void tick(@NotNull LifecycleHandle lifecycle) {
+    public void tick(@NotNull LifecycleHandle handle) {
         if (button.isActive()) {
-            lifecycle.requestExecution();
+            handle.requestExecution();
         }
     }
 }

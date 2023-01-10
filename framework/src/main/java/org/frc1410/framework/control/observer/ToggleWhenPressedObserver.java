@@ -15,14 +15,14 @@ public class ToggleWhenPressedObserver implements Observer {
     }
 
     @Override
-    public void tick(@NotNull LifecycleHandle lifecycle) {
+    public void tick(@NotNull LifecycleHandle handle) {
         if (listening && button.isActive()) {
             listening = false;
 
-            if (lifecycle.state.isExecuting()) {
-                lifecycle.requestInterruption();
+            if (handle.state.isExecuting()) {
+                handle.requestInterruption();
             } else {
-                lifecycle.requestExecution();
+                handle.requestExecution();
             }
         } else listening = true;
     }

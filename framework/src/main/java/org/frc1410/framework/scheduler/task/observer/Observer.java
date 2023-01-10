@@ -7,5 +7,5 @@ public interface Observer {
 
     Observer DEFAULT = LifecycleHandle::requestExecution;
 
-    void tick(@NotNull LifecycleHandle lifecycle);
+    void tick(@NotNull LifecycleHandle handle);
 }
