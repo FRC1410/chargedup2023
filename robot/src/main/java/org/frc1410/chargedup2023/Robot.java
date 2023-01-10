@@ -8,9 +8,6 @@ public final class Robot extends PhaseDrivenRobot {
 
     // private final Drivetrain drivetrain = new Drivetrain();
 
-    private final AutoSelector autoSelector = new AutoSelector()
-        .add("mobility", new MobilityAuto());
-
     @Override
     public void teleopSequence() {
         System.out.println("Teleop!!");
