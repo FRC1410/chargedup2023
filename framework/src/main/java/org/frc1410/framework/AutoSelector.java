@@ -1,63 +1,48 @@
 package org.frc1410.framework;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import org.frc1410.framework.scheduler.task.CommandTask;
-import org.frc1410.framework.scheduler.task.TaskPersistence;
-import org.frc1410.framework.scheduler.task.TaskScheduler;
-import org.frc1410.framework.scheduler.task.lock.LockPriority;
-import org.frc1410.framework.scheduler.task.observer.Observer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
- * The class responsible for the selection and dispatching of
- * autonomous routines. This class contains an ordered map of
- * profile names to their corresponding autonomous commands.
+ * A utility class for storing auto profiles and getting them from a profile
+ * name. Auto profile commands are lazily loaded, and are only generated for
+ * when they are needed. The list of profiles can also be accessed.
  */
 public final class AutoSelector {
 
-    private final List<@NotNull Profile> profiles = new ArrayList<>();
+    private final List<@NotNull AutoProfile> profiles = new ArrayList<>();
 
-    @Contract(value = "_, _, _ -> this", mutates = "this")
-    public AutoSelector add(@NotNull String profileName, @NotNull Command autoCommand, @Range(from = -1L, to = Long.MAX_VALUE) long period) {
-        var profile = new Profile(profileName, autoCommand, profiles.size() + 1,  period);
+    @Contract("_, _ -> this")
+    public @NotNull AutoSelector add(@NotNull String name, @NotNull Supplier<@NotNull Command> commandSupplier) {
+        var profile = new AutoProfile(name, commandSupplier, profiles.size());
         profiles.add(profile);
-
         return this;
     }
 
-    @Contract(value = "_, _ -> this", mutates = "this")
-    public AutoSelector add(@NotNull String profileName, @NotNull Command autoCommand) {
-        return add(profileName, autoCommand, -1L);
-    }
-
-    /**
-     * Gets a list of every registered auto profile.
-     */
-    public @NotNull List<@NotNull Profile> getProfiles() {
-        return List.copyOf(profiles);
-    }
-
-    public void scheduleAuto(@NotNull TaskScheduler target, int profileId) {
-        var profile = profiles.get(profileId);
-        var command = profile.command();
-
-        if (profile.period() != -1L) {
-            target.schedule(new CommandTask(command), TaskPersistence.EPHEMERAL, Observer.DEFAULT, LockPriority.HIGH, profile.period);
-        } else {
-            target.schedule(new CommandTask(command), TaskPersistence.EPHEMERAL, Observer.DEFAULT, LockPriority.HIGH);
+    public @NotNull Command select(@NotNull String profileName) {
+        for (var profile : profiles) {
+            if (profileName.equalsIgnoreCase(profile.name())) {
+                return Objects.requireNonNull(profile.supplier().get(), "Generated auto command must not be null");
+            }
         }
+
+        throw new IllegalStateException("No such auto \"" + profileName + "\"");
     }
 
-    private record Profile(@NotNull String name, @NotNull Command command, int id, long period) {
-        Profile {
-            Objects.requireNonNull(name, "Profile name cannot be null");
-            Objects.requireNonNull(command, "Auto command cannot be null");
-        }
+    public @NotNull List<@NotNull AutoProfile> getProfiles() {
+        return profiles;
+    }
+}
+
+record AutoProfile(@NotNull String name, @NotNull Supplier<@NotNull Command> supplier, int id) {
+    AutoProfile {
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(supplier);
     }
 }
