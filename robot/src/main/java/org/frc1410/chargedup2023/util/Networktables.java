@@ -33,6 +33,7 @@ public interface NetworkTables {
         String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
         return table.getDoubleTopic(name).subscribe(0.0);
     }
+    
     static DoubleSubscriber SubscriberFactory(NetworkTable table, DoubleTopic topic, double defaultValue) {
         String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
         return table.getDoubleTopic(name).subscribe(defaultValue);
