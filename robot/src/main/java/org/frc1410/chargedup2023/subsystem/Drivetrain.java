@@ -1,6 +1,8 @@
 package org.frc1410.chargedup2023.subsystem;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
@@ -53,23 +55,28 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         rightFollower.follow(rightLeader);
 
         leftLeader.setInverted(true);
+        leftFollower.setInverted(InvertType.FollowMaster);
 
         drive = new DifferentialDrive(leftLeader, rightLeader);
+
+        gyro.calibrate();
     }
 
     private void initFalcon(WPI_TalonFX falcon) {
         falcon.configFactoryDefault();
         falcon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
         falcon.configNeutralDeadband(0.001);
+        falcon.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
     public void periodic() {
-        poseEstimator.update(
-                new Rotation2d(gyro.getAngle()),
-                leftLeader.getSelectedSensorPosition() * ENCODER_CONSTANT,
-                rightLeader.getSelectedSensorPosition() * ENCODER_CONSTANT
-        );
+//        poseEstimator.update(
+//                new Rotation2d(gyro.getAngle()),
+//                leftLeader.getSelectedSensorPosition() * ENCODER_CONSTANT,
+//                rightLeader.getSelectedSensorPosition() * ENCODER_CONSTANT
+//        );
+        drive.feed();
 
         // NetworkTables updating
         headingPub.set(gyro.getAngle());
@@ -79,9 +86,9 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     public void tankDrive(double left, double right, boolean squared) {
         if (isInverted) {
-            drive.tankDrive(-right, -left, squared);
+            drive.tankDrive(-left, -right, squared);
         } else {
-            drive.tankDrive(left, right, squared);
+            drive.tankDrive(right, left, squared);
         }
     }
 
