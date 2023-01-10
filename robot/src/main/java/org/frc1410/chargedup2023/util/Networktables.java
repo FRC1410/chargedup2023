@@ -30,9 +30,19 @@ public interface Networktables {
      * @return DoubleSubscriber
      */
     static DoubleSubscriber SubscriberFactory(NetworkTable table, DoubleTopic topic) {
-        return table.getDoubleTopic(topic.getName()).subscribe(0.0);
+        String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
+        return table.getDoubleTopic(name).subscribe(0.0);
     }
     static DoubleSubscriber SubscriberFactory(NetworkTable table, DoubleTopic topic, double defaultValue) {
-        return table.getDoubleTopic(topic.getName()).subscribe(defaultValue);
+        String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
+        return table.getDoubleTopic(name).subscribe(defaultValue);
     }
+
+    /* Setup for any class requiring network tables
+    NetworkTableInstance instance = NetworkTableInstance.getDefault();
+    NetworkTable table = instance.getTable("Test");
+
+    DoublePublisher pub = Networktables.PublisherFactory(table, "Testing", 0);
+    DoubleSubscriber sub = Networktables.SubscriberFactory(table, pub.getTopic(), 0);
+     */
 }
