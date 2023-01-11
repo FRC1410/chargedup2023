@@ -3,6 +3,18 @@ package org.frc1410.chargedup2023.util;
 import edu.wpi.first.networktables.*;
 
 public interface Networktables {
+    static StringPublisher PublisherFactory(NetworkTable table, String name, String startingValue) {
+        StringPublisher publisher = table.getStringTopic(name).publish();
+        publisher.set(startingValue);
+        publisher.setDefault(startingValue);
+        return publisher;
+    }
+
+    static StringSubscriber SubscriberFactory(NetworkTable table, StringTopic topic) {
+        String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
+        return table.getStringTopic(name).subscribe("");
+    }
+
     /**
      * Creates a publisher for a topic in a given table with a starting value
      * @param table NetworkTable, desired table for Publisher

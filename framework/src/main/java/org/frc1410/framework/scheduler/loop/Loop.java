@@ -49,7 +49,8 @@ public class Loop {
         // Remove any tasks flagged for termination. If we were to do this in the process sycle, we would get CMEs.
         tasks.removeIf(task -> task.lifecycle.state == TaskState.TERMINATED);
         // Tick any tasks registered to this loop.
-        tasks.iterator().forEachRemaining(this::process);
+        Set.copyOf(tasks).forEach(this::process);
+//        tasks.iterator().forEachRemaining(this::process);
     }
 
     public void flagTransition(Phase newPhase) {

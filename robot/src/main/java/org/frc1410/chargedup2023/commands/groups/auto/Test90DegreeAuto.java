@@ -8,7 +8,7 @@ import org.frc1410.chargedup2023.util.Trajectories;
 public class Test90DegreeAuto extends SequentialCommandGroup {
     public Test90DegreeAuto(Drivetrain drivetrain) {
         addCommands(
-                Trajectories.test90Degrees(drivetrain),
+//                Trajectories.test90Degrees(drivetrain),
                 new RunCommand(() -> drivetrain.tankDriveVolts(0, 0))
         );
     }

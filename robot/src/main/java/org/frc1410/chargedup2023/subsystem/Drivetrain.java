@@ -9,6 +9,7 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -25,6 +26,8 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
     DoublePublisher headingPub = Networktables.PublisherFactory(table, "Heading", 0);
     DoublePublisher xPub = Networktables.PublisherFactory(table, "X", 0);
     DoublePublisher yPub = Networktables.PublisherFactory(table, "Y", 0);
+    DoublePublisher leftPub = Networktables.PublisherFactory(table, "LeftEncoder", 0);
+    DoublePublisher rightPub = Networktables.PublisherFactory(table, "RightEncoder", 0);
 
     // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
@@ -71,17 +74,20 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     @Override
     public void periodic() {
-//        poseEstimator.update(
-//                new Rotation2d(gyro.getAngle()),
-//                leftLeader.getSelectedSensorPosition() * ENCODER_CONSTANT,
-//                rightLeader.getSelectedSensorPosition() * ENCODER_CONSTANT
-//        );
+        poseEstimator.update(
+                new Rotation2d(Units.degreesToRadians(gyro.getAngle() % 360)),
+                leftLeader.getSelectedSensorPosition() * ENCODER_CONSTANT,
+                rightLeader.getSelectedSensorPosition() * ENCODER_CONSTANT
+        );
         drive.feed();
 
         // NetworkTables updating
-        headingPub.set(gyro.getAngle());
+        headingPub.set(gyro.getAngle() % 360);
         xPub.set(poseEstimator.getEstimatedPosition().getX());
         yPub.set(poseEstimator.getEstimatedPosition().getY());
+
+        leftPub.set(leftLeader.getSelectedSensorPosition() * GEARING);
+        rightPub.set(rightLeader.getSelectedSensorPosition() * GEARING);
     }
 
     public void tankDrive(double left, double right, boolean squared) {
@@ -114,6 +120,20 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     public void flip() {
         isInverted = !isInverted;
+    }
+
+    public void coastMode() {
+        leftLeader.setNeutralMode(NeutralMode.Coast);
+        leftFollower.setNeutralMode(NeutralMode.Coast);
+        rightLeader.setNeutralMode(NeutralMode.Coast);
+        rightFollower.setNeutralMode(NeutralMode.Coast);
+    }
+
+    public void brakeMode() {
+        leftLeader.setNeutralMode(NeutralMode.Brake);
+        leftFollower.setNeutralMode(NeutralMode.Brake);
+        rightLeader.setNeutralMode(NeutralMode.Brake);
+        rightFollower.setNeutralMode(NeutralMode.Brake);
     }
 
     public void zeroHeading() {
