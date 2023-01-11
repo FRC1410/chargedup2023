@@ -32,8 +32,8 @@ public interface Trajectories {
                 new SimpleMotorFeedforward(KS, KV, KA),
                 KINEMATICS,
                 drivetrain::getWheelSpeeds,
-                new PIDController(KP_VEL, 0, 0, 10.0 / 1000),
-                new PIDController(KP_VEL, 0, 0, 10.0 / 1000),
+                new PIDController(KP_VEL, 0, 0, 20.0 / 1000),
+                new PIDController(KP_VEL, 0, 0, 20.0 / 1000),
                 drivetrain::tankDriveVolts
         );
     }

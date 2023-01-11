@@ -37,6 +37,8 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void autonomousSequence() {
+        drivetrain.zeroHeading();
+        drivetrain.brakeMode();
         var autoProfile = autoSubscriber.get();
         var autoCommand = autoSelector.select(autoProfile);
         scheduler.scheduleDefaultCommand(autoCommand, TaskPersistence.EPHEMERAL);
@@ -47,8 +49,9 @@ public final class Robot extends PhaseDrivenRobot {
         drivetrain.brakeMode();
         scheduler.scheduleDefaultCommand(new TankDriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS), TaskPersistence.GAMEPLAY);
         driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-        driverController.A.whenPressed(new CommandTask(new RunCommand(drivetrain::zeroHeading)), TaskPersistence.EPHEMERAL);
+//        driverController.A.whenPressed(new CommandTask(new RunCommand(drivetrain::zeroHeading)), TaskPersistence.EPHEMERAL);
     }
+
 
     @Override
     public void testSequence() {
