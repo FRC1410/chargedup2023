@@ -21,6 +21,6 @@ public final class Robot extends PhaseDrivenRobot {
     @Override
     public void autonomousSequence() {
         var command = new RunCommand(() -> System.out.println("Hello world"));
-        controller.A.whenPressed(command, TaskPersistence.GAMEPLAY);
+       // controller.A.whenPressed(command, TaskPersistence.GAMEPLAY);
     }
 }
