@@ -46,9 +46,9 @@ public interface Trajectories {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(START, TEST_2_METER), config), drivetrain);
     }
 
-//    static RamseteCommand test90Degrees(Drivetrain drivetrain) {
-//        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(START, TEST_90_DEGREES), config), drivetrain);
-//    }
+    static RamseteCommand testQuarterCircle(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(START, TEST_QUARTER_CIRCLE), config), drivetrain);
+    }
 
     static RamseteCommand mobility(Drivetrain drivetrain) {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(START, TEST_1_METER), config), drivetrain);

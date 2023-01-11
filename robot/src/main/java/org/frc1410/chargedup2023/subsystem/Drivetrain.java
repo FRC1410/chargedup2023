@@ -43,6 +43,7 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     // Inverted flag for flipping driving direction in Teleop
     private boolean isInverted = false;
+    private boolean isArcadeDrive = false;
 
     public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
             new Rotation2d(), 0., 0., new Pose2d());
@@ -85,10 +86,9 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         headingPub.set(gyro.getAngle() % 360);
         xPub.set(poseEstimator.getEstimatedPosition().getX());
         yPub.set(poseEstimator.getEstimatedPosition().getY());
-
-        leftPub.set(leftLeader.getSelectedSensorPosition() * GEARING);
-        rightPub.set(rightLeader.getSelectedSensorPosition() * GEARING);
     }
+
+    public boolean getDriveMode() {return isArcadeDrive;}
 
     public void tankDrive(double left, double right, boolean squared) {
         if (isInverted) {
@@ -98,7 +98,17 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         }
     }
 
+    public void arcadeDrive(double speed, double rotation, boolean squared) {
+        // If rotation value is positive, the rotation is counter-clockwise
+        if (isInverted) {
+            drive.arcadeDrive(-speed, -rotation, squared);
+        } else {
+            drive.arcadeDrive(speed, -rotation, squared);
+        }
+    }
+
     public void tankDriveVolts(double leftVolts, double rightVolts) {
+        // This is by design! (To match the functional tankDrive method)
         leftLeader.setVoltage(rightVolts);
         rightLeader.setVoltage(leftVolts);
         drive.feed();
@@ -120,6 +130,10 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     public void flip() {
         isInverted = !isInverted;
+    }
+
+    public void switchDriveMode() {
+        isArcadeDrive = !isArcadeDrive;
     }
 
     public void coastMode() {
