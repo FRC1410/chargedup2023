@@ -10,7 +10,8 @@ import org.frc1410.framework.scheduler.task.TaskPersistence;
 
 public final class Robot extends PhaseDrivenRobot {
 
-    private final Controller controller = new Controller(scheduler, 0);
+
+    // private final Drivetrain drivetrain = new Drivetrain();
 
     @Override
     public void teleopSequence() {
