@@ -35,6 +35,7 @@ public final class LoopStore {
     }
 
     public void propagateTransition(Phase newPhase) {
+        main.flagTransition(newPhase);
         for (var loop : loops.values()) {
             loop.flagTransition(newPhase);
         }

@@ -58,7 +58,7 @@ public class Loop {
 
         for (var task : tasks) {
             if (!task.persistence.shouldPersist(newPhase)) {
-                task.lifecycle.requestExecution();
+                task.lifecycle.requestTermination();
             }
         }
     }
@@ -70,11 +70,20 @@ public class Loop {
             return;
         }
 
+        var job = task.job;
+        var lifecycle = task.lifecycle;
+
+        // Handle termination before ticking the observer.
+        if (lifecycle.state == TaskState.FLAGGED_TERMINATION) {
+            job.end(true);
+            lifecycle.state = TaskState.TERMINATED;
+
+            scheduler.lockHandler.releaseLock(task);
+            return;
+        }
+
         // Tick the observer to update the task state.
         task.observer.tick(task.lifecycle);
-
-        Task job = task.job;
-        LifecycleHandler lifecycle = task.lifecycle;
 
         switch (lifecycle.state) {
             case FLAGGED_EXECUTION -> {
@@ -100,13 +109,6 @@ public class Loop {
             case FLAGGED_SUSPENSION -> {
                 job.end(true);
                 lifecycle.state = TaskState.SUSPENDED;
-
-                scheduler.lockHandler.releaseLock(task);
-            }
-
-            case FLAGGED_TERMINATION -> {
-                job.end(true);
-                lifecycle.state = TaskState.TERMINATED;
 
                 scheduler.lockHandler.releaseLock(task);
             }
