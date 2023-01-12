@@ -5,20 +5,31 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.frc1410.chargedup2023.util.Networktables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
+import static org.frc1410.chargedup2023.util.Tuning.*;
 
 public class Drivetrain implements TickedSubsystem, Subsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
@@ -33,8 +44,20 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
     public final WPI_TalonFX rightLeader = new WPI_TalonFX(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID);
     public final WPI_TalonFX rightFollower = new WPI_TalonFX(DRIVETRAIN_RIGHT_BACK_MOTOR_ID);
 
-    // Gyro
+    // Simulation
+    public DifferentialDrivetrainSim drivetrainSimulator;
+    public Field2d fieldSim;
+
+    public final Encoder rightEncoder = new Encoder(RIGHT_ENCODER_PORTS[0], RIGHT_ENCODER_PORTS[1], RIGHT_ENCODER_REVERSED);
+    public final Encoder leftEncoder = new Encoder(LEFT_ENCODER_PORTS[0], LEFT_ENCODER_PORTS[1], LEFT_ENCODER_REVERSED);
+
+    public EncoderSim leftEncoderSim;
+    public EncoderSim rightEncoderSim;
+
+    // Gyro & Simulated Gyro
     public final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    public int dev;
+    public SimDouble angle;
 
     // Differential Drive for Teleop control
     private final DifferentialDrive drive;
@@ -62,6 +85,23 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         drive = new DifferentialDrive(leftLeader, rightLeader);
 
         gyro.calibrate();
+
+        if (RobotBase.isSimulation()) simulationInit();
+    }
+
+    public void simulationInit() {
+        drivetrainSimulator = new DifferentialDrivetrainSim(
+                DRIVETRAIN_PLANT, DCMotor.getFalcon500(2), GEARING, TRACKWIDTH, WHEEL_DIAMETER, NOISE);
+
+//        leftLeader.setInverted(false);
+        leftEncoder.setDistancePerPulse(ENCODER_DISTANCE_PER_PULSE);
+        rightEncoder.setDistancePerPulse(ENCODER_DISTANCE_PER_PULSE);
+        leftEncoderSim = new EncoderSim(leftEncoder);
+        rightEncoderSim = new EncoderSim(rightEncoder);
+        dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+        angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+        fieldSim = new Field2d();
+        SmartDashboard.putData("Field", fieldSim);
     }
 
     private void initFalcon(WPI_TalonFX falcon) {
@@ -73,12 +113,28 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     @Override
     public void periodic() {
-        poseEstimator.update(
-                new Rotation2d(Units.degreesToRadians(gyro.getAngle() % 360)),
-                leftLeader.getSelectedSensorPosition() * ENCODER_CONSTANT,
-                rightLeader.getSelectedSensorPosition() * ENCODER_CONSTANT
-        );
-        drive.feed();
+        if (RobotBase.isSimulation()) {
+            drivetrainSimulator.setInputs(
+                    leftLeader.get() * RobotController.getBatteryVoltage(),
+                    rightLeader.get() * RobotController.getBatteryVoltage());
+            drivetrainSimulator.update(20.0 / 1000.0);
+
+            angle.set(-drivetrainSimulator.getHeading().getDegrees());
+
+            leftEncoderSim.setDistance(drivetrainSimulator.getLeftPositionMeters());
+            leftEncoderSim.setRate(drivetrainSimulator.getLeftVelocityMetersPerSecond());
+            rightEncoderSim.setDistance(drivetrainSimulator.getRightPositionMeters());
+            rightEncoderSim.setRate(drivetrainSimulator.getRightVelocityMetersPerSecond());
+
+            poseEstimator.update(drivetrainSimulator.getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
+            fieldSim.setRobotPose(getPoseEstimation());
+        } else {
+            poseEstimator.update(
+                    new Rotation2d(Units.degreesToRadians(gyro.getAngle() % 360)),
+                    leftLeader.getSelectedSensorPosition() * ENCODER_CONSTANT,
+                    rightLeader.getSelectedSensorPosition() * ENCODER_CONSTANT);
+            drive.feed();
+        }
 
         // NetworkTables updating
         headingPub.set(gyro.getAngle() % 360);
@@ -117,16 +173,28 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         return poseEstimator.getEstimatedPosition();
     }
 
-    public void resetPoseEstimation(Pose2d pose) {
+    public void resetEncoders() {
+        if (RobotBase.isSimulation()) {leftEncoder.reset(); rightEncoder.reset();}
         leftLeader.setSelectedSensorPosition(0);
         rightLeader.setSelectedSensorPosition(0);
-        poseEstimator.resetPosition(gyro.getRotation2d(), 0, 0, pose);
+    }
+
+    public void resetPoseEstimation(Pose2d pose) {
+        resetEncoders(); // Might be unnecessary
+        if (RobotBase.isSimulation()) {
+            drivetrainSimulator.setPose(pose);
+            poseEstimator.resetPosition(pose.getRotation(), leftEncoder.getDistance(), rightEncoder.getDistance(), pose);
+        } else poseEstimator.resetPosition(gyro.getRotation2d(), 0, 0, pose);
+        // Consider passing in encoders to this method ^ to not have to reset encoders themselves
+
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         double leftEncoderVelocity = leftLeader.getSelectedSensorVelocity() * ENCODER_CONSTANT * 10;
         double rightEncoderVelocity = rightLeader.getSelectedSensorVelocity() * ENCODER_CONSTANT * 10;
-        return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
+
+        if (RobotBase.isSimulation()) {return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());}
+        else {return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);}
     }
 
     public void flip() {
