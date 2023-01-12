@@ -43,6 +43,7 @@ public final class Robot extends PhaseDrivenRobot {
         var autoProfile = autoSubscriber.get();
         var autoCommand = autoSelector.select(autoProfile);
         scheduler.scheduleDefaultCommand(autoCommand, TaskPersistence.EPHEMERAL);
+        System.out.println("Auto Done");
     }
 
     @Override
@@ -51,7 +52,6 @@ public final class Robot extends PhaseDrivenRobot {
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS), TaskPersistence.GAMEPLAY);
         driverController.RIGHT_BUMPER.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
         driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-//        driverController.A.whenPressed(new CommandTask(new RunCommand(drivetrain::zeroHeading)), TaskPersistence.EPHEMERAL);
     }
 
 

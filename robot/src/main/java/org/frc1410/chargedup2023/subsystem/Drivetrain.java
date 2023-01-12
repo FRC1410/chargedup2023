@@ -26,8 +26,6 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
     DoublePublisher headingPub = Networktables.PublisherFactory(table, "Heading", 0);
     DoublePublisher xPub = Networktables.PublisherFactory(table, "X", 0);
     DoublePublisher yPub = Networktables.PublisherFactory(table, "Y", 0);
-    DoublePublisher leftPub = Networktables.PublisherFactory(table, "LeftEncoder", 0);
-    DoublePublisher rightPub = Networktables.PublisherFactory(table, "RightEncoder", 0);
 
     // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
@@ -43,7 +41,7 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     // Inverted flag for flipping driving direction in Teleop
     private boolean isInverted = false;
-    private boolean isArcadeDrive = false;
+    private boolean isArcadeDrive = true;
 
     public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
             new Rotation2d(), 0., 0., new Pose2d());
@@ -111,6 +109,7 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         // This is by design! (To match the functional tankDrive method)
         leftLeader.setVoltage(rightVolts);
         rightLeader.setVoltage(leftVolts);
+
         drive.feed();
     }
 
@@ -119,6 +118,8 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
     }
 
     public void resetPoseEstimation(Pose2d pose) {
+        leftLeader.setSelectedSensorPosition(0);
+        rightLeader.setSelectedSensorPosition(0);
         poseEstimator.resetPosition(gyro.getRotation2d(), 0, 0, pose);
     }
 
