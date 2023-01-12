@@ -18,7 +18,7 @@ public class WhileHeldObserver implements Observer {
         if (button.isActive()) {
             lifecycle.requestExecution();
         } else {
-            lifecycle.requestInterruption();
+            lifecycle.requestSuspension();
         }
     }
 }

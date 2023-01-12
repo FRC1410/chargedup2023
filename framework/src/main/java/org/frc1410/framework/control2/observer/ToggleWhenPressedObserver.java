@@ -20,7 +20,7 @@ public class ToggleWhenPressedObserver implements Observer {
             listening = false;
 
             if (lifecycle.state.isExecuting()) {
-                lifecycle.requestInterruption();
+                lifecycle.requestSuspension();
             } else {
                 lifecycle.requestExecution();
             }

@@ -58,7 +58,7 @@ public class Loop {
 
         for (var task : tasks) {
             if (!task.persistence.shouldPersist(newPhase)) {
-                task.lifecycle.requestInterruption();
+                task.lifecycle.requestExecution();
             }
         }
     }
