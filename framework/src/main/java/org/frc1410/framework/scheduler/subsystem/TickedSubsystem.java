@@ -7,4 +7,10 @@ public interface TickedSubsystem extends Subsystem {
     default long getPeriod() {
         return -1L;
     }
+
+    @Override
+    void periodic();
+
+    @Override
+    void simulationPeriodic();
 }

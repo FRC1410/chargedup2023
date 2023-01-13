@@ -14,7 +14,7 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 
     protected final TaskScheduler scheduler = new TaskScheduler();
 	protected final PhaseController phaseController = new PhaseController(scheduler);
-    protected final SubsystemStore subsystems = new SubsystemStore();
+    protected final SubsystemStore subsystems = new SubsystemStore(scheduler);
 
     @Override
 	public final void robotPeriodic() {
@@ -42,10 +42,6 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		LOG.info("Robot initialized.");
 		// Signal that we're about to transition out of INIT as soon as the scheduler does a sweep
 		phaseController.beginTransition();
-
-        for (var subsystem : subsystems.getTickedSubsystems()) {
-            scheduler.schedule(new SubsystemPeriodicTask(subsystem), TaskPersistence.DURABLE);
-        }
 	}
 
 	public void disabledSequence() {

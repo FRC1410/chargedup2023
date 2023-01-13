@@ -1,23 +1,39 @@
 package org.frc1410.framework.scheduler.subsystem;
 
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.frc1410.framework.scheduler.task.TaskPersistence;
+import org.frc1410.framework.scheduler.task.TaskScheduler;
+import org.frc1410.framework.scheduler.task.lock.LockPriority;
+import org.frc1410.framework.scheduler.task.observer.Observer;
+import org.frc1410.framework.util.log.Logger;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-public class SubsystemStore {
+public final class SubsystemStore {
 
-    private final List<TickedSubsystem> tickedSubsystems = new ArrayList<>();
+    private static final Logger LOG = new Logger("SubsystemStore");
 
-    public <S extends Subsystem> S track(S subsystem) {
-        if (subsystem instanceof TickedSubsystem) {
-            tickedSubsystems.add((TickedSubsystem) subsystem);
-        }
+    private final TaskScheduler scheduler;
 
-        return subsystem;
+    public SubsystemStore(@NotNull TaskScheduler scheduler) {
+        this.scheduler = Objects.requireNonNull(scheduler);
     }
 
-    public List<TickedSubsystem> getTickedSubsystems() {
-        return tickedSubsystems;
+    public <S extends Subsystem> S track(S subsystem) {
+        if (subsystem instanceof TickedSubsystem ticked) {
+            var task = new SubsystemPeriodicTask(ticked);
+            var period = ticked.getPeriod();
+
+            LOG.info("Registered subsystem %s for ticking with period %d", subsystem, period);
+            if (period != -1L) {
+                scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL, period);
+            } else {
+                scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL);
+            }
+        }
+
+        LOG.warn("Registered subsystem %s but it is not ticked so it will not be scheduled.");
+        return subsystem;
     }
 }
