@@ -14,7 +14,7 @@ import org.frc1410.chargedup2023.subsystem.Intake;
 import org.frc1410.chargedup2023.util.Networktables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
-import org.frc1410.framework.control2.Controller;
+import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.CommandTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
