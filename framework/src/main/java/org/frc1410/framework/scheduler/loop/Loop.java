@@ -1,9 +1,10 @@
 package org.frc1410.framework.scheduler.loop;
 
 import org.frc1410.framework.phase.Phase;
-import org.frc1410.framework.scheduler.task.*;
+import org.frc1410.framework.scheduler.task.BoundTask;
+import org.frc1410.framework.scheduler.task.TaskScheduler;
+import org.frc1410.framework.scheduler.task.TaskState;
 
-import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,11 +48,9 @@ public class Loop {
             return;
         }
 
-        var iter = tasks.iterator();
-        while (iter.hasNext()) {
-            var task = iter.next();
+        for (var task : Set.copyOf(tasks)) {
             if (task.handle().state == TaskState.TERMINATED) {
-                iter.remove();
+                tasks.remove(task);
                 continue;
             }
 
