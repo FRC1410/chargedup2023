@@ -5,6 +5,7 @@ import org.frc1410.chargedup2023.commands.RunIntake;
 import org.frc1410.chargedup2023.commands.SwitchDriveMode;
 import org.frc1410.chargedup2023.commands.DriveLooped;
 import org.frc1410.chargedup2023.commands.FlipDrivetrainAction;
+import org.frc1410.chargedup2023.commands.groups.auto.MobilityAuto;
 import org.frc1410.chargedup2023.commands.groups.auto.Test1MeterAuto;
 import org.frc1410.chargedup2023.commands.groups.auto.Test2MeterAuto;
 import org.frc1410.chargedup2023.commands.groups.auto.TestQuarterCircleAuto;
@@ -33,7 +34,8 @@ public final class Robot extends PhaseDrivenRobot {
     private final AutoSelector autoSelector = new AutoSelector()
             .add("Test 1 Meter", () -> new Test1MeterAuto(drivetrain))
             .add("Test 2 Meter", () -> new Test2MeterAuto(drivetrain))
-            .add("Test Quarter Circle", () -> new TestQuarterCircleAuto(drivetrain));
+            .add("Test Quarter Circle", () -> new TestQuarterCircleAuto(drivetrain))
+            .add("Mobility", () -> new MobilityAuto(drivetrain));
 
     private final StringPublisher autoPublisher = Networktables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());

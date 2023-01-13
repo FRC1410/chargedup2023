@@ -46,8 +46,16 @@ public interface Trajectories {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(START, TEST_2_METER), config), drivetrain);
     }
 
+    static RamseteCommand test2MeterBack(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(TEST_2_METER, START), reverseConfig), drivetrain);
+    }
+
     static RamseteCommand testQuarterCircle(Drivetrain drivetrain) {
-        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(START, TEST_QUARTER_CIRCLE), config), drivetrain);
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(TEST_1_METER, TEST_QUARTER_CIRCLE), config), drivetrain);
+    }
+
+    static RamseteCommand testQuarterCircleBack(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(TEST_QUARTER_CIRCLE, START), reverseConfig), drivetrain);
     }
 
     static RamseteCommand mobility(Drivetrain drivetrain) {

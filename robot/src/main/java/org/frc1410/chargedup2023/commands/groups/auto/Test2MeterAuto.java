@@ -1,5 +1,6 @@
 package org.frc1410.chargedup2023.commands.groups.auto;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.subsystem.Drivetrain;
@@ -14,7 +15,10 @@ public class Test2MeterAuto extends SequentialCommandGroup {
 
         addCommands(
                 Trajectories.test2Meter(drivetrain),
-                new RunCommand(() -> drivetrain.tankDriveVolts(0, 0))
+//                new InstantCommand(() -> drivetrain.tankDriveVolts(0,0)),
+                Trajectories.test2MeterBack(drivetrain),
+                new InstantCommand(() -> drivetrain.tankDriveVolts(0,0)),
+                new RunCommand(() -> {})
         );
     }
 }

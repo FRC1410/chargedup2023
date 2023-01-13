@@ -137,6 +137,13 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         isArcadeDrive = !isArcadeDrive;
     }
 
+    public void resetFollowers() {
+        initFalcon(leftFollower);
+        initFalcon(rightFollower);
+        leftFollower.follow(leftLeader);
+        rightFollower.follow(rightLeader);
+    }
+
     public void coastMode() {
         leftLeader.setNeutralMode(NeutralMode.Coast);
         leftFollower.setNeutralMode(NeutralMode.Coast);
