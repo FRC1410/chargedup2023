@@ -35,10 +35,6 @@ public class TaskScheduler {
         schedule(new CommandTask(command), persistence, Observer.DEFAULT, LockPriority.LOWEST);
     }
 
-    public void scheduleDefaultCommand(@NotNull Command command, @NotNull TaskPersistence persistence, long period) {
-        schedule(new CommandTask(command), persistence, Observer.DEFAULT, LockPriority.LOWEST, period);
-    }
-
     private void schedule(BoundTask task, Loop loop) {
         loop.add(task);
     }

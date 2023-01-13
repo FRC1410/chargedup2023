@@ -3,6 +3,7 @@ plugins {
     id "java-library"
 }
 
+sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 // This build script is in Groovy instead of Kotlin because WPILib's dependency toolchain is weird.

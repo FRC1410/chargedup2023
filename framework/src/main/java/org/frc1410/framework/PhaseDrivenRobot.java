@@ -16,14 +16,6 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 	protected final PhaseController phaseController = new PhaseController(scheduler);
     protected final SubsystemStore subsystems = new SubsystemStore();
 
-    public PhaseDrivenRobot() {
-        super();
-    }
-
-    public PhaseDrivenRobot(double period) {
-        super(period);
-    }
-
     @Override
 	public final void robotPeriodic() {
 		if (phaseController.isTransitioning()) {
