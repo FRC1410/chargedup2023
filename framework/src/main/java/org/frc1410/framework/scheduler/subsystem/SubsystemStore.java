@@ -3,8 +3,9 @@ package org.frc1410.framework.scheduler.subsystem;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
+import org.frc1410.framework.scheduler.task.impl.SubsystemPeriodicTask;
 import org.frc1410.framework.scheduler.task.lock.LockPriority;
-import org.frc1410.framework.scheduler.task.observer.Observer;
+import org.frc1410.framework.scheduler.task.Observer;
 import org.frc1410.framework.util.log.Logger;
 import org.jetbrains.annotations.NotNull;
 

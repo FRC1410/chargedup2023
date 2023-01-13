@@ -1,13 +1,27 @@
 package org.frc1410.framework;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import org.frc1410.framework.phase.*;
+import org.frc1410.framework.phase.Phase;
+import org.frc1410.framework.phase.PhaseController;
 import org.frc1410.framework.scheduler.loop.Loop;
-import org.frc1410.framework.scheduler.subsystem.SubsystemPeriodicTask;
 import org.frc1410.framework.scheduler.subsystem.SubsystemStore;
-import org.frc1410.framework.scheduler.task.*;
+import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
+import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.util.log.Logger;
 
+/**
+ * The base robot type that all robots can extend to access the scheduling
+ * and phase features. {@link PhaseDrivenRobot}s hold a state machine used
+ * for the current phase, a task scheduler, and a subsystem store.
+ *
+ * <p>Robots are built by scheduling tasks to {@link Phase}s, where there
+ * are hooks for each phase that can be used to add commands and buttons.
+ *</p>
+ *
+ * <p>This class is also responsible for handling a robot's subsystems.
+ * In order to get a subsystem with a {@link TickedSubsystem#periodic()}
+ * handle to work, it must be added through the {@link SubsystemStore}.
+ */
 public abstract class PhaseDrivenRobot extends TimedRobot {
 
     private static final Logger LOG = new Logger("Robot");
@@ -26,13 +40,18 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		// Tick the main loop. This loop just runs on the default robot period.
         scheduler.getLoopStore().main.tick();
 
-		var loops = scheduler.getLoopStore().getUntrackedLoops();
-		if (loops.isEmpty()) return;
+        {
+            // Grab the queue of untracked loops.
+            var loops = scheduler.getLoopStore().getUntrackedLoops();
+            if (loops.isEmpty()) return; // Optimization: early return
 
-		Loop loop;
-		while ((loop = loops.pollFirst()) != null) {
-			addPeriodic(loop::tick, loop.getPeriodSeconds());
-		}
+            // This is a fast way to iterate over all untracked loops and to schedule them while popping them.
+            // This is optimized to prevent tick overruns as it executes each tick on periodic.
+            Loop loop;
+            while ((loop = loops.pollFirst()) != null) {
+                addPeriodic(loop::tick, loop.getPeriodSeconds());
+            }
+        }
 	}
 
 	// <editor-fold desc="> Phase hooks" defaultstate="collapsed">
@@ -44,19 +63,39 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		phaseController.beginTransition();
 	}
 
-	public void disabledSequence() {
+    /**
+     * The hook for when a robot enters the {@link Phase#DISABLED} phase.
+     * It should be used to set up any tasks that should be executed in
+     * this phase.
+     */
+	protected void disabledSequence() {
 
     }
 
-    public void autonomousSequence() {
+    /**
+     * The hook for when a robot enters the {@link Phase#AUTONOMOUS} phase.
+     * It should be used to set up any tasks that should be executed in
+     * this phase.
+     */
+    protected void autonomousSequence() {
 
     }
 
-    public void teleopSequence() {
+    /**
+     * The hook for when a robot enters the {@link Phase#TELEOP} phase.
+     * It should be used to set up any tasks that should be executed in
+     * this phase.
+     */
+    protected void teleopSequence() {
 
     }
 
-    public void testSequence() {
+    /**
+     * The hook for when a robot enters the {@link Phase#TEST} phase.
+     * It should be used to set up any tasks that should be executed in
+     * this phase.
+     */
+    protected void testSequence() {
 
     }
 

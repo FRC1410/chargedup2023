@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import org.frc1410.framework.scheduler.task.CommandTask;
+import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.scheduler.task.lock.LockPriority;
-import org.frc1410.framework.scheduler.task.observer.Observer;
+import org.frc1410.framework.scheduler.task.Observer;
 import org.jetbrains.annotations.Range;
 
 import static edu.wpi.first.wpilibj.XboxController.Axis.*;
@@ -65,7 +65,7 @@ public class Controller {
                 new WaitCommand(durationMillis / 1000.0),
                 new RunCommand(() -> backingController.setRumble(rumbleType, strength)));
 
-        scheduler.schedule(new CommandTask(resetCommand), TaskPersistence.GAMEPLAY, Observer.DEFAULT, LockPriority.NULL);
+        scheduler.schedule(new CommandTask(resetCommand), TaskPersistence.GAMEPLAY, Observer.NO_OP, LockPriority.NULL);
     }
 
     public void rumble(@Range(from = 0, to = 1) double strength, long durationMillis) {
