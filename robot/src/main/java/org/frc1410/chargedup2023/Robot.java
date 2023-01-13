@@ -56,8 +56,8 @@ public final class Robot extends PhaseDrivenRobot {
         drivetrain.brakeMode();
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS), TaskPersistence.GAMEPLAY);
         scheduler.scheduleDefaultCommand(new RunIntake(intake, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
-        driverController.RIGHT_BUMPER.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-        driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+        driverController.X.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+        driverController.Y.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
     }
 
 
