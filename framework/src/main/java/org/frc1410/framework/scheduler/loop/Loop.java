@@ -47,9 +47,10 @@ public class Loop {
         }
 
         // Remove any tasks flagged for termination. If we were to do this in the process sycle, we would get CMEs.
-        tasks.removeIf(task -> task.lifecycle.state == TaskState.TERMINATED);
+        tasks.removeIf(task -> task.handle.state == TaskState.TERMINATED);
         // Tick any tasks registered to this loop.
-        tasks.forEach(this::process);
+        Set.copyOf(tasks).forEach(this::process);
+//        tasks.iterator().forEachRemaining(this::process);
     }
 
     public void flagTransition(Phase newPhase) {
@@ -57,7 +58,7 @@ public class Loop {
 
         for (var task : tasks) {
             if (!task.persistence.shouldPersist(newPhase)) {
-                task.lifecycle.requestInterruption();
+                task.handle.requestTermination();
             }
         }
     }
@@ -69,43 +70,45 @@ public class Loop {
             return;
         }
 
+        var job = task.job;
+        var handle = task.handle;
+
+        // Handle termination before ticking the observer.
+        if (handle.state == TaskState.FLAGGED_TERMINATION) {
+            job.end(true);
+            handle.state = TaskState.TERMINATED;
+
+            scheduler.lockHandler.releaseLock(task);
+            return;
+        }
+
         // Tick the observer to update the task state.
-        task.observer.tick(task.lifecycle);
+        task.observer.tick(handle);
 
-        Task job = task.job;
-        LifecycleHandler lifecycle = task.lifecycle;
-
-        switch (lifecycle.state) {
+        switch (handle.state) {
             case FLAGGED_EXECUTION -> {
                 job.init();
-                lifecycle.state = TaskState.EXECUTING;
+                handle.state = TaskState.EXECUTING;
             }
 
             case EXECUTING -> {
                 job.execute();
                 
                 if (job.isFinished()) {
-                    lifecycle.state = TaskState.FLAGGED_COMPLETION;
+                    handle.state = TaskState.FLAGGED_COMPLETION;
                 }
             }
 
             case FLAGGED_COMPLETION -> {
                 job.end(false);
-                lifecycle.state = TaskState.SUSPENDED;
+                handle.state = TaskState.SUSPENDED;
 
                 scheduler.lockHandler.releaseLock(task);
             }
 
             case FLAGGED_SUSPENSION -> {
                 job.end(true);
-                lifecycle.state = TaskState.SUSPENDED;
-
-                scheduler.lockHandler.releaseLock(task);
-            }
-
-            case FLAGGED_TERMINATION -> {
-                job.end(true);
-                lifecycle.state = TaskState.TERMINATED;
+                handle.state = TaskState.SUSPENDED;
 
                 scheduler.lockHandler.releaseLock(task);
             }

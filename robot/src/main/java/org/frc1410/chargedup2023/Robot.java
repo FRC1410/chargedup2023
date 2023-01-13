@@ -1,8 +1,6 @@
 package org.frc1410.chargedup2023;
 
-import org.frc1410.chargedup2023.commands.groups.auto.MobilityAuto;
 import org.frc1410.framework.PhaseDrivenRobot;
-import org.frc1410.framework.AutoSelector;
 
 public final class Robot extends PhaseDrivenRobot {
 
@@ -10,7 +8,7 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void teleopSequence() {
-        System.out.println("Teleop!!");
+
     }
 
     @Override

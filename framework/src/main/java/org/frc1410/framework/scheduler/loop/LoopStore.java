@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import org.frc1410.framework.phase.Phase;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.util.log.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -34,7 +35,9 @@ public final class LoopStore {
         return loop;
     }
 
-    public void propagateTransition(Phase newPhase) {
+    public void propagateTransition(@NotNull Phase newPhase) {
+        main.flagTransition(newPhase);
+        
         for (var loop : loops.values()) {
             loop.flagTransition(newPhase);
         }

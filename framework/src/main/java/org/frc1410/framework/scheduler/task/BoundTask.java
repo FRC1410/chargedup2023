@@ -9,14 +9,14 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents a task that is bound to a loop and being actively
  * ticked. This class acts as a manager over its child task and
- * is responsible for managing its lifecycle.
+ * is responsible for managing its handle.
  *
  * @see Task
  * @see Loop
  */
 public class BoundTask {
 
-    public final LifecycleHandler lifecycle = new LifecycleHandler();
+    public final LifecycleHandle handle = new LifecycleHandle();
     public final Task job;
     public final TaskPersistence persistence;
     public final Observer observer;
