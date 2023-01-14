@@ -6,6 +6,11 @@ public interface Constants {
     int DRIVER_CONTROLLER = 0;
     int OPERATOR_CONTROLLER = 1;
 
+    // LIMELIGHT
+    double CAMERA_HEIGHT = 1; //Meters
+    double TARGET_HEIGHT = 1; //Meters
+    double CAMERA_PITCH = 1; //Radians
+
     // DRIVETRAIN
     double KS = 0.676;
     double KV = 2.67;

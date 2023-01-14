@@ -21,11 +21,11 @@ import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Drivetrain implements TickedSubsystem, Subsystem {
-    NetworkTableInstance instance = NetworkTableInstance.getDefault();
-    NetworkTable table = instance.getTable("Drivetrain");
-    DoublePublisher headingPub = Networktables.PublisherFactory(table, "Heading", 0);
-    DoublePublisher xPub = Networktables.PublisherFactory(table, "X", 0);
-    DoublePublisher yPub = Networktables.PublisherFactory(table, "Y", 0);
+    private NetworkTableInstance instance = NetworkTableInstance.getDefault();
+    private NetworkTable table = instance.getTable("Drivetrain");
+    private DoublePublisher headingPub = Networktables.PublisherFactory(table, "Heading", 0);
+    private DoublePublisher xPub = Networktables.PublisherFactory(table, "X", 0);
+    private DoublePublisher yPub = Networktables.PublisherFactory(table, "Y", 0);
 
     // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);

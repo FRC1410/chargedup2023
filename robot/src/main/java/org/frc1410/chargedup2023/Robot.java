@@ -6,10 +6,7 @@ import org.frc1410.chargedup2023.commands.groups.auto.MobilityAuto;
 import org.frc1410.chargedup2023.commands.groups.auto.Test1MeterAuto;
 import org.frc1410.chargedup2023.commands.groups.auto.Test2MeterAuto;
 import org.frc1410.chargedup2023.commands.groups.auto.TestQuarterCircleAuto;
-import org.frc1410.chargedup2023.subsystem.Drivetrain;
-import org.frc1410.chargedup2023.subsystem.Intake;
-import org.frc1410.chargedup2023.subsystem.Shooter;
-import org.frc1410.chargedup2023.subsystem.VerticalStorage;
+import org.frc1410.chargedup2023.subsystem.*;
 import org.frc1410.chargedup2023.util.Networktables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
@@ -26,9 +23,9 @@ public final class Robot extends PhaseDrivenRobot {
 
     private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
     private final Intake intake = new Intake();
-
     private final Shooter shooter = new Shooter();
     private final VerticalStorage verticalStorage = new VerticalStorage();
+    private final Limelight limelight = new Limelight();
 
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
