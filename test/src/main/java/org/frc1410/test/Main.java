@@ -1,7 +1,9 @@
 package org.frc1410.test;
 
-public class Main {
-  public static void main(String[] args) {
+import edu.wpi.first.wpilibj.RobotBase;
 
+public interface Main {
+  static void main(String[] args) {
+      RobotBase.startRobot(Robot::new);
   }
 }

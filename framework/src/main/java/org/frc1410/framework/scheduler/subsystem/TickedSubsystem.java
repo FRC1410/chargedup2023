@@ -12,5 +12,7 @@ public interface TickedSubsystem extends Subsystem {
     void periodic();
 
     @Override
-    void simulationPeriodic();
+    default void simulationPeriodic() {
+        
+    }
 }
