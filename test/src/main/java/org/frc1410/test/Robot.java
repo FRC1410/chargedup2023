@@ -6,10 +6,7 @@ import org.frc1410.test.commands.groups.auto.MobilityAuto;
 import org.frc1410.test.commands.groups.auto.Test1MeterAuto;
 import org.frc1410.test.commands.groups.auto.Test2MeterAuto;
 import org.frc1410.test.commands.groups.auto.TestQuarterCircleAuto;
-import org.frc1410.test.subsystem.Drivetrain;
-import org.frc1410.test.subsystem.Intake;
-import org.frc1410.test.subsystem.Shooter;
-import org.frc1410.test.subsystem.VerticalStorage;
+import org.frc1410.test.subsystem.*;
 import org.frc1410.test.util.Networktables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
@@ -26,9 +23,9 @@ public final class Robot extends PhaseDrivenRobot {
 
     private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
     private final Intake intake = new Intake();
-
     private final Shooter shooter = new Shooter();
     private final VerticalStorage verticalStorage = new VerticalStorage();
+    private final LimeLight limeLight = new LimeLight();
 
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
@@ -65,6 +62,8 @@ public final class Robot extends PhaseDrivenRobot {
 
         driverController.X.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
         driverController.Y.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+
+        driverController.B.whenPressed(new CommandTask(new ToggleLimeLightModeAction(limeLight)), TaskPersistence.EPHEMERAL);
 
     }
 
