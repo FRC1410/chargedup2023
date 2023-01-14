@@ -63,7 +63,7 @@ public class Controller {
         backingController.setRumble(rumbleType, strength);
         var resetCommand = new SequentialCommandGroup(
                 new WaitCommand(durationMillis / 1000.0),
-                new RunCommand(() -> backingController.setRumble(rumbleType, strength)));
+                new RunCommand(() -> backingController.setRumble(rumbleType, 0)));
 
         scheduler.schedule(new CommandTask(resetCommand), TaskPersistence.GAMEPLAY, Observer.DEFAULT, LockPriority.NULL);
     }

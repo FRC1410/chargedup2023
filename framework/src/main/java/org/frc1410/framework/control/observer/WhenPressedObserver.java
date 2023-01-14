@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class WhenPressedObserver implements Observer {
 
     private final Button button;
+    private boolean wasActive;
 
     public WhenPressedObserver(Button button) {
         this.button = button;
@@ -15,8 +16,10 @@ public class WhenPressedObserver implements Observer {
 
     @Override
     public void tick(@NotNull LifecycleHandler lifecycle) {
-        if (button.isActive()) {
+        if (button.isActive() && wasActive) {
             lifecycle.requestExecution();
+            wasActive = true;
         }
+        wasActive = !button.isActive();
     }
 }
