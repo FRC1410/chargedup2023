@@ -126,7 +126,8 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
             rightEncoderSim.setDistance(drivetrainSimulator.getRightPositionMeters());
             rightEncoderSim.setRate(drivetrainSimulator.getRightVelocityMetersPerSecond());
 
-            poseEstimator.update(drivetrainSimulator.getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
+            Rotation2d heading = new Rotation2d(-Units.degreesToRadians(drivetrainSimulator.getHeading().getDegrees()));
+            poseEstimator.update(heading, leftEncoder.getDistance(), rightEncoder.getDistance());
             fieldSim.setRobotPose(getPoseEstimation());
         } else {
             poseEstimator.update(

@@ -4,9 +4,7 @@ import edu.wpi.first.networktables.*;
 import org.frc1410.chargedup2023.commands.SwitchDriveMode;
 import org.frc1410.chargedup2023.commands.DriveLooped;
 import org.frc1410.chargedup2023.commands.FlipDrivetrainAction;
-import org.frc1410.chargedup2023.commands.groups.auto.Test1MeterAuto;
-import org.frc1410.chargedup2023.commands.groups.auto.Test2MeterAuto;
-import org.frc1410.chargedup2023.commands.groups.auto.TestQuarterCircleAuto;
+import org.frc1410.chargedup2023.commands.groups.auto.*;
 import org.frc1410.chargedup2023.subsystem.Drivetrain;
 import org.frc1410.chargedup2023.util.Networktables;
 import org.frc1410.framework.AutoSelector;
@@ -30,7 +28,12 @@ public final class Robot extends PhaseDrivenRobot {
     private final AutoSelector autoSelector = new AutoSelector()
             .add("Test 1 Meter", () -> new Test1MeterAuto(drivetrain))
             .add("Test 2 Meter", () -> new Test2MeterAuto(drivetrain))
-            .add("Test Quarter Circle", () -> new TestQuarterCircleAuto(drivetrain));
+            .add("Test Quarter Circle", () -> new TestQuarterCircleAuto(drivetrain))
+            // Barrier Community to Game Piece auto also returns to starting point.
+            .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePieceAuto(drivetrain))
+            .add("Barrier Community To Game Piece To Charging Station", () -> new BarrierCommunityToGamePieceToChargingStation(drivetrain))
+            .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
+            .add("Outside Community To Game Piece To Charging Station", () -> new OutsideCommunityToGamePieceToRechargeStation(drivetrain));
 
     private final StringPublisher autoPublisher = Networktables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
