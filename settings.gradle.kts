@@ -3,9 +3,10 @@ pluginManagement {
         mavenLocal()
         gradlePluginPortal()
 
-        val prefFile = File(".wpilib", "wpilib_preferences.json")
-        val prefs = groovy.json.JsonSlurper().parseText(prefFile.readText()) as Map<String, Any>
-        val frcYear = prefs.get("projectYear") as String
+//        val prefFile = File(".wpilib", "wpilib_preferences.json")
+//        val prefs = groovy.json.JsonSlurper().parseText(prefFile.readText()) as Map<String, Any>
+//        val frcYear = prefs.get("projectYear") as String
+        val frcYear = "2023"
         val os = System.getProperty("os.name").toLowerCase()
 
         val publicDir = if (os.startsWith("win")) {
