@@ -2,10 +2,7 @@ package org.frc1410.test;
 
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
-import org.frc1410.test.commands.groups.auto.MobilityAuto;
-import org.frc1410.test.commands.groups.auto.Test1MeterAuto;
-import org.frc1410.test.commands.groups.auto.Test2MeterAuto;
-import org.frc1410.test.commands.groups.auto.TestQuarterCircleAuto;
+import org.frc1410.test.commands.groups.auto.*;
 import org.frc1410.test.subsystem.*;
 import org.frc1410.test.util.Networktables;
 import org.frc1410.framework.AutoSelector;
@@ -34,7 +31,11 @@ public final class Robot extends PhaseDrivenRobot {
             .add("Test 1 Meter", () -> new Test1MeterAuto(drivetrain))
             .add("Test 2 Meter", () -> new Test2MeterAuto(drivetrain))
             .add("Test Quarter Circle", () -> new TestQuarterCircleAuto(drivetrain))
-            .add("Mobility", () -> new MobilityAuto(drivetrain));
+            .add("Mobility", () -> new MobilityAuto(drivetrain))
+            .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePieceAuto(drivetrain))
+            .add("Barrier Community To Game Piece To Charging Station", () -> new BarrierCommunityToGamePieceToChargingStationAuto(drivetrain))
+            .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePieceAuto(drivetrain))
+            .add("Outside Community To Game Piece To Charging Station", () -> new OutsideCommunityToGamePieceToRechargeStationAuto(drivetrain));
 
     private final StringPublisher autoPublisher = Networktables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
