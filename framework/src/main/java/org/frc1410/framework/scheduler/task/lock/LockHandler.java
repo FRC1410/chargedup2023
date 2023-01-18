@@ -30,7 +30,9 @@ public final class LockHandler {
      * @return {@code true} if the task owns all of its locks and can execute.
      */
     public boolean ownsLocks(@NotNull BoundTask task) {
-        LOG.info("Checking locks for " + task.job() + " (" + task.lock() + ")");
+        LOG.debug("Checking locks for " + task.job() + " (" + task.lock() + ")");
+
+        // Ignore cases where a task has no lock or is not running
         if (task.lock() == null || !task.handle().state.isExecuting()) return true;
 
         for (var key : task.lock().keys()) {

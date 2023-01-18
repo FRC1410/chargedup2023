@@ -46,7 +46,7 @@ public final class TaskScheduler {
         schedule(new CommandTask(command), persistence, Observer.DEFAULT, LockPriority.LOWEST, period);
     }
 
-    public void scheduleAutoCOmmand(@NotNull Command command) {
+    public void scheduleAutoCommand(@NotNull Command command) {
         schedule(new CommandTask(command), TaskPersistence.EPHEMERAL, Observer.NO_OP, LockPriority.HIGH);
     }
 
