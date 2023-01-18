@@ -43,6 +43,16 @@ public final class LoopStore {
         }
     }
 
+    public Collection<Loop> getLoops(boolean includeMain) {
+        if (includeMain) {
+            var set = new HashSet<>(loops.values());
+            set.add(main);
+            return set;
+        }
+
+        return loops.values();
+    }
+
     public Deque<Loop> getUntrackedLoops() {
         return untracked;
     }

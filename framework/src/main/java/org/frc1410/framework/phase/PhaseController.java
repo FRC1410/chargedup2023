@@ -38,7 +38,8 @@ public class PhaseController {
 		this.oldPhase = null;
 		this.phase = phase;
 
-        scheduler.loops.propagateTransition(this.phase);
+        scheduler.loopStore.propagateTransition(this.phase);
+        scheduler.printState();
 	}
 
 	public Phase getPhase() {

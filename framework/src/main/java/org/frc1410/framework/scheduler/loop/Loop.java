@@ -4,7 +4,9 @@ import org.frc1410.framework.phase.Phase;
 import org.frc1410.framework.scheduler.task.BoundTask;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.scheduler.task.TaskState;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -66,6 +68,10 @@ public class Loop {
                 task.handle().requestTermination();
             }
         }
+    }
+
+    public @NotNull Collection<@NotNull BoundTask> getTasks() {
+        return tasks;
     }
 
     private void process(BoundTask task) {
