@@ -32,9 +32,10 @@ public final class SubsystemStore {
             } else {
                 scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL);
             }
+        } else {
+            LOG.warn("Registered subsystem %s but it is not ticked so it will not be scheduled.", subsystem);
         }
-
-        LOG.warn("Registered subsystem %s but it is not ticked so it will not be scheduled.");
+        
         return subsystem;
     }
 }

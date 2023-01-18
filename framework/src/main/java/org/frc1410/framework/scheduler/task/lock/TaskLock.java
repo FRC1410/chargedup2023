@@ -3,12 +3,12 @@ package org.frc1410.framework.scheduler.task.lock;
 import org.intellij.lang.annotations.MagicConstant;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.Set;
 
-public record TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, @NotNull List<?> keys) {
+public record TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, @NotNull Set<?> keys) {
 
-    public TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, List<?> keys) {
+    public TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, Set<?> keys) {
         this.priority = priority;
-        this.keys = List.copyOf(keys);
+        this.keys = keys;
     }
 }

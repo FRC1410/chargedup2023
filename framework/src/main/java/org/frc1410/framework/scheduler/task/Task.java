@@ -3,6 +3,7 @@ package org.frc1410.framework.scheduler.task;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Tasks are the base unit of execution for the {@link TaskScheduler}.
@@ -52,7 +53,7 @@ public interface Task {
     }
 
     /**
-     * Gets a list of this task's lock keys. Lock keys can be any object,
+     * Gets a set of this task's lock keys. Lock keys can be any object,
      * and are resources that if the task were to write to while another
      * was using it, undefined behavior or errors would occur. Locks are
      * assigned a priority value when they're scheduled based on factors
@@ -65,7 +66,7 @@ public interface Task {
      *
      * @return A non-null list of {@link Object}s to use as lock keys.
      */
-    default @NotNull List<@NotNull Object> getLockKeys() {
-        return List.of();
+    default @NotNull Set<? extends @NotNull Object> getLockKeys() {
+        return Set.of();
     }
 }

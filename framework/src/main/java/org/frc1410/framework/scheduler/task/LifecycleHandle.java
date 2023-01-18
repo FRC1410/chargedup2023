@@ -49,4 +49,9 @@ public final class LifecycleHandle {
             state = TaskState.FLAGGED_TERMINATION;
         }
     }
+
+    @Override
+    public String toString() {
+        return "LifecycleHandle[state=" + state + "]";
+    }
 }
