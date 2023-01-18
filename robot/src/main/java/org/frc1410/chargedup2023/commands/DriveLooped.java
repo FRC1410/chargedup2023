@@ -2,7 +2,7 @@ package org.frc1410.chargedup2023.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.framework.control.Axis;
-import org.frc1410.chargedup2023.subsystem.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Drivetrain;
 
 public class DriveLooped extends CommandBase {
 

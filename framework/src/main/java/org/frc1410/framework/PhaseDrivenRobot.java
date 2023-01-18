@@ -30,6 +30,14 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 	protected final PhaseController phaseController = new PhaseController(scheduler);
     protected final SubsystemStore subsystems = new SubsystemStore(scheduler);
 
+    public PhaseDrivenRobot() {
+        super();
+    }
+
+    public PhaseDrivenRobot(double period) {
+        super(period);
+    }
+
     @Override
 	public final void robotPeriodic() {
 		if (phaseController.isTransitioning()) {
@@ -38,11 +46,11 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		}
 
 		// Tick the main loop. This loop just runs on the default robot period.
-        scheduler.getLoopStore().main.tick();
+        scheduler.loopStore.main.tick();
 
         {
             // Grab the queue of untracked loops.
-            var loops = scheduler.getLoopStore().getUntrackedLoops();
+            var loops = scheduler.loopStore.getUntrackedLoops();
             if (loops.isEmpty()) return; // Optimization: early return
 
             // This is a fast way to iterate over all untracked loops and to schedule them while popping them.

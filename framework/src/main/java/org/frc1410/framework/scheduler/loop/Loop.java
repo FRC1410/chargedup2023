@@ -75,12 +75,6 @@ public class Loop {
     }
 
     private void process(BoundTask task) {
-        // Just skip this iteration entirely if the task lock is claimed. This prevents fun things like
-        // a case where an observer resumes execution of a task despite its lock being actively in use.
-        if (!scheduler.lockHandler.ownsLocks(task)) {
-            return;
-        }
-
         var job = task.job();
         var handle = task.handle();
 
@@ -95,6 +89,12 @@ public class Loop {
 
         // Tick the observer to update the task state.
         task.observer().tick(handle);
+
+        // Just skip this iteration entirely if the task lock is claimed. This prevents fun things like
+        // a case where an observer resumes execution of a task despite its lock being actively in use.
+        if (!scheduler.lockHandler.ownsLocks(task)) {
+            return;
+        }
 
         switch (handle.state) {
             case FLAGGED_EXECUTION -> {
