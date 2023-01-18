@@ -16,7 +16,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER);
     private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
 
-    private final Drivetrain drivetrain = new Drivetrain();
+    private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
 
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
