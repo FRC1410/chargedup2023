@@ -3,7 +3,7 @@ package org.frc1410.chargedup2023;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.frc1410.chargedup2023.commands.*;
-import org.frc1410.chargedup2023.subsystem.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
