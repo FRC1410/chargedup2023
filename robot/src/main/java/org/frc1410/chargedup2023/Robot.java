@@ -5,7 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.*;
-import org.frc1410.chargedup2023.subsystem.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
@@ -33,7 +33,11 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void autonomousSequence() {
+        drivetrain.zeroHeading();
         drivetrain.brakeMode();
+        String autoProfile = autoSubscriber.get();
+        var autoCommand = autoSelector.select(autoProfile);
+        scheduler.scheduleDefaultCommand(autoCommand, TaskPersistence.EPHEMERAL);
     }
 
     @Override
