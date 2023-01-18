@@ -27,10 +27,10 @@ public class Drivetrain implements TickedSubsystem {
     DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
     DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
 
-    private final CANSparkMax leftLeader;
-    private final CANSparkMax leftFollower;
-    private final CANSparkMax rightLeader;
-    private final CANSparkMax rightFollower;
+    private final CANSparkMax leftLeader = new CANSparkMax(DRIVETRAIN_LEFT_FRONT_MOTOR_ID, MotorType.kBrushless);;
+    private final CANSparkMax leftFollower = new CANSparkMax(DRIVETRAIN_LEFT_BACK_MOTOR_ID, MotorType.kBrushless);;
+    private final CANSparkMax rightLeader = new CANSparkMax(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID, MotorType.kBrushless);;
+    private final CANSparkMax rightFollower = new CANSparkMax(DRIVETRAIN_RIGHT_BACK_MOTOR_ID, MotorType.kBrushless);;
 
     public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
@@ -43,11 +43,6 @@ public class Drivetrain implements TickedSubsystem {
             new Rotation2d(), 0., 0., new Pose2d());
 
     public Drivetrain() {
-        leftLeader = new CANSparkMax(DRIVETRAIN_LEFT_FRONT_MOTOR_ID, MotorType.kBrushless);
-        leftFollower = new CANSparkMax(DRIVETRAIN_LEFT_BACK_MOTOR_ID, MotorType.kBrushless);
-        rightLeader = new CANSparkMax(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID, MotorType.kBrushless);
-        rightFollower = new CANSparkMax(DRIVETRAIN_RIGHT_BACK_MOTOR_ID, MotorType.kBrushless);
-
         initMotor(leftLeader);
         initMotor(leftFollower);
         initMotor(rightLeader);
