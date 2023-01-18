@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 
 public interface Main {
   static void main(String[] args) {
-      RobotBase.startRobot(Robot::new);
+      // if this is committed that is a bug. revert
+      RobotBase.startRobot(TestRobot::new);
   }
 }
