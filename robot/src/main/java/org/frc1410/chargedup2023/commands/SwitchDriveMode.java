@@ -11,7 +11,6 @@ public class SwitchDriveMode extends CommandBase {
 	public SwitchDriveMode(Drivetrain drivetrain, Controller controller) {
 		this.drivetrain = drivetrain;
 		this.controller = controller;
-		addRequirements();
 	}
 
 	@Override
@@ -22,5 +21,7 @@ public class SwitchDriveMode extends CommandBase {
 	}
 
 	@Override
-	public boolean isFinished() {return true;}
+	public boolean isFinished() {
+		return true;
+	}
 }

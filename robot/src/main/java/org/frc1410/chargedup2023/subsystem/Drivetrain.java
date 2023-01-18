@@ -90,11 +90,11 @@ public class Drivetrain implements TickedSubsystem {
     }
 
     public void triggerTankDrive(double left, double right, double triggerForwards, double triggerBackwards) {
-        if (triggerForwards== 0 && triggerBackwards== 0) {
-            tankDriveVolts((left* 12), (right* 12));
+        if (triggerForwards == 0 && triggerBackwards == 0) {
+            tankDriveVolts((left * 12), (right * 12));
         } else {
-            double triggerValue = (triggerForwards* 0.75) + (-triggerBackwards* 0.75);
-            double leftValue = (triggerValue + (left* 0.25)) * 12;
+            double triggerValue = (triggerForwards * 0.75) + (-triggerBackwards * 0.75);
+            double leftValue = (triggerValue + (left * 0.25)) * 12;
             double rightValue = (triggerValue + (right* 0.25)) * 12;
             tankDriveVolts(leftValue, rightValue);
         }
