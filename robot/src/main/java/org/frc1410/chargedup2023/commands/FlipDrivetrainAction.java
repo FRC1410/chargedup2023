@@ -19,7 +19,6 @@ public class FlipDrivetrainAction extends CommandBase {
     public void initialize() {
         drivetrain.flip();
         controller.rumble(1, 500);
-        System.out.println("Flipped drivetrain");
     }
 
     @Override

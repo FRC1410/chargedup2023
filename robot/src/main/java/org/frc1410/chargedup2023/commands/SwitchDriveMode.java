@@ -18,7 +18,6 @@ public class SwitchDriveMode extends CommandBase {
 	public void initialize() {
 		drivetrain.switchDriveMode();
 		controller.rumble(1, 500);
-		System.out.println("Switching drive mode");
 	}
 
 	@Override
