@@ -1,5 +1,7 @@
 package org.frc1410.test;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
 import org.frc1410.test.commands.groups.auto.*;
@@ -32,11 +34,12 @@ public final class Robot extends PhaseDrivenRobot {
             .add("Test 2 Meter", () -> new Test2MeterAuto(drivetrain))
             .add("Test Quarter Circle", () -> new TestQuarterCircleAuto(drivetrain))
             .add("Mobility", () -> new MobilityAuto(drivetrain))
+            .add("SCurve", () -> new SCurveAuto(drivetrain))
+            .add("SCurve Large", () -> new SCurveLarge(drivetrain))
             .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePieceAuto(drivetrain))
             .add("Barrier Community To Game Piece To Charging Station", () -> new BarrierCommunityToGamePieceToChargingStationAuto(drivetrain))
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePieceAuto(drivetrain))
             .add("Outside Community To Game Piece To Charging Station", () -> new OutsideCommunityToGamePieceToRechargeStationAuto(drivetrain));
-
     private final StringPublisher autoPublisher = Networktables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
     private final StringSubscriber autoSubscriber = Networktables.SubscriberFactory(table, autoPublisher.getTopic());
@@ -47,7 +50,7 @@ public final class Robot extends PhaseDrivenRobot {
         drivetrain.brakeMode();
         var autoProfile = autoSubscriber.get();
         var autoCommand = autoSelector.select(autoProfile);
-        scheduler.scheduleDefaultCommand(autoCommand, TaskPersistence.EPHEMERAL);
+        scheduler.scheduleAutoCOmmand(autoCommand);
         System.out.println("Auto Done");
     }
 
@@ -70,6 +73,8 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void testSequence() {
+        drivetrain.resetPoseEstimation(new Pose2d(0,0,new Rotation2d(0)));
+        drivetrain.zeroHeading();
         drivetrain.coastMode();
     }
 }

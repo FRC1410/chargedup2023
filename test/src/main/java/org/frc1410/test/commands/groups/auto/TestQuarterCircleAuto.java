@@ -14,9 +14,8 @@ public class TestQuarterCircleAuto extends SequentialCommandGroup {
 
 		addCommands(
 				Trajectories.testQuarterCircle(drivetrain),
-				Trajectories.testQuarterCircleBack(drivetrain),
-				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
-				new RunCommand(() -> {})
+//				Trajectories.testQuarterCircleBack(drivetrain),
+				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
 		);
 	}
 }

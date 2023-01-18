@@ -81,7 +81,8 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         drive.feed();
 
         // NetworkTables updating
-        headingPub.set(gyro.getAngle() % 360);
+//        headingPub.set(gyro.getAngle() % 360);
+        headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees() % 360);
         xPub.set(poseEstimator.getEstimatedPosition().getX());
         yPub.set(poseEstimator.getEstimatedPosition().getY());
     }
