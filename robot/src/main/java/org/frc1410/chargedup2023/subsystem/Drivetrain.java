@@ -21,11 +21,13 @@ import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Drivetrain implements TickedSubsystem, Subsystem {
+    // NetworkTables entries
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
     DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
     DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
     DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
+
     private final CANSparkMax leftLeader = new CANSparkMax(DRIVETRAIN_LEFT_FRONT_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax leftFollower = new CANSparkMax(DRIVETRAIN_LEFT_BACK_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax rightLeader = new CANSparkMax(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
