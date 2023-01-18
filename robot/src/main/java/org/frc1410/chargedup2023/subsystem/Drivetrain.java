@@ -2,7 +2,7 @@ package org.frc1410.chargedup2023.subsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,14 +13,13 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
-public class Drivetrain implements TickedSubsystem, Subsystem {
+public class Drivetrain implements TickedSubsystem {
     // NetworkTables entries
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
@@ -28,10 +27,10 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
     DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
     DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
 
-    private final CANSparkMax leftLeader = new CANSparkMax(DRIVETRAIN_LEFT_FRONT_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final CANSparkMax leftFollower = new CANSparkMax(DRIVETRAIN_LEFT_BACK_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final CANSparkMax rightLeader = new CANSparkMax(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final CANSparkMax rightFollower = new CANSparkMax(DRIVETRAIN_RIGHT_BACK_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private final CANSparkMax leftLeader;
+    private final CANSparkMax leftFollower;
+    private final CANSparkMax rightLeader;
+    private final CANSparkMax rightFollower;
 
     public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
@@ -44,6 +43,11 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
             new Rotation2d(), 0., 0., new Pose2d());
 
     public Drivetrain() {
+        leftLeader = new CANSparkMax(DRIVETRAIN_LEFT_FRONT_MOTOR_ID, MotorType.kBrushless);
+        leftFollower = new CANSparkMax(DRIVETRAIN_LEFT_BACK_MOTOR_ID, MotorType.kBrushless);
+        rightLeader = new CANSparkMax(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID, MotorType.kBrushless);
+        rightFollower = new CANSparkMax(DRIVETRAIN_RIGHT_BACK_MOTOR_ID, MotorType.kBrushless);
+
         initMotor(leftLeader);
         initMotor(leftFollower);
         initMotor(rightLeader);
