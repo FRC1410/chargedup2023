@@ -40,6 +40,18 @@ public interface NetworkTables {
         return table.getDoubleTopic(name).subscribe(defaultValue);
     }
 
+    static StringPublisher PublisherFactory(NetworkTable table, String name, String startingValue) {
+        StringPublisher publisher = table.getStringTopic(name).publish();
+        publisher.set(startingValue);
+        publisher.setDefault(startingValue);
+        return publisher;
+    }
+
+    static StringSubscriber SubscriberFactory(NetworkTable table, StringTopic topic) {
+        String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
+        return table.getStringTopic(name).subscribe("");
+    }
+
     /* Setup for any class requiring network tables
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Test");
