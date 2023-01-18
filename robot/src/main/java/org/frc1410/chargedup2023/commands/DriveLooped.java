@@ -12,6 +12,7 @@ public class DriveLooped extends CommandBase {
     private final Axis rightXAxis;
     private final Axis triggerLeft;
     private final Axis triggerRight;
+    
     public DriveLooped(Drivetrain drivetrain, Axis leftYAxis, Axis rightYAxis, Axis rightXAxis, Axis triggerLeft, Axis triggerRight) {
         this.drivetrain = drivetrain;
         this.leftYAxis = leftYAxis;
