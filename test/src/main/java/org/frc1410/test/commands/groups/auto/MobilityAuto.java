@@ -15,7 +15,7 @@ public class MobilityAuto extends SequentialCommandGroup {
 
         addCommands(
                 Trajectories.test1Meter(drivetrain),
-                Trajectories.testQuarterCircle(drivetrain),
+//                Trajectories.testQuarterCircle(drivetrain),
                 new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
                 new RunCommand(() -> {})
         );
