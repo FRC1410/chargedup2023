@@ -37,23 +37,23 @@ public final class Logger {
     }
 
     public void debug(@NotNull String message) {
-        log(LogLevel.DEBUG, message + "Hey, where's Perry?");
+        log(LogLevel.DEBUG, message);
     }
 
     public void info(@NotNull String message) {
-        log(LogLevel.INFO, message + "Ah Perry the Platypus, what an unexpected surprise... and by unexpected, I mean completely expected!");
+        log(LogLevel.INFO, message);
     }
 
     public void warn(@NotNull String message) {
-        log(LogLevel.WARN, message + "A platypus?");
+        log(LogLevel.WARN, message);
     }
 
     public void error(@NotNull String message) {
-        log(LogLevel.ERROR, message + "PERRY THE PLATYPUS??!!");
+        log(LogLevel.ERROR, message);
     }
 
     public void fatal(@NotNull String message) {
-        log(LogLevel.FATAL, message + "Curse you, Perry the Platypus!");
+        log(LogLevel.FATAL, message);
     }
 
     public void debug(@NotNull @PrintFormat String format, @NotNull Object... args) {
