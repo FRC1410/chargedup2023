@@ -1,14 +1,14 @@
 package org.frc1410.chargedup2023.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import org.frc1410.chargedup2023.subsystems.Drivetraininator;
 import org.frc1410.framework.control.Controller;
-import org.frc1410.chargedup2023.subsystems.Drivetrain;
 
 public class SwitchDriveMode extends CommandBase {
-	private final Drivetrain drivetrain;
+	private final Drivetraininator drivetrain;
 	private final Controller controller;
 
-	public SwitchDriveMode(Drivetrain drivetrain, Controller controller) {
+	public SwitchDriveMode(Drivetraininator drivetrain, Controller controller) {
 		this.drivetrain = drivetrain;
 		this.controller = controller;
 	}
