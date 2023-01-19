@@ -1,15 +1,15 @@
 package org.frc1410.chargedup2023.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import org.frc1410.chargedup2023.subsystems.Drivetraininator;
 import org.frc1410.framework.control.Controller;
+import org.frc1410.chargedup2023.subsystems.Drivetrain;
 
 public class FlipDrivetrainAction extends CommandBase {
 
-    private final Drivetraininator drivetrain;
+    private final Drivetrain drivetrain;
     private final Controller controller;
     
-    public FlipDrivetrainAction(Drivetraininator drivetrain, Controller controller) {
+    public FlipDrivetrainAction(Drivetrain drivetrain, Controller controller) {
         this.drivetrain = drivetrain;
         this.controller = controller;
         addRequirements();
