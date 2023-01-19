@@ -19,7 +19,7 @@ import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
-public class Drivetrain implements TickedSubsystem {
+public class Drivetraininator implements TickedSubsystem {
     // NetworkTables entries
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
@@ -42,7 +42,7 @@ public class Drivetrain implements TickedSubsystem {
     private final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
             new Rotation2d(), 0., 0., new Pose2d());
 
-    public Drivetrain() {
+    public Drivetraininator() {
         initMotor(leftLeader);
         initMotor(leftFollower);
         initMotor(rightLeader);
