@@ -11,12 +11,9 @@ import static org.frc1410.test.auto.POIs.*;
 public class Test2MeterAuto extends SequentialCommandGroup {
     public Test2MeterAuto(Drivetrain drivetrain) {
         drivetrain.resetPoseEstimation(START);
-        System.out.println("Running 2 Meter");
 
         addCommands(
                 Trajectories.test2Meter(drivetrain),
-//                new InstantCommand(() -> drivetrain.tankDriveVolts(0,0)),
-                Trajectories.test2MeterBack(drivetrain),
                 new InstantCommand(() -> drivetrain.tankDriveVolts(0,0)),
                 new RunCommand(() -> {})
         );

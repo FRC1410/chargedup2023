@@ -16,8 +16,7 @@ public class BarrierCommunityToGamePieceAuto extends SequentialCommandGroup {
 			Trajectories.BarrierCommunityToGamePiece(drivetrain),
 			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
 			Trajectories.BarrierGamePieceToCommunity(drivetrain),
-			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
-			new RunCommand(() -> {})
+			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
 		);
 	}
 }

@@ -16,8 +16,7 @@ public class BarrierCommunityToGamePieceToChargingStationAuto extends Sequential
 			Trajectories.BarrierCommunityToGamePiece(drivetrain),
 			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
 			Trajectories.BarrierGamePieceToChargingStation(drivetrain),
-			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
-			new RunCommand(() -> {})
+			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
 		);
 	}
 }

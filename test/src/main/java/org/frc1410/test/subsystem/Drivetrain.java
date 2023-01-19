@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -24,8 +25,10 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
     DoublePublisher headingPub = Networktables.PublisherFactory(table, "Heading", 0);
+    DoublePublisher gyroPub = Networktables.PublisherFactory(table, "Gyro Yaw", 0);
     DoublePublisher xPub = Networktables.PublisherFactory(table, "X", 0);
     DoublePublisher yPub = Networktables.PublisherFactory(table, "Y", 0);
+    DoublePublisher voltagePub = Networktables.PublisherFactory(table, "Voltage", 0);
 
     // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
@@ -81,9 +84,11 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         drive.feed();
 
         // NetworkTables updating
-        headingPub.set(gyro.getAngle() % 360);
+        gyroPub.set(gyro.getAngle() % 360);
+        headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees() % 360);
         xPub.set(poseEstimator.getEstimatedPosition().getX());
         yPub.set(poseEstimator.getEstimatedPosition().getY());
+        voltagePub.set(RobotController.getBatteryVoltage());
     }
 
     public boolean getDriveMode() {return isArcadeDrive;}

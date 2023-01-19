@@ -1,5 +1,7 @@
 package org.frc1410.test;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
 import org.frc1410.test.commands.groups.auto.*;
@@ -30,13 +32,22 @@ public final class Robot extends PhaseDrivenRobot {
     private final AutoSelector autoSelector = new AutoSelector()
             .add("Test 1 Meter", () -> new Test1MeterAuto(drivetrain))
             .add("Test 2 Meter", () -> new Test2MeterAuto(drivetrain))
-            .add("Test Quarter Circle", () -> new TestQuarterCircleAuto(drivetrain))
+            .add("Test SCurve Nx0 Short", () -> new TestSCurveNx0Short(drivetrain))
+            .add("Test SCurve Nx0 Long", () -> new TestSCurveNx0Long(drivetrain))
+            .add("Test SCurve 1x1 Short", () -> new TestSCurve1x1Short(drivetrain))
+            .add("Test SCurve 1x1 Long", () -> new TestSCurve1x1Long(drivetrain))
+            .add("Test SCurve 1x2 Short", () -> new TestSCurve1x2Short(drivetrain))
+            .add("Test SCurve 1x2 Long", () -> new TestSCurve1x2Long(drivetrain))
+            .add("Test Arc 60 Short", () -> new TestArc60Short(drivetrain))
+            .add("Test Arc 60 Long", () -> new TestArc60Long(drivetrain))
+            .add("Test Arc 180 Short", () -> new TestArc180Short(drivetrain))
+            .add("Test Arc 180 Long", () -> new TestArc180Long(drivetrain))
+            // REAL TRAJECTORIES
             .add("Mobility", () -> new MobilityAuto(drivetrain))
             .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePieceAuto(drivetrain))
             .add("Barrier Community To Game Piece To Charging Station", () -> new BarrierCommunityToGamePieceToChargingStationAuto(drivetrain))
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePieceAuto(drivetrain))
             .add("Outside Community To Game Piece To Charging Station", () -> new OutsideCommunityToGamePieceToRechargeStationAuto(drivetrain));
-
     private final StringPublisher autoPublisher = Networktables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
     private final StringSubscriber autoSubscriber = Networktables.SubscriberFactory(table, autoPublisher.getTopic());
@@ -47,7 +58,7 @@ public final class Robot extends PhaseDrivenRobot {
         drivetrain.brakeMode();
         var autoProfile = autoSubscriber.get();
         var autoCommand = autoSelector.select(autoProfile);
-        scheduler.scheduleDefaultCommand(autoCommand, TaskPersistence.EPHEMERAL);
+        scheduler.scheduleAutoCOmmand(autoCommand);
         System.out.println("Auto Done");
     }
 
@@ -70,6 +81,8 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void testSequence() {
+        drivetrain.resetPoseEstimation(new Pose2d(0,0,new Rotation2d(0)));
+        drivetrain.zeroHeading();
         drivetrain.coastMode();
     }
 }
