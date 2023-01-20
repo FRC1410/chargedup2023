@@ -15,8 +15,8 @@ public class OutsideCommunityToGamePieceAuto extends SequentialCommandGroup {
 		addCommands(
 			Trajectories.OutsideCommunityToGamePiece(drivetrain),
 			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
-			Trajectories.OutsideGamePieceToCommunity(drivetrain),
-			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
+//			Trajectories.OutsideGamePieceToCommunity(drivetrain),
+//			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
 			new RunCommand(() -> {})
 		);
 	}

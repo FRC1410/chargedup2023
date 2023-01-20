@@ -58,7 +58,7 @@ public final class Robot extends PhaseDrivenRobot {
         drivetrain.brakeMode();
         var autoProfile = autoSubscriber.get();
         var autoCommand = autoSelector.select(autoProfile);
-        scheduler.scheduleAutoCOmmand(autoCommand);
+        scheduler.scheduleAutoCommand(autoCommand);
         System.out.println("Auto Done");
     }
 
