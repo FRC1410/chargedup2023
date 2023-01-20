@@ -129,7 +129,7 @@ public interface Trajectories {
     }
 
     static RamseteCommand BarrierCommunityToGamePiece(Drivetrain drivetrain) {
-        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_GAME_PIECE_FORWARD), config), drivetrain);
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_GAME_PIECE_BACKWARD), config), drivetrain);
     }
 
     static RamseteCommand BarrierGamePieceToCommunity(Drivetrain drivetrain) {
@@ -137,7 +137,7 @@ public interface Trajectories {
     }
 
     static RamseteCommand OutsideCommunityToGamePiece(Drivetrain drivetrain) {
-        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_GAME_PIECE_FORWARD), config), drivetrain);
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_GAME_PIECE_BACKWARD), config), drivetrain);
     }
 
     static RamseteCommand OutsideGamePieceToCommunity(Drivetrain drivetrain) {
