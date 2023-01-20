@@ -6,7 +6,7 @@ import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
 import org.frc1410.test.commands.groups.auto.*;
 import org.frc1410.test.subsystem.*;
-import org.frc1410.test.util.Networktables;
+import org.frc1410.test.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
@@ -48,15 +48,17 @@ public final class Robot extends PhaseDrivenRobot {
             .add("Barrier Community To Game Piece To Charging Station", () -> new BarrierCommunityToGamePieceToChargingStationAuto(drivetrain))
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePieceAuto(drivetrain))
             .add("Outside Community To Game Piece To Charging Station", () -> new OutsideCommunityToGamePieceToRechargeStationAuto(drivetrain));
-    private final StringPublisher autoPublisher = Networktables.PublisherFactory(table, "Profile",
+    private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
-    private final StringSubscriber autoSubscriber = Networktables.SubscriberFactory(table, autoPublisher.getTopic());
+    private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
     @Override
     public void autonomousSequence() {
         drivetrain.zeroHeading();
         drivetrain.brakeMode();
-        var autoProfile = autoSubscriber.get();
+
+        NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
+        String autoProfile = autoSubscriber.get();
         var autoCommand = autoSelector.select(autoProfile);
         scheduler.scheduleAutoCommand(autoCommand);
         System.out.println("Auto Done");

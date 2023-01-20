@@ -52,6 +52,14 @@ public interface NetworkTables {
         return table.getStringTopic(name).subscribe("");
     }
 
+    static void SetPersistence(Topic topic, boolean persistent) {
+        topic.setPersistent(persistent);
+    }
+
+    static boolean GetPersistence(Topic topic) {
+        return topic.isPersistent();
+    }
+
     /* Setup for any class requiring network tables
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Test");

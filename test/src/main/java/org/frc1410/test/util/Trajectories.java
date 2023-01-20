@@ -25,10 +25,10 @@ public interface Trajectories {
 
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
-    DoublePublisher leftMeasurementPub = Networktables.PublisherFactory(table, "Left Measurement", 0);
-    DoublePublisher leftReferencePub = Networktables.PublisherFactory(table, "Left Desired", 0);
-    DoublePublisher rightMeasurementPub = Networktables.PublisherFactory(table, "Right Measurement", 0);
-    DoublePublisher rightReferencePub = Networktables.PublisherFactory(table, "Right Desired", 0);
+    DoublePublisher leftMeasurementPub = NetworkTables.PublisherFactory(table, "Left Measurement", 0);
+    DoublePublisher leftReferencePub = NetworkTables.PublisherFactory(table, "Left Desired", 0);
+    DoublePublisher rightMeasurementPub = NetworkTables.PublisherFactory(table, "Right Measurement", 0);
+    DoublePublisher rightReferencePub = NetworkTables.PublisherFactory(table, "Right Desired", 0);
 
 //    CentripetalAccelerationConstraint centripetalAccelConstraint = new CentripetalAccelerationConstraint(0.75);
     DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(

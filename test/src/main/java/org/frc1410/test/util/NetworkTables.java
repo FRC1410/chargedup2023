@@ -2,19 +2,7 @@ package org.frc1410.test.util;
 
 import edu.wpi.first.networktables.*;
 
-public interface Networktables {
-    static StringPublisher PublisherFactory(NetworkTable table, String name, String startingValue) {
-        StringPublisher publisher = table.getStringTopic(name).publish();
-        publisher.set(startingValue);
-        publisher.setDefault(startingValue);
-        return publisher;
-    }
-
-    static StringSubscriber SubscriberFactory(NetworkTable table, StringTopic topic) {
-        String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
-        return table.getStringTopic(name).subscribe("");
-    }
-
+public interface NetworkTables {
     /**
      * Creates a publisher for a topic in a given table with a starting value
      * @param table NetworkTable, desired table for Publisher
@@ -28,6 +16,7 @@ public interface Networktables {
         publisher.setDefault(startingValue);
         return publisher;
     }
+
     static DoublePublisher PublisherFactory(NetworkTable table, String name, double startingValue, double defaultValue) {
         DoublePublisher publisher = table.getDoubleTopic(name).publish();
         publisher.set(startingValue);
@@ -45,9 +34,30 @@ public interface Networktables {
         String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
         return table.getDoubleTopic(name).subscribe(0.0);
     }
+
     static DoubleSubscriber SubscriberFactory(NetworkTable table, DoubleTopic topic, double defaultValue) {
         String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
         return table.getDoubleTopic(name).subscribe(defaultValue);
+    }
+
+    static StringPublisher PublisherFactory(NetworkTable table, String name, String startingValue) {
+        StringPublisher publisher = table.getStringTopic(name).publish();
+        publisher.set(startingValue);
+        publisher.setDefault(startingValue);
+        return publisher;
+    }
+
+    static StringSubscriber SubscriberFactory(NetworkTable table, StringTopic topic) {
+        String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
+        return table.getStringTopic(name).subscribe("");
+    }
+
+    static void SetPersistence(Topic topic, boolean persistent) {
+        topic.setPersistent(persistent);
+    }
+
+    static boolean GetPersistence(Topic topic) {
+        return topic.isPersistent();
     }
 
     /* Setup for any class requiring network tables
