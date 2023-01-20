@@ -61,7 +61,7 @@ public class Drivetrain implements TickedSubsystem {
 
     private void initMotor(CANSparkMax motor) {
         motor.restoreFactoryDefaults();
-        motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
     @Override
