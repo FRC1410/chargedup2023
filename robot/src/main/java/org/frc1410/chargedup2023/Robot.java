@@ -35,6 +35,8 @@ public final class Robot extends PhaseDrivenRobot {
     public void autonomousSequence() {
         drivetrain.zeroHeading();
         drivetrain.brakeMode();
+
+        NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
         String autoProfile = autoSubscriber.get();
         var autoCommand = autoSelector.select(autoProfile);
         scheduler.scheduleDefaultCommand(autoCommand, TaskPersistence.EPHEMERAL);
