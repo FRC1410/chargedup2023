@@ -2,17 +2,23 @@ package org.frc1410.test;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.networktables.*;
-import org.frc1410.test.commands.*;
-import org.frc1410.test.subsystem.*;
-import org.frc1410.test.util.NetworkTables;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StringPublisher;
+import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
-import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
+import org.frc1410.test.commands.*;
+import org.frc1410.test.subsystem.Drivetrain;
+import org.frc1410.test.subsystem.Intake;
+import org.frc1410.test.subsystem.Shooter;
+import org.frc1410.test.subsystem.VerticalStorage;
+import org.frc1410.test.util.NetworkTables;
 
-import static org.frc1410.test.util.Constants.*;
+import static org.frc1410.test.util.Constants.DRIVER_CONTROLLER;
+import static org.frc1410.test.util.Constants.OPERATOR_CONTROLLER;
 
 public final class Robot extends PhaseDrivenRobot {
 
