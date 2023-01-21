@@ -136,17 +136,25 @@ public interface Trajectories {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_FORWARD, BARRIER_COMMUNITY_START), reverseConfig), drivetrain);
     }
 
+    static RamseteCommand OutsideCommunityToMidpoint(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_MIDPOINT), config), drivetrain);
+    }
+
+    static RamseteCommand OutsideMidpointToGamePiece(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_MIDPOINT, OUTSIDE_GAME_PIECE_BACKWARD), reverseConfig), drivetrain);
+    }
+
     static RamseteCommand OutsideCommunityToGamePiece(Drivetrain drivetrain) {
-        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_GAME_PIECE_BACKWARD), config), drivetrain);
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_GAME_PIECE_FORWARD), config), drivetrain);
     }
 
-    static RamseteCommand OutsideGamePieceToCommunity(Drivetrain drivetrain) {
-        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_COMMUNITY_START), reverseConfig), drivetrain);
-    }
+//    static RamseteCommand OutsideGamePieceToCommunity(Drivetrain drivetrain) {
+//        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_COMMUNITY_START), reverseConfig), drivetrain);
+//    }
 
-    static RamseteCommand OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
-        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_CHARGING_STATION_FAR), reverseConfig), drivetrain);
-    }
+//    static RamseteCommand OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
+//        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_CHARGING_STATION_FAR), reverseConfig), drivetrain);
+//    }
 
     static RamseteCommand BarrierGamePieceToChargingStation(Drivetrain drivetrain) {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_FORWARD, BARRIER_CHARGING_STATION_FAR), reverseConfig), drivetrain);

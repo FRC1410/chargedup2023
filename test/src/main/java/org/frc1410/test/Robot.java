@@ -30,6 +30,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final NetworkTable table = nt.getTable("Auto");
 
     private final AutoSelector autoSelector = new AutoSelector()
+            // TEST TRAJECTORIES
             .add("Test 1 Meter", () -> new Test1MeterAuto(drivetrain))
             .add("Test 2 Meter", () -> new Test2MeterAuto(drivetrain))
             .add("Test SCurve Nx0 Short", () -> new TestSCurveNx0Short(drivetrain))

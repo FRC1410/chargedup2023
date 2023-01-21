@@ -33,8 +33,10 @@ public interface POIs {
     Pose2d OUTSIDE_CHARGING_STATION_CORNER = new Pose2d(inchesToMeters(98.94), inchesToMeters(43.39), Rotation2d.fromDegrees(315));
 
     Pose2d BARRIER_GAME_PIECE_FORWARD = new Pose2d(inchesToMeters(261.25), inchesToMeters(212.19), Rotation2d.fromDegrees(0)); // THESE COORDINATES ASSUME FLIPPED Y
+    Pose2d BARRIER_MIDPOINT = new Pose2d(inchesToMeters(230), inchesToMeters(226), Rotation2d.fromDegrees(90));
     Pose2d BARRIER_GAME_PIECE_BACKWARD = new Pose2d(inchesToMeters(261.25), inchesToMeters(212.19), Rotation2d.fromDegrees(180)); // THESE COORDINATES ASSUME FLIPPED Y
 
+    Pose2d OUTSIDE_MIDPOINT = new Pose2d(inchesToMeters(230), inchesToMeters(-29.62), Rotation2d.fromDegrees(-90));
     Pose2d OUTSIDE_GAME_PIECE_FORWARD = new Pose2d(inchesToMeters(261.25), inchesToMeters(4.19), Rotation2d.fromDegrees(0)); // THESE COORDINATES ASSUME FLIPPED Y
     Pose2d OUTSIDE_GAME_PIECE_BACKWARD = new Pose2d(inchesToMeters(261.25), inchesToMeters(4.19), Rotation2d.fromDegrees(180)); // THESE COORDINATES ASSUME FLIPPED Y
 
@@ -43,6 +45,4 @@ public interface POIs {
 
     Pose2d BARRIER_CHARGING_STATION_FAR = new Pose2d(inchesToMeters(210.12), inchesToMeters(139.8), Rotation2d.fromDegrees(0));
     Pose2d OUTSIDE_CHARGING_STATION_FAR = new Pose2d(inchesToMeters(210.12), inchesToMeters(76.39), Rotation2d.fromDegrees(0));
-
-
 }

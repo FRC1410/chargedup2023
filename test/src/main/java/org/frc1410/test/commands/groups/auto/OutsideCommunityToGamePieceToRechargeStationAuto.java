@@ -13,9 +13,9 @@ public class OutsideCommunityToGamePieceToRechargeStationAuto extends Sequential
 		drivetrain.resetPoseEstimation(OUTSIDE_COMMUNITY_START);
 
 		addCommands(
-			Trajectories.OutsideCommunityToGamePiece(drivetrain),
+//			Trajectories.OutsideCommunityToGamePiece(drivetrain),
 			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
-			Trajectories.OutsideGamePieceToChargingStation(drivetrain),
+//			Trajectories.OutsideGamePieceToChargingStation(drivetrain),
 			new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
 			new RunCommand(() -> {})
 		);
