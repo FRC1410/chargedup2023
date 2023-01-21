@@ -7,7 +7,7 @@ import org.frc1410.test.subsystem.Drivetrain;
 public class TurnToAngle extends CommandBase {
     private final Drivetrain drivetrain;
     private double pidOutput = 0;
-    private double kP = 1/18;
+    private double kP = 0.05;
     private double kI = 0;
     private double kD = 0;
     private double targetAngle;
@@ -17,7 +17,7 @@ public class TurnToAngle extends CommandBase {
         this.drivetrain = drivetrain;
         this.targetAngle = targetAngle;
 
-        addRequirements(drivetrain);
+//        addRequirements(drivetrain);
     }
 
     @Override
@@ -27,23 +27,23 @@ public class TurnToAngle extends CommandBase {
 
         // Set the target of the controller to 0, as that is the middle of the limelight's view
         pid.setSetpoint(targetAngle);
-        pid.enableContinuousInput(-180, 180);
     }
 
     @Override
     public void execute() {
         pidOutput = pid.calculate(drivetrain.gyro.getAngle() % 360);
         drivetrain.tankDriveVolts(-pidOutput, pidOutput);
+        System.out.println("pidOutput = " + pidOutput);
     }
 
     @Override
     public void end(boolean interrupted) {
         drivetrain.tankDriveVolts(0, 0);
+        System.out.println("Finished Turning");
     }
 
     @Override
     public boolean isFinished() {
-        System.out.println("Finished Turning");
-        return Math.abs(targetAngle - (drivetrain.gyro.getAngle() % 360)) < 10;
+        return Math.abs(targetAngle - drivetrain.getHeading()) < 10;
     }
 }

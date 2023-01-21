@@ -9,14 +9,14 @@ public class DriveLooped extends CommandBase {
     private final Drivetrain drivetrain;
     private final Axis leftYAxis;
     private final Axis rightYAxis;
-    private final Axis rightXAxis;
+//    private final Axis rightXAxis;
     private final Axis triggerLeft;
     private final Axis triggerRight;
-    public DriveLooped(Drivetrain drivetrain, Axis leftYAxis, Axis rightYAxis, Axis rightXAxis, Axis triggerLeft, Axis triggerRight) {
+    public DriveLooped(Drivetrain drivetrain, Axis leftYAxis, Axis rightYAxis, Axis triggerLeft, Axis triggerRight) {
         this.drivetrain = drivetrain;
         this.leftYAxis = leftYAxis;
         this.rightYAxis = rightYAxis;
-        this.rightXAxis = rightXAxis;
+//        this.rightXAxis = rightXAxis;
         this.triggerLeft = triggerLeft;
         this.triggerRight = triggerRight;
 
@@ -25,11 +25,11 @@ public class DriveLooped extends CommandBase {
 
     @Override
     public void execute() {
-        if (drivetrain.getDriveMode()) {
+//        if (drivetrain.getDriveMode()) {
             drivetrain.triggerTankDrive(leftYAxis.get(), rightYAxis.get(), triggerRight.get(), triggerLeft.get());
-        } else {
-            drivetrain.arcadeDrive(leftYAxis.get(), rightXAxis.get(), true);
-        }
+//        } else {
+//            drivetrain.arcadeDrive(leftYAxis.get(), rightXAxis.get(), true);
+//        }
     }
 
     @Override
