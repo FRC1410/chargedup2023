@@ -28,7 +28,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final AutoSelector autoSelector = new AutoSelector();
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
-            autoSelector.getProfiles().get(0).name());
+            autoSelector.getProfiles().isEmpty() ? "" : autoSelector.getProfiles().get(0).name());
     private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
     @Override
