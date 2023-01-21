@@ -12,6 +12,7 @@ import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import static org.frc1410.test.util.Constants.*;
 
