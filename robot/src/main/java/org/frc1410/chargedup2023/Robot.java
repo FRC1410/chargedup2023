@@ -4,16 +4,18 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
-import org.frc1410.chargedup2023.commands.*;
+import org.frc1410.chargedup2023.commands.DriveLooped;
+import org.frc1410.chargedup2023.commands.FlipDrivetrainAction;
+import org.frc1410.chargedup2023.commands.SwitchDriveMode;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
-import org.frc1410.framework.scheduler.task.impl.CommandTask;
 
-import static org.frc1410.chargedup2023.util.Constants.*;
+import static org.frc1410.chargedup2023.util.Constants.DRIVER_CONTROLLER;
+import static org.frc1410.chargedup2023.util.Constants.OPERATOR_CONTROLLER;
 
 public final class Robot extends PhaseDrivenRobot {
 
@@ -47,8 +49,8 @@ public final class Robot extends PhaseDrivenRobot {
         drivetrain.brakeMode();
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
 
-        driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-        driverController.RIGHT_BUMPER.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+        driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
+        driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
     }
 
     @Override
