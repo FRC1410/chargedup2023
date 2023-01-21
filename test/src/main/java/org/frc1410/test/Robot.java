@@ -4,7 +4,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
-import org.frc1410.test.commands.groups.auto.*;
 import org.frc1410.test.subsystem.*;
 import org.frc1410.test.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
@@ -33,7 +32,7 @@ public final class Robot extends PhaseDrivenRobot {
             // REAL TRAJECTORIES
 //            .add("Mobility", () -> new MobilityAuto(drivetrain))
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
-            autoSelector.getProfiles().get(0).name());
+            /*autoSelector.getProfiles().get(0).name()*/""); // uncomment when profiles are available
     private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
     @Override
