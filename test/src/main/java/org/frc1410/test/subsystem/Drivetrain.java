@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import org.frc1410.test.util.Networktables;
+import org.frc1410.test.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.test.util.IDs.*;
@@ -24,11 +24,11 @@ import static org.frc1410.test.util.Constants.*;
 public class Drivetrain implements TickedSubsystem, Subsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
-    DoublePublisher headingPub = Networktables.PublisherFactory(table, "Heading", 0);
-    DoublePublisher gyroPub = Networktables.PublisherFactory(table, "Gyro Yaw", 0);
-    DoublePublisher xPub = Networktables.PublisherFactory(table, "X", 0);
-    DoublePublisher yPub = Networktables.PublisherFactory(table, "Y", 0);
-    DoublePublisher voltagePub = Networktables.PublisherFactory(table, "Voltage", 0);
+    DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
+    DoublePublisher gyroPub = NetworkTables.PublisherFactory(table, "Gyro Yaw", 0);
+    DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
+    DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
+    DoublePublisher voltagePub = NetworkTables.PublisherFactory(table, "Voltage", 0);
 
     // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
@@ -102,12 +102,12 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
     }
 
     public void triggerTankDrive(double left, double right, double triggerForwards, double triggerBackwards) {
-        if (triggerForwards== 0 && triggerBackwards== 0) {
-            tankDriveVolts((left* 12), (right* 12));
+        if (triggerForwards == 0 && triggerBackwards == 0) {
+            tankDriveVolts((-right * 12), (-left * 12));
         } else {
-            double triggerValue = (triggerForwards* 0.75) + (-triggerBackwards* 0.75);
-            double leftValue = (triggerValue + (left* 0.25)) * 12;
-            double rightValue = (triggerValue + (right* 0.25)) * 12;
+            double triggerValue = (triggerForwards * 0.50) + (-triggerBackwards * 0.50);
+            double leftValue = (triggerValue + (-right * 0.50)) * 12;
+            double rightValue = (triggerValue + (-left * 0.50)) * 12;
             tankDriveVolts(leftValue, rightValue);
         }
     }
@@ -176,5 +176,9 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     public void zeroHeading() {
         gyro.reset();
+    }
+
+    public double getHeading() {
+        return gyro.getAngle() % 360;
     }
 }
