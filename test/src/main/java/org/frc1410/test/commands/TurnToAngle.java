@@ -7,9 +7,9 @@ import org.frc1410.test.subsystem.Drivetrain;
 public class TurnToAngle extends CommandBase {
     private final Drivetrain drivetrain;
     private double pidOutput = 0;
-    private double kP = 0.05;
-    private double kI = 0;
-    private double kD = 0;
+    private double kP = 0.06;
+    private double kI = 0.0035;
+    private double kD = 0.01;
     private double targetAngle;
     private PIDController pid;
 
@@ -33,17 +33,17 @@ public class TurnToAngle extends CommandBase {
     public void execute() {
         pidOutput = pid.calculate(drivetrain.gyro.getAngle() % 360);
         drivetrain.tankDriveVolts(-pidOutput, pidOutput);
-        System.out.println("pidOutput = " + pidOutput);
+//        System.out.println("pidOutput = " + pidOutput);
     }
 
     @Override
     public void end(boolean interrupted) {
         drivetrain.tankDriveVolts(0, 0);
-        System.out.println("Finished Turning");
+//        System.out.println("Finished Turning");
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(targetAngle - drivetrain.getHeading()) < 10;
+        return Math.abs(targetAngle - drivetrain.getHeading()) < 1;
     }
 }

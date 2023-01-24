@@ -11,6 +11,7 @@ import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 import org.frc1410.test.commands.*;
+import org.frc1410.test.commands.groups.auto.BarrierCommunityToGamePiece;
 import org.frc1410.test.subsystem.Drivetrain;
 import org.frc1410.test.subsystem.Intake;
 import org.frc1410.test.subsystem.Shooter;
@@ -33,9 +34,10 @@ public final class Robot extends PhaseDrivenRobot {
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
 
-    private final AutoSelector autoSelector = new AutoSelector(); // remove semicolon
+    private final AutoSelector autoSelector = new AutoSelector()
             // REAL TRAJECTORIES
-//            .add("Mobility", () -> new MobilityAuto(drivetrain))
+            .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePiece(drivetrain))
+            .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePiece(drivetrain));
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             /*autoSelector.getProfiles().get(0).name()*/""); // uncomment when profiles are available
     private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
@@ -66,7 +68,7 @@ public final class Robot extends PhaseDrivenRobot {
     @Override
     public void testSequence() {
         drivetrain.resetPoseEstimation(new Pose2d(0,0,new Rotation2d(0)));
-        drivetrain.zeroHeading();
-        drivetrain.coastMode();
+        drivetrain.zeroHeading(); // X
+        drivetrain.coastMode(); // X
     }
 }
