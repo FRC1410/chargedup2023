@@ -12,6 +12,8 @@ import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
+import java.io.IOException;
+
 import static org.frc1410.test.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
@@ -23,7 +25,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final Intake intake = new Intake();
     private final Shooter shooter = new Shooter();
     private final VerticalStorage verticalStorage = new VerticalStorage();
-    private final LimeLight limeLight = new LimeLight();
+    private final Limelight limeLight = subsystems.track(new Limelight());
 
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
@@ -34,6 +36,9 @@ public final class Robot extends PhaseDrivenRobot {
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
     private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
+
+    public Robot() throws IOException {
+    }
 
     @Override
     public void autonomousSequence() {

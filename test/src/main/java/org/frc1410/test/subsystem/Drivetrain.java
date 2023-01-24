@@ -21,7 +21,7 @@ import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 import static org.frc1410.test.util.IDs.*;
 import static org.frc1410.test.util.Constants.*;
 
-public class Drivetrain implements TickedSubsystem, Subsystem {
+public class Drivetrain implements TickedSubsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
     DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
