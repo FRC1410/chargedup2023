@@ -4,7 +4,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
-import org.frc1410.test.commands.groups.auto.*;
 import org.frc1410.test.subsystem.*;
 import org.frc1410.test.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
@@ -12,7 +11,6 @@ import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 import static org.frc1410.test.util.Constants.*;
 
