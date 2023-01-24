@@ -8,6 +8,7 @@ import org.frc1410.chargedup2023.commands.DriveLooped;
 import org.frc1410.chargedup2023.commands.FlipDrivetrainAction;
 import org.frc1410.chargedup2023.commands.SwitchDriveMode;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
@@ -23,6 +24,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
 
     private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
+    private final Intake intake = subsystems.track(new Intake());
 
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
