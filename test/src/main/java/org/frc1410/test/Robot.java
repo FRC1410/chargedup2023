@@ -21,12 +21,12 @@ public final class Robot extends PhaseDrivenRobot {
     private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER);
     private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
 
-    private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
+    private final Limelight limeLight = subsystems.track(new Limelight());
+
+    private final Drivetrain drivetrain = subsystems.track(new Drivetrain(limeLight));
     private final Intake intake = new Intake();
     private final Shooter shooter = new Shooter();
     private final VerticalStorage verticalStorage = new VerticalStorage();
-    private final Limelight limeLight = subsystems.track(new Limelight());
-
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
 
