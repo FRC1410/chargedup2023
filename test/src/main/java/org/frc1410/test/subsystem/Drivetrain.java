@@ -130,6 +130,10 @@ public class Drivetrain implements TickedSubsystem {
         return poseEstimator.getEstimatedPosition();
     }
 
+    public void addVisionPose(Pose2d pose, double timestamp) {
+        poseEstimator.addVisionMeasurement(pose, timestamp);
+    }
+
     public void resetPoseEstimation(Pose2d pose) {
         leftLeader.setSelectedSensorPosition(0);
         rightLeader.setSelectedSensorPosition(0);

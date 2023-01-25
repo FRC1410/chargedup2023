@@ -54,6 +54,10 @@ public class ExternalCamera implements TickedSubsystem {
         return poseEstimator.update();
     }
 
+    public boolean hasTargets() {
+        return camera.getLatestResult().hasTargets();
+    }
+
     public double getTimestamp() {
         return camera.getLatestResult().getTimestampSeconds();
     }
