@@ -17,12 +17,12 @@ public class GoToAprilTag extends SequentialCommandGroup {
         camera.getTargetLocation().ifPresent(pose -> {
             if (RED_TAGS.contains(camera.getTarget().getFiducialId())) {
                 addCommands(
-                        new OTFToPoint(drivetrain, pose.toPose2d().transformBy(new Transform2d(new Translation2d(Units.inchesToMeters(-10), 0), new Rotation2d()))),
+                        new OTFToPoint(drivetrain, pose.toPose2d().transformBy(new Transform2d(new Translation2d(Units.inchesToMeters(-24), 0), new Rotation2d()))),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
                 );
             } else {
                 addCommands(
-                        new OTFToPoint(drivetrain, pose.toPose2d().transformBy(new Transform2d(new Translation2d(Units.inchesToMeters(10), 0), new Rotation2d()))),
+                        new OTFToPoint(drivetrain, pose.toPose2d().transformBy(new Transform2d(new Translation2d(Units.inchesToMeters(24), 0), new Rotation2d()))),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
                 );
             }
