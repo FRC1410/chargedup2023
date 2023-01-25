@@ -39,9 +39,6 @@ public class ExternalCamera implements TickedSubsystem {
             new Transform3d(new Translation3d(Units.inchesToMeters(16.5), 0, Units.inchesToMeters(25.5)), new Rotation3d())
     );
 
-    public ExternalCamera() throws IOException {
-    }
-
     @Override
     public void periodic() {
         poseEstimator.update().ifPresent(pose -> {

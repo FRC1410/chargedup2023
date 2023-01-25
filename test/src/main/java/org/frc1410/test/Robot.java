@@ -42,9 +42,6 @@ public final class Robot extends PhaseDrivenRobot {
             autoSelector.getProfiles().get(0).name());
     private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
-    public Robot() throws IOException {
-    }
-
     @Override
     public void autonomousSequence() {
         drivetrain.zeroHeading();
