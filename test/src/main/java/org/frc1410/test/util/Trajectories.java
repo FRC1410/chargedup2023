@@ -103,6 +103,4 @@ public interface Trajectories {
     static RamseteCommand BarrierCommunityToChargingStation(Drivetrain drivetrain) {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_CHARGING_STATION_COMMUNITY), config), drivetrain);
     }
-
-
 }
