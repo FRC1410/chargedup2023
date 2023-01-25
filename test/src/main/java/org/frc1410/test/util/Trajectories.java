@@ -28,19 +28,31 @@ public interface Trajectories {
     DoublePublisher rightMeasurementPub = NetworkTables.PublisherFactory(table, "Right Measurement", 0);
     DoublePublisher rightReferencePub = NetworkTables.PublisherFactory(table, "Right Desired", 0);
 
-//    CentripetalAccelerationConstraint centripetalAccelConstraint = new CentripetalAccelerationConstraint(0.75);
+    CentripetalAccelerationConstraint centripetalAccelConstraint = new CentripetalAccelerationConstraint(0.75);
     DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
+
+    DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 6);
     TrajectoryConfig config = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
         .setKinematics(KINEMATICS)
         .addConstraint(voltageConstraint)
-//        .addConstraint(centripetalAccelConstraint)
         .setReversed(false);
+
+    TrajectoryConfig centripAccelConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+            .setKinematics(KINEMATICS)
+            .addConstraint(voltageConstraint)
+            .addConstraint(centripetalAccelConstraint)
+            .setReversed(false);
+    TrajectoryConfig slowConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+            .setKinematics(KINEMATICS)
+            //
+            .addConstraint(slowVoltageConstraint)
+            .setReversed(false);
 
     TrajectoryConfig reverseConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
         .setKinematics(KINEMATICS)
         .addConstraint(voltageConstraint)
-//        .addConstraint(centripetalAccelConstraint)
         .setReversed(true);
 
     RamseteController disabledRamsete = new RamseteController(KB, KZ);
