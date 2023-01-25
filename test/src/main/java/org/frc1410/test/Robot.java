@@ -2,6 +2,7 @@ package org.frc1410.test;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
 import org.frc1410.test.subsystem.*;
@@ -51,24 +52,21 @@ public final class Robot extends PhaseDrivenRobot {
 //        System.out.println("Auto Done");
 //    }
 
-//    @Override
-//    public void teleopSequence() {
-//        drivetrain.brakeMode();
-//        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
-//        scheduler.scheduleDefaultCommand(new RunIntake(intake, driverController.LEFT_TRIGGER), TaskPersistence.GAMEPLAY);
-//
-//        driverController.RIGHT_BUMPER.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-//        driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-//        driverController.A.whileHeld(new CommandTask(new Shoot(shooter, verticalStorage)), TaskPersistence.EPHEMERAL);
-//
-//        driverController.B.whenPressed(new CommandTask(new ToggleLimeLightModeAction(limeLight)), TaskPersistence.EPHEMERAL);
-//
-//    }
+    @Override
+    public void teleopSequence() {
+        drivetrain.brakeMode();
+        scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
+        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
+
+        driverController.RIGHT_BUMPER.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+        driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+    }
 
     @Override
     public void testSequence() {
-//        drivetrain.resetPoseEstimation(new Pose2d(0,0,new Rotation2d(0)));
-//        drivetrain.zeroHeading();
-//        drivetrain.coastMode();
+        drivetrain.resetPoseEstimation(new Pose2d(Units.inchesToMeters(82),0, new Rotation2d(0)));
+        drivetrain.zeroHeading();
+        drivetrain.coastMode();
+        scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
     }
 }

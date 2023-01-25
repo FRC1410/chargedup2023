@@ -2,10 +2,7 @@ package org.frc1410.test.subsystem;
 
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
@@ -31,11 +28,12 @@ public class ExternalCamera implements TickedSubsystem {
     DoublePublisher angle = NetworkTables.PublisherFactory(table, "Angle", 0);
     //    private final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
     private final AprilTagFieldLayout fieldLayout = new AprilTagFieldLayout(List.of(
-            new AprilTag(2, new Pose3d(0, 0, 0, new Rotation3d()))
+            new AprilTag(1, new Pose3d(0, 0, 25.5, new Rotation3d()))
     ), 16.53, 8.01);
 
     private final PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(
-            fieldLayout, PhotonPoseEstimator.PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, new Transform3d()
+            fieldLayout, PhotonPoseEstimator.PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera,
+            new Transform3d(new Translation3d(Units.inchesToMeters(16.5), 0, Units.inchesToMeters(25.5)), new Rotation3d())
     );
 
     @Override
