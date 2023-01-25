@@ -4,10 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
-import org.frc1410.chargedup2023.commands.DriveLooped;
-import org.frc1410.chargedup2023.commands.FlipDrivetrainAction;
-import org.frc1410.chargedup2023.commands.RunIntake;
-import org.frc1410.chargedup2023.commands.SwitchDriveMode;
+import org.frc1410.chargedup2023.commands.*;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.util.NetworkTables;
@@ -25,7 +22,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
 
     private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
-    private final Intake intake = subsystems.track(new Intake());
+    private final Intake intake = new Intake();
 
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
@@ -55,6 +52,7 @@ public final class Robot extends PhaseDrivenRobot {
 
         driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
+        operatorController.LEFT_BUMPER.whenPressed(new FlipIntake(intake, operatorController), TaskPersistence.EPHEMERAL);
     }
 
     @Override

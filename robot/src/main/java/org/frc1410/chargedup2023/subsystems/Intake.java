@@ -6,40 +6,32 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 import static org.frc1410.chargedup2023.util.IDs.*;
 
-public class Intake implements TickedSubsystem {
+public class Intake implements Subsystem {
 
-    private final CANSparkMax intake = new CANSparkMax(INTAKE_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final DoubleSolenoid flipper = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, INTAKE_FLIPPER_FOWARD_ID, INTAKE_FLIPPER_BACKWARD_ID);
+    private final CANSparkMax intakeMotor = new CANSparkMax(INTAKE_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private final DoubleSolenoid intakeFlipper = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, INTAKE_FLIPPER_FOWARD_ID, INTAKE_FLIPPER_BACKWARD_ID);
 
     public Intake() {
 
     }
 
     public void setIntakeSpeed(double speed) {
-        intake.set(speed);
+        intakeMotor.set(speed);
     }
 
     public void setFlipperFoward() {
-        flipper.set(DoubleSolenoid.Value.kForward);
-    }
-
-    public void setFlipperOff() {
-        flipper.set(DoubleSolenoid.Value.kOff);
+        intakeFlipper.set(DoubleSolenoid.Value.kForward);
     }
 
     public void toggle(){
-        flipper.toggle();
+        intakeFlipper.toggle();
     }
     public void setFlipperReversed() {
-        flipper.set(DoubleSolenoid.Value.kReverse);
-    }
-
-    @Override
-    public void periodic() {
-
+        intakeFlipper.set(DoubleSolenoid.Value.kReverse);
     }
 }
 
