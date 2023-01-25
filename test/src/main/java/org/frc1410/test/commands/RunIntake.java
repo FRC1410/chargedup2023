@@ -1,7 +1,7 @@
 package org.frc1410.test.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import org.frc1410.test.subsystem.Intake;
+import org.frc1410.test.subsystems.Intake;
 import org.frc1410.framework.control.Axis;
 
 

@@ -1,8 +1,8 @@
 package org.frc1410.test.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import org.frc1410.test.subsystem.Shooter;
-import org.frc1410.test.subsystem.VerticalStorage;
+import org.frc1410.test.subsystems.Shooter;
+import org.frc1410.test.subsystems.VerticalStorage;
 
 public class Shoot extends CommandBase {
     private final Shooter shooter;

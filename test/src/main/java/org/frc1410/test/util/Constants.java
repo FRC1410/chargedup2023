@@ -2,6 +2,9 @@ package org.frc1410.test.util;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface Constants {
     int DRIVER_CONTROLLER = 0;
     int OPERATOR_CONTROLLER = 1;
@@ -15,4 +18,8 @@ public interface Constants {
     double ENCODER_CONSTANT = GEARING * (1. / 2048.) * METERS_PER_REVOLUTION * 1.053;
     double TRACKWIDTH = 0.615; //Meters
     DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH);
+
+    // AprilTags
+    List<Integer> RED_TAGS = new ArrayList<>(List.of(1, 2, 3, 4));
+    List<Integer> BLUE_TAGS = new ArrayList<>(List.of(5, 6, 7, 8));
 }

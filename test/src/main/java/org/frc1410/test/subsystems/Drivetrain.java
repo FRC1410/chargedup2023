@@ -1,4 +1,4 @@
-package org.frc1410.test.subsystem;
+package org.frc1410.test.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -14,14 +14,13 @@ import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.frc1410.test.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.test.util.IDs.*;
 import static org.frc1410.test.util.Constants.*;
 
-public class Drivetrain implements TickedSubsystem, Subsystem {
+public class Drivetrain implements TickedSubsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
     DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
@@ -48,7 +47,6 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
             new Rotation2d(), 0., 0., new Pose2d());
-
 
     public Drivetrain() {
         initFalcon(leftLeader);
@@ -83,7 +81,6 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         );
         drive.feed();
 
-        // NetworkTables updating
         gyroPub.set(gyro.getAngle() % 360);
         headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees() % 360);
         xPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getX()));
@@ -131,6 +128,10 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 
     public Pose2d getPoseEstimation() {
         return poseEstimator.getEstimatedPosition();
+    }
+
+    public void addVisionPose(Pose2d pose, double timestamp) {
+        poseEstimator.addVisionMeasurement(pose, timestamp);
     }
 
     public void resetPoseEstimation(Pose2d pose) {
