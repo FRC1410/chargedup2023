@@ -14,7 +14,6 @@ import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.frc1410.test.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
@@ -49,16 +48,11 @@ public class Drivetrain implements TickedSubsystem {
     public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
             new Rotation2d(), 0., 0., new Pose2d());
 
-    private final Limelight limelight;
-
-    // TODO: Option 3
-    public Drivetrain(Limelight limelight) {
+    public Drivetrain() {
         initFalcon(leftLeader);
         initFalcon(leftFollower);
         initFalcon(rightLeader);
         initFalcon(leftFollower);
-
-        this.limelight = limelight;
 
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
@@ -87,10 +81,6 @@ public class Drivetrain implements TickedSubsystem {
         );
         drive.feed();
 
-        // TODO: Option 3
-        limelight.getEstimatorPose(poseEstimator.getEstimatedPosition()).ifPresent(estimatedRobotPose -> poseEstimator.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), limelight.getTimestamp()));
-
-        // TODO: NetworkTables updating
         gyroPub.set(gyro.getAngle() % 360);
         headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees() % 360);
         xPub.set(poseEstimator.getEstimatedPosition().getX());
