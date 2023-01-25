@@ -12,6 +12,7 @@ import org.frc1410.test.util.NetworkTables;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,6 +55,10 @@ public class ExternalCamera implements TickedSubsystem {
 
     public boolean hasTargets() {
         return camera.getLatestResult().hasTargets();
+    }
+
+    public PhotonPipelineResult getResult() {
+        return camera.getLatestResult();
     }
 
     public double getTimestamp() {
