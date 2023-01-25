@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
+import org.frc1410.test.commands.groups.GoToAprilTag;
 import org.frc1410.test.subsystems.*;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
@@ -67,6 +68,9 @@ public final class Robot extends PhaseDrivenRobot {
         drivetrain.resetPoseEstimation(new Pose2d(Units.inchesToMeters(82),0, new Rotation2d(0)));
         drivetrain.zeroHeading();
         drivetrain.coastMode();
+
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
+
+        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera), TaskPersistence.EPHEMERAL);
     }
 }
