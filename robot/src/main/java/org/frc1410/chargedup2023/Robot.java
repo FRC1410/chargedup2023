@@ -6,14 +6,15 @@ import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.*;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
-import org.frc1410.framework.scheduler.task.impl.CommandTask;
 
-import static org.frc1410.chargedup2023.util.Constants.*;
+import static org.frc1410.chargedup2023.util.Constants.DRIVER_CONTROLLER;
+import static org.frc1410.chargedup2023.util.Constants.OPERATOR_CONTROLLER;
 
 public final class Robot extends PhaseDrivenRobot {
 
@@ -21,6 +22,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
 
     private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
+    private final Intake intake = new Intake();
 
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
@@ -28,7 +30,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final AutoSelector autoSelector = new AutoSelector();
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
-            autoSelector.getProfiles().get(0).name());
+            autoSelector.getProfiles().isEmpty() ? "" : autoSelector.getProfiles().get(0).name());
     private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
     @Override
@@ -46,9 +48,11 @@ public final class Robot extends PhaseDrivenRobot {
     public void teleopSequence() {
         drivetrain.brakeMode();
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
+        scheduler.scheduleDefaultCommand(new RunIntake(intake, operatorController.LEFT_TRIGGER, operatorController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
 
-        driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-        driverController.RIGHT_BUMPER.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+        driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
+        driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
+        operatorController.LEFT_BUMPER.whenPressed(new FlipIntake(intake), TaskPersistence.EPHEMERAL);
     }
 
     @Override

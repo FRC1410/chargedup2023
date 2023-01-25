@@ -24,18 +24,22 @@ public final class Robot extends PhaseDrivenRobot {
 
     private final ExternalCamera camera = subsystems.track(new ExternalCamera());
     private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
-//    private final Intake intake = new Intake();
-//    private final Shooter shooter = new Shooter();
-//    private final VerticalStorage verticalStorage = new VerticalStorage();
+    private final Intake intake = new Intake();
+    private final Shooter shooter = new Shooter();
+    private final VerticalStorage verticalStorage = new VerticalStorage();
+
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
 
-    private final AutoSelector autoSelector = new AutoSelector(); // remove semicolon
+    private final AutoSelector autoSelector = new AutoSelector()
             // REAL TRAJECTORIES
-//            .add("Mobility", () -> new MobilityAuto(drivetrain))
-//    private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
-//            autoSelector.getProfiles().get(0).name());
-//    private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
+            .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePiece(drivetrain))
+            .add("Game Piece To Barrier Community", () -> new GamePieceToBarrierCommunity(drivetrain))
+            .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
+            .add("Game Piece To Outside Community", () -> new GamePieceToOutsideCommunity(drivetrain));
+    private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
+            /*autoSelector.getProfiles().get(0).name()*/""); // uncomment when profiles are available
+    private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
     public Robot() throws IOException {
     }
@@ -45,20 +49,23 @@ public final class Robot extends PhaseDrivenRobot {
         drivetrain.zeroHeading();
         drivetrain.brakeMode();
 
-//        NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
-//        String autoProfile = autoSubscriber.get();
-//        var autoCommand = autoSelector.select(autoProfile);
-//        scheduler.scheduleAutoCommand(autoCommand);
+        NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
+        String autoProfile = autoSubscriber.get();
+        var autoCommand = autoSelector.select(autoProfile);
+        scheduler.scheduleAutoCommand(autoCommand);
     }
 
     @Override
     public void teleopSequence() {
-        drivetrain.brakeMode();
+//        drivetrain.brakeMode();
+        drivetrain.coastMode();
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
+        scheduler.scheduleDefaultCommand(new RunIntake(intake, driverController.LEFT_TRIGGER), TaskPersistence.GAMEPLAY);
 
-        driverController.RIGHT_BUMPER.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-        driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+        driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
+        driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
+        driverController.A.whileHeld(new Shoot(shooter, verticalStorage), TaskPersistence.EPHEMERAL);
 
         driverController.X.whileHeld(new DetectAprilTag(camera, driverController), TaskPersistence.EPHEMERAL);
     }
