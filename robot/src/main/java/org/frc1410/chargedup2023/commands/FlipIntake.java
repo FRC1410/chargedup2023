@@ -8,13 +8,11 @@ import org.frc1410.framework.control.Controller;
 public class FlipIntake extends CommandBase {
 
     private final Intake intake;
-    private final Controller controller;
 
-    public FlipIntake(Intake intake, Controller controller) {
+    public FlipIntake(Intake intake) {
         this.intake = intake;
-        this.controller = controller;
 
-        addRequirements();
+        addRequirements(intake);
     }
 
     @Override

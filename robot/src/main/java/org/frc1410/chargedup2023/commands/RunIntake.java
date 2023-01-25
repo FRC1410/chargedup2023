@@ -25,7 +25,7 @@ public class RunIntake extends CommandBase {
 
     @Override
     public void execute() {
-        intake.setIntakeSpeed(leftTrigger.get() - rightTrigger.get());
+        intake.setSpeed(leftTrigger.get() - rightTrigger.get());
     }
 
     @Override
@@ -35,6 +35,6 @@ public class RunIntake extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        intake.setIntakeSpeed(0);
+        intake.setSpeed(0);
     }
 }

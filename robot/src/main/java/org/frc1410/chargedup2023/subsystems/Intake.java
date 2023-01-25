@@ -13,25 +13,26 @@ import static org.frc1410.chargedup2023.util.IDs.*;
 public class Intake implements Subsystem {
 
     private final CANSparkMax intakeMotor = new CANSparkMax(INTAKE_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final DoubleSolenoid intakeFlipper = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, INTAKE_FLIPPER_FOWARD_ID, INTAKE_FLIPPER_BACKWARD_ID);
+    private final DoubleSolenoid intakeFlipper = new DoubleSolenoid(PneumaticsModuleType.REVPH, INTAKE_FLIPPER_FOWARD_ID, INTAKE_FLIPPER_BACKWARD_ID);
 
     public Intake() {
-
+        intakeMotor.restoreFactoryDefaults();
     }
 
-    public void setIntakeSpeed(double speed) {
+    public void setSpeed(double speed) {
         intakeMotor.set(speed);
     }
 
-    public void setFlipperFoward() {
+    public void extend() {
         intakeFlipper.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void retract() {
+        intakeFlipper.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void toggle(){
         intakeFlipper.toggle();
-    }
-    public void setFlipperReversed() {
-        intakeFlipper.set(DoubleSolenoid.Value.kReverse);
     }
 }
 

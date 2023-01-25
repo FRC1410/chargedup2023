@@ -52,7 +52,7 @@ public final class Robot extends PhaseDrivenRobot {
 
         driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
-        operatorController.LEFT_BUMPER.whenPressed(new FlipIntake(intake, operatorController), TaskPersistence.EPHEMERAL);
+        operatorController.LEFT_BUMPER.whenPressed(new FlipIntake(intake), TaskPersistence.EPHEMERAL);
     }
 
     @Override
