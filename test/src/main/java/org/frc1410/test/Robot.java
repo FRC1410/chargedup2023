@@ -5,8 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
-import org.frc1410.test.subsystem.*;
-import org.frc1410.test.util.NetworkTables;
+import org.frc1410.test.subsystems.*;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
@@ -40,17 +39,16 @@ public final class Robot extends PhaseDrivenRobot {
     public Robot() throws IOException {
     }
 
-//    @Override
-//    public void autonomousSequence() {
-//        drivetrain.zeroHeading();
-//        drivetrain.brakeMode();
-//
+    @Override
+    public void autonomousSequence() {
+        drivetrain.zeroHeading();
+        drivetrain.brakeMode();
+
 //        NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
 //        String autoProfile = autoSubscriber.get();
 //        var autoCommand = autoSelector.select(autoProfile);
 //        scheduler.scheduleAutoCommand(autoCommand);
-//        System.out.println("Auto Done");
-//    }
+    }
 
     @Override
     public void teleopSequence() {

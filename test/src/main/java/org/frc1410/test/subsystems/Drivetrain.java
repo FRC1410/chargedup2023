@@ -1,4 +1,4 @@
-package org.frc1410.test.subsystem;
+package org.frc1410.test.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;

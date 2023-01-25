@@ -1,7 +1,7 @@
 package org.frc1410.test.commands;
 
 import org.frc1410.framework.control.Controller;
-import org.frc1410.test.subsystem.ExternalCamera;
+import org.frc1410.test.subsystems.ExternalCamera;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
