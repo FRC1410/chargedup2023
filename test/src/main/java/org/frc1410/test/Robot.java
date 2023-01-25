@@ -6,12 +6,13 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
 import org.frc1410.test.commands.groups.GoToAprilTag;
+import org.frc1410.test.commands.groups.auto.*;
 import org.frc1410.test.subsystems.*;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
-import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
+import org.frc1410.test.util.NetworkTables;
 
 import java.io.IOException;
 
@@ -38,7 +39,7 @@ public final class Robot extends PhaseDrivenRobot {
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
             .add("Game Piece To Outside Community", () -> new GamePieceToOutsideCommunity(drivetrain));
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
-            /*autoSelector.getProfiles().get(0).name()*/""); // uncomment when profiles are available
+            autoSelector.getProfiles().get(0).name());
     private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
     public Robot() throws IOException {
@@ -66,7 +67,6 @@ public final class Robot extends PhaseDrivenRobot {
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.A.whileHeld(new Shoot(shooter, verticalStorage), TaskPersistence.EPHEMERAL);
-
         driverController.X.whileHeld(new DetectAprilTag(camera, driverController), TaskPersistence.EPHEMERAL);
     }
 
@@ -79,5 +79,6 @@ public final class Robot extends PhaseDrivenRobot {
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
 
         driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera), TaskPersistence.EPHEMERAL);
+        driverController.X.whileHeld(new DetectAprilTag(camera, driverController), TaskPersistence.EPHEMERAL);
     }
 }
