@@ -7,7 +7,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DetectAprilTag extends CommandBase {
     private final ExternalCamera camera;
+
     private final Controller controller;
+
+    private boolean foundTarget = false;
 
     public DetectAprilTag(ExternalCamera camera, Controller controller) {
         this.camera = camera;
@@ -16,13 +19,17 @@ public class DetectAprilTag extends CommandBase {
 
     @Override
     public void execute() {
-        if (camera.hasTargets()) {
-            controller.rumble(1000);
+        var foundTarget = camera.hasTargets();
+
+        if (foundTarget && !this.foundTarget) {
+            this.foundTarget = true;
+            controller.rumble(1, 1000);
         }
     }
 
     @Override
     public boolean isFinished() {
+        // return true when trajectory is complete.
         return false;
     }
 
@@ -31,3 +38,5 @@ public class DetectAprilTag extends CommandBase {
         controller.rumble(0);
     }
 }
+
+
