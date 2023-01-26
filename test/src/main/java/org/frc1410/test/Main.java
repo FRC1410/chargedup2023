@@ -6,6 +6,12 @@ import java.io.IOException;
 
 public interface Main {
   static void main(String[] args) {
-      RobotBase.startRobot(Robot::new);
+      RobotBase.startRobot(() -> {
+          try {
+              return new Robot();
+          } catch (IOException ex) {
+              throw new RuntimeException(ex);
+          }
+      });
   }
 }

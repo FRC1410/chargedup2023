@@ -42,8 +42,8 @@ public class Drivetrain implements TickedSubsystem {
     private final DifferentialDrive drive;
 
     // Inverted flag for flipping driving direction in Teleop
-    private boolean isInverted = false;
-    private boolean isArcadeDrive = true;
+    private boolean isInverted = true;
+    private boolean isArcadeDrive = false;
 
     public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
             new Rotation2d(), 0., 0., new Pose2d());
