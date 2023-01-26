@@ -18,7 +18,24 @@ public interface Observer {
     /**
      * An observer that will not modify the task's state at all.
      */
-    Observer NO_OP = handle -> {};
+    Observer NO_OP = new NoOpObserver();
 
     void tick(@NotNull LifecycleHandle handle);
+
+    default void init(LifecycleHandle handle) {
+
+    }
+}
+
+final class NoOpObserver implements Observer {
+
+    @Override
+    public void tick(@NotNull LifecycleHandle handle) {
+
+    }
+
+    @Override
+    public void init(LifecycleHandle handle) {
+        handle.requestExecution();
+    }
 }
