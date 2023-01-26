@@ -13,6 +13,11 @@ public interface Constants {
     double KS = 0.67; // SysID: 0.55
     double KV = 2.67; // SysID: 2.15
     double KA = 0.34; // SysID: 0.30
+
+    double KS_SLOW = 0.55;
+    double KV_SLOW = 2.15;
+    double KA_SLOW = 0.30;
+
     double GEARING = (11.0 / 62) * (24.0 / 54);
     double METERS_PER_REVOLUTION = .478778;
     double ENCODER_CONSTANT = GEARING * (1. / 2048.) * METERS_PER_REVOLUTION * 1.053;

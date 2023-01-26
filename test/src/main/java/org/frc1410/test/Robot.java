@@ -34,7 +34,9 @@ public final class Robot extends PhaseDrivenRobot {
             .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePiece(drivetrain))
             .add("Game Piece To Barrier Community", () -> new GamePieceToBarrierCommunity(drivetrain))
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
-            .add("Game Piece To Outside Community", () -> new GamePieceToOutsideCommunity(drivetrain));
+            .add("Game Piece To Outside Community", () -> new GamePieceToOutsideCommunity(drivetrain))
+            .add("Barrier Community To Charging Station", () -> new BarrierCommunityToChargingStation(drivetrain));
+
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
     private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
