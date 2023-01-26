@@ -8,6 +8,9 @@ public interface IDs {
 
     int INTAKE_MOTOR_ID = 5;
 
+    int LBORK_OUTER_ROLLER_ID = 6;
+    int LBORK_INNER_ROLLER_ID = 7;
+
     int INTAKE_FLIPPER_FOWARD_ID = 0;
     int INTAKE_FLIPPER_BACKWARD_ID = 1;
 }
