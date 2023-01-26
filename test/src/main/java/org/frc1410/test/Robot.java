@@ -2,7 +2,7 @@ package org.frc1410.test;
 
 import edu.wpi.first.networktables.*;
 import org.frc1410.test.commands.*;
-import org.frc1410.test.commands.groups.GoToAprilTag;
+import org.frc1410.test.commands.GoToAprilTag;
 import org.frc1410.test.commands.groups.auto.*;
 import org.frc1410.test.subsystems.*;
 import org.frc1410.framework.AutoSelector;
@@ -57,23 +57,20 @@ public final class Robot extends PhaseDrivenRobot {
     public void teleopSequence() {
         drivetrain.brakeMode();
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
-        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
+//        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
         scheduler.scheduleDefaultCommand(new RunIntake(intake, driverController.LEFT_TRIGGER), TaskPersistence.GAMEPLAY);
 
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
-        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera), TaskPersistence.EPHEMERAL);
+        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera, scheduler), TaskPersistence.EPHEMERAL);
         driverController.X.whileHeld(new DetectAprilTag(camera, driverController), TaskPersistence.EPHEMERAL);
     }
 
     @Override
     public void testSequence() {
-//        drivetrain.resetPoseEstimation(new Pose2d(Units.inchesToMeters(82),0, new Rotation2d(0)));
         drivetrain.zeroHeading();
-        drivetrain.brakeMode();
+        drivetrain.coastMode();
 
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
-
-        driverController.X.whileHeld(new DetectAprilTag(camera, driverController), TaskPersistence.EPHEMERAL);
     }
 }

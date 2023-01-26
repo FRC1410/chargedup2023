@@ -27,7 +27,6 @@ public class ExternalCamera implements TickedSubsystem {
 
     DoublePublisher x = NetworkTables.PublisherFactory(table, "X", 0);
     DoublePublisher y = NetworkTables.PublisherFactory(table, "Y", 0);
-    DoublePublisher z = NetworkTables.PublisherFactory(table, "Z", 0);
     DoublePublisher angle = NetworkTables.PublisherFactory(table, "Angle", 0);
     private final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
 //    private final AprilTagFieldLayout fieldLayout = new AprilTagFieldLayout(List.of(
@@ -47,8 +46,7 @@ public class ExternalCamera implements TickedSubsystem {
         poseEstimator.update().ifPresent(pose -> {
             x.set(Units.metersToInches(pose.estimatedPose.getX()));
             y.set(Units.metersToInches(pose.estimatedPose.getY()));
-            z.set(Units.metersToInches(pose.estimatedPose.getZ()));
-            angle.set(Units.radiansToDegrees(pose.estimatedPose.getRotation().getAngle()));
+            angle.set(-Units.radiansToDegrees(pose.estimatedPose.getRotation().getAngle()));
         });
         instance.flush();
     }
