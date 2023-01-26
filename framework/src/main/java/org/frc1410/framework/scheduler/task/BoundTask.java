@@ -18,4 +18,8 @@ public record BoundTask(
         @NotNull TaskPersistence persistence,
         @NotNull Observer observer,
         @Nullable TaskLock lock
-) {}
+) {
+    public BoundTask {
+        observer.init(handle); // Set the state to its correct initial value
+    }
+}

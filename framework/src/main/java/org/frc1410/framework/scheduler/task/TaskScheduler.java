@@ -44,7 +44,7 @@ public final class TaskScheduler {
      *                              or {@code loop} are null.
      * @throws IllegalArgumentException If {@code lockPriority} is not valid.
      */
-    public void schedule(@NotNull Task job, @NotNull TaskPersistence persistence, @NotNull Observer observer, @MagicConstant(valuesFromClass = LockPriority.class) int lockPriority, @NotNull Loop loop) {
+    public @NotNull BoundTask schedule(@NotNull Task job, @NotNull TaskPersistence persistence, @NotNull Observer observer, @MagicConstant(valuesFromClass = LockPriority.class) int lockPriority, @NotNull Loop loop) {
         Objects.requireNonNull(persistence);
         Objects.requireNonNull(observer);
         LockPriority.requireInRange(lockPriority);
@@ -54,6 +54,7 @@ public final class TaskScheduler {
         var task = new BoundTask(new LifecycleHandle(), job, persistence, observer, lock);
 
         schedule(task, loop);
+        return task;
     }
 
 
@@ -73,8 +74,8 @@ public final class TaskScheduler {
      *                              are null.
      * @throws IllegalArgumentException If {@code lockPriority} is not valid.
      */
-    public void schedule(@NotNull Task job, @NotNull TaskPersistence persistence, @NotNull Observer observer, @MagicConstant(valuesFromClass = LockPriority.class) int lockPriority, @Range(from = 0, to = Integer.MAX_VALUE) long period) {
-        schedule(job, persistence, observer, lockPriority, loopStore.ofPeriod(period));
+    public @NotNull BoundTask schedule(@NotNull Task job, @NotNull TaskPersistence persistence, @NotNull Observer observer, @MagicConstant(valuesFromClass = LockPriority.class) int lockPriority, @Range(from = 0, to = Integer.MAX_VALUE) long period) {
+        return schedule(job, persistence, observer, lockPriority, loopStore.ofPeriod(period));
     }
 
     /**
@@ -90,8 +91,8 @@ public final class TaskScheduler {
      *                              are null.
      * @throws IllegalArgumentException If {@code lockPriority} is not valid.
      */
-    public void schedule(@NotNull Task job, @NotNull TaskPersistence persistence, @NotNull Observer observer, @MagicConstant(valuesFromClass = LockPriority.class) int lockPriority) {
-        schedule(job, persistence, observer, lockPriority, loopStore.main);
+    public @NotNull BoundTask schedule(@NotNull Task job, @NotNull TaskPersistence persistence, @NotNull Observer observer, @MagicConstant(valuesFromClass = LockPriority.class) int lockPriority) {
+        return schedule(job, persistence, observer, lockPriority, loopStore.main);
     }
 
     /**
@@ -105,9 +106,9 @@ public final class TaskScheduler {
      *
      * @throws NullPointerException If {@code command} or {@code persistence} are null.
      */
-    public void scheduleDefaultCommand(@NotNull Command command, @NotNull TaskPersistence persistence) {
+    public @NotNull BoundTask scheduleDefaultCommand(@NotNull Command command, @NotNull TaskPersistence persistence) {
         Objects.requireNonNull(command);
-        schedule(new CommandTask(command), persistence, Observer.DEFAULT, LockPriority.LOWEST);
+        return schedule(new CommandTask(command), persistence, Observer.DEFAULT, LockPriority.LOWEST);
     }
 
     /**

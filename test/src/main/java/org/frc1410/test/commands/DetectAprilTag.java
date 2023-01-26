@@ -17,7 +17,7 @@ public class DetectAprilTag extends CommandBase {
     @Override
     public void execute() {
         if (camera.hasTargets()) {
-            controller.rumble(1, 1000);
+            controller.rumble(1000);
         }
     }
 

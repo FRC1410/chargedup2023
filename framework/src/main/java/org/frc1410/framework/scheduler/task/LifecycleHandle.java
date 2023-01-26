@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class LifecycleHandle {
 
-    public @NotNull TaskState state = TaskState.FLAGGED_EXECUTION;
+    public @NotNull TaskState state = TaskState.SUSPENDED;
 
     /**
      * Requests that the command start executing. This is the
