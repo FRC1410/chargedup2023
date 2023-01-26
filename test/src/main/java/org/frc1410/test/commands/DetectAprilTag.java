@@ -18,6 +18,11 @@ public class DetectAprilTag extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        this.foundTarget = false;
+    }
+
+    @Override
     public void execute() {
         var foundTarget = camera.hasTargets();
 
