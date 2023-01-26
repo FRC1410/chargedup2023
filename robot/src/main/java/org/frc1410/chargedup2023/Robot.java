@@ -55,8 +55,14 @@ public final class Robot extends PhaseDrivenRobot {
         driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         operatorController.LEFT_BUMPER.whenPressed(new FlipIntake(intake), TaskPersistence.EPHEMERAL);
-        operatorController.B.whenPressed(new PickUpCubeLooped(lBork), TaskPersistence.EPHEMERAL);
-        operatorController.A.whenPressed(new PlaceCubeLooped(lBork), TaskPersistence.EPHEMERAL);
+
+        operatorController.Y.whileHeld(new RunLBorkCone(lBork, false), TaskPersistence.GAMEPLAY);
+        operatorController.X.whileHeld(new RunLBorkCone(lBork, true), TaskPersistence.GAMEPLAY);
+
+        operatorController.B.whileHeld(new RunLBorkCube(lBork, false), TaskPersistence.GAMEPLAY);
+        operatorController.A.whileHeld(new RunLBorkCube(lBork, true), TaskPersistence.GAMEPLAY);
+
+
     }
 
     @Override

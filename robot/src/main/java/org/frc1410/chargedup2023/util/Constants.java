@@ -12,6 +12,9 @@ public interface Constants {
     DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH);
 
     // LBork rollers
-    double OUTER_ROLLER_SPEED = 0;
-    double INNER_ROLLER_SPEED = 0;
+    double LBORK_CONE_INTAKE_SPEED = 0.6;
+    double LBORK_CONE_OUTTAKE_SPEED = 0.3;
+
+    double LBORK_CUBE_INTAKE_SPEED = 0.6;
+    double LBORK_CUBE_OUTTAKE_SPEED = 0.3;
 }

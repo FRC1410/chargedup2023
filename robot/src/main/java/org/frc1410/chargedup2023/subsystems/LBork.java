@@ -6,7 +6,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
-import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class LBork implements Subsystem {
 
@@ -17,24 +16,9 @@ public class LBork implements Subsystem {
         innerMotor.restoreFactoryDefaults();
     }
 
-    public void pickUpCube() {
-        outerMotor.set(OUTER_ROLLER_SPEED);
-        innerMotor.set(INNER_ROLLER_SPEED);
-    }
-
-    public void pickUpCone() {
-        outerMotor.set(OUTER_ROLLER_SPEED);
-        innerMotor.set(INNER_ROLLER_SPEED * -1);
-    }
-
-    public void placeCube() {
-        outerMotor.set(OUTER_ROLLER_SPEED * -1);
-        innerMotor.set(INNER_ROLLER_SPEED * -1);
-    }
-
-    public void placeCone() {
-        outerMotor.set(OUTER_ROLLER_SPEED * -1);
-        innerMotor.set(INNER_ROLLER_SPEED);
+    public void setRollerSpeeds(double innerRollerSpeed, double outerRollerSpeed) {
+        innerMotor.set(innerRollerSpeed);
+        outerMotor.set(outerRollerSpeed);
     }
 
 }
