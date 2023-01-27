@@ -6,7 +6,7 @@ import org.frc1410.chargedup2023.commands.DriveLooped;
 import org.frc1410.chargedup2023.commands.FlipDrivetrainAction;
 import org.frc1410.chargedup2023.commands.groups.auto.*;
 import org.frc1410.chargedup2023.subsystem.Drivetrain;
-import org.frc1410.chargedup2023.util.Networktables;
+import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control2.Controller;
@@ -26,18 +26,11 @@ public final class Robot extends PhaseDrivenRobot {
     private final NetworkTable table = nt.getTable("Auto");
 
     private final AutoSelector autoSelector = new AutoSelector()
-            .add("Test 1 Meter", () -> new Test1MeterAuto(drivetrain))
-            .add("Test 2 Meter", () -> new Test2MeterAuto(drivetrain))
-            .add("Test Quarter Circle", () -> new TestQuarterCircleAuto(drivetrain))
-            // Barrier Community to Game Piece auto also returns to starting point.
-            .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePieceAuto(drivetrain))
-            .add("Barrier Community To Game Piece To Charging Station", () -> new BarrierCommunityToGamePieceToChargingStation(drivetrain))
-            .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
-            .add("Outside Community To Game Piece To Charging Station", () -> new OutsideCommunityToGamePieceToRechargeStation(drivetrain));
+            .add("Barrier Scoring To Charging Station", () -> new BarrierScoringToChargingStation(drivetrain));
 
-    private final StringPublisher autoPublisher = Networktables.PublisherFactory(table, "Profile",
+    private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
-    private final StringSubscriber autoSubscriber = Networktables.SubscriberFactory(table, autoPublisher.getTopic());
+    private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
     @Override
     public void autonomousSequence() {

@@ -2,7 +2,7 @@ package org.frc1410.chargedup2023.util;
 
 import edu.wpi.first.networktables.*;
 
-public interface Networktables {
+public interface NetworkTables {
     static StringPublisher PublisherFactory(NetworkTable table, String name, String startingValue) {
         StringPublisher publisher = table.getStringTopic(name).publish();
         publisher.set(startingValue);

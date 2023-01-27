@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import org.frc1410.chargedup2023.util.Networktables;
+import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
@@ -34,9 +34,10 @@ import static org.frc1410.chargedup2023.util.Tuning.*;
 public class Drivetrain implements TickedSubsystem, Subsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Drivetrain");
-    DoublePublisher headingPub = Networktables.PublisherFactory(table, "Heading", 0);
-    DoublePublisher xPub = Networktables.PublisherFactory(table, "X", 0);
-    DoublePublisher yPub = Networktables.PublisherFactory(table, "Y", 0);
+    DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
+    DoublePublisher gyroPub = NetworkTables.PublisherFactory(table, "Gyro", 0);
+    DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
+    DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
 
     // Motors
     public final WPI_TalonFX leftLeader = new WPI_TalonFX(DRIVETRAIN_LEFT_FRONT_MOTOR_ID);
@@ -138,9 +139,10 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
         }
 
         // NetworkTables updating
-        headingPub.set(gyro.getAngle() % 360);
-        xPub.set(poseEstimator.getEstimatedPosition().getX());
-        yPub.set(poseEstimator.getEstimatedPosition().getY());
+        headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees());
+        gyroPub.set(gyro.getAngle() % 360);
+        xPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getX()));
+        yPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getY()));
     }
 
     public boolean getDriveMode() {return isArcadeDrive;}
