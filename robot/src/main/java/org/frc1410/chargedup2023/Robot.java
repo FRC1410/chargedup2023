@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.*;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.Intake;
+import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
@@ -23,6 +24,7 @@ public final class Robot extends PhaseDrivenRobot {
 
     private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
     private final Intake intake = new Intake();
+    private final LBork lBork = new LBork();
 
     private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final NetworkTable table = nt.getTable("Auto");
@@ -48,11 +50,19 @@ public final class Robot extends PhaseDrivenRobot {
     public void teleopSequence() {
         drivetrain.brakeMode();
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
-        scheduler.scheduleDefaultCommand(new RunIntake(intake, operatorController.LEFT_TRIGGER, operatorController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
+        scheduler.scheduleDefaultCommand(new RunIntakeLooped(intake, operatorController.LEFT_TRIGGER, operatorController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
 
         driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         operatorController.LEFT_BUMPER.whenPressed(new FlipIntake(intake), TaskPersistence.EPHEMERAL);
+
+        operatorController.Y.whileHeld(new RunLBorkCone(lBork, false), TaskPersistence.GAMEPLAY);
+        operatorController.X.whileHeld(new RunLBorkCone(lBork, true), TaskPersistence.GAMEPLAY);
+
+        operatorController.B.whileHeld(new RunLBorkCube(lBork, false), TaskPersistence.GAMEPLAY);
+        operatorController.A.whileHeld(new RunLBorkCube(lBork, true), TaskPersistence.GAMEPLAY);
+
+
     }
 
     @Override

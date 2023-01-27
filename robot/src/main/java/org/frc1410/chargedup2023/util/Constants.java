@@ -10,4 +10,11 @@ public interface Constants {
     double METERS_PER_REVOLUTION = .478778;
     double TRACKWIDTH = 0.615; //Meters
     DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH);
+
+    // LBork rollers
+    double LBORK_CONE_INTAKE_SPEED = 0.6;
+    double LBORK_CONE_OUTTAKE_SPEED = 0.3;
+
+    double LBORK_CUBE_INTAKE_SPEED = 0.6;
+    double LBORK_CUBE_OUTTAKE_SPEED = 0.3;
 }

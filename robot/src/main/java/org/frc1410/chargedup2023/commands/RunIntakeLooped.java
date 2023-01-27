@@ -5,14 +5,14 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.framework.control.Axis;
 
 
-public class RunIntake extends CommandBase {
+public class RunIntakeLooped extends CommandBase {
 
     private final Intake intake;
     private final Axis rightTrigger;
     private final Axis leftTrigger;
     private double speed;
 
-    public RunIntake(Intake intake, Axis leftTrigger, Axis rightTrigger) {
+    public RunIntakeLooped(Intake intake, Axis leftTrigger, Axis rightTrigger) {
         this.intake = intake;
         this.leftTrigger = leftTrigger;
         this.rightTrigger = rightTrigger;
