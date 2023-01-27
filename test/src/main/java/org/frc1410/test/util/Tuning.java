@@ -5,7 +5,7 @@ public interface Tuning {
 	double KB = 2.0;
     double KZ = 0.7;
 
-    double KP_VEL = 0.8;
-    double MAX_SPEED = 1; // 4.0 for FAST
-    double MAX_ACCEL = 1; // 4.0 for FAST
+    double KP_VEL = 0.5;
+    double MAX_SPEED = 4; // 4.0 for FAST
+    double MAX_ACCEL = 4; // 4.0 for FAST
 }
