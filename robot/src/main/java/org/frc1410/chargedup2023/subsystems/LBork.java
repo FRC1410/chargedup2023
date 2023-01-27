@@ -11,6 +11,7 @@ public class LBork implements Subsystem {
 
     private final CANSparkMax outerMotor = new CANSparkMax(LBORK_OUTER_ROLLER_ID, MotorType.kBrushless);
     private final CANSparkMax innerMotor = new CANSparkMax(LBORK_INNER_ROLLER_ID, MotorType.kBrushless);
+
     public LBork() {
         outerMotor.restoreFactoryDefaults();
         innerMotor.restoreFactoryDefaults();
