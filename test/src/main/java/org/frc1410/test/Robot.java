@@ -11,8 +11,6 @@ import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 import org.frc1410.test.util.NetworkTables;
 
-import java.io.IOException;
-
 import static org.frc1410.test.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
@@ -43,12 +41,18 @@ public final class Robot extends PhaseDrivenRobot {
 
     public Robot() {
         drivetrain.zeroHeading();
+		drivetrain.coastMode();
     }
+
+	@Override
+	public void disabledSequence() {
+		drivetrain.coastMode();
+	}
 
     @Override
     public void autonomousSequence() {
         drivetrain.zeroHeading();
-        drivetrain.brakeMode();
+        drivetrain.coastMode();
 
         NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
         String autoProfile = autoSubscriber.get();
@@ -58,6 +62,7 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void teleopSequence() {
+		drivetrain.zeroHeading();
         drivetrain.brakeMode();
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);

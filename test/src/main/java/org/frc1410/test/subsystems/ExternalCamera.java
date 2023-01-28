@@ -1,5 +1,7 @@
 package org.frc1410.test.subsystems;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoublePublisher;
@@ -12,9 +14,10 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import java.io.IOException;
 import java.util.Optional;
 
-import static org.frc1410.test.util.Constants.fieldLayout;
+//import static org.frc1410.test.util.Constants.fieldLayout;
 
 public class ExternalCamera implements TickedSubsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
@@ -22,6 +25,16 @@ public class ExternalCamera implements TickedSubsystem {
 
     private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
     // private final PhotonCamera camera = new PhotonCamera("OV9281");
+
+	private static AprilTagFieldLayout fieldLayout;
+
+	static {
+		try {
+			fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
     DoublePublisher x = NetworkTables.PublisherFactory(table, "X", 0);
     DoublePublisher y = NetworkTables.PublisherFactory(table, "Y", 0);
@@ -37,13 +50,13 @@ public class ExternalCamera implements TickedSubsystem {
         poseEstimator.update().ifPresent(pose -> {
             x.set(Units.metersToInches(pose.estimatedPose.getX()));
             y.set(Units.metersToInches(pose.estimatedPose.getY()));
-            angle.set(Units.radiansToDegrees(pose.estimatedPose.getRotation().getAngle()));
+            angle.set(pose.estimatedPose.toPose2d().getRotation().getDegrees());
         });
         instance.flush();
     }
 
     public Optional<EstimatedRobotPose> getEstimatorPose(Pose2d pose) {
-        poseEstimator.setReferencePose(new Pose2d(pose.getX(), 8.01 - pose.getY(), new Rotation2d()));
+        poseEstimator.setReferencePose(new Pose2d(pose.getX(), 8.01 - pose.getY(), pose.getRotation()));
         return poseEstimator.update();
     }
 

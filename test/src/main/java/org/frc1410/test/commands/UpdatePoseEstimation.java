@@ -21,8 +21,8 @@ public class UpdatePoseEstimation extends CommandBase {
 				.ifPresent(pose -> drivetrain.addVisionPose(
 						new Pose2d(
 								pose.estimatedPose.toPose2d().getX(),
-								pose.estimatedPose.toPose2d().getY(),
-								pose.estimatedPose.toPose2d().getRotation()),
+								8.01 - pose.estimatedPose.toPose2d().getY(),
+								drivetrain.getPoseEstimation().getRotation()),
 						camera.getTimestamp()));
 	}
 }

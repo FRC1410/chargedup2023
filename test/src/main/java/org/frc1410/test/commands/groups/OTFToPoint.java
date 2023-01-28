@@ -27,7 +27,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
-						List.of(drivetrain.getPoseEstimation(), targetPose),
+						List.of(drivetrain.getPoseEstimation(), new Pose2d(targetPose.getX(), 8.01 - targetPose.getY(), targetPose.getRotation())),
 						slowConfig), Trajectories.tunedFeedforward, drivetrain);
 
 		addRequirements(drivetrain);
