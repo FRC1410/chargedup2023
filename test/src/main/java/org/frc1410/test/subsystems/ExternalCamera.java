@@ -26,7 +26,7 @@ public class ExternalCamera implements TickedSubsystem {
     private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
     // private final PhotonCamera camera = new PhotonCamera("OV9281");
 
-	private static AprilTagFieldLayout fieldLayout;
+	private static final AprilTagFieldLayout fieldLayout;
 
 	static {
 		try {

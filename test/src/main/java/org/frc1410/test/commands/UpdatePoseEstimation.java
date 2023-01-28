@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.test.subsystems.ExternalCamera;
 
+import static org.frc1410.test.util.Constants.FIELD_WIDTH;
+
 public class UpdatePoseEstimation extends CommandBase {
 
 	private final Drivetrain drivetrain;
@@ -21,8 +23,9 @@ public class UpdatePoseEstimation extends CommandBase {
 				.ifPresent(pose -> drivetrain.addVisionPose(
 						new Pose2d(
 								pose.estimatedPose.toPose2d().getX(),
-								8.01 - pose.estimatedPose.toPose2d().getY(),
-								drivetrain.getPoseEstimation().getRotation()),
+								FIELD_WIDTH - pose.estimatedPose.toPose2d().getY(),
+								pose.estimatedPose.toPose2d().getRotation()),
+//								drivetrain.getPoseEstimation().getRotation()),
 						camera.getTimestamp()));
 	}
 }
