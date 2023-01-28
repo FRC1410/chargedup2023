@@ -23,107 +23,107 @@ import java.util.Set;
  */
 public class Loop {
 
-    private final TaskScheduler scheduler;
-    private final Set<BoundTask> tasks = new HashSet<>();
-    private final long period;
-    private boolean disabled;
+	private final TaskScheduler scheduler;
+	private final Set<BoundTask> tasks = new HashSet<>();
+	private final long period;
+	private boolean disabled;
 
-    public Loop(TaskScheduler scheduler, long period) {
-        this.scheduler = scheduler;
-        this.period = period;
-    }
+	public Loop(TaskScheduler scheduler, long period) {
+		this.scheduler = scheduler;
+		this.period = period;
+	}
 
-    public long getPeriod() {
-        return period;
-    }
+	public long getPeriod() {
+		return period;
+	}
 
-    public double getPeriodSeconds() {
-        return getPeriod() / 1000d;
-    }
+	public double getPeriodSeconds() {
+		return getPeriod() / 1000d;
+	}
 
-    public void add(BoundTask task) {
-        tasks.add(task);
-    }
+	public void add(BoundTask task) {
+		tasks.add(task);
+	}
 
-    public void tick() {
-        if (disabled) {
-            return;
-        }
+	public void tick() {
+		if (disabled) {
+			return;
+		}
 
-        for (var task : Set.copyOf(tasks)) {
-            if (task.handle().state == TaskState.TERMINATED) {
-                tasks.remove(task);
-                continue;
-            }
+		for (var task : Set.copyOf(tasks)) {
+			if (task.handle().state == TaskState.TERMINATED) {
+				tasks.remove(task);
+				continue;
+			}
 
-            process(task);
-        }
-    }
+			process(task);
+		}
+	}
 
-    public void flagTransition(Phase newPhase) {
-        disabled = newPhase == Phase.DISABLED;
+	public void flagTransition(Phase newPhase) {
+		disabled = newPhase == Phase.DISABLED;
 
-        for (var task : tasks) {
-            if (!task.persistence().shouldPersist(newPhase)) {
-                task.handle().requestTermination();
-            }
-        }
-    }
+		for (var task : tasks) {
+			if (!task.persistence().shouldPersist(newPhase)) {
+				task.handle().requestTermination();
+			}
+		}
+	}
 
-    public @NotNull Collection<@NotNull BoundTask> getTasks() {
-        return tasks;
-    }
+	public @NotNull Collection<@NotNull BoundTask> getTasks() {
+		return tasks;
+	}
 
-    private void process(BoundTask task) {
-        var job = task.job();
-        var handle = task.handle();
+	private void process(BoundTask task) {
+		var job = task.job();
+		var handle = task.handle();
 
-        // Handle termination before ticking the observer.
-        if (handle.state == TaskState.FLAGGED_TERMINATION) {
-            job.end(true);
-            handle.state = TaskState.TERMINATED;
+		// Handle termination before ticking the observer.
+		if (handle.state == TaskState.FLAGGED_TERMINATION) {
+			job.end(true);
+			handle.state = TaskState.TERMINATED;
 
-            scheduler.lockHandler.releaseLocks(task);
-            return;
-        }
+			scheduler.lockHandler.releaseLocks(task);
+			return;
+		}
 
-        // Tick the observer to update the task state.
-        task.observer().tick(handle);
+		// Tick the observer to update the task state.
+		task.observer().tick(handle);
 
-        // Just skip this iteration entirely if the task lock is claimed. This prevents fun things like
-        // a case where an observer resumes execution of a task despite its lock being actively in use.
-        if (!scheduler.lockHandler.ownsLocks(task)) {
-            return;
-        }
+		// Just skip this iteration entirely if the task lock is claimed. This prevents fun things like
+		// a case where an observer resumes execution of a task despite its lock being actively in use.
+		if (!scheduler.lockHandler.ownsLocks(task)) {
+			return;
+		}
 
-        switch (handle.state) {
-            case FLAGGED_EXECUTION -> {
-                job.init();
+		switch (handle.state) {
+			case FLAGGED_EXECUTION -> {
+				job.init();
 
-                handle.state = job.isFinished() ? TaskState.FLAGGED_COMPLETION : TaskState.EXECUTING;
-            }
+				handle.state = job.isFinished() ? TaskState.FLAGGED_COMPLETION : TaskState.EXECUTING;
+			}
 
-            case EXECUTING -> {
-                job.execute();
-                
-                if (job.isFinished()) {
-                    handle.state = TaskState.FLAGGED_COMPLETION;
-                }
-            }
+			case EXECUTING -> {
+				job.execute();
+				
+				if (job.isFinished()) {
+					handle.state = TaskState.FLAGGED_COMPLETION;
+				}
+			}
 
-            case FLAGGED_COMPLETION -> {
-                job.end(false);
-                handle.state = TaskState.SUSPENDED;
+			case FLAGGED_COMPLETION -> {
+				job.end(false);
+				handle.state = TaskState.SUSPENDED;
 
-                scheduler.lockHandler.releaseLocks(task);
-            }
+				scheduler.lockHandler.releaseLocks(task);
+			}
 
-            case FLAGGED_SUSPENSION -> {
-                job.end(true);
-                handle.state = TaskState.SUSPENDED;
+			case FLAGGED_SUSPENSION -> {
+				job.end(true);
+				handle.state = TaskState.SUSPENDED;
 
-                scheduler.lockHandler.releaseLocks(task);
-            }
-        }
-    }
+				scheduler.lockHandler.releaseLocks(task);
+			}
+		}
+	}
 }

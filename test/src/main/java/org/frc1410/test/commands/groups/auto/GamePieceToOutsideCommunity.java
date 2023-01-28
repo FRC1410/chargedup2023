@@ -10,13 +10,14 @@ import org.frc1410.test.util.Trajectories;
 import static org.frc1410.test.auto.POIs.*;
 
 public class GamePieceToOutsideCommunity extends SequentialCommandGroup {
-    public GamePieceToOutsideCommunity(Drivetrain drivetrain) {
-        drivetrain.resetPoseEstimation(OUTSIDE_GAME_PIECE_BACKWARD);
+	
+	public GamePieceToOutsideCommunity(Drivetrain drivetrain) {
+		drivetrain.resetPoseEstimation(OUTSIDE_GAME_PIECE_BACKWARD);
 
-        addCommands(
-                Trajectories.OutsideGamePieceToCommunity(drivetrain),
-                new InstantCommand(() -> drivetrain.tankDriveVolts(0 ,0)),
-                new TurnToAngle(drivetrain, 0)
-        );
-    }
+		addCommands(
+				Trajectories.OutsideGamePieceToCommunity(drivetrain),
+				new InstantCommand(() -> drivetrain.tankDriveVolts(0 ,0)),
+				new TurnToAngle(drivetrain, 0)
+		);
+	}
 }

@@ -10,23 +10,23 @@ import org.frc1410.framework.scheduler.task.Task;
  */
 public final class SubsystemPeriodicTask implements Task {
 
-    private final TickedSubsystem subsystem;
+	private final TickedSubsystem subsystem;
 
-    public SubsystemPeriodicTask(TickedSubsystem subsystem) {
-        this.subsystem = subsystem;
-    }
+	public SubsystemPeriodicTask(TickedSubsystem subsystem) {
+		this.subsystem = subsystem;
+	}
 
-    @Override
-    public void execute() {
-        subsystem.periodic();
+	@Override
+	public void execute() {
+		subsystem.periodic();
 
-        if (RobotBase.isSimulation()) {
-            subsystem.simulationPeriodic();
-        }
-    }
+		if (RobotBase.isSimulation()) {
+			subsystem.simulationPeriodic();
+		}
+	}
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

@@ -6,44 +6,40 @@ import org.frc1410.test.subsystems.ExternalCamera;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DetectAprilTag extends CommandBase {
-    private final ExternalCamera camera;
 
-    private final Controller controller;
+	private final ExternalCamera camera;
 
-    private boolean foundTarget = false;
+	private final Controller controller;
 
-    public DetectAprilTag(ExternalCamera camera, Controller controller) {
-        this.camera = camera;
-        this.controller = controller;
-    }
+	private boolean foundTarget = false;
 
-    @Override
-    public void initialize() {
-        this.foundTarget = false;
-    }
+	public DetectAprilTag(ExternalCamera camera, Controller controller) {
+		this.camera = camera;
+		this.controller = controller;
+	}
 
-    @Override
-    public void execute() {
-        var foundTarget = camera.hasTargets();
+	@Override
+	public void initialize() {
+		this.foundTarget = false;
+	}
 
-        if (foundTarget && !this.foundTarget) {
-            controller.rumble(1);
-        } else if (!foundTarget && this.foundTarget) {
-            controller.rumble(0);
-        }
+	@Override
+	public void execute() {
+		var foundTarget = camera.hasTargets();
 
-        this.foundTarget = foundTarget;
-    }
+		if (foundTarget && !this.foundTarget) {
+			controller.rumble(1);
+		} else if (!foundTarget && this.foundTarget) {
+			controller.rumble(0);
+		}
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+		this.foundTarget = foundTarget;
+	}
 
-    @Override
-    public void end(boolean interrupted) {
-        controller.rumble(0);
-    }
+	@Override
+	public void end(boolean interrupted) {
+		controller.rumble(0);
+	}
 }
 
 

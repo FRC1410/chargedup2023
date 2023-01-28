@@ -6,23 +6,23 @@ import org.frc1410.chargedup2023.subsystems.Drivetrain;
 
 public class FlipDrivetrainAction extends CommandBase {
 
-    private final Drivetrain drivetrain;
-    private final Controller controller;
-    
-    public FlipDrivetrainAction(Drivetrain drivetrain, Controller controller) {
-        this.drivetrain = drivetrain;
-        this.controller = controller;
-        addRequirements();
-    }
+	private final Drivetrain drivetrain;
+	private final Controller controller;
+	
+	public FlipDrivetrainAction(Drivetrain drivetrain, Controller controller) {
+		this.drivetrain = drivetrain;
+		this.controller = controller;
+		addRequirements();
+	}
 
-    @Override
-    public void initialize() {
-        drivetrain.flip();
-        controller.rumble(500);
-    }
+	@Override
+	public void initialize() {
+		drivetrain.flip();
+		controller.rumble(500);
+	}
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+	@Override
+	public boolean isFinished() {
+		return true;
+	}
 }

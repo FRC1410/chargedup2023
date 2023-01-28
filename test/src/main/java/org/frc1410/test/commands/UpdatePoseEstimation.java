@@ -6,27 +6,23 @@ import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.test.subsystems.ExternalCamera;
 
 public class UpdatePoseEstimation extends CommandBase {
-    private final Drivetrain drivetrain;
-    private final ExternalCamera camera;
 
-    public UpdatePoseEstimation(Drivetrain drivetrain, ExternalCamera camera) {
-        this.drivetrain = drivetrain;
-        this.camera = camera;
-    }
+	private final Drivetrain drivetrain;
+	private final ExternalCamera camera;
 
-    @Override
-    public void execute() {
-        camera.getEstimatorPose(drivetrain.getPoseEstimation())
-                .ifPresent(pose -> drivetrain.addVisionPose(
-                        new Pose2d(
-                                pose.estimatedPose.toPose2d().getX(),
-                                pose.estimatedPose.toPose2d().getY(),
-                                pose.estimatedPose.toPose2d().getRotation()),
-                        camera.getTimestamp()));
-    }
+	public UpdatePoseEstimation(Drivetrain drivetrain, ExternalCamera camera) {
+		this.drivetrain = drivetrain;
+		this.camera = camera;
+	}
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+	@Override
+	public void execute() {
+		camera.getEstimatorPose(drivetrain.getPoseEstimation())
+				.ifPresent(pose -> drivetrain.addVisionPose(
+						new Pose2d(
+								pose.estimatedPose.toPose2d().getX(),
+								pose.estimatedPose.toPose2d().getY(),
+								pose.estimatedPose.toPose2d().getRotation()),
+						camera.getTimestamp()));
+	}
 }

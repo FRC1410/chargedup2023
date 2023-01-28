@@ -7,8 +7,8 @@ import java.util.Set;
 
 public record TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, @NotNull Set<?> keys) {
 
-    public TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, Set<?> keys) {
-        this.priority = priority;
-        this.keys = keys;
-    }
+	public TaskLock(@MagicConstant(valuesFromClass = LockPriority.class) int priority, Set<?> keys) {
+		this.priority = priority;
+		this.keys = keys;
+	}
 }

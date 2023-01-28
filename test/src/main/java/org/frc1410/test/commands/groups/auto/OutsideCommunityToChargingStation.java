@@ -9,12 +9,13 @@ import org.frc1410.test.util.Trajectories;
 import static org.frc1410.test.auto.POIs.OUTSIDE_COMMUNITY_START;
 
 public class OutsideCommunityToChargingStation extends SequentialCommandGroup {
-    public OutsideCommunityToChargingStation(Drivetrain drivetrain) {
-        drivetrain.resetPoseEstimation(OUTSIDE_COMMUNITY_START);
+	
+	public OutsideCommunityToChargingStation(Drivetrain drivetrain) {
+		drivetrain.resetPoseEstimation(OUTSIDE_COMMUNITY_START);
 
-        addCommands(
-                Trajectories.OutsideCommunityToChargingStation(drivetrain),
-                new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
-        );
-    }
+		addCommands(
+				Trajectories.OutsideCommunityToChargingStation(drivetrain),
+				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
+		);
+	}
 }
