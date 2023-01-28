@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.*;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Elevator;
 import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.NetworkTables;
@@ -23,6 +24,7 @@ public final class Robot extends PhaseDrivenRobot {
 	private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
 
 	private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
+	private final Elevator elevator = subsystems.track(new Elevator());
 	private final Intake intake = new Intake();
 	private final LBork lBork = new LBork();
 

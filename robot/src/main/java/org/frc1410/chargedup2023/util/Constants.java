@@ -18,4 +18,7 @@ public interface Constants {
 
 	double LBORK_CUBE_INTAKE_SPEED = 0.6;
 	double LBORK_CUBE_OUTTAKE_SPEED = 0.3;
+
+	// Elevator
+	double ELEVATOR_SPEED = 0.5;
 }
