@@ -37,7 +37,6 @@ public class DetectAprilTag extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        // return true when trajectory is complete.
         return false;
     }
 
