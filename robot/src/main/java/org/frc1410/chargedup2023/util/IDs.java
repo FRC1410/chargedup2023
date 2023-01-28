@@ -23,7 +23,7 @@ public interface IDs {
 	int INTAKE_FLIPPER_BACKWARD_ID = 1;
 
 	// Lebork piston ID's
-	int LEBORK_PISTON_FOWARD_ID = 2;
-	int LEBORK_PISTON_BACKWARDS_ID = 3;
+	int LBORK_PISTON_FOWARD_ID = 2;
+	int LBORK_PISTON_BACKWARDS_ID = 3;
 
 }
