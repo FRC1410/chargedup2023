@@ -19,7 +19,7 @@ public class Elevator implements Subsystem {
         elvatorMotorTwo.follow(elevatorMotorOne);
     }
 
-    public void setSpeed(double speed){
+    public void setSpeed(double speed) {
         elevatorMotorOne.set(speed);
     }
 }
