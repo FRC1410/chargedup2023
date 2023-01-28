@@ -43,7 +43,7 @@ public class ExternalCamera implements TickedSubsystem {
     }
 
     public Optional<EstimatedRobotPose> getEstimatorPose(Pose2d pose) {
-        poseEstimator.setReferencePose(new Pose2d(pose.getX(), pose.getY(), new Rotation2d()));
+        poseEstimator.setReferencePose(new Pose2d(pose.getX(), 8.01 - pose.getY(), new Rotation2d()));
         return poseEstimator.update();
     }
 
