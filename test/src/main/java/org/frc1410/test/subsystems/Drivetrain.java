@@ -88,7 +88,9 @@ public class Drivetrain implements TickedSubsystem {
         voltagePub.set(RobotController.getBatteryVoltage());
     }
 
-    public boolean getDriveMode() {return isArcadeDrive;}
+    public boolean getDriveMode() {
+        return isArcadeDrive;
+    }
 
     public void tankDrive(double left, double right, boolean squared) {
         if (isInverted) {
@@ -124,6 +126,11 @@ public class Drivetrain implements TickedSubsystem {
         rightLeader.setVoltage(leftVolts);
 
         drive.feed();
+    }
+
+    public void setEngagePower(double power) {
+        leftLeader.set(power);
+        rightLeader.set(power);
     }
 
     public Pose2d getPoseEstimation() {
@@ -181,5 +188,9 @@ public class Drivetrain implements TickedSubsystem {
 
     public double getHeading() {
         return gyro.getAngle() % 360;
+    }
+
+    public double getPitch() {
+        return gyro.getPitch();
     }
 }

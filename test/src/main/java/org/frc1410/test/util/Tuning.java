@@ -8,4 +8,14 @@ public interface Tuning {
     double KP_VEL = 0.8;
     double MAX_SPEED = 1; // 4.0 for FAST
     double MAX_ACCEL = 1; // 4.0 for FAST
+
+    // Engage
+
+    double ENGAGE_P = 1;
+    double ENGAGE_I = 0;
+    double ENGAGE_D = 0.5;
+
+    double ENGAGE_POSITION_TOLERANCE = 1;
+    double ENGAGE_VELOCITY_TOLERANCE = 0;
+    double ENGAGE_MAX_POWER = 0.25;
 }
