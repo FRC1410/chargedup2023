@@ -18,8 +18,6 @@ public class GoToAprilTag extends CommandBase {
         this.drivetrain = drivetrain;
         this.camera = camera;
         this.scheduler = scheduler;
-
-        addRequirements(drivetrain);
     }
 
     @Override

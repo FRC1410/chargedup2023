@@ -34,7 +34,7 @@ public interface Trajectories {
             new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
 
     DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 4);
+            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 5);
     TrajectoryConfig config = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
         .setKinematics(KINEMATICS)
         .addConstraint(voltageConstraint)
@@ -114,7 +114,7 @@ public interface Trajectories {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_CHARGING_STATION_FAR), slowConfig), tunedFeedforward, drivetrain);
     }
 
-    static RamseteCommand BarrierCommunityToChargingStation(Drivetrain drivetrain) {
-        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_CHARGING_STATION_COMMUNITY), slowConfig), tunedFeedforward, drivetrain);
+    static RamseteCommand BarrierScoreToChargingStation(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, NUCLEAR_POINT_1, BARRIER_CHARGING_STATION_COMMUNITY), slowConfig), tunedFeedforward, drivetrain);
     }
 }

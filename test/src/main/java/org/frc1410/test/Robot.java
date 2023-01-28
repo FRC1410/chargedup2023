@@ -35,7 +35,7 @@ public final class Robot extends PhaseDrivenRobot {
             .add("Game Piece To Barrier Community", () -> new GamePieceToBarrierCommunity(drivetrain))
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
             .add("Game Piece To Outside Community", () -> new GamePieceToOutsideCommunity(drivetrain))
-            .add("Barrier Community To Charging Station", () -> new BarrierCommunityToChargingStation(drivetrain));
+            .add("Barrier Score To Charging Station", () -> new BarrierScoringToChargingStation(drivetrain));
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
@@ -57,9 +57,9 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void teleopSequence() {
-        drivetrain.brakeMode();
+        drivetrain.coastMode();
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
-//        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
+        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
         scheduler.scheduleDefaultCommand(new RunIntake(intake, driverController.LEFT_TRIGGER), TaskPersistence.GAMEPLAY);
 
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);

@@ -24,6 +24,8 @@ public class OTFToPoint extends SequentialCommandGroup {
                         List.of(drivetrain.getPoseEstimation(), targetPose),
                         slowConfig), Trajectories.tunedFeedforward, drivetrain);
 
+        addRequirements(drivetrain);
+
         addCommands(
                 command
         );
