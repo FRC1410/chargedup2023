@@ -110,9 +110,8 @@ public class Drivetrain implements TickedSubsystem {
     }
 
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        // This is by design! (To match the functional tankDrive method)
-        leftLeader.setVoltage(rightVolts);
-        rightLeader.setVoltage(leftVolts);
+        leftLeader.setVoltage(leftVolts);
+        rightLeader.setVoltage(rightVolts);
 
         drive.feed();
     }
