@@ -15,9 +15,9 @@ public class Elevator implements Subsystem {
     private final DigitalInput magSensor = new DigitalInput(0);
     
     public Elevator() {
-        elevatorMotorOne.restoreFactoryDefaults();
-        elevatorMotorOne.restoreFactoryDefaults();
-        elvatorMotorTwo.follow(elevatorMotorOne);
+        leaderMotor.restoreFactoryDefaults();
+        followerMotor.restoreFactoryDefaults();
+        followerMotor.follow(leaderMotor);
     }
 
     public void setSpeed(double speed) {
