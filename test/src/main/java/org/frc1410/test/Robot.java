@@ -1,19 +1,20 @@
 package org.frc1410.test;
 
-import edu.wpi.first.networktables.*;
-import org.frc1410.test.commands.*;
-import org.frc1410.test.commands.GoToAprilTag;
-import org.frc1410.test.commands.groups.auto.*;
-import org.frc1410.test.subsystems.*;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StringPublisher;
+import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
+import org.frc1410.test.commands.*;
+import org.frc1410.test.commands.groups.auto.*;
+import org.frc1410.test.subsystems.*;
 import org.frc1410.test.util.NetworkTables;
 
-import java.io.IOException;
-
-import static org.frc1410.test.util.Constants.*;
+import static org.frc1410.test.util.Constants.DRIVER_CONTROLLER;
+import static org.frc1410.test.util.Constants.OPERATOR_CONTROLLER;
 
 public final class Robot extends PhaseDrivenRobot {
 
