@@ -32,7 +32,7 @@ public class LBork implements Subsystem {
         lBorkpiston.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void retract(){
+    public void retract() {
         lBorkpiston.set(DoubleSolenoid.Value.kReverse);
     }
 
