@@ -13,6 +13,7 @@ public class Elevator implements Subsystem {
     private final CANSparkMax elvatorMotorTwo = new CANSparkMax(ELEVATOR_MOTOR_TWO_ID, MotorType.kBrushed);
 
     private final DigitalInput magSensor = new DigitalInput(0);
+    
     public Elevator() {
         elevatorMotorOne.restoreFactoryDefaults();
         elevatorMotorOne.restoreFactoryDefaults();
