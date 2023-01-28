@@ -28,12 +28,16 @@ public class LBork implements Subsystem {
         outerMotor.set(outerRollerSpeed);
     }
 
-    public void extend(){
+    public void extend() {
         lBorkpiston.set(DoubleSolenoid.Value.kForward);
     }
 
     public void retract(){
         lBorkpiston.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    public void toggle() {
+        lBorkpiston.toggle();
     }
 
 }
