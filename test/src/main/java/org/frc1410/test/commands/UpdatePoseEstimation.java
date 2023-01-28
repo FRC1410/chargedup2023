@@ -19,13 +19,20 @@ public class UpdatePoseEstimation extends CommandBase {
 
 	@Override
 	public void execute() {
-		camera.getEstimatorPose(drivetrain.getPoseEstimation())
-				.ifPresent(pose -> drivetrain.addVisionPose(
-						new Pose2d(
-								pose.estimatedPose.toPose2d().getX(),
-								FIELD_WIDTH - pose.estimatedPose.toPose2d().getY(),
-								pose.estimatedPose.toPose2d().getRotation()),
+//		camera.getEstimatorPose(drivetrain.getPoseEstimation())
+//				.ifPresent(pose -> drivetrain.addVisionPose(
+//						new Pose2d(
+//								pose.estimatedPose.toPose2d().getX(),
+//								FIELD_WIDTH - pose.estimatedPose.toPose2d().getY(),
+//								pose.estimatedPose.toPose2d().getRotation()),
+////								drivetrain.getPoseEstimation().getRotation()),
+//						camera.getTimestamp()));
+		camera.getEstimatorPose().ifPresent(pose -> drivetrain.addVisionPose(
+				new Pose2d(
+						pose.getX(),
+						FIELD_WIDTH - pose.getY(),
+						pose.getRotation()),
 //								drivetrain.getPoseEstimation().getRotation()),
-						camera.getTimestamp()));
+				camera.getTimestamp()));
 	}
 }
