@@ -28,6 +28,8 @@ public class ExternalCamera implements TickedSubsystem {
 
 	private static final AprilTagFieldLayout fieldLayout;
 
+	private Pose2d pose = new Pose2d();
+
 	static {
 		try {
 			fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
@@ -40,25 +42,33 @@ public class ExternalCamera implements TickedSubsystem {
     DoublePublisher y = NetworkTables.PublisherFactory(table, "Y", 0);
     DoublePublisher angle = NetworkTables.PublisherFactory(table, "Angle", 0);
 
-    private final PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(
-            fieldLayout, PhotonPoseEstimator.PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera,
-            new Transform3d(new Translation3d(Units.inchesToMeters(16.5), 0, Units.inchesToMeters(25.5)), new Rotation3d())
-    );
+//    private final PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(
+//            fieldLayout, PhotonPoseEstimator.PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera,
+//            new Transform3d(new Translation3d(Units.inchesToMeters(16.5), 0, Units.inchesToMeters(25.5)), new Rotation3d())
+//    );
 
     @Override
     public void periodic() {
-        poseEstimator.update().ifPresent(pose -> {
-            x.set(Units.metersToInches(pose.estimatedPose.getX()));
-            y.set(Units.metersToInches(pose.estimatedPose.getY()));
-            angle.set(pose.estimatedPose.toPose2d().getRotation().getDegrees());
-        });
+		pose = (new Pose3d())
+				.transformBy(camera.getLatestResult().getBestTarget().getBestCameraToTarget().inverse())
+				.toPose2d();
+
+//        poseEstimator.update().ifPresent(pose -> {
+//            x.set(Units.metersToInches(pose.estimatedPose.getX()));
+//            y.set(Units.metersToInches(pose.estimatedPose.getY()));
+//            angle.set(pose.estimatedPose.toPose2d().getRotation().getDegrees());
+//        });
         instance.flush();
     }
 
-    public Optional<EstimatedRobotPose> getEstimatorPose(Pose2d pose) {
-        poseEstimator.setReferencePose(new Pose2d(pose.getX(), 8.01 - pose.getY(), pose.getRotation()));
-        return poseEstimator.update();
-    }
+//    public Optional<EstimatedRobotPose> getEstimatorPose(Pose2d pose) {
+//        poseEstimator.setReferencePose(new Pose2d(pose.getX(), 8.01 - pose.getY(), pose.getRotation()));
+//        return poseEstimator.update();
+//    }
+
+	public Optional<Pose2d> getEstimatorPose() {
+		return Optional.ofNullable(pose);
+	}
 
     public boolean hasTargets() {
         return camera.getLatestResult().hasTargets();
