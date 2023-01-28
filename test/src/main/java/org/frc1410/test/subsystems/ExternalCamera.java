@@ -12,7 +12,6 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import static org.frc1410.test.util.Constants.fieldLayout;
