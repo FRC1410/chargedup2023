@@ -15,7 +15,7 @@ public class Elevator implements TickedSubsystem {
 	private final CANSparkMax leaderMotor = new CANSparkMax(ELEVATOR_MOTOR_ONE_ID, MotorType.kBrushed);
 	private final CANSparkMax followerMotor = new CANSparkMax(ELEVATOR_MOTOR_TWO_ID, MotorType.kBrushed);
 
-	private State state = State.DOWN;
+	private State desiredState = State.DOWN;
 
 	public Elevator() {
 		leaderMotor.restoreFactoryDefaults();
@@ -24,9 +24,15 @@ public class Elevator implements TickedSubsystem {
 	}
 
 	public void setDesiredState(State target) {
-		state = target;
+		desiredState = target;
 	}
 
+	/**
+	 * Gets the state of the elevator if it is known.
+	 *
+	 * @return The elevator's state if it is at a magnetic read
+	 *         switch, or {@code null}.
+	 */
 	public State getKnownState() {
 		for (var possibleState : State.values()) {
 			if (possibleState.magSensor.get()) {
@@ -41,10 +47,10 @@ public class Elevator implements TickedSubsystem {
 	public void periodic() {
 		var knownState = getKnownState();
 
-		if (state == knownState) { // Stop if we hit the state we want.
+		if (desiredState == knownState) { // Stop if we hit the state we want.
 			leaderMotor.set(0);
 		} else if (knownState != null) {
-			var diff = knownState.compareTo(state); // Positive if knownState is above state
+			var diff = knownState.compareTo(desiredState); // Positive if knownState is above state
 			var speedMultiplier = diff > 0 ? -1 : 1;
 
 			leaderMotor.set(Constants.ELEVATOR_SPEED * speedMultiplier);
