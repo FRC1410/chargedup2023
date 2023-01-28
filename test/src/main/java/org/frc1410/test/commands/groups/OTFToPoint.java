@@ -3,6 +3,7 @@ package org.frc1410.test.commands.groups;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.test.subsystems.Drivetrain;
@@ -33,7 +34,13 @@ public class OTFToPoint extends SequentialCommandGroup {
 		addRequirements(drivetrain);
 
 		addCommands(
-				command
+				command,
+				new InstantCommand(() -> {
+					System.out.println("Results");
+					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
+					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
+					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
+				})
 		);
 	}
 }
