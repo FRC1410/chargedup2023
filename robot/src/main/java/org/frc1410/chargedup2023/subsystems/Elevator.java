@@ -21,7 +21,7 @@ public class Elevator implements Subsystem {
     }
 
     public void setSpeed(double speed) {
-        elevatorMotorOne.set(speed);
+        leaderMotor.set(speed);
     }
 }
 
