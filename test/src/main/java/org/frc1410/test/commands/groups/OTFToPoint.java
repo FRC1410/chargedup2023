@@ -15,10 +15,15 @@ import java.util.List;
 
 public class OTFToPoint extends SequentialCommandGroup {
     public OTFToPoint(Drivetrain drivetrain, Pose2d targetPose) {
+        System.out.println("Drivetrain");
+        System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
+        System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
+        System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
         System.out.println("Target");
         System.out.println(Units.metersToInches(targetPose.getX()));
         System.out.println(Units.metersToInches(targetPose.getY()));
         System.out.println(targetPose.getRotation().getDegrees());
+
         RamseteCommand command = baseRamsete(
                 TrajectoryGenerator.generateTrajectory(
                         List.of(drivetrain.getPoseEstimation(), targetPose),

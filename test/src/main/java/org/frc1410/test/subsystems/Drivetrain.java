@@ -5,10 +5,14 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.RobotController;
@@ -81,8 +85,8 @@ public class Drivetrain implements TickedSubsystem {
         );
         drive.feed();
 
-        gyroPub.set(gyro.getAngle() % 360);
-        headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees() % 360);
+        gyroPub.set(gyro.getAngle());
+        headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees());
         xPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getX()));
         yPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getY()));
         voltagePub.set(RobotController.getBatteryVoltage());
@@ -131,7 +135,7 @@ public class Drivetrain implements TickedSubsystem {
     }
 
     public void addVisionPose(Pose2d pose, double timestamp) {
-        poseEstimator.addVisionMeasurement(pose, timestamp);
+        poseEstimator.addVisionMeasurement(pose, timestamp, new Matrix<N3, N1>(VecBuilder.fill(0.3, 0.3, 0.3)));
     }
 
     public void resetPoseEstimation(Pose2d pose) {
@@ -180,6 +184,6 @@ public class Drivetrain implements TickedSubsystem {
     }
 
     public double getHeading() {
-        return gyro.getAngle() % 360;
+        return gyro.getAngle();
     }
 }

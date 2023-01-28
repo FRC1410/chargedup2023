@@ -24,11 +24,12 @@ public class ExternalCamera implements TickedSubsystem {
     NetworkTable table = instance.getTable("Vision Data");
 
     private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+    // private final PhotonCamera camera = new PhotonCamera("OV9281");
 
     DoublePublisher x = NetworkTables.PublisherFactory(table, "X", 0);
     DoublePublisher y = NetworkTables.PublisherFactory(table, "Y", 0);
     DoublePublisher angle = NetworkTables.PublisherFactory(table, "Angle", 0);
-    private final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+     private final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
 //    private final AprilTagFieldLayout fieldLayout = new AprilTagFieldLayout(List.of(
 //            new AprilTag(1, new Pose3d(0, 0, 25.5, new Rotation3d(new Quaternion(0, 0, 0, 1))))
 //    ), 16.53, 8.01);

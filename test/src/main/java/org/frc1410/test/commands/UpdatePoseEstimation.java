@@ -18,11 +18,11 @@ public class UpdatePoseEstimation extends CommandBase {
 
     @Override
     public void execute() {
-        camera.getEstimatorPose(drivetrain.poseEstimator.getEstimatedPosition())
+        camera.getEstimatorPose(drivetrain.getPoseEstimation())
                 .ifPresent(pose -> drivetrain.addVisionPose(
                         new Pose2d(
                                 pose.estimatedPose.toPose2d().getX(),
-                                pose.estimatedPose.toPose2d().getY(),
+                                -pose.estimatedPose.toPose2d().getY(),
                                 new Rotation2d(
                                         Units.degreesToRadians(drivetrain.getHeading())
                                 )),
