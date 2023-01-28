@@ -11,17 +11,17 @@ import org.frc1410.framework.util.log.Logger;
  */
 public class PhaseController {
 
-    private static final Logger LOG = new Logger("PhaseController");
+	private static final Logger LOG = new Logger("PhaseController");
 
-    private final TaskScheduler scheduler;
+	private final TaskScheduler scheduler;
 	private Phase phase = Phase.INIT;
 	private Phase oldPhase = null;
 
-    public PhaseController(TaskScheduler scheduler) {
-        this.scheduler = scheduler;
-    }
+	public PhaseController(TaskScheduler scheduler) {
+		this.scheduler = scheduler;
+	}
 
-    public void beginTransition() {
+	public void beginTransition() {
 		LOG.debug("[PhaseController] Transitioning out of %s...", phase);
 
 		oldPhase = phase;
@@ -33,13 +33,13 @@ public class PhaseController {
 			throw new IllegalStateException("Transition request was not submitted! This will lead to race conditions.");
 		}
 
-        LOG.info("Transition complete: %s -> %s", oldPhase, phase);
+		LOG.info("Transition complete: %s -> %s", oldPhase, phase);
 
 		this.oldPhase = null;
 		this.phase = phase;
 
-        scheduler.loopStore.propagateTransition(this.phase);
-        scheduler.printState();
+		scheduler.loopStore.propagateTransition(this.phase);
+		scheduler.printState();
 	}
 
 	public Phase getPhase() {

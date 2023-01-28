@@ -7,31 +7,31 @@ import org.frc1410.framework.control.Controller;
 
 public class FlipIntake extends CommandBase {
 
-    private final Intake intake;
+	private final Intake intake;
 
-    public FlipIntake(Intake intake) {
-        this.intake = intake;
+	public FlipIntake(Intake intake) {
+		this.intake = intake;
 
-        addRequirements(intake);
-    }
+		addRequirements(intake);
+	}
 
-    @Override
-    public void initialize() {
-        intake.toggle();
-    }
+	@Override
+	public void initialize() {
+		intake.toggle();
+	}
 
-    @Override
-    public void execute() {
+	@Override
+	public void execute() {
 
-    }
+	}
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+	@Override
+	public boolean isFinished() {
+		return true;
+	}
 
-    @Override
-    public void end(boolean interrupted) {
+	@Override
+	public void end(boolean interrupted) {
 
-    }
+	}
 }

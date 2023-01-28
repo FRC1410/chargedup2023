@@ -7,20 +7,20 @@ import org.jetbrains.annotations.NotNull;
 
 public class WhenPressedObserver implements Observer {
 
-    private final Button button;
-    private boolean wasActive;
+	private final Button button;
+	private boolean wasActive;
 
-    public WhenPressedObserver(Button button) {
-        this.button = button;
-    }
+	public WhenPressedObserver(Button button) {
+		this.button = button;
+	}
 
-    @Override
-    public void tick(@NotNull LifecycleHandle handle) {
-        if (!wasActive && button.isActive()) {
-            handle.requestExecution();
-            wasActive = true;
-        }
+	@Override
+	public void tick(@NotNull LifecycleHandle handle) {
+		if (!wasActive && button.isActive()) {
+			handle.requestExecution();
+			wasActive = true;
+		}
 
-        wasActive = button.isActive();
-    }
+		wasActive = button.isActive();
+	}
 }

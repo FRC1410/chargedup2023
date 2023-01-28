@@ -7,23 +7,23 @@ import org.frc1410.framework.control.Controller;
 
 public class FlipDrivetrainAction extends CommandBase {
 
-    private final Drivetrain drivetrain;
-    private final Controller controller;
-    public FlipDrivetrainAction(Drivetrain drivetrain, Controller controller) {
-        this.drivetrain = drivetrain;
-        this.controller = controller;
-        addRequirements();
-    }
+	private final Drivetrain drivetrain;
+	private final Controller controller;
+	public FlipDrivetrainAction(Drivetrain drivetrain, Controller controller) {
+		this.drivetrain = drivetrain;
+		this.controller = controller;
+		addRequirements();
+	}
 
-    @Override
-    public void initialize() {
-        drivetrain.flip();
-        controller.rumble(1, 500);
-        System.out.println("Flipped drivetrain");
-    }
+	@Override
+	public void initialize() {
+		drivetrain.flip();
+		controller.rumble(1, 500);
+		System.out.println("Flipped drivetrain");
+	}
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+	@Override
+	public boolean isFinished() {
+		return true;
+	}
 }

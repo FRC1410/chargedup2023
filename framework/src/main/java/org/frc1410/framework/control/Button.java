@@ -11,31 +11,31 @@ import org.frc1410.framework.scheduler.task.lock.LockPriority;
 
 public interface Button {
 
-    TaskScheduler scheduler();
+	TaskScheduler scheduler();
 
-    boolean isActive();
+	boolean isActive();
 
-    default void whenPressed(Task task, TaskPersistence persistence) {
-        scheduler().schedule(task, persistence, new WhenPressedObserver(this), LockPriority.HIGH);
-    }
+	default void whenPressed(Task task, TaskPersistence persistence) {
+		scheduler().schedule(task, persistence, new WhenPressedObserver(this), LockPriority.HIGH);
+	}
 
-    default void whenPressed(Command command, TaskPersistence persistence) {
-        whenPressed(new CommandTask(command), persistence);
-    }
+	default void whenPressed(Command command, TaskPersistence persistence) {
+		whenPressed(new CommandTask(command), persistence);
+	}
 
-    default void whileHeld(Task task, TaskPersistence persistence) {
-        scheduler().schedule(task, persistence, new WhileHeldObserver(this), LockPriority.HIGH);
-    }
+	default void whileHeld(Task task, TaskPersistence persistence) {
+		scheduler().schedule(task, persistence, new WhileHeldObserver(this), LockPriority.HIGH);
+	}
 
-    default void whileHeld(Command command, TaskPersistence persistence) {
-        whileHeld(new CommandTask(command), persistence);
-    }
+	default void whileHeld(Command command, TaskPersistence persistence) {
+		whileHeld(new CommandTask(command), persistence);
+	}
 
-    default void toggleWhenPressed(Task task, TaskPersistence persistence) {
-        scheduler().schedule(task, persistence, new WhenPressedObserver(this), LockPriority.HIGH);
-    }
+	default void toggleWhenPressed(Task task, TaskPersistence persistence) {
+		scheduler().schedule(task, persistence, new WhenPressedObserver(this), LockPriority.HIGH);
+	}
 
-    default void toggleWhenPressed(Command command, TaskPersistence persistence) {
-        toggleWhenPressed(new CommandTask(command), persistence);
-    }
+	default void toggleWhenPressed(Command command, TaskPersistence persistence) {
+		toggleWhenPressed(new CommandTask(command), persistence);
+	}
 }

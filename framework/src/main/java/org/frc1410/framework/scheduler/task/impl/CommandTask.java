@@ -15,36 +15,36 @@ import java.util.Set;
  */
 public final class CommandTask implements Task {
 
-    private final Command command;
-    private final Set<Subsystem> lockKeys;
+	private final Command command;
+	private final Set<Subsystem> lockKeys;
 
-    public CommandTask(@NotNull Command command) {
-        this.command = Objects.requireNonNull(command);
-        this.lockKeys = command.getRequirements();
-    }
+	public CommandTask(@NotNull Command command) {
+		this.command = Objects.requireNonNull(command);
+		this.lockKeys = command.getRequirements();
+	}
 
-    @Override
-    public void init() {
-        command.initialize();
-    }
+	@Override
+	public void init() {
+		command.initialize();
+	}
 
-    @Override
-    public void execute() {
-        command.execute();
-    }
+	@Override
+	public void execute() {
+		command.execute();
+	}
 
-    @Override
-    public boolean isFinished() {
-        return command.isFinished();
-    }
+	@Override
+	public boolean isFinished() {
+		return command.isFinished();
+	}
 
-    @Override
-    public void end(boolean interrupted) {
-        command.end(interrupted);
-    }
+	@Override
+	public void end(boolean interrupted) {
+		command.end(interrupted);
+	}
 
-    @Override
-    public @NotNull Set<?> getLockKeys() {
-        return lockKeys;
-    }
+	@Override
+	public @NotNull Set<?> getLockKeys() {
+		return lockKeys;
+	}
 }
