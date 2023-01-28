@@ -45,10 +45,13 @@ public class Elevator implements TickedSubsystem {
 
 	@Override
 	public void periodic() {
+		if (desiredState == null) return;
+
 		var knownState = getKnownState();
 
 		if (desiredState == knownState) { // Stop if we hit the state we want.
 			leaderMotor.set(0);
+			desiredState = null;
 		} else if (knownState != null) {
 			var diff = knownState.compareTo(desiredState); // Positive if knownState is above state
 			var speedMultiplier = diff > 0 ? -1 : 1;
