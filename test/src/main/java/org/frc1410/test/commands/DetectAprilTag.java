@@ -10,25 +10,17 @@ public class DetectAprilTag extends CommandBase {
 
     private final Controller controller;
 
-    private boolean foundTarget = false;
-
     public DetectAprilTag(ExternalCamera camera, Controller controller) {
         this.camera = camera;
         this.controller = controller;
     }
 
     @Override
-    public void initialize() {
-        this.foundTarget = false;
-    }
-
-    @Override
     public void execute() {
-        var foundTarget = camera.hasTargets();
-
-        if (foundTarget && !this.foundTarget) {
-            this.foundTarget = true;
+        if (camera.hasTargets()) {
             controller.rumble(1);
+        } else {
+            controller.rumble(0);
         }
     }
 
