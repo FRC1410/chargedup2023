@@ -6,6 +6,7 @@ import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.test.subsystems.ExternalCamera;
 
 import static org.frc1410.test.util.Constants.FIELD_WIDTH;
+import static org.frc1410.test.util.Tuning.ANGLE_THRESHOLD;
 
 public class UpdatePoseEstimation extends CommandBase {
 
@@ -27,12 +28,16 @@ public class UpdatePoseEstimation extends CommandBase {
 //								pose.estimatedPose.toPose2d().getRotation()),
 ////								drivetrain.getPoseEstimation().getRotation()),
 //						camera.getTimestamp()));
-		camera.getEstimatorPose().ifPresent(pose -> drivetrain.addVisionPose(
-				new Pose2d(
-						pose.getX(),
-						FIELD_WIDTH - pose.getY(),
-						pose.getRotation()),
+		camera.getEstimatorPose().ifPresent(pose -> {
+			if (Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD) {
+				drivetrain.addVisionPose(
+						new Pose2d(
+								pose.getX(),
+								FIELD_WIDTH - pose.getY(),
+								pose.getRotation()),
 //								drivetrain.getPoseEstimation().getRotation()),
-				camera.getTimestamp()));
+						camera.getTimestamp());
+			}
+		});
 	}
 }

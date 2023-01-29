@@ -6,7 +6,10 @@ public interface Tuning {
 	double KB = 2.0;
 	double KZ = 0.7;
 
-    double KP_VEL = 0.25;
-    double MAX_SPEED = 4; // 4.0 for FAST
-    double MAX_ACCEL = 4; // 4.0 for FAST
+	double KP_VEL = 0.25;
+	double MAX_SPEED = 4; // 4.0 for FAST
+	double MAX_ACCEL = 4; // 4.0 for FAST
+
+	// AprilTags
+	double ANGLE_THRESHOLD = 10;
 }
