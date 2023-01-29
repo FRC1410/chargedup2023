@@ -33,7 +33,7 @@ public class UpdatePoseEstimation extends CommandBase {
 				drivetrain.addVisionPose(
 						new Pose2d(
 								pose.getX(),
-								FIELD_WIDTH - pose.getY(),
+								pose.getY(), //TODO: Inverse if necessary
 								pose.getRotation()),
 //								drivetrain.getPoseEstimation().getRotation()),
 						camera.getTimestamp());
