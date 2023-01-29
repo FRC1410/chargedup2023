@@ -22,99 +22,100 @@ import static org.frc1410.test.auto.POIs.*;
 
 public interface Trajectories {
 
-	NetworkTableInstance instance = NetworkTableInstance.getDefault();
-	NetworkTable table = instance.getTable("Drivetrain");
-	DoublePublisher leftMeasurementPub = NetworkTables.PublisherFactory(table, "Left Measurement", 0);
-	DoublePublisher leftReferencePub = NetworkTables.PublisherFactory(table, "Left Desired", 0);
-	DoublePublisher rightMeasurementPub = NetworkTables.PublisherFactory(table, "Right Measurement", 0);
-	DoublePublisher rightReferencePub = NetworkTables.PublisherFactory(table, "Right Desired", 0);
+    NetworkTableInstance instance = NetworkTableInstance.getDefault();
+    NetworkTable table = instance.getTable("Drivetrain");
+    DoublePublisher leftMeasurementPub = NetworkTables.PublisherFactory(table, "Left Measurement", 0);
+    DoublePublisher leftReferencePub = NetworkTables.PublisherFactory(table, "Left Desired", 0);
+    DoublePublisher rightMeasurementPub = NetworkTables.PublisherFactory(table, "Right Measurement", 0);
+    DoublePublisher rightReferencePub = NetworkTables.PublisherFactory(table, "Right Desired", 0);
 
-	CentripetalAccelerationConstraint centripetalAccelConstraint = new CentripetalAccelerationConstraint(0.75);
-	DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
-			new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
+    CentripetalAccelerationConstraint centripetalAccelConstraint = new CentripetalAccelerationConstraint(0.75);
+    DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
 
-	DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
-			new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 5);
-	TrajectoryConfig config = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
-		.setKinematics(KINEMATICS)
-		.addConstraint(voltageConstraint)
-		.setReversed(false);
+    DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(KS_SLOW, KV_SLOW, KA_SLOW), KINEMATICS, 5);
+    TrajectoryConfig config = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+        .setKinematics(KINEMATICS)
+        .addConstraint(voltageConstraint)
+        .setReversed(false);
 
-	TrajectoryConfig centripAccelConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
-		.setKinematics(KINEMATICS)
-		.addConstraint(voltageConstraint)
-		.addConstraint(centripetalAccelConstraint)
-		.setReversed(false);
-	TrajectoryConfig slowConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
-		.setKinematics(KINEMATICS)
-		.addConstraint(slowVoltageConstraint)
-		.setReversed(false);
+    TrajectoryConfig centripAccelConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+        .setKinematics(KINEMATICS)
+        .addConstraint(voltageConstraint)
+        .addConstraint(centripetalAccelConstraint)
+        .setReversed(false);
 
-	TrajectoryConfig reverseConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
-		.setKinematics(KINEMATICS)
-		.addConstraint(voltageConstraint)
-		.setReversed(true);
+    TrajectoryConfig slowConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+        .setKinematics(KINEMATICS)
+        .addConstraint(slowVoltageConstraint)
+        .setReversed(false);
 
-	SimpleMotorFeedforward realisticFeedforward = new SimpleMotorFeedforward(KS, KV, KA);
-	static SimpleMotorFeedforward getRealisticFeedforward() {return realisticFeedforward;}
-	SimpleMotorFeedforward tunedFeedforward = new SimpleMotorFeedforward(KS_SLOW, KV_SLOW, KA_SLOW);
-	static SimpleMotorFeedforward getTunedFeedforward() {return tunedFeedforward;}
-	PIDController leftController = new PIDController(KP_VEL, 0, 0);
-	PIDController rightController = new PIDController(KP_VEL, 0, 0);
-	static RamseteCommand baseRamsete(Trajectory trajectory, SimpleMotorFeedforward simpleMotorFeedforward, Drivetrain drivetrain) {
+    TrajectoryConfig reverseConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+        .setKinematics(KINEMATICS)
+        .addConstraint(voltageConstraint)
+        .setReversed(true);
 
-		return new RamseteCommand(
-				trajectory,
-				drivetrain::getPoseEstimation,
-				new RamseteController(KB, KZ),
-				simpleMotorFeedforward,
-				KINEMATICS,
-				drivetrain::getWheelSpeeds,
-				leftController,
-				rightController,
-//				drivetrain::tankDriveVolts,
-				(leftVolts, rightVolts) -> {
-					drivetrain.tankDriveVolts(leftVolts, rightVolts);
+    SimpleMotorFeedforward realisticFeedforward = new SimpleMotorFeedforward(KS, KV, KA);
+    static SimpleMotorFeedforward getRealisticFeedforward() {return realisticFeedforward;}
+    SimpleMotorFeedforward tunedFeedforward = new SimpleMotorFeedforward(KS_SLOW, KV_SLOW, KA_SLOW);
+    static SimpleMotorFeedforward getTunedFeedforward() {return tunedFeedforward;}
+    PIDController leftController = new PIDController(KP_VEL, 0, 0);
+    PIDController rightController = new PIDController(KP_VEL, 0, 0);
+    static RamseteCommand baseRamsete(Trajectory trajectory, SimpleMotorFeedforward simpleMotorFeedforward, Drivetrain drivetrain) {
 
-					leftMeasurementPub.set(drivetrain.getWheelSpeeds().leftMetersPerSecond);
-					leftReferencePub.set(leftController.getSetpoint());
+        return new RamseteCommand(
+                trajectory,
+                drivetrain::getPoseEstimation,
+                new RamseteController(KB, KZ),
+                simpleMotorFeedforward,
+                KINEMATICS,
+                drivetrain::getWheelSpeeds,
+                leftController,
+                rightController,
+//                drivetrain::tankDriveVolts,
+                (leftVolts, rightVolts) -> {
+                    drivetrain.tankDriveVolts(leftVolts, rightVolts);
 
-					rightMeasurementPub.set(drivetrain.getWheelSpeeds().rightMetersPerSecond);
-					rightReferencePub.set(rightController.getSetpoint());
-					instance.flush();
-				}
-		);
-	}
+                    leftMeasurementPub.set(drivetrain.getWheelSpeeds().leftMetersPerSecond);
+                    leftReferencePub.set(leftController.getSetpoint());
 
-	static RamseteCommand OutsideCommunityToGamePiece(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_GAME_PIECE_FORWARD), config), realisticFeedforward, drivetrain);
-	}
+                    rightMeasurementPub.set(drivetrain.getWheelSpeeds().rightMetersPerSecond);
+                    rightReferencePub.set(rightController.getSetpoint());
+                    instance.flush();
+                }
+        );
+    }
 
-	static RamseteCommand OutsideGamePieceToCommunity(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_COMMUNITY_START), config), realisticFeedforward, drivetrain);
-	}
+    static RamseteCommand OutsideCommunityToGamePiece(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_GAME_PIECE_FORWARD), config), realisticFeedforward, drivetrain);
+    }
 
-	static RamseteCommand OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_CHARGING_STATION_FAR), slowConfig), tunedFeedforward, drivetrain);
-	}
+    static RamseteCommand OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_CHARGING_STATION_FAR), slowConfig), tunedFeedforward, drivetrain);
+    }
 
-	static RamseteCommand OutsideCommunityToChargingStation(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_CHARGING_STATION_COMMUNITY), slowConfig), tunedFeedforward, drivetrain);
-	}
+    static RamseteCommand OutsideScoreToChargingStation(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_SCORE, OUTSIDE_CHARGING_STATION_COMMUNITY), slowConfig), tunedFeedforward, drivetrain);
+    }
 
-	static RamseteCommand BarrierCommunityToGamePiece(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_GAME_PIECE_FORWARD), config), realisticFeedforward, drivetrain);
-	}
+    static RamseteCommand OutsideGamePieceToScore(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_COMMUNITY_SCORE), config), realisticFeedforward, drivetrain);
+    }
 
-	static RamseteCommand BarrierGamePieceToCommunity(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_COMMUNITY_START), config), realisticFeedforward, drivetrain);
-	}
+    static RamseteCommand BarrierCommunityToGamePiece(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_GAME_PIECE_FORWARD), config), realisticFeedforward, drivetrain);
+    }
 
-	static RamseteCommand BarrierGamePieceToChargingStation(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_CHARGING_STATION_FAR), slowConfig), tunedFeedforward, drivetrain);
-	}
+    static RamseteCommand BarrierGamePieceToChargingStation(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_CHARGING_STATION_FAR), slowConfig), tunedFeedforward, drivetrain);
+    }
 
-	static RamseteCommand BarrierScoreToChargingStation(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, NUCLEAR_POINT_1, BARRIER_CHARGING_STATION_COMMUNITY), slowConfig), tunedFeedforward, drivetrain);
-	}
+    static RamseteCommand BarrierScoreToChargingStation(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, BARRIER_CHARGING_STATION_COMMUNITY), slowConfig), tunedFeedforward, drivetrain);
+    }
+
+    static RamseteCommand BarrierGamePieceToScore(Drivetrain drivetrain) {
+        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_COMMUNITY_SCORE), config), realisticFeedforward, drivetrain);
+    }
 }

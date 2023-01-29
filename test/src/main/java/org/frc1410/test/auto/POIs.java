@@ -17,11 +17,9 @@ public interface POIs {
 	Pose2d OUTSIDE_GAME_PIECE_FORWARD = new Pose2d(inchesToMeters(264.25), inchesToMeters(279.31), Rotation2d.fromDegrees(0));
 	Pose2d OUTSIDE_GAME_PIECE_BACKWARD = new Pose2d(inchesToMeters(264.25), inchesToMeters(279.31), Rotation2d.fromDegrees(180));
 
-	Pose2d BARRIER_CHARGING_STATION_COMMUNITY = new Pose2d(inchesToMeters(96), inchesToMeters(190), Rotation2d.fromDegrees(0));
-	Pose2d OUTSIDE_CHARGING_STATION_COMMUNITY = new Pose2d(inchesToMeters(96), inchesToMeters(235), Rotation2d.fromDegrees(0));
+    Pose2d BARRIER_CHARGING_STATION_COMMUNITY = new Pose2d(inchesToMeters(96+5.5), inchesToMeters(180+3), Rotation2d.fromDegrees(0));
+    Pose2d OUTSIDE_CHARGING_STATION_COMMUNITY = new Pose2d(inchesToMeters(96+4), inchesToMeters(235), Rotation2d.fromDegrees(0));
 
-	Pose2d BARRIER_CHARGING_STATION_FAR = new Pose2d(inchesToMeters(210.12), inchesToMeters(180), Rotation2d.fromDegrees(0));
-	Pose2d OUTSIDE_CHARGING_STATION_FAR = new Pose2d(inchesToMeters(210.12), inchesToMeters(235), Rotation2d.fromDegrees(0));
-
-	Pose2d NUCLEAR_POINT_1 = new Pose2d(inchesToMeters(85), inchesToMeters(170), Rotation2d.fromDegrees(-30));
+    Pose2d BARRIER_CHARGING_STATION_FAR = new Pose2d(inchesToMeters(210.12), inchesToMeters(180), Rotation2d.fromDegrees(0));
+    Pose2d OUTSIDE_CHARGING_STATION_FAR = new Pose2d(inchesToMeters(210.12), inchesToMeters(235), Rotation2d.fromDegrees(0));
 }
