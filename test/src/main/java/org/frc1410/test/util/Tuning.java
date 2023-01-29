@@ -9,4 +9,7 @@ public interface Tuning {
 	double KP_VEL = 0.5;
 	double MAX_SPEED = 4; // 4.0 for FAST
 	double MAX_ACCEL = 4; // 4.0 for FAST
+
+	// AprilTags
+	double ANGLE_THRESHOLD = 10;
 }
