@@ -30,9 +30,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final AutoSelector autoSelector = new AutoSelector()
             // REAL TRAJECTORIES
             .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePiece(drivetrain))
-            .add("Game Piece To Barrier Community", () -> new GamePieceToBarrierCommunity(drivetrain))
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
-            .add("Game Piece To Outside Community", () -> new GamePieceToOutsideCommunity(drivetrain))
             .add("Barrier Score To Charging Station", () -> new BarrierScoringToChargingStation(drivetrain));
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
