@@ -27,12 +27,14 @@ public class GoToAprilTag extends CommandBase {
 			if (RED_TAGS.contains(camera.getTarget().getFiducialId())) {
 				scheduler.scheduleAutoCommand(new OTFToPoint(
 						drivetrain,
-						new Pose2d(pose.getX() + Units.inchesToMeters(-40), FIELD_WIDTH - pose.getY(),
+//						new Pose2d(pose.getX() + Units.inchesToMeters(-40), FIELD_WIDTH - pose.getY(),
+//								pose.getRotation().toRotation2d().rotateBy(Rotation2d.fromDegrees(180)))));
+						new Pose2d(Units.inchesToMeters(-40), 0,
 								pose.getRotation().toRotation2d().rotateBy(Rotation2d.fromDegrees(180)))));
 			} else {
 				scheduler.scheduleAutoCommand(new OTFToPoint(
 						drivetrain,
-						new Pose2d(pose.getX() + Units.inchesToMeters(40), FIELD_WIDTH - pose.getY(),
+						new Pose2d(Units.inchesToMeters(40), 0,
 								pose.getRotation().toRotation2d())));
 			}
 		});
