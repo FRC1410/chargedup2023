@@ -49,15 +49,20 @@ public class ExternalCamera implements TickedSubsystem {
 
     @Override
     public void periodic() {
-		pose = (new Pose3d())
-				.transformBy(camera.getLatestResult().getBestTarget().getBestCameraToTarget().inverse())
-				.toPose2d();
+		if (hasTargets()) {
+			pose = (new Pose3d())
+					.transformBy(camera.getLatestResult().getBestTarget().getBestCameraToTarget().inverse())
+					.toPose2d();
+		}
 
 //        poseEstimator.update().ifPresent(pose -> {
 //            x.set(Units.metersToInches(pose.estimatedPose.getX()));
 //            y.set(Units.metersToInches(pose.estimatedPose.getY()));
 //            angle.set(pose.estimatedPose.toPose2d().getRotation().getDegrees());
 //        });
+		x.set(Units.metersToInches(pose.getX()));
+		y.set(Units.metersToInches(pose.getY()));
+		angle.set(pose.getRotation().getDegrees());
         instance.flush();
     }
 
