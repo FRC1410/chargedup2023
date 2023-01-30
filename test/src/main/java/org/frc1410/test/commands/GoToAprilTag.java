@@ -9,15 +9,23 @@ import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.test.subsystems.ExternalCamera;
 
 import static org.frc1410.test.util.Constants.*;
+import static org.frc1410.test.auto.POIs.*;
 
 public class GoToAprilTag extends CommandBase {
-	
+	public enum Node {
+		LEFT_CONE_NODE,
+		CUBE_NODE,
+		RIGHT_CONE_NODE
+	}
+
 	Drivetrain drivetrain;
 	ExternalCamera camera;
+	Node targetNode;
 	TaskScheduler scheduler;
-	public GoToAprilTag(Drivetrain drivetrain, ExternalCamera camera, TaskScheduler scheduler) {
+	public GoToAprilTag(Drivetrain drivetrain, ExternalCamera camera, Node targetNode, TaskScheduler scheduler) {
 		this.drivetrain = drivetrain;
 		this.camera = camera;
+		this.targetNode = targetNode;
 		this.scheduler = scheduler;
 	}
 
@@ -25,17 +33,29 @@ public class GoToAprilTag extends CommandBase {
 	public void initialize() {
 		camera.getTargetLocation().ifPresent(pose -> {
 			if (RED_TAGS.contains(camera.getTarget().getFiducialId())) {
-				scheduler.scheduleAutoCommand(new OTFToPoint(
-						drivetrain,
+				switch (targetNode) {
+					case LEFT_CONE_NODE ->
+						scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_LEFT_CONE_NODE));
+					case CUBE_NODE ->
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_CUBE_NODE
 //						new Pose2d(pose.getX() + Units.inchesToMeters(-40), FIELD_WIDTH - pose.getY(),
 //								pose.getRotation().toRotation2d().rotateBy(Rotation2d.fromDegrees(180)))));
-						new Pose2d(Units.inchesToMeters(-40), 0,
-								pose.getRotation().toRotation2d().rotateBy(Rotation2d.fromDegrees(180)))));
+							));
+					case RIGHT_CONE_NODE ->
+						scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_RIGHT_CONE_NODE));
+				}
 			} else {
-				scheduler.scheduleAutoCommand(new OTFToPoint(
-						drivetrain,
-						new Pose2d(Units.inchesToMeters(40), 0,
-								pose.getRotation().toRotation2d())));
+				switch (targetNode) {
+					case LEFT_CONE_NODE ->
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_LEFT_CONE_NODE));
+					case CUBE_NODE ->
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_CUBE_NODE
+//						new Pose2d(pose.getX() + Units.inchesToMeters(-40), FIELD_WIDTH - pose.getY(),
+//								pose.getRotation().toRotation2d().rotateBy(Rotation2d.fromDegrees(180)))));
+							));
+					case RIGHT_CONE_NODE ->
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_RIGHT_CONE_NODE));
+				}
 			}
 		});
 	}

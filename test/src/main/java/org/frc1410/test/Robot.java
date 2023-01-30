@@ -68,7 +68,7 @@ public final class Robot extends PhaseDrivenRobot {
 
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
-        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera, scheduler), TaskPersistence.EPHEMERAL);
+        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.CUBE_NODE, scheduler), TaskPersistence.EPHEMERAL);
         driverController.X.whileHeld(new DetectAprilTag(camera, driverController), TaskPersistence.EPHEMERAL);
     }
 
