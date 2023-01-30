@@ -29,7 +29,7 @@ public class UpdatePoseEstimation extends CommandBase {
 ////								drivetrain.getPoseEstimation().getRotation()),
 //						camera.getTimestamp()));
 		camera.getEstimatorPose().ifPresent(pose -> {
-			if (Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD) {
+			if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
 				drivetrain.addVisionPose(
 						new Pose2d(
 								pose.getX(),

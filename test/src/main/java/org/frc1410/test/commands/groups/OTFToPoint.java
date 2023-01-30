@@ -15,7 +15,6 @@ import static org.frc1410.test.util.Trajectories.slowConfig;
 import java.util.List;
 
 public class OTFToPoint extends SequentialCommandGroup {
-	
 	public OTFToPoint(Drivetrain drivetrain, Pose2d targetPose) {
 		System.out.println("Drivetrain");
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
@@ -28,7 +27,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
-						List.of(drivetrain.getPoseEstimation(), new Pose2d(targetPose.getX(), targetPose.getY(), targetPose.getRotation())),
+						List.of(drivetrain.getPoseEstimation(), targetPose),
 						slowConfig), Trajectories.tunedFeedforward, drivetrain);
 
 		addRequirements(drivetrain);
