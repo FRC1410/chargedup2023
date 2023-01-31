@@ -11,6 +11,9 @@ public interface POIs {
 	Pose2d BARRIER_COMMUNITY_START = new Pose2d(inchesToMeters(73.25), inchesToMeters(119.31), Rotation2d.fromDegrees(0));
 	Pose2d OUTSIDE_COMMUNITY_START = new Pose2d(inchesToMeters(73.25), inchesToMeters(295.31), Rotation2d.fromDegrees(0));
 
+	Pose2d BARRIER_COMMUNITY_EXIT = new Pose2d(inchesToMeters(160), inchesToMeters(119.31), Rotation2d.fromDegrees(0));
+	Pose2d OUTSIDE_COMMUNITY_EXIT = new Pose2d(inchesToMeters(220), inchesToMeters(295.31), Rotation2d.fromDegrees(0));
+
 	Pose2d BARRIER_COMMUNITY_SCORE = new Pose2d(inchesToMeters(73.25), inchesToMeters(163.31), Rotation2d.fromDegrees(0));
 	Pose2d OUTSIDE_COMMUNITY_SCORE = new Pose2d(inchesToMeters(73.25), inchesToMeters(251.31), Rotation2d.fromDegrees(0));
 

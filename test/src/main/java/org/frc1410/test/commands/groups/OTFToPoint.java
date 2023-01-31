@@ -9,10 +9,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.test.util.Trajectories;
 
-import static org.frc1410.test.util.Trajectories.baseRamsete;
-import static org.frc1410.test.util.Trajectories.slowConfig;
-
 import java.util.List;
+
+import static org.frc1410.test.util.Trajectories.*;
 
 public class OTFToPoint extends SequentialCommandGroup {
 	public OTFToPoint(Drivetrain drivetrain, Pose2d targetPose) {

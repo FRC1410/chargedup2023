@@ -8,6 +8,14 @@ public interface Constants {
 	int OPERATOR_CONTROLLER = 1;
 
 	// DRIVETRAIN
+	double KS = 0;
+	double KV = 0;
+	double KA = 0;
+
+	double KS_SLOW = 0;
+	double KV_SLOW = 0;
+	double KA_SLOW = 0;
+
 	double METERS_PER_REVOLUTION = .478778;
 	double TRACKWIDTH = 0.615; //Meters
 	DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH);

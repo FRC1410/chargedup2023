@@ -1,4 +1,4 @@
-package org.frc1410.test.commands.groups.auto;
+package org.frc1410.test.commands.groups.auto.outside;
 
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
