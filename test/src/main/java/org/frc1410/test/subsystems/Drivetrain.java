@@ -132,7 +132,12 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public Pose2d getPoseEstimation() {
-		return poseEstimator.getEstimatedPosition();
+			return poseEstimator.getEstimatedPosition();
+	}
+
+	public void setEngagePower(double power) {
+		leftLeader.set(power);
+		rightLeader.set(power);
 	}
 
 	public void addVisionPose(Pose2d pose, double timestamp) {
@@ -186,5 +191,9 @@ public class Drivetrain implements TickedSubsystem {
 
 	public double getHeading() {
 		return gyro.getAngle();
+	}
+
+	public double getPitch() {
+		return gyro.getPitch();
 	}
 }
