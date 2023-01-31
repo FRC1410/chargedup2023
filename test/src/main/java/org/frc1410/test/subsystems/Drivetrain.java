@@ -192,4 +192,8 @@ public class Drivetrain implements TickedSubsystem {
 	public double getHeading() {
 		return gyro.getAngle();
 	}
+
+	public double getPitch() {
+		return gyro.getPitch();
+	}
 }
