@@ -3,12 +3,12 @@ package org.frc1410.test.util;
 public interface Tuning {
     // Ramsete
 	double KB = 2.0;
-    double KZ = 0.7;
+	double KZ = 0.7;
 
-    double KP_VEL = 0.25;
+	double KP_VEL = 0.25;
 	double KP_VEL_SLOW = 0.25;
-    double MAX_SPEED = 4; // 4.0 for FAST
-    double MAX_ACCEL = 4; // 4.0 for FAST
+	double MAX_SPEED = 4; // 4.0 for FAST
+	double MAX_ACCEL = 4; // 4.0 for FAST
 
 	// Engage
 	double ENGAGE_P = 1;

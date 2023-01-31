@@ -131,14 +131,14 @@ public class Drivetrain implements TickedSubsystem {
 		drive.feed();
 	}
 
-    public Pose2d getPoseEstimation() {
-        return poseEstimator.getEstimatedPosition();
-    }
+	public Pose2d getPoseEstimation() {
+			return poseEstimator.getEstimatedPosition();
+	}
 
-    public void setEngagePower(double power) {
-        leftLeader.set(power);
-        rightLeader.set(power);
-    }
+	public void setEngagePower(double power) {
+		leftLeader.set(power);
+		rightLeader.set(power);
+	}
 
 	public void addVisionPose(Pose2d pose, double timestamp) {
 		poseEstimator.addVisionMeasurement(pose, timestamp, new Matrix<>(VecBuilder.fill(0.3, 0.3, 0.3)));
