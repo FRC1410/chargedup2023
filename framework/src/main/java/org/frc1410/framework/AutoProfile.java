@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public record AutoProfile(@NotNull String name, @NotNull Supplier<@NotNull Command> supplier, int id) {
-    public AutoProfile {
-        Objects.requireNonNull(name);
-        Objects.requireNonNull(supplier);
-    }
+	public AutoProfile {
+		Objects.requireNonNull(name);
+		Objects.requireNonNull(supplier);
+	}
 }

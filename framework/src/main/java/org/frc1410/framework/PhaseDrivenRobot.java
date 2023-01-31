@@ -24,21 +24,21 @@ import org.frc1410.framework.util.log.Logger;
  */
 public abstract class PhaseDrivenRobot extends TimedRobot {
 
-    private static final Logger LOG = new Logger("Robot");
+	private static final Logger LOG = new Logger("Robot");
 
-    protected final TaskScheduler scheduler = new TaskScheduler();
+	protected final TaskScheduler scheduler = new TaskScheduler();
 	protected final PhaseController phaseController = new PhaseController(scheduler);
-    protected final SubsystemStore subsystems = new SubsystemStore(scheduler);
+	protected final SubsystemStore subsystems = new SubsystemStore(scheduler);
 
-    public PhaseDrivenRobot() {
-        super();
-    }
+	public PhaseDrivenRobot() {
+		super();
+	}
 
-    public PhaseDrivenRobot(double period) {
-        super(period);
-    }
+	public PhaseDrivenRobot(double period) {
+		super(period);
+	}
 
-    @Override
+	@Override
 	public final void robotPeriodic() {
 		if (phaseController.isTransitioning()) {
 			LOG.warn("Scheduler tick submitted during transition. Skipped.");
@@ -46,20 +46,20 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		}
 
 		// Tick the main loop. This loop just runs on the default robot period.
-        scheduler.loopStore.main.tick();
+		scheduler.loopStore.main.tick();
 
-        {
-            // Grab the queue of untracked loops.
-            var loops = scheduler.loopStore.getUntrackedLoops();
-            if (loops.isEmpty()) return; // Optimization: early return
+		{
+			// Grab the queue of untracked loops.
+			var loops = scheduler.loopStore.getUntrackedLoops();
+			if (loops.isEmpty()) return; // Optimization: early return
 
-            // This is a fast way to iterate over all untracked loops and to schedule them while popping them.
-            // This is optimized to prevent tick overruns as it executes each tick on periodic.
-            Loop loop;
-            while ((loop = loops.pollFirst()) != null) {
-                addPeriodic(loop::tick, loop.getPeriodSeconds());
-            }
-        }
+			// This is a fast way to iterate over all untracked loops and to schedule them while popping them.
+			// This is optimized to prevent tick overruns as it executes each tick on periodic.
+			Loop loop;
+			while ((loop = loops.pollFirst()) != null) {
+				addPeriodic(loop::tick, loop.getPeriodSeconds());
+			}
+		}
 	}
 
 	// <editor-fold desc="> Phase hooks" defaultstate="collapsed">
@@ -71,65 +71,65 @@ public abstract class PhaseDrivenRobot extends TimedRobot {
 		phaseController.beginTransition();
 	}
 
-    /**
-     * The hook for when a robot enters the {@link Phase#DISABLED} phase.
-     * It should be used to set up any tasks that should be executed in
-     * this phase.
-     */
+	/**
+	 * The hook for when a robot enters the {@link Phase#DISABLED} phase.
+	 * It should be used to set up any tasks that should be executed in
+	 * this phase.
+	 */
 	protected void disabledSequence() {
 
-    }
+	}
 
-    /**
-     * The hook for when a robot enters the {@link Phase#AUTONOMOUS} phase.
-     * It should be used to set up any tasks that should be executed in
-     * this phase.
-     */
-    protected void autonomousSequence() {
+	/**
+	 * The hook for when a robot enters the {@link Phase#AUTONOMOUS} phase.
+	 * It should be used to set up any tasks that should be executed in
+	 * this phase.
+	 */
+	protected void autonomousSequence() {
 
-    }
+	}
 
-    /**
-     * The hook for when a robot enters the {@link Phase#TELEOP} phase.
-     * It should be used to set up any tasks that should be executed in
-     * this phase.
-     */
-    protected void teleopSequence() {
+	/**
+	 * The hook for when a robot enters the {@link Phase#TELEOP} phase.
+	 * It should be used to set up any tasks that should be executed in
+	 * this phase.
+	 */
+	protected void teleopSequence() {
 
-    }
+	}
 
-    /**
-     * The hook for when a robot enters the {@link Phase#TEST} phase.
-     * It should be used to set up any tasks that should be executed in
-     * this phase.
-     */
-    protected void testSequence() {
+	/**
+	 * The hook for when a robot enters the {@link Phase#TEST} phase.
+	 * It should be used to set up any tasks that should be executed in
+	 * this phase.
+	 */
+	protected void testSequence() {
 
-    }
+	}
 
 	// Initialization methods.
 	@Override
 	public final void disabledInit() {
 		phaseController.transition(Phase.DISABLED);
-        disabledSequence();
+		disabledSequence();
 	}
 
 	@Override
 	public final void autonomousInit() {
 		phaseController.transition(Phase.AUTONOMOUS);
-        autonomousSequence();
+		autonomousSequence();
 	}
 
 	@Override
 	public final void teleopInit() {
 		phaseController.transition(Phase.TELEOP);
-        teleopSequence();
+		teleopSequence();
 	}
 
 	@Override
 	public final void testInit() {
 		phaseController.transition(Phase.TEST);
-        testSequence();
+		testSequence();
 	}
 
 	@Override

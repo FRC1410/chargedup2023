@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public interface TickedSubsystem extends Subsystem {
 
-    default long getPeriod() {
-        return -1L;
-    }
+	default long getPeriod() {
+		return -1L;
+	}
 
-    @Override
-    void periodic();
+	@Override
+	void periodic();
 
-    @Override
-    default void simulationPeriodic() {
-        
-    }
+	@Override
+	default void simulationPeriodic() {
+		
+	}
 }

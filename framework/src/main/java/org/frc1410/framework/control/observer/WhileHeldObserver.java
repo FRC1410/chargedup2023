@@ -7,18 +7,18 @@ import org.jetbrains.annotations.NotNull;
 
 public class WhileHeldObserver implements Observer {
 
-    private final Button button;
+	private final Button button;
 
-    public WhileHeldObserver(Button button) {
-        this.button = button;
-    }
+	public WhileHeldObserver(Button button) {
+		this.button = button;
+	}
 
-    @Override
-    public void tick(@NotNull LifecycleHandle handle) {
-        if (button.isActive()) {
-            handle.requestExecution();
-        } else {
-            handle.requestSuspension();
-        }
-    }
+	@Override
+	public void tick(@NotNull LifecycleHandle handle) {
+		if (button.isActive()) {
+			handle.requestExecution();
+		} else {
+			handle.requestSuspension();
+		}
+	}
 }

@@ -7,20 +7,20 @@ import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 public class Intake implements TickedSubsystem, Subsystem {
 
-    private final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(10);
+	private final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(10);
 
-    public void setIntakeSpeed(double speed){
-        intakeMotor.set(speed);
-    }
+	public void setIntakeSpeed(double speed) {
+		intakeMotor.set(speed);
+	}
 
-    public Intake() {
-        // TODO: Set the default command, if any, for this subsystem by calling setDefaultCommand(command)
-        //       in the constructor or in the robot coordination class, such as RobotContainer.
-    }
+	public Intake() {
+		// TODO: Set the default command, if any, for this subsystem by calling setDefaultCommand(command)
+		//	   in the constructor or in the robot coordination class, such as RobotContainer.
+	}
 
-    @Override
-    public void periodic() {
+	@Override
+	public void periodic() {
 
-    }
+	}
 }
 

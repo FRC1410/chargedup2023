@@ -7,34 +7,34 @@ import org.frc1410.framework.control.Axis;
 
 public class RunIntakeLooped extends CommandBase {
 
-    private final Intake intake;
-    private final Axis rightTrigger;
-    private final Axis leftTrigger;
-    private double speed;
+	private final Intake intake;
+	private final Axis rightTrigger;
+	private final Axis leftTrigger;
+	private double speed;
 
-    public RunIntakeLooped(Intake intake, Axis leftTrigger, Axis rightTrigger) {
-        this.intake = intake;
-        this.leftTrigger = leftTrigger;
-        this.rightTrigger = rightTrigger;
+	public RunIntakeLooped(Intake intake, Axis leftTrigger, Axis rightTrigger) {
+		this.intake = intake;
+		this.leftTrigger = leftTrigger;
+		this.rightTrigger = rightTrigger;
 
-        addRequirements(intake);
-    }
+		addRequirements(intake);
+	}
 
-    @Override
-    public void initialize() {}
+	@Override
+	public void initialize() {}
 
-    @Override
-    public void execute() {
-        intake.setSpeed(leftTrigger.get() - rightTrigger.get());
-    }
+	@Override
+	public void execute() {
+		intake.setSpeed(leftTrigger.get() - rightTrigger.get());
+	}
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 
-    @Override
-    public void end(boolean interrupted) {
-        intake.setSpeed(0);
-    }
+	@Override
+	public void end(boolean interrupted) {
+		intake.setSpeed(0);
+	}
 }

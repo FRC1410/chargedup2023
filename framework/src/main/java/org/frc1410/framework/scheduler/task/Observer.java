@@ -10,32 +10,32 @@ import org.jetbrains.annotations.NotNull;
 @FunctionalInterface
 public interface Observer {
 
-    /**
-     * The default observer that requests execution every tick.
-     */
-    Observer DEFAULT = LifecycleHandle::requestExecution;
+	/**
+	 * The default observer that requests execution every tick.
+	 */
+	Observer DEFAULT = LifecycleHandle::requestExecution;
 
-    /**
-     * An observer that will not modify the task's state at all.
-     */
-    Observer NO_OP = new NoOpObserver();
+	/**
+	 * An observer that will not modify the task's state at all.
+	 */
+	Observer NO_OP = new NoOpObserver();
 
-    void tick(@NotNull LifecycleHandle handle);
+	void tick(@NotNull LifecycleHandle handle);
 
-    default void init(LifecycleHandle handle) {
+	default void init(LifecycleHandle handle) {
 
-    }
+	}
 }
 
 final class NoOpObserver implements Observer {
 
-    @Override
-    public void tick(@NotNull LifecycleHandle handle) {
+	@Override
+	public void tick(@NotNull LifecycleHandle handle) {
 
-    }
+	}
 
-    @Override
-    public void init(LifecycleHandle handle) {
-        handle.requestExecution();
-    }
+	@Override
+	public void init(LifecycleHandle handle) {
+		handle.requestExecution();
+	}
 }

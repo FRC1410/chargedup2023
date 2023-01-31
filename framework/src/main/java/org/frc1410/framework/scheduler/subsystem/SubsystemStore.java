@@ -13,29 +13,29 @@ import java.util.Objects;
 
 public final class SubsystemStore {
 
-    private static final Logger LOG = new Logger("SubsystemStore");
+	private static final Logger LOG = new Logger("SubsystemStore");
 
-    private final TaskScheduler scheduler;
+	private final TaskScheduler scheduler;
 
-    public SubsystemStore(@NotNull TaskScheduler scheduler) {
-        this.scheduler = Objects.requireNonNull(scheduler);
-    }
+	public SubsystemStore(@NotNull TaskScheduler scheduler) {
+		this.scheduler = Objects.requireNonNull(scheduler);
+	}
 
-    public <S extends Subsystem> S track(S subsystem) {
-        if (subsystem instanceof TickedSubsystem ticked) {
-            var task = new SubsystemPeriodicTask(ticked);
-            var period = ticked.getPeriod();
+	public <S extends Subsystem> S track(S subsystem) {
+		if (subsystem instanceof TickedSubsystem ticked) {
+			var task = new SubsystemPeriodicTask(ticked);
+			var period = ticked.getPeriod();
 
-            LOG.info("Registered subsystem %s for ticking with period %d", subsystem, period);
-            if (period != -1L) {
-                scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL, period);
-            } else {
-                scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL);
-            }
-        } else {
-            LOG.warn("Registered subsystem %s but it is not ticked so it will not be scheduled.", subsystem);
-        }
-        
-        return subsystem;
-    }
+			LOG.info("Registered subsystem %s for ticking with period %d", subsystem, period);
+			if (period != -1L) {
+				scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL, period);
+			} else {
+				scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL);
+			}
+		} else {
+			LOG.warn("Registered subsystem %s but it is not ticked so it will not be scheduled.", subsystem);
+		}
+		
+		return subsystem;
+	}
 }

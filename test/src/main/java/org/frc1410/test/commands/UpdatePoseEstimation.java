@@ -2,35 +2,39 @@ package org.frc1410.test.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.test.subsystems.ExternalCamera;
 
+import static org.frc1410.test.util.Constants.FIELD_WIDTH;
+import static org.frc1410.test.util.Tuning.ANGLE_THRESHOLD;
+
 public class UpdatePoseEstimation extends CommandBase {
-    private final Drivetrain drivetrain;
-    private final ExternalCamera camera;
 
-    public UpdatePoseEstimation(Drivetrain drivetrain, ExternalCamera camera) {
-        this.drivetrain = drivetrain;
-        this.camera = camera;
-    }
+	private final Drivetrain drivetrain;
+	private final ExternalCamera camera;
 
-    @Override
-    public void execute() {
-        camera.getEstimatorPose(drivetrain.poseEstimator.getEstimatedPosition())
-                .ifPresent(pose -> drivetrain.addVisionPose(
-                        new Pose2d(
-                                pose.estimatedPose.toPose2d().getX(),
-                                pose.estimatedPose.toPose2d().getY(),
-                                new Rotation2d(
-                                        Units.degreesToRadians(drivetrain.getHeading())
-                                )),
-                                camera.getTimestamp()));
-    }
+	public UpdatePoseEstimation(Drivetrain drivetrain, ExternalCamera camera) {
+		this.drivetrain = drivetrain;
+		this.camera = camera;
+	}
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+	@Override
+	public void execute() {
+//		camera.getEstimatorPose(drivetrain.getPoseEstimation())
+//				.ifPresent(pose -> drivetrain.addVisionPose(
+//						new Pose2d(
+//								pose.estimatedPose.toPose2d().getX(),
+//								FIELD_WIDTH - pose.estimatedPose.toPose2d().getY(),
+//								pose.estimatedPose.toPose2d().getRotation()),
+////								drivetrain.getPoseEstimation().getRotation()),
+//						camera.getTimestamp()));
+		camera.getEstimatorPose().ifPresent(pose -> {
+			if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
+				drivetrain.addVisionPose(pose,
+//								drivetrain.getPoseEstimation().getRotation()),
+						camera.getTimestamp());
+			}
+		});
+	}
 }

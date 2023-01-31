@@ -13,13 +13,13 @@ import org.jetbrains.annotations.Nullable;
  * @see Loop
  */
 public record BoundTask(
-        @NotNull LifecycleHandle handle,
-        @NotNull Task job,
-        @NotNull TaskPersistence persistence,
-        @NotNull Observer observer,
-        @Nullable TaskLock lock
+		@NotNull LifecycleHandle handle,
+		@NotNull Task job,
+		@NotNull TaskPersistence persistence,
+		@NotNull Observer observer,
+		@Nullable TaskLock lock
 ) {
-    public BoundTask {
-        observer.init(handle); // Set the state to its correct initial value
-    }
+	public BoundTask {
+		observer.init(handle); // Set the state to its correct initial value
+	}
 }

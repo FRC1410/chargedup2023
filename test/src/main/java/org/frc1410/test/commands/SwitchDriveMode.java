@@ -5,6 +5,7 @@ import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.framework.control.Controller;
 
 public class SwitchDriveMode extends CommandBase {
+	
 	private final Drivetrain drivetrain;
 	private final Controller controller;
 
