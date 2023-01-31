@@ -52,7 +52,7 @@ public class ExternalCamera implements TickedSubsystem {
 		if (hasTargets()) {
 			pose = (new Pose3d())
 					.transformBy(camera.getLatestResult().getBestTarget().getBestCameraToTarget().inverse())
-					.transformBy(new Transform3d(new Translation3d(Units.inchesToMeters(16.5), 0, Units.inchesToMeters(25.5)), new Rotation3d()))
+					.transformBy(new Transform3d(new Translation3d(Units.inchesToMeters(-16.5), 0, Units.inchesToMeters(25.5)), new Rotation3d()))
 					.toPose2d();
 		}
 
@@ -61,9 +61,11 @@ public class ExternalCamera implements TickedSubsystem {
 //            y.set(Units.metersToInches(pose.estimatedPose.getY()));
 //            angle.set(pose.estimatedPose.toPose2d().getRotation().getDegrees());
 //        });
-		x.set(Units.metersToInches(pose.getX()));
-		y.set(Units.metersToInches(pose.getY()));
-		angle.set(pose.getRotation().getDegrees());
+		x.set(Units.metersToInches(-pose.getX()));
+		y.set(Units.metersToInches(-pose.getY()));
+		angle.set(Units.radiansToDegrees(pose.getRotation().getRadians() > 0 ?
+				Math.PI - pose.getRotation().getRadians() :
+				-Math.PI - pose.getRotation().getRadians()));
         instance.flush();
     }
 
@@ -73,7 +75,14 @@ public class ExternalCamera implements TickedSubsystem {
 //    }
 
 	public Optional<Pose2d> getEstimatorPose() {
-		return Optional.ofNullable(pose);
+		return Optional.of(
+				new Pose2d(
+					-pose.getX(),
+					pose.getY(),
+					new Rotation2d(pose.getRotation().getRadians() > 0 ?
+						Math.PI - pose.getRotation().getRadians() :
+						-Math.PI - pose.getRotation().getRadians()))
+		);
 	}
 
     public boolean hasTargets() {

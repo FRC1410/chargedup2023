@@ -1,6 +1,7 @@
 package org.frc1410.test.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.test.subsystems.ExternalCamera;
@@ -30,11 +31,7 @@ public class UpdatePoseEstimation extends CommandBase {
 //						camera.getTimestamp()));
 		camera.getEstimatorPose().ifPresent(pose -> {
 			if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
-				drivetrain.addVisionPose(
-						new Pose2d(
-								pose.getX(),
-								pose.getY(), //TODO: Inverse if necessary
-								pose.getRotation()),
+				drivetrain.addVisionPose(pose,
 //								drivetrain.getPoseEstimation().getRotation()),
 						camera.getTimestamp());
 			}

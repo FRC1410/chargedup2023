@@ -26,11 +26,11 @@ public interface POIs {
     Pose2d OUTSIDE_CHARGING_STATION_FAR = new Pose2d(inchesToMeters(210.12), inchesToMeters(235), Rotation2d.fromDegrees(0));
 
 	// AprilTag Alignment
-	Pose2d RED_LEFT_CONE_NODE = new Pose2d(-Units.inchesToMeters(40), Units.inchesToMeters(24), new Rotation2d());
+	Pose2d RED_LEFT_CONE_NODE = new Pose2d(-Units.inchesToMeters(40), -Units.inchesToMeters(24), new Rotation2d());
 	Pose2d RED_CUBE_NODE = new Pose2d(-Units.inchesToMeters(40), 0, new Rotation2d());
-	Pose2d RED_RIGHT_CONE_NODE = new Pose2d(-Units.inchesToMeters(40), -Units.inchesToMeters(24), new Rotation2d());
+	Pose2d RED_RIGHT_CONE_NODE = new Pose2d(-Units.inchesToMeters(40), Units.inchesToMeters(24), new Rotation2d());
 
-	Pose2d BLUE_LEFT_CONE_NODE = new Pose2d(Units.inchesToMeters(40), Units.inchesToMeters(24), Rotation2d.fromDegrees(180));
+	Pose2d BLUE_LEFT_CONE_NODE = new Pose2d(Units.inchesToMeters(40), -Units.inchesToMeters(24), Rotation2d.fromDegrees(180));
 	Pose2d BLUE_CUBE_NODE = new Pose2d(Units.inchesToMeters(40), 0, Rotation2d.fromDegrees(180));
-	Pose2d BLUE_RIGHT_CONE_NODE = new Pose2d(Units.inchesToMeters(40), -Units.inchesToMeters(24), Rotation2d.fromDegrees(180));
+	Pose2d BLUE_RIGHT_CONE_NODE = new Pose2d(Units.inchesToMeters(40), Units.inchesToMeters(24), Rotation2d.fromDegrees(180));
 }

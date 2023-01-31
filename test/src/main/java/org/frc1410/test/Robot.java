@@ -60,6 +60,7 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void teleopSequence() {
+		drivetrain.zeroHeading();
         drivetrain.brakeMode();
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
@@ -67,7 +68,7 @@ public final class Robot extends PhaseDrivenRobot {
 
         driverController.RIGHT_BUMPER.whenPressed(new SwitchDriveMode(drivetrain, driverController), TaskPersistence.EPHEMERAL);
         driverController.LEFT_BUMPER.whenPressed(new FlipDrivetrainAction(drivetrain, driverController), TaskPersistence.EPHEMERAL);
-        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.CUBE_NODE, scheduler), TaskPersistence.EPHEMERAL);
+        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.RIGHT_CONE_NODE, scheduler), TaskPersistence.EPHEMERAL);
         driverController.X.whileHeld(new DetectAprilTag(camera, driverController), TaskPersistence.EPHEMERAL);
     }
 
