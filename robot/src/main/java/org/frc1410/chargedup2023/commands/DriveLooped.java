@@ -26,11 +26,7 @@ public class DriveLooped extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (drivetrain.getDriveMode()) {
-			drivetrain.triggerTankDrive(leftYAxis.get(), rightYAxis.get(), triggerRight.get(), triggerLeft.get());
-		} else {
-			drivetrain.arcadeDrive(leftYAxis.get(), rightXAxis.get(), true);
-		}
+		drivetrain.triggerTankDrive(leftYAxis.get(), rightYAxis.get(), triggerRight.get(), triggerLeft.get());
 	}
 
 	@Override

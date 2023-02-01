@@ -46,7 +46,6 @@ public class Drivetrain implements TickedSubsystem {
 
 	// Inverted flag for flipping driving direction in Teleop
 	private boolean isInverted = true;
-	private boolean isArcadeDrive = false;
 
 	public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
 			new Rotation2d(), 0., 0., new Pose2d());
@@ -91,18 +90,6 @@ public class Drivetrain implements TickedSubsystem {
 		voltagePub.set(RobotController.getBatteryVoltage());
 	}
 
-	public boolean getDriveMode() {
-		return isArcadeDrive;
-	}
-
-	public void tankDrive(double left, double right, boolean squared) {
-		if (isInverted) {
-			drive.tankDrive(-left, -right, squared);
-		} else {
-			drive.tankDrive(right, left, squared);
-		}
-	}
-
 	public void triggerTankDrive(double left, double right, double triggerForwards, double triggerBackwards) {
 		if (triggerForwards == 0 && triggerBackwards == 0) {
 			tankDriveVolts((-right * 12), (-left * 12));
@@ -111,15 +98,6 @@ public class Drivetrain implements TickedSubsystem {
 			double leftValue = (triggerValue + (-right * 0.50)) * 12;
 			double rightValue = (triggerValue + (-left * 0.50)) * 12;
 			tankDriveVolts(leftValue, rightValue);
-		}
-	}
-
-	public void arcadeDrive(double speed, double rotation, boolean squared) {
-		// If rotation value is positive, the rotation is counter-clockwise
-		if (isInverted) {
-			drive.arcadeDrive(-speed, -rotation, squared);
-		} else {
-			drive.arcadeDrive(speed, -rotation, squared);
 		}
 	}
 
@@ -158,10 +136,6 @@ public class Drivetrain implements TickedSubsystem {
 
 	public void flip() {
 		isInverted = !isInverted;
-	}
-
-	public void switchDriveMode() {
-		isArcadeDrive = !isArcadeDrive;
 	}
 
 	public void resetFollowers() {

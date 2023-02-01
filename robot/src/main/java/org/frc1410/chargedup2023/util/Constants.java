@@ -2,6 +2,9 @@ package org.frc1410.chargedup2023.util;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface Constants {
 	
 	int DRIVER_CONTROLLER = 0;
@@ -26,4 +29,8 @@ public interface Constants {
 
 	double LBORK_CUBE_INTAKE_SPEED = 0.6;
 	double LBORK_CUBE_OUTTAKE_SPEED = 0.3;
+
+	// AprilTags
+	List<Integer> RED_TAGS = new ArrayList<>(List.of(1, 2, 3, 4));
+	List<Integer> BLUE_TAGS = new ArrayList<>(List.of(5, 6, 7, 8));
 }
