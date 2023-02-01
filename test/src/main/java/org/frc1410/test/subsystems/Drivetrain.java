@@ -189,6 +189,11 @@ public class Drivetrain implements TickedSubsystem {
 		gyro.reset();
 	}
 
+	public void zeroHeading(double angle) {
+		gyro.reset();
+		gyro.setAngleAdjustment(angle);
+	}
+
 	public double getHeading() {
 		return gyro.getAngle();
 	}
