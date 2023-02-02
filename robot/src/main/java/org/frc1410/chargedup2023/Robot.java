@@ -5,10 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.*;
-import org.frc1410.chargedup2023.subsystems.Drivetrain;
-import org.frc1410.chargedup2023.subsystems.ExternalCamera;
-import org.frc1410.chargedup2023.subsystems.Intake;
-import org.frc1410.chargedup2023.subsystems.LBork;
+import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
@@ -27,6 +24,7 @@ public final class Robot extends PhaseDrivenRobot {
 	private final ExternalCamera camera = subsystems.track(new ExternalCamera());
 	private final Intake intake = new Intake();
 	private final LBork lBork = new LBork();
+	private final Elevator elevator = new Elevator();
 
 	private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
 	private final NetworkTable table = nt.getTable("Auto");
