@@ -19,6 +19,10 @@ public class Elevator implements Subsystem {
 		leaderMotor.restoreFactoryDefaults();
 		followerMotor.restoreFactoryDefaults();
 		followerMotor.follow(leaderMotor);
+		followerMotor.setInverted(true);
+
+		leaderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+		followerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 	}
 
 	public void setSpeed(double speed) {

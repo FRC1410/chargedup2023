@@ -60,7 +60,6 @@ public final class Robot extends PhaseDrivenRobot {
 
 		operatorController.Y.whileHeld(new RunLBorkCone(lBork, false), TaskPersistence.GAMEPLAY);
 		operatorController.X.whileHeld(new RunLBorkCone(lBork, true), TaskPersistence.GAMEPLAY);
-
 		operatorController.B.whileHeld(new RunLBorkCube(lBork, false), TaskPersistence.GAMEPLAY);
 		operatorController.A.whileHeld(new RunLBorkCube(lBork, true), TaskPersistence.GAMEPLAY);
 	}
