@@ -22,9 +22,9 @@ public final class Robot extends PhaseDrivenRobot {
 
 	private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
 	private final ExternalCamera camera = subsystems.track(new ExternalCamera());
+	private final Elevator elevator = subsystems.track(new Elevator());
 	private final Intake intake = new Intake();
 	private final LBork lBork = new LBork();
-	private final Elevator elevator = new Elevator();
 
 	private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
 	private final NetworkTable table = nt.getTable("Auto");

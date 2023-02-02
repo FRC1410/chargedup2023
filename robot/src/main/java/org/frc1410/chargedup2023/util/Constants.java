@@ -33,4 +33,7 @@ public interface Constants {
 	// AprilTags
 	List<Integer> RED_TAGS = new ArrayList<>(List.of(1, 2, 3, 4));
 	List<Integer> BLUE_TAGS = new ArrayList<>(List.of(5, 6, 7, 8));
+
+	// Elevator
+	double ELEVATOR_SPEED = 0.5;
 }
