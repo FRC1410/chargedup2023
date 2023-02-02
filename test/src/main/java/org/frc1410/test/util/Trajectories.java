@@ -29,8 +29,10 @@ public interface Trajectories {
     DoublePublisher rightMeasurementPub = NetworkTables.PublisherFactory(table, "Right Measurement", 0);
     DoublePublisher rightReferencePub = NetworkTables.PublisherFactory(table, "Right Desired", 0);
 
+//	DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
+//            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
 	DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
+            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 8);
 
     DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(KS_SLOW, KV_SLOW, KA_SLOW), KINEMATICS, 5);
@@ -105,8 +107,9 @@ public interface Trajectories {
     }
 
 	static RamseteCommand OutsideGamePieceToScore(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_COMMUNITY_SCORE),
-				config), realisticFeedforward, leftController, rightController, drivetrain);
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+						OUTSIDE_GAME_PIECE_FORWARD, List.of(OUTSIDE_GAME_PIECE_SCORE_MIDPOINT), OUTSIDE_COMMUNITY_SCORE, reverseConfig),
+				realisticFeedforward, leftController, rightController, drivetrain);
 	}
 
     static RamseteCommand OutsideScoreToChargingStation(Drivetrain drivetrain) {
@@ -122,16 +125,18 @@ public interface Trajectories {
 
     static RamseteCommand BarrierGamePieceToChargingStation(Drivetrain drivetrain) {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_CHARGING_STATION_FAR),
-				slowConfig), tunedFeedforward, leftController, rightController, drivetrain);
+				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
     }
+
+	static RamseteCommand BarrierGamePieceToScore(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+						List.of(BARRIER_GAME_PIECE_FORWARD, BARRIER_GAME_PIECE_SCORE_MIDPOINT, BARRIER_COMMUNITY_SCORE), slowReverseConfig),
+				realisticFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+	}
 
     static RamseteCommand BarrierScoreToChargingStation(Drivetrain drivetrain) {
         return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, BARRIER_CHARGING_STATION_COMMUNITY),
-				slowConfig), tunedFeedforward, leftController, rightController, drivetrain);
+				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
     }
 
-    static RamseteCommand BarrierGamePieceToScore(Drivetrain drivetrain) {
-        return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_COMMUNITY_SCORE),
-				config), realisticFeedforward, leftController, rightController, drivetrain);
-    }
 }

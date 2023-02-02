@@ -12,9 +12,6 @@ public class Barrier2ConeEngage extends SequentialCommandGroup {
 	public Barrier2ConeEngage(Drivetrain drivetrain) {
 		drivetrain.resetPoseEstimation(BARRIER_COMMUNITY_START);
 
-		addCommands(
-				Trajectories.BarrierCommunityToGamePiece(drivetrain),
-				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
-		);
+		addCommands();
 	}
 }
