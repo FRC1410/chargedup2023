@@ -5,13 +5,10 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 
 
 public class ToggleIntake extends CommandBase {
-
 	private final Intake intake;
 
 	public ToggleIntake(Intake intake) {
 		this.intake = intake;
-
-		addRequirements(intake);
 	}
 
 	@Override
@@ -20,17 +17,7 @@ public class ToggleIntake extends CommandBase {
 	}
 
 	@Override
-	public void execute() {
-
-	}
-
-	@Override
 	public boolean isFinished() {
 		return true;
-	}
-
-	@Override
-	public void end(boolean interrupted) {
-
 	}
 }

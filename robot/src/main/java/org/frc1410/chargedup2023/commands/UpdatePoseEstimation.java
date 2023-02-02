@@ -7,7 +7,6 @@ import org.frc1410.chargedup2023.subsystems.ExternalCamera;
 import static org.frc1410.chargedup2023.util.Tuning.ANGLE_THRESHOLD;
 
 public class UpdatePoseEstimation extends CommandBase {
-
 	private final Drivetrain drivetrain;
 	private final ExternalCamera camera;
 

@@ -12,7 +12,7 @@ public class RunLBorkCone extends CommandBase {
 	public RunLBorkCone(LBork lBork, boolean outtaking) {
 		this.lBork = lBork;
 		this.outtaking = outtaking;
-		addRequirements(this.lBork);
+		addRequirements(lBork);
 	}
 
 	@Override
