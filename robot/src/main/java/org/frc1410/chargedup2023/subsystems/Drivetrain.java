@@ -23,7 +23,6 @@ import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Drivetrain implements TickedSubsystem {
-
 	// NetworkTables entries
 	NetworkTableInstance instance = NetworkTableInstance.getDefault();
 	NetworkTable table = instance.getTable("Drivetrain");
@@ -40,8 +39,6 @@ public class Drivetrain implements TickedSubsystem {
 	public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
 	private final DifferentialDrive drive;
-
-	private boolean isInverted = false;
 
 	private final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
 			new Rotation2d(), 0., 0., new Pose2d());

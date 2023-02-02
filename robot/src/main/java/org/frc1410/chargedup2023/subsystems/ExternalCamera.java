@@ -15,8 +15,6 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import java.io.IOException;
 import java.util.Optional;
 
-//import static org.frc1410.test.util.Constants.fieldLayout;
-
 public class ExternalCamera implements TickedSubsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Vision Data");
