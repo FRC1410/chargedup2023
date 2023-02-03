@@ -1,13 +1,12 @@
-package org.frc1410.test.commands;
+package org.frc1410.chargedup2023.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import org.frc1410.test.subsystems.Drivetrain;
-import org.frc1410.test.subsystems.ExternalCamera;
+import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.ExternalCamera;
 
-import static org.frc1410.test.util.Tuning.ANGLE_THRESHOLD;
+import static org.frc1410.chargedup2023.util.Tuning.ANGLE_THRESHOLD;
 
 public class UpdatePoseEstimation extends CommandBase {
-
 	private final Drivetrain drivetrain;
 	private final ExternalCamera camera;
 

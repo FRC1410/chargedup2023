@@ -7,27 +7,21 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class RunLBorkCone extends CommandBase {
 	private final LBork lBork;
+	private final boolean outtaking;
 
-	private final boolean outtakeing;
-
-	public RunLBorkCone(LBork lBork, boolean outtaeking) {
+	public RunLBorkCone(LBork lBork, boolean outtaking) {
 		this.lBork = lBork;
-		this.outtakeing = outtaeking;
-		addRequirements(this.lBork);
+		this.outtaking = outtaking;
+		addRequirements(lBork);
 	}
 
 	@Override
 	public void initialize() {
-		if (outtakeing) {
+		if (outtaking) {
 			lBork.setRollerSpeeds(LBORK_CONE_OUTTAKE_SPEED, -LBORK_CONE_OUTTAKE_SPEED);
 		} else {
 			lBork.setRollerSpeeds(LBORK_CONE_INTAKE_SPEED, -LBORK_CONE_INTAKE_SPEED);
 		}
-	}
-
-	@Override
-	public void execute() {
-
 	}
 
 	@Override

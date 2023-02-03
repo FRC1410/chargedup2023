@@ -7,19 +7,18 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class RunLBorkCube extends CommandBase {
 	private final LBork lBork;
+	private final boolean outtaking;
 
-	private final boolean outtakeing;
-
-	public RunLBorkCube(LBork lBork, boolean outtakeing) {
+	public RunLBorkCube(LBork lBork, boolean outtaking) {
 		this.lBork = lBork;
-		this.outtakeing = outtakeing;
+		this.outtaking = outtaking;
 
-		addRequirements(this.lBork);
+		addRequirements(lBork);
 	}
 
 	@Override
 	public void initialize() {
-		if (outtakeing) {
+		if (outtaking) {
 			lBork.setRollerSpeeds(LBORK_CUBE_OUTTAKE_SPEED, LBORK_CUBE_OUTTAKE_SPEED);
 		} else {
 			lBork.setRollerSpeeds(LBORK_CUBE_INTAKE_SPEED, LBORK_CUBE_INTAKE_SPEED);

@@ -3,7 +3,7 @@ package org.frc1410.chargedup2023.util;
 import edu.wpi.first.networktables.*;
 
 public interface NetworkTables {
-	
+
 	/**
 	 * Creates a publisher for a topic in a given table with a starting value
 	 * @param table NetworkTable, desired table for Publisher

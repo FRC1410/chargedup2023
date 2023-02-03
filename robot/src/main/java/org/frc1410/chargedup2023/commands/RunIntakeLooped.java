@@ -6,7 +6,6 @@ import org.frc1410.framework.control.Axis;
 
 
 public class RunIntakeLooped extends CommandBase {
-
 	private final Intake intake;
 	private final Axis rightTrigger;
 	private final Axis leftTrigger;

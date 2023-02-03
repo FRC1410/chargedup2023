@@ -3,6 +3,8 @@ package org.frc1410.chargedup2023.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,6 +13,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.chargedup2023.util.NetworkTables;
@@ -20,13 +23,13 @@ import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Drivetrain implements TickedSubsystem {
-
 	// NetworkTables entries
 	NetworkTableInstance instance = NetworkTableInstance.getDefault();
 	NetworkTable table = instance.getTable("Drivetrain");
 	DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
 	DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
 	DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
+	DoublePublisher voltagePub = NetworkTables.PublisherFactory(table, "Voltage", 0);
 
 	private final CANSparkMax leftLeader = new CANSparkMax(DRIVETRAIN_LEFT_FRONT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax leftFollower = new CANSparkMax(DRIVETRAIN_LEFT_BACK_MOTOR_ID, MotorType.kBrushless);
@@ -36,9 +39,6 @@ public class Drivetrain implements TickedSubsystem {
 	public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
 	private final DifferentialDrive drive;
-
-	private boolean isInverted = false;
-	private boolean isArcadeDrive = true;
 
 	private final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
 			new Rotation2d(), 0., 0., new Pose2d());
@@ -68,28 +68,17 @@ public class Drivetrain implements TickedSubsystem {
 	@Override
 	public void periodic() {
 		poseEstimator.update(
-				new Rotation2d(Units.degreesToRadians(gyro.getAngle() % 360)),
+				new Rotation2d(Units.degreesToRadians(gyro.getAngle())),
 				(leftLeader.getEncoder().getPosition() + leftFollower.getEncoder().getPosition())/2 * METERS_PER_REVOLUTION,
 				(rightLeader.getEncoder().getPosition() + rightFollower.getEncoder().getPosition())/2 * METERS_PER_REVOLUTION
 		);
 		drive.feed();
 
 		// NetworkTables updating
-		headingPub.set(gyro.getAngle() % 360);
+		headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees());
 		xPub.set(poseEstimator.getEstimatedPosition().getX());
 		yPub.set(poseEstimator.getEstimatedPosition().getY());
-	}
-
-	public boolean getDriveMode() {
-		return isArcadeDrive;
-	}
-
-	public void tankDrive(double left, double right, boolean squared) {
-		if (isInverted) {
-			drive.tankDrive(-left, -right, squared);
-		} else {
-			drive.tankDrive(right, left, squared);
-		}
+		voltagePub.set(RobotController.getBatteryVoltage());
 	}
 
 	public void triggerTankDrive(double left, double right, double triggerForwards, double triggerBackwards) {
@@ -104,15 +93,6 @@ public class Drivetrain implements TickedSubsystem {
 		}
 	}
 
-	public void arcadeDrive(double speed, double rotation, boolean squared) {
-		// If rotation value is positive, the rotation is counter-clockwise
-		if (isInverted) {
-			drive.arcadeDrive(-speed, -rotation, squared);
-		} else {
-			drive.arcadeDrive(speed, -rotation, squared);
-		}
-	}
-
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
 		leftLeader.setVoltage(leftVolts);
 		rightLeader.setVoltage(rightVolts);
@@ -122,6 +102,15 @@ public class Drivetrain implements TickedSubsystem {
 
 	public Pose2d getPoseEstimation() {
 		return poseEstimator.getEstimatedPosition();
+	}
+
+	public void setEngagePower(double power) {
+		leftLeader.set(power);
+		rightLeader.set(power);
+	}
+
+	public void addVisionPose(Pose2d pose, double timestamp) {
+		poseEstimator.addVisionMeasurement(pose, timestamp, new Matrix<>(VecBuilder.fill(0.3, 0.3, 0.3)));
 	}
 
 	public void resetPoseEstimation(Pose2d pose) {
@@ -145,14 +134,6 @@ public class Drivetrain implements TickedSubsystem {
 		return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
 	}
 
-	public void flip() {
-		isInverted = !isInverted;
-	}
-
-	public void switchDriveMode() {
-		isArcadeDrive = !isArcadeDrive;
-	}
-
 	public void coastMode() {
 		leftLeader.setIdleMode(CANSparkMax.IdleMode.kCoast);
 		leftFollower.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -169,5 +150,13 @@ public class Drivetrain implements TickedSubsystem {
 
 	public void zeroHeading() {
 		gyro.reset();
+	}
+
+	public double getHeading() {
+		return gyro.getAngle();
+	}
+
+	public double getPitch() {
+		return gyro.getPitch();
 	}
 }

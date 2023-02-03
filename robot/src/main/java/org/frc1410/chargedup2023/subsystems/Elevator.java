@@ -10,8 +10,8 @@ import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 import static org.frc1410.chargedup2023.util.IDs.ELEVATOR_MOTOR_ONE_ID;
 import static org.frc1410.chargedup2023.util.IDs.ELEVATOR_MOTOR_TWO_ID;
 
+
 public class Elevator implements TickedSubsystem {
-	
 	private final CANSparkMax leaderMotor = new CANSparkMax(ELEVATOR_MOTOR_ONE_ID, MotorType.kBrushed);
 	private final CANSparkMax followerMotor = new CANSparkMax(ELEVATOR_MOTOR_TWO_ID, MotorType.kBrushed);
 
@@ -21,6 +21,10 @@ public class Elevator implements TickedSubsystem {
 		leaderMotor.restoreFactoryDefaults();
 		followerMotor.restoreFactoryDefaults();
 		followerMotor.follow(leaderMotor);
+		followerMotor.setInverted(true);
+
+		leaderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+		followerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 	}
 
 	public void setDesiredState(State target) {

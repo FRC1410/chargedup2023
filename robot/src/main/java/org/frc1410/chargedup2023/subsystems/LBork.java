@@ -10,12 +10,11 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import static org.frc1410.chargedup2023.util.IDs.*;
 
 public class LBork implements Subsystem {
-
 	// L'Bork rollers
 	private final CANSparkMax outerMotor = new CANSparkMax(LBORK_OUTER_ROLLER_ID, MotorType.kBrushless);
 	private final CANSparkMax innerMotor = new CANSparkMax(LBORK_INNER_ROLLER_ID, MotorType.kBrushless);
 
-	//L'Bork actuation
+	// L'Bork actuation
 	private final DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.REVPH, LBORK_PISTON_FOWARD_ID, LBORK_PISTON_BACKWARDS_ID);
 
 	public LBork() {
