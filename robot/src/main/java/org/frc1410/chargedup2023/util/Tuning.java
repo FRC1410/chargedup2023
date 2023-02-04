@@ -18,4 +18,23 @@ public interface Tuning {
 //    Matrix<N7, N1> NOISE = VecBuilder.fill(0.005, 0.005, 0.005, 0.5, 0.5, 0.025, 0.025); // Too high for IRL?
     Matrix<N7, N1> NOISE = VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005);
 //    Matrix<N7, N1> NOISE = VecBuilder.fill(0, 0, 0, 0, 0, 0, 0);
+
+	// Engage
+	double ENGAGE_P = 1;
+	double ENGAGE_I = 0;
+	double ENGAGE_D = 0.5;
+
+	double ENGAGE_POSITION_TOLERANCE = 1;
+	double ENGAGE_VELOCITY_TOLERANCE = 0;
+	double ENGAGE_MAX_POWER = 0.25;
+
+	// AprilTags
+	double ANGLE_THRESHOLD = 10;
+
+	// Elevator
+	double ELEVATOR_KP = 0;
+	double ELEVATOR_KI = 0;
+	double ELEVATOR_KD = 0;
+
+	double ELEVATOR_MAX_OUTPUT = 0;
 }

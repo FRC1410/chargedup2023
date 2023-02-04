@@ -5,6 +5,9 @@ import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface Constants {
 
     boolean LEFT_ENCODER_REVERSED = false;
@@ -36,4 +39,26 @@ public interface Constants {
 
     LinearSystem<N2, N2, N2> DRIVETRAIN_PLANT = LinearSystemId.identifyDrivetrainSystem(
             KV, KA, KV_ANGULAR, KA_ANGULAR); //Simulation Only
+
+	// LBork rollers
+	double LBORK_CONE_INTAKE_SPEED = 0.6;
+	double LBORK_CONE_OUTTAKE_SPEED = 0.3;
+
+	double LBORK_CUBE_INTAKE_SPEED = 0.6;
+	double LBORK_CUBE_OUTTAKE_SPEED = 0.3;
+
+	// AprilTags
+	List<Integer> RED_TAGS = new ArrayList<>(List.of(1, 2, 3, 4));
+	List<Integer> BLUE_TAGS = new ArrayList<>(List.of(5, 6, 7, 8));
+
+	// Elevator
+	double ELEVATOR_SPEED = 0.5;
+
+	double ELEVATOR_DOWN_POSITION = 0;
+	double ELEVATOR_DRIVING_POSITION = 0;
+	double ELEVATOR_CUBE_POSITION = 0;
+	double ELEVATOR_MID_POSITION = 0;
+	double ELEVATOR_RAISED_POSITION = 0;
+
+	double ELEVATOR_TOLERANCE = 0.1;
 }

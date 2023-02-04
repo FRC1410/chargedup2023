@@ -29,7 +29,7 @@ public class Engage extends CommandBase {
         var currentAngle = drivetrain.getPitch();
         var controllerOutput = controller.calculate(currentAngle);
 
-        drivetrain.setEngagePower(Math.min(controllerOutput, ENGAGE_MAX_POWER));
+//        drivetrain.setEngagePower(Math.min(controllerOutput, ENGAGE_MAX_POWER));
     }
 
     @Override

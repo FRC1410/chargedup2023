@@ -1,16 +1,13 @@
 package org.frc1410.chargedup2023;
 
 import edu.wpi.first.networktables.*;
-import org.frc1410.chargedup2023.commands.SwitchDriveMode;
 import org.frc1410.chargedup2023.commands.DriveLooped;
-import org.frc1410.chargedup2023.commands.FlipDrivetrainAction;
 import org.frc1410.chargedup2023.commands.groups.auto.*;
-import org.frc1410.chargedup2023.subsystem.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
-import org.frc1410.framework.control2.Controller;
-import org.frc1410.framework.scheduler.task.CommandTask;
+import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
 import static org.frc1410.chargedup2023.util.Constants.*;
@@ -46,9 +43,7 @@ public final class Robot extends PhaseDrivenRobot {
     @Override
     public void teleopSequence() {
         drivetrain.brakeMode();
-        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS), TaskPersistence.GAMEPLAY);
-        driverController.RIGHT_BUMPER.whenPressed(new CommandTask(new SwitchDriveMode(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
-        driverController.LEFT_BUMPER.whenPressed(new CommandTask(new FlipDrivetrainAction(drivetrain, driverController)), TaskPersistence.EPHEMERAL);
+        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
     }
 
 

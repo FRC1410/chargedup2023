@@ -1,8 +1,8 @@
 package org.frc1410.chargedup2023.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import org.frc1410.chargedup2023.subsystem.Drivetrain;
-import org.frc1410.framework.control2.Controller;
+import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.framework.control.Controller;
 
 
 public class FlipDrivetrainAction extends CommandBase {
@@ -18,7 +18,7 @@ public class FlipDrivetrainAction extends CommandBase {
     @Override
     public void initialize() {
         drivetrain.flip();
-        controller.rumble(1, 500);
+        controller.rumble(500);
     }
 
     @Override
