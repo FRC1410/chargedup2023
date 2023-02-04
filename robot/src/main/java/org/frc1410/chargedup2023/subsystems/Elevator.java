@@ -12,7 +12,7 @@ import static org.frc1410.chargedup2023.util.IDs.ELEVATOR_MOTOR_TWO_ID;
 
 
 public class Elevator implements TickedSubsystem {
-	private final CANSparkMax leaderMotor = new CANSparkMax(ELEVATOR_MOTOR_ONE_ID, MotorType.kBrushed);
+	public final CANSparkMax leaderMotor = new CANSparkMax(ELEVATOR_MOTOR_ONE_ID, MotorType.kBrushed);
 	private final CANSparkMax followerMotor = new CANSparkMax(ELEVATOR_MOTOR_TWO_ID, MotorType.kBrushed);
 
 	private State desiredState = State.DOWN;
@@ -26,6 +26,7 @@ public class Elevator implements TickedSubsystem {
 		leaderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 		followerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 	}
+
 
 	public void setDesiredState(State target) {
 		desiredState = target;
@@ -72,7 +73,7 @@ public class Elevator implements TickedSubsystem {
 
 		private final DigitalInput magSensor;
 
-		State(int magPort) {
+		State(int magPort /*, double position*/) {
 			this.magSensor = new DigitalInput(magPort);
 		}
 	}
