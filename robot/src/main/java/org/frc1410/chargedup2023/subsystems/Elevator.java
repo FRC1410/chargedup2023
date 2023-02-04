@@ -27,6 +27,18 @@ public class Elevator implements TickedSubsystem {
 		followerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 	}
 
+	public void setSpeed(double speed){
+		leaderMotor.set(speed);
+		followerMotor.set(speed);
+	}
+
+	public double encoderValue(){
+		double leaderPos = leaderMotor.getEncoder().getPosition();
+		double followerPos = followerMotor.getEncoder().getPosition();
+
+		return (leaderPos + followerPos) / 2;
+	}
+
 
 	public void setDesiredState(State target) {
 		desiredState = target;
