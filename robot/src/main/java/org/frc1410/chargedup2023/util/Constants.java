@@ -37,7 +37,7 @@ public interface Constants {
 				}
 			}
 
-			return null;
+			throw new IllegalStateException("No matching position for (" + x + ", " + y + ")");
 		}
 	}
 	
