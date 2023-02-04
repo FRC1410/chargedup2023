@@ -9,17 +9,17 @@ public class LightBar implements Subsystem {
 	private final PWMSparkMax blinkin = new PWMSparkMax(IDs.BLINKIN_PORT);
 
 	public void set(Profile profile) {
-		blinkin.set(profile.id());
+		blinkin.set(profile.id);
 	}
 
-	public interface Profile {
+	public enum Profile {
+		;
 
-		/**
-		 * Gets the floating-point ID for this profile.
-		 *
-		 * @return a double ID. Expects a profile from <a href="https://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf">
-		 *         the REV docs</a>.
-		 */
-		double id();
+		private final double id;
+
+		// Find available IDs at https://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf
+		Profile(double id) {
+			this.id = id;
+		}
 	}
 }
