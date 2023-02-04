@@ -66,7 +66,6 @@ public final class Robot extends PhaseDrivenRobot {
 						drivetrain,
 						driverController.LEFT_Y_AXIS,
 						driverController.RIGHT_Y_AXIS,
-						driverController.RIGHT_X_AXIS,
 						driverController.LEFT_TRIGGER,
 						driverController.RIGHT_TRIGGER),
 				TaskPersistence.GAMEPLAY
