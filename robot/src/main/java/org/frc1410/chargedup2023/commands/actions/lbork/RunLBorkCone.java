@@ -1,4 +1,4 @@
-package org.frc1410.chargedup2023.commands.actions;
+package org.frc1410.chargedup2023.commands.actions.lbork;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.LBork;

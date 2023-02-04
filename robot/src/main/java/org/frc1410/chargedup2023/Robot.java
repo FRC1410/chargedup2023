@@ -4,9 +4,14 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
-import org.frc1410.chargedup2023.commands.actions.RunLBorkCone;
-import org.frc1410.chargedup2023.commands.actions.RunLBorkCube;
-import org.frc1410.chargedup2023.commands.actions.ToggleIntake;
+import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
+import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
+import org.frc1410.chargedup2023.commands.actions.intake.ToggleIntake;
+import org.frc1410.chargedup2023.commands.groups.teleop.ConeIntakePosition;
+import org.frc1410.chargedup2023.commands.groups.teleop.CubeIntakePosition;
+import org.frc1410.chargedup2023.commands.groups.teleop.IdleState;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
 import org.frc1410.chargedup2023.commands.looped.UpdatePoseEstimation;
@@ -56,8 +61,67 @@ public final class Robot extends PhaseDrivenRobot {
 		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
 
-		scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
-		scheduler.scheduleDefaultCommand(new RunIntakeLooped(intake, operatorController.LEFT_TRIGGER, operatorController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
+		scheduler.scheduleDefaultCommand(
+				new DriveLooped(
+						drivetrain,
+						driverController.LEFT_Y_AXIS,
+						driverController.RIGHT_Y_AXIS,
+						driverController.LEFT_TRIGGER,
+						driverController.RIGHT_TRIGGER),
+				TaskPersistence.GAMEPLAY
+		);
+
+		scheduler.scheduleDefaultCommand(
+				new RunIntakeLooped(
+						intake,
+						operatorController.LEFT_TRIGGER,
+						operatorController.RIGHT_TRIGGER),
+				TaskPersistence.GAMEPLAY
+		);
+
+		operatorController.RIGHT_BUMPER.whenPressed(
+				new CaptureScoringPosition(
+						operatorController.LEFT_Y_AXIS,
+						operatorController.RIGHT_X_AXIS),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.X.whenPressed(
+				new CubeIntakePosition(
+						intake,
+						lBork,
+						elevator
+				),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.B.whenPressed(
+				new ConeIntakePosition(
+						intake,
+						lBork,
+						elevator
+				),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.Y.whenPressed(
+				new IdleState(
+						intake,
+						lBork,
+						elevator
+				),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.A.whenPressed(
+				new RetractIntake(intake),
+				TaskPersistence.EPHEMERAL
+		);
+	}
+
+	@Override
+	public void testSequence() {
+		drivetrain.coastMode();
 
 		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
 
@@ -65,10 +129,5 @@ public final class Robot extends PhaseDrivenRobot {
 		operatorController.X.whileHeld(new RunLBorkCone(lBork, true), TaskPersistence.GAMEPLAY);
 		operatorController.B.whileHeld(new RunLBorkCube(lBork, false), TaskPersistence.GAMEPLAY);
 		operatorController.A.whileHeld(new RunLBorkCube(lBork, true), TaskPersistence.GAMEPLAY);
-	}
-
-	@Override
-	public void testSequence() {
-		drivetrain.coastMode();
 	}
 }

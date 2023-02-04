@@ -1,4 +1,4 @@
-package org.frc1410.chargedup2023.commands.actions;
+package org.frc1410.chargedup2023.commands.actions.elevator;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;

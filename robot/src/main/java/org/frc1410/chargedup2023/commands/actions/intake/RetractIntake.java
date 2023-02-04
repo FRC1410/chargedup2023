@@ -1,19 +1,21 @@
-package org.frc1410.chargedup2023.commands.actions;
+package org.frc1410.chargedup2023.commands.actions.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Intake;
 
 
-public class ToggleIntake extends CommandBase {
+public class RetractIntake extends CommandBase {
 	private final Intake intake;
 
-	public ToggleIntake(Intake intake) {
+	public RetractIntake(Intake intake) {
 		this.intake = intake;
+
+		addRequirements(this.intake);
 	}
 
 	@Override
 	public void initialize() {
-		intake.toggle();
+		intake.retract();
 	}
 
 	@Override
