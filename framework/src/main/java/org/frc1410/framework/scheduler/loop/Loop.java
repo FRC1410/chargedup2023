@@ -1,8 +1,12 @@
 package org.frc1410.framework.scheduler.loop;
 
 import org.frc1410.framework.phase.Phase;
-import org.frc1410.framework.scheduler.task.*;
+import org.frc1410.framework.scheduler.task.BoundTask;
+import org.frc1410.framework.scheduler.task.TaskScheduler;
+import org.frc1410.framework.scheduler.task.TaskState;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,99 +23,107 @@ import java.util.Set;
  */
 public class Loop {
 
-    private final TaskScheduler scheduler;
-    private final Set<BoundTask> tasks = new HashSet<>();
-    private final long period;
-    private boolean disabled;
+	private final TaskScheduler scheduler;
+	private final Set<BoundTask> tasks = new HashSet<>();
+	private final long period;
+	private boolean disabled;
 
-    public Loop(TaskScheduler scheduler, long period) {
-        this.scheduler = scheduler;
-        this.period = period;
-    }
+	public Loop(TaskScheduler scheduler, long period) {
+		this.scheduler = scheduler;
+		this.period = period;
+	}
 
-    public long getPeriod() {
-        return period;
-    }
+	public long getPeriod() {
+		return period;
+	}
 
-    public double getPeriodSeconds() {
-        return getPeriod() / 1000d;
-    }
+	public double getPeriodSeconds() {
+		return getPeriod() / 1000d;
+	}
 
-    public void add(BoundTask task) {
-        tasks.add(task);
-    }
+	public void add(BoundTask task) {
+		tasks.add(task);
+	}
 
-    public void tick() {
-        if (disabled) {
-            return;
-        }
+	public void tick() {
+		if (disabled) {
+			return;
+		}
 
-        // Remove any tasks flagged for termination. If we were to do this in the process sycle, we would get CMEs.
-        tasks.removeIf(task -> task.lifecycle.state == TaskState.TERMINATED);
-        // Tick any tasks registered to this loop.
-        Set.copyOf(tasks).forEach(this::process);
-//        tasks.iterator().forEachRemaining(this::process);
-    }
+		for (var task : Set.copyOf(tasks)) {
+			if (task.handle().state == TaskState.TERMINATED) {
+				tasks.remove(task);
+				continue;
+			}
 
-    public void flagTransition(Phase newPhase) {
-        disabled = newPhase == Phase.DISABLED;
+			process(task);
+		}
+	}
 
-        for (var task : tasks) {
-            if (!task.persistence.shouldPersist(newPhase)) {
-                task.lifecycle.requestTermination();
-            }
-        }
-    }
+	public void flagTransition(Phase newPhase) {
+		disabled = newPhase == Phase.DISABLED;
 
-    private void process(BoundTask task) {
-        // Just skip this iteration entirely if the task lock is claimed. This prevents fun things like
-        // a case where an observer resumes execution of a task despite its lock being actively in use.
-        if (!scheduler.lockHandler.ownsLock(task)) {
-            return;
-        }
+		for (var task : tasks) {
+			if (!task.persistence().shouldPersist(newPhase)) {
+				task.handle().requestTermination();
+			}
+		}
+	}
 
-        var job = task.job;
-        var lifecycle = task.lifecycle;
+	public @NotNull Collection<@NotNull BoundTask> getTasks() {
+		return tasks;
+	}
 
-        // Handle termination before ticking the observer.
-        if (lifecycle.state == TaskState.FLAGGED_TERMINATION) {
-            job.end(true);
-            lifecycle.state = TaskState.TERMINATED;
+	private void process(BoundTask task) {
+		var job = task.job();
+		var handle = task.handle();
 
-            scheduler.lockHandler.releaseLock(task);
-            return;
-        }
+		// Handle termination before ticking the observer.
+		if (handle.state == TaskState.FLAGGED_TERMINATION) {
+			job.end(true);
+			handle.state = TaskState.TERMINATED;
 
-        // Tick the observer to update the task state.
-        task.observer.tick(task.lifecycle);
+			scheduler.lockHandler.releaseLocks(task);
+			return;
+		}
 
-        switch (lifecycle.state) {
-            case FLAGGED_EXECUTION -> {
-                job.init();
-                lifecycle.state = TaskState.EXECUTING;
-            }
+		// Tick the observer to update the task state.
+		task.observer().tick(handle);
 
-            case EXECUTING -> {
-                job.execute();
-                
-                if (job.isFinished()) {
-                    lifecycle.state = TaskState.FLAGGED_COMPLETION;
-                }
-            }
+		// Just skip this iteration entirely if the task lock is claimed. This prevents fun things like
+		// a case where an observer resumes execution of a task despite its lock being actively in use.
+		if (!scheduler.lockHandler.ownsLocks(task)) {
+			return;
+		}
 
-            case FLAGGED_COMPLETION -> {
-                job.end(false);
-                lifecycle.state = TaskState.SUSPENDED;
+		switch (handle.state) {
+			case FLAGGED_EXECUTION -> {
+				job.init();
 
-                scheduler.lockHandler.releaseLock(task);
-            }
+				handle.state = job.isFinished() ? TaskState.FLAGGED_COMPLETION : TaskState.EXECUTING;
+			}
 
-            case FLAGGED_SUSPENSION -> {
-                job.end(true);
-                lifecycle.state = TaskState.SUSPENDED;
+			case EXECUTING -> {
+				job.execute();
 
-                scheduler.lockHandler.releaseLock(task);
-            }
-        }
-    }
+				if (job.isFinished()) {
+					handle.state = TaskState.FLAGGED_COMPLETION;
+				}
+			}
+
+			case FLAGGED_COMPLETION -> {
+				job.end(false);
+				handle.state = TaskState.SUSPENDED;
+
+				scheduler.lockHandler.releaseLocks(task);
+			}
+
+			case FLAGGED_SUSPENSION -> {
+				job.end(true);
+				handle.state = TaskState.SUSPENDED;
+
+				scheduler.lockHandler.releaseLocks(task);
+			}
+		}
+	}
 }

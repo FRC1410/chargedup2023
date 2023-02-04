@@ -6,5 +6,5 @@ import org.jetbrains.annotations.NotNull;
 @FunctionalInterface
 public interface Transport {
 
-    void accept(@NotNull Log log);
+	void accept(@NotNull Log log);
 }

@@ -3,19 +3,19 @@ pluginManagement {
         mavenLocal()
         gradlePluginPortal()
 
-        val frcYear: String by settings
+//        val prefFile = File(".wpilib", "wpilib_preferences.json")
+//        val prefs = groovy.json.JsonSlurper().parseText(prefFile.readText()) as Map<String, Any>
+//        val frcYear = prefs.get("projectYear") as String
+        val frcYear = "2023"
         val os = System.getProperty("os.name").toLowerCase()
 
-        // Windows: C:\Users\Public\wpilib\2023
-        val frcHome = if (os.startsWith("win")) {
-            val publicFolder = System.getenv("PUBLIC") ?: "C:\\Users\\Public"
-            val homeRoot = File(publicFolder, "wpilib")
-            File(homeRoot, frcYear)
+        val publicDir = if (os.startsWith("win")) {
+            File(System.getenv("PUBLIC") ?: "C:\\Users\\Public")
         } else {
-            val userFolder = System.getProperty("user.home")
-            val homeRoot = File(userFolder, "wpilib")
-            File(homeRoot, frcYear)
+            File(System.getProperty("user.home"))
         }
+
+        val frcHome = File(File(publicDir, "wpilib"), frcYear)
 
         // Add maven repo
         maven {

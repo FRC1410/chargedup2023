@@ -13,7 +13,7 @@ def ROBOT_MAIN_CLASS = "org.frc1410.chargedup2023.Main"
 deploy {
     targets {
         roborio(getTargetTypeClass("RoboRIO")) {
-            team = 1410
+            team = project.frc.getTeamNumber()
             debug = project.frc.getDebugOrDefault(false)
 
             artifacts {
@@ -62,6 +62,8 @@ wpi.sim.addGui().defaultEnabled = true
 wpi.sim.addDriverstation()
 
 jar {
+    dependsOn ":framework:build"
+    
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE

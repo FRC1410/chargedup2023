@@ -1,23 +1,41 @@
 package org.frc1410.framework.scheduler.subsystem;
 
-import java.util.ArrayList;
-import java.util.List;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.frc1410.framework.scheduler.task.TaskPersistence;
+import org.frc1410.framework.scheduler.task.TaskScheduler;
+import org.frc1410.framework.scheduler.task.impl.SubsystemPeriodicTask;
+import org.frc1410.framework.scheduler.task.lock.LockPriority;
+import org.frc1410.framework.scheduler.task.Observer;
+import org.frc1410.framework.util.log.Logger;
+import org.jetbrains.annotations.NotNull;
 
-public class SubsystemStore {
+import java.util.Objects;
 
-    private final List<Subsystem> subsystems = new ArrayList<>();
-    private final List<TickedSubsystem> tickedSubsystems = new ArrayList<>();
+public final class SubsystemStore {
 
-    public <S extends Subsystem> S track(S subsystem) {
-        if (subsystem instanceof TickedSubsystem) {
-            tickedSubsystems.add((TickedSubsystem) subsystem);
-        }
-        subsystems.add(subsystem);
+	private static final Logger LOG = new Logger("SubsystemStore");
 
-        return subsystem;
-    }
+	private final TaskScheduler scheduler;
 
-    public List<TickedSubsystem> getTickedSubsystems() {
-        return tickedSubsystems;
-    }
+	public SubsystemStore(@NotNull TaskScheduler scheduler) {
+		this.scheduler = Objects.requireNonNull(scheduler);
+	}
+
+	public <S extends Subsystem> S track(S subsystem) {
+		if (subsystem instanceof TickedSubsystem ticked) {
+			var task = new SubsystemPeriodicTask(ticked);
+			var period = ticked.getPeriod();
+
+			LOG.info("Registered subsystem %s for ticking with period %d", subsystem, period);
+			if (period != -1L) {
+				scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL, period);
+			} else {
+				scheduler.schedule(task, TaskPersistence.DURABLE, Observer.DEFAULT, LockPriority.NULL);
+			}
+		} else {
+			LOG.warn("Registered subsystem %s but it is not ticked so it will not be scheduled.", subsystem);
+		}
+		
+		return subsystem;
+	}
 }
