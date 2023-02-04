@@ -9,7 +9,6 @@ public class RunIntakeLooped extends CommandBase {
 	private final Intake intake;
 	private final Axis rightTrigger;
 	private final Axis leftTrigger;
-	private double speed;
 
 	public RunIntakeLooped(Intake intake, Axis leftTrigger, Axis rightTrigger) {
 		this.intake = intake;
@@ -18,9 +17,6 @@ public class RunIntakeLooped extends CommandBase {
 
 		addRequirements(intake);
 	}
-
-	@Override
-	public void initialize() {}
 
 	@Override
 	public void execute() {

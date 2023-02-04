@@ -53,6 +53,18 @@ public interface NetworkTables {
 		return table.getStringTopic(name).subscribe("");
 	}
 
+	static BooleanPublisher PublisherFactory(NetworkTable table, String name, boolean startingValue) {
+		BooleanPublisher publisher = table.getBooleanTopic(name).publish();
+		publisher.set(startingValue);
+		publisher.setDefault(startingValue);
+		return publisher;
+	}
+
+	static BooleanSubscriber SubscriberFactory(NetworkTable table, BooleanTopic topic) {
+		String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
+		return table.getBooleanTopic(name).subscribe(false);
+	}
+
 	static void SetPersistence(Topic topic, boolean persistent) {
 		topic.setPersistent(persistent);
 	}

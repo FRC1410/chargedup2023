@@ -20,6 +20,9 @@ public class LBork implements Subsystem {
 	public LBork() {
 		innerMotor.restoreFactoryDefaults();
 		outerMotor.restoreFactoryDefaults();
+
+		innerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+		outerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 	}
 
 	public void setRollerSpeeds(double innerRollerSpeed, double outerRollerSpeed) {

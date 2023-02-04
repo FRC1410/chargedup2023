@@ -36,4 +36,12 @@ public interface Constants {
 
 	// Elevator
 	double ELEVATOR_SPEED = 0.5;
+
+	double ELEVATOR_DOWN_POSITION = 0;
+	double ELEVATOR_DRIVING_POSITION = 0;
+	double ELEVATOR_CUBE_POSITION = 0;
+	double ELEVATOR_MID_POSITION = 0;
+	double ELEVATOR_RAISED_POSITION = 0;
+
+	double ELEVATOR_TOLERANCE = 0.1;
 }

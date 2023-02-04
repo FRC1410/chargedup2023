@@ -26,11 +26,6 @@ public class RunLBorkCube extends CommandBase {
 	}
 
 	@Override
-	public void execute() {
-
-	}
-
-	@Override
 	public boolean isFinished() {
 		return false;
 	}
