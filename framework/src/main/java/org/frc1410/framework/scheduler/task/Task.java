@@ -32,7 +32,9 @@ public interface Task {
 	 * that this task finishes immediately after init, this method is
 	 * skipped.
 	 */
-	void execute();
+	default void execute() {
+
+	}
 
 	/**
 	 * Determines whether this task is finished. This is called after
