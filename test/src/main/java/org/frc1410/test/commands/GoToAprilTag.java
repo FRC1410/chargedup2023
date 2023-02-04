@@ -18,10 +18,10 @@ public class GoToAprilTag extends CommandBase {
 		RIGHT_CONE_NODE
 	}
 
-	Drivetrain drivetrain;
-	ExternalCamera camera;
-	Node targetNode;
-	TaskScheduler scheduler;
+	private final Drivetrain drivetrain;
+	private final ExternalCamera camera;
+	private final Node targetNode;
+	private final TaskScheduler scheduler;
 	public GoToAprilTag(Drivetrain drivetrain, ExternalCamera camera, Node targetNode, TaskScheduler scheduler) {
 		this.drivetrain = drivetrain;
 		this.camera = camera;
