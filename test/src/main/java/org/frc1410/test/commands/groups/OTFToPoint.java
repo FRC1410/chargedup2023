@@ -1,6 +1,7 @@
 package org.frc1410.test.commands.groups;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -42,7 +43,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 		);
 	}
 
-	public OTFToPoint(Drivetrain drivetrain, Pose2d midPose, Pose2d targetPose) {
+	public OTFToPoint(Drivetrain drivetrain, Translation2d midPose, Pose2d targetPose) {
 		System.out.println("Drivetrain");
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
@@ -50,7 +51,6 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println("Waypoint");
 		System.out.println(Units.metersToInches(midPose.getX()));
 		System.out.println(Units.metersToInches(midPose.getY()));
-		System.out.println(midPose.getRotation().getDegrees());
 		System.out.println("Target");
 		System.out.println(Units.metersToInches(targetPose.getX()));
 		System.out.println(Units.metersToInches(targetPose.getY()));
@@ -58,7 +58,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
-						List.of(drivetrain.getPoseEstimation(), midPose, targetPose),
+						drivetrain.getPoseEstimation(), List.of(midPose), targetPose,
 						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
 
 		addRequirements(drivetrain);

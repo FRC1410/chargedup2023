@@ -23,8 +23,8 @@ public class ExternalCamera implements TickedSubsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Vision Data");
 
-//    private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
-     private final PhotonCamera camera = new PhotonCamera("OV9281");
+    private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+//     private final PhotonCamera camera = new PhotonCamera("OV9281");
 
 	private static final AprilTagFieldLayout fieldLayout;
 

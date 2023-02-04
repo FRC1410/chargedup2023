@@ -34,7 +34,7 @@ public class GoToAprilTag extends CommandBase {
 	@Override
 	public void initialize() {
 		camera.getTargetLocation().ifPresent(pose -> {
-			waypointFlag = pose.getX() < WAYPOINT_THRESHOLD;
+			waypointFlag = drivetrain.getPoseEstimation().getX() < WAYPOINT_THRESHOLD;
 
 			if (RED_TAGS.contains(camera.getTarget().getFiducialId())) {
 				switch (targetNode) {
