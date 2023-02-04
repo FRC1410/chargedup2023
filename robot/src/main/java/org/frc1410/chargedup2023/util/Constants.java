@@ -70,6 +70,7 @@ public interface Constants {
 
 	// Elevator
 	double ELEVATOR_SPEED = 0.5;
+	double ELEVATOR_HOMING_SPEED = -0.25;
 
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0;

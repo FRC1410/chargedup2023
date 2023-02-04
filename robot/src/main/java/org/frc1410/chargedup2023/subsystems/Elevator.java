@@ -72,6 +72,10 @@ public class Elevator implements TickedSubsystem {
 		return (leaderPos + followerPos) / 2;
 	}
 
+	public boolean getDownMagSensorValue() {
+		return downMagSensor.get();
+	}
+
 	private void setEncoderValue(double value) {
 		leaderMotor.getEncoder().setPosition(value);
 		followerMotor.getEncoder().setPosition(value);
