@@ -5,12 +5,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import org.frc1410.framework.scheduler.task.*;
 import org.frc1410.framework.scheduler.task.impl.CommandTask;
-import org.frc1410.framework.scheduler.task.TaskPersistence;
-import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.scheduler.task.lock.LockPriority;
-import org.frc1410.framework.scheduler.task.Observer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 import static edu.wpi.first.wpilibj.XboxController.Axis.*;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
@@ -42,41 +47,52 @@ public class Controller {
 	public final Axis LEFT_TRIGGER = new Axis(this, kLeftTrigger.value);
 	public final Axis RIGHT_TRIGGER = new Axis(this, kRightTrigger.value);
 
+	private final List<BoundTask> rumbleTasks = new ArrayList<>();
+	private int rumbleDepth = 0;
+
 	public Controller(TaskScheduler scheduler, int port) {
 		this.scheduler = scheduler;
 		this.backingController = new XboxController(port);
 	}
 
-	public void rumble(@Range(from = 0, to = 1) double strength) {
-		backingController.setRumble(GenericHID.RumbleType.kBothRumble, strength);
+	private void setRumble(boolean rumbling) {
+		backingController.setRumble(GenericHID.RumbleType.kBothRumble, rumbling ? 1 : 0);
 	}
 
-	public void rumbleLeft(double strength) {
-		backingController.setRumble(GenericHID.RumbleType.kLeftRumble, strength);
+	public void rumble(long durationMillis) {
+		var timeout = System.currentTimeMillis() + durationMillis;
+		var task = scheduler.schedule(new RumbleTask(this, timeout), TaskPersistence.GAMEPLAY, Observer.NO_OP, LockPriority.NULL);
+		rumbleTasks.add(task);
+
+		setRumble(true);
 	}
 
-	public void rumbleRight(double strength) {
-		backingController.setRumble(GenericHID.RumbleType.kRightRumble, strength);
+	public void rumble() {
+		rumbleTasks.forEach(task -> task.handle().requestTermination());
+		rumbleTasks.clear();
+
+		setRumble(true);
 	}
 
-	private void timedRumble(@Range(from = 0, to = 1) double strength, long durationMillis, GenericHID.RumbleType rumbleType) {
-		backingController.setRumble(rumbleType, strength);
-		var resetCommand = new SequentialCommandGroup(
-				new WaitCommand(durationMillis / 1000.0),
-				new RunCommand(() -> backingController.setRumble(rumbleType, 0)));
+	private void popRumble() {
+		rumbleDepth--;
 
-		scheduler.schedule(new CommandTask(resetCommand), TaskPersistence.GAMEPLAY, Observer.NO_OP, LockPriority.NULL);
+		// should never be less than 0 but safety
+		if (rumbleDepth <= 0) {
+			setRumble(false);
+		}
 	}
 
-	public void rumble(@Range(from = 0, to = 1) double strength, long durationMillis) {
-		timedRumble(strength, durationMillis, GenericHID.RumbleType.kBothRumble);
-	}
+	private record RumbleTask(Controller controller, long timeout) implements Task {
 
-	public void rumbleLeft(@Range(from = 0, to = 1) double strength, long durationMillis) {
-		timedRumble(strength, durationMillis, GenericHID.RumbleType.kLeftRumble);
-	}
+		@Override
+		public boolean isFinished() {
+			return System.currentTimeMillis() > timeout;
+		}
 
-	public void rumbleRight(@Range(from = 0, to = 1) double strength, long durationMillis) {
-		timedRumble(strength, durationMillis, GenericHID.RumbleType.kRightRumble);
+		@Override
+		public void end(boolean interrupted) {
+			controller.popRumble();
+		}
 	}
 }
