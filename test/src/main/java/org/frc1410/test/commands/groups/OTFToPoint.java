@@ -41,4 +41,36 @@ public class OTFToPoint extends SequentialCommandGroup {
 				})
 		);
 	}
+
+	public OTFToPoint(Drivetrain drivetrain, Pose2d midPose, Pose2d targetPose) {
+		System.out.println("Drivetrain");
+		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
+		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
+		System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
+		System.out.println("Waypoint");
+		System.out.println(Units.metersToInches(midPose.getX()));
+		System.out.println(Units.metersToInches(midPose.getY()));
+		System.out.println(midPose.getRotation().getDegrees());
+		System.out.println("Target");
+		System.out.println(Units.metersToInches(targetPose.getX()));
+		System.out.println(Units.metersToInches(targetPose.getY()));
+		System.out.println(targetPose.getRotation().getDegrees());
+
+		RamseteCommand command = baseRamsete(
+				TrajectoryGenerator.generateTrajectory(
+						List.of(drivetrain.getPoseEstimation(), midPose, targetPose),
+						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+
+		addRequirements(drivetrain);
+
+		addCommands(
+				command,
+				new InstantCommand(() -> {
+					System.out.println("Results");
+					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
+					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
+					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
+				})
+		);
+	}
 }
