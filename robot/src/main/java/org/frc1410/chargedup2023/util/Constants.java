@@ -6,6 +6,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface Constants {
+
+	enum ScoringPosition {
+		HIGH_LEFT_CONE(1, 1),
+		HIGH_CUBE(0, 1),
+		HIGH_RIGHT_CONE(-1, 1),
+
+		MIDDLE_LEFT_CONE(1, 0),
+		MIDDLE_CUBE(0, 0),
+		MIDDLE_RIGHT_CONE(-1, 0),
+
+		HYBRID_LEFT(1, -1),
+		HYBRID_MIDDLE(0, -1),
+		HYBRID_RIGHT(-1, -1);
+
+		public final int x;
+		public final int y;
+
+		public static ScoringPosition targetPosition;
+
+		ScoringPosition(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public static ScoringPosition fromCoords(int x, int y) {
+			for (ScoringPosition position : values()) {
+				if (position.x == x && position.y == y) {
+					return position;
+				}
+			}
+
+			return null;
+		}
+	}
 	
 	int DRIVER_CONTROLLER = 0;
 	int OPERATOR_CONTROLLER = 1;
@@ -42,6 +76,8 @@ public interface Constants {
 	double ELEVATOR_CUBE_POSITION = 0;
 	double ELEVATOR_MID_POSITION = 0;
 	double ELEVATOR_RAISED_POSITION = 0;
-
 	double ELEVATOR_TOLERANCE = 0.1;
+
+	// Other stuff
+	double INTAKE_LBORK_EXTEND_TIME = 0.25; // Seconds
 }

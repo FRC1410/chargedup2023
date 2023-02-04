@@ -1,4 +1,4 @@
-package org.frc1410.chargedup2023.commands.groups;
+package org.frc1410.chargedup2023.commands.groups.teleop;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
