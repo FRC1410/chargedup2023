@@ -26,4 +26,5 @@ public interface IDs {
 	int LBORK_PISTON_FOWARD_ID = 2;
 	int LBORK_PISTON_BACKWARDS_ID = 3;
 
+	int BLINKIN_PORT = 0;
 }

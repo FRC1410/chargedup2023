@@ -38,5 +38,21 @@ public class LBork implements Subsystem {
 	public void toggle() {
 		piston.toggle();
 	}
+
+	public enum LEDProfile implements LightBar.Profile {
+		CONE(0.69),
+		CUBE(0.91);
+
+		private final double id;
+
+		LEDProfile(double id) {
+			this.id = id;
+		}
+
+		@Override
+		public double id() {
+			return id;
+		}
+	}
 }
 
