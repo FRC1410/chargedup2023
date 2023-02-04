@@ -26,7 +26,8 @@ public final class Robot extends PhaseDrivenRobot {
     private final NetworkTable table = nt.getTable("Auto");
 
     private final AutoSelector autoSelector = new AutoSelector()
-            .add("Barrier Scoring To Charging Station", () -> new BarrierScoringToChargingStation(drivetrain));
+            .add("Barrier Scoring To Charging Station", () -> new BarrierScoringToChargingStation(drivetrain))
+            .add("GO", () -> new BarrierGamePieceToScore(drivetrain));
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
