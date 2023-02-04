@@ -47,7 +47,6 @@ public class Controller {
 	public final Axis LEFT_TRIGGER = new Axis(this, kLeftTrigger.value);
 	public final Axis RIGHT_TRIGGER = new Axis(this, kRightTrigger.value);
 
-	private final List<BoundTask> rumbleTasks = new ArrayList<>();
 	private int rumbleDepth = 0;
 
 	public Controller(TaskScheduler scheduler, int port) {
@@ -61,15 +60,7 @@ public class Controller {
 
 	public void rumble(long durationMillis) {
 		var timeout = System.currentTimeMillis() + durationMillis;
-		var task = scheduler.schedule(new RumbleTask(this, timeout), TaskPersistence.GAMEPLAY, Observer.NO_OP, LockPriority.NULL);
-		rumbleTasks.add(task);
-
-		setRumble(true);
-	}
-
-	public void rumble() {
-		rumbleTasks.forEach(task -> task.handle().requestTermination());
-		rumbleTasks.clear();
+		scheduler.schedule(new RumbleTask(this, timeout), TaskPersistence.GAMEPLAY, Observer.NO_OP, LockPriority.NULL);
 
 		setRumble(true);
 	}
@@ -79,6 +70,7 @@ public class Controller {
 
 		// should never be less than 0 but safety
 		if (rumbleDepth <= 0) {
+			rumbleDepth = 0;
 			setRumble(false);
 		}
 	}

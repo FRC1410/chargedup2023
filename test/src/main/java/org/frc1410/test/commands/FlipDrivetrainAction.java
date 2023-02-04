@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.test.subsystems.Drivetrain;
 import org.frc1410.framework.control.Controller;
 
-
 public class FlipDrivetrainAction extends CommandBase {
 
 	private final Drivetrain drivetrain;
