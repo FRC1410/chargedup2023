@@ -9,20 +9,13 @@ import static org.frc1410.chargedup2023.util.Tuning.*;
 
 
 public class MoveElevatorToPose extends CommandBase {
-	public enum State {
-		DOWN,
-		DRIVING,
-		CUBE,
-		MID,
-		RAISED;
-	}
+
 	private final Elevator elevator;
-	private final State state;
-	private double pidOutput = 0;
+	private final Elevator.State state;
 	private PIDController pid;
 
 
-	public MoveElevatorToPose(Elevator elevator, State state) {
+	public MoveElevatorToPose(Elevator elevator, Elevator.State state) {
 		this.elevator = elevator;
 		this.state = state;
 
@@ -33,21 +26,14 @@ public class MoveElevatorToPose extends CommandBase {
 	public void initialize() {
 		pid = new PIDController(ELEVATOR_KP, ELEVATOR_KI, ELEVATOR_KD);
 
-		switch(state) {
-			case DOWN -> pid.setSetpoint(ELEVATOR_DOWN_POSITION);
-			case DRIVING -> pid.setSetpoint(ELEVATOR_DRIVING_POSITION);
-			case CUBE -> pid.setSetpoint(ELEVATOR_CUBE_POSITION);
-			case MID -> pid.setSetpoint(ELEVATOR_MID_POSITION);
-			case RAISED -> pid.setSetpoint(ELEVATOR_RAISED_POSITION);
-		}
+		pid.setSetpoint(state.getPosition());
 
 		pid.setTolerance(ELEVATOR_TOLERANCE);
 	}
 
 	@Override
 	public void execute() {
-		pidOutput = pid.calculate(elevator.getEncoderValue());
-		elevator.setSpeed(pidOutput);
+		elevator.setSpeed(Math.min(pid.calculate(elevator.getEncoderValue()), ELEVATOR_MAX_OUTPUT));
 	}
 
 	@Override
