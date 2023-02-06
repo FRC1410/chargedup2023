@@ -2,6 +2,7 @@ package org.frc1410.chargedup2023.auto;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 
@@ -31,4 +32,21 @@ public interface POIs {
 
 	Pose2d BARRIER_MIDDLE_GAME_PIECE_FORWARD = new Pose2d(inchesToMeters(258.75), inchesToMeters(183.31), Rotation2d.fromDegrees(0));
 	Pose2d OUTSIDE_MIDDLE_GAME_PIECE_FORWARD = new Pose2d(inchesToMeters(258.75), inchesToMeters(231.31), Rotation2d.fromDegrees(0));
+
+	// AprilTag Alignment
+	Pose2d RED_LEFT_CONE_NODE = new Pose2d(-inchesToMeters(40), -inchesToMeters(24), new Rotation2d());
+	Pose2d RED_CUBE_NODE = new Pose2d(-inchesToMeters(40), 0, new Rotation2d());
+	Pose2d RED_RIGHT_CONE_NODE = new Pose2d(-inchesToMeters(40), inchesToMeters(24), new Rotation2d());
+	Translation2d RED_INSIDE_WAYPOINT = new Translation2d(inchesToMeters(0), inchesToMeters(0));
+	Translation2d RED_OUTSIDE_WAYPOINT = new Translation2d(-inchesToMeters(70.5), -inchesToMeters(7));
+	Pose2d RED_LEFT_SUBSTATION = new Pose2d();
+	Pose2d RED_RIGHT_SUBSTATION = new Pose2d();
+
+	Pose2d BLUE_LEFT_CONE_NODE = new Pose2d(inchesToMeters(40), -inchesToMeters(24), Rotation2d.fromDegrees(180));
+	Pose2d BLUE_CUBE_NODE = new Pose2d(inchesToMeters(40), 0, Rotation2d.fromDegrees(180));
+	Pose2d BLUE_RIGHT_CONE_NODE = new Pose2d(inchesToMeters(40), inchesToMeters(24), Rotation2d.fromDegrees(180));
+	Translation2d BLUE_INSIDE_WAYPOINT = new Translation2d(0, 0);
+	Translation2d BLUE_OUTSIDE_WAYPOINT = new Translation2d(0, 0);
+	Pose2d BLUE_LEFT_SUBSTATION = new Pose2d();
+	Pose2d BLUE_RIGHT_SUBSTATION = new Pose2d();
 }
