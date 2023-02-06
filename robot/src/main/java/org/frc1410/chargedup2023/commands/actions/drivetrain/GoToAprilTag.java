@@ -13,7 +13,9 @@ public class GoToAprilTag extends CommandBase {
 	public enum Node {
 		LEFT_CONE_NODE,
 		CUBE_NODE,
-		RIGHT_CONE_NODE
+		RIGHT_CONE_NODE,
+		LEFT_SUBSTATION,
+		RIGHT_SUBSTATION
 	}
 
 	private final Drivetrain drivetrain;
@@ -50,6 +52,14 @@ public class GoToAprilTag extends CommandBase {
 						else
 							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_RIGHT_CONE_NODE));
 					}
+					case LEFT_SUBSTATION -> {
+						if (camera.getTarget().getFiducialId() == 5)
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_LEFT_SUBSTATION));
+					}
+					case RIGHT_SUBSTATION -> {
+						if (camera.getTarget().getFiducialId() == 5)
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_RIGHT_SUBSTATION));
+					}
 				}
 			} else {
 				switch (targetNode) {
@@ -66,6 +76,14 @@ public class GoToAprilTag extends CommandBase {
 							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_OUTSIDE_WAYPOINT, BLUE_RIGHT_CONE_NODE));
 						else
 							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_RIGHT_CONE_NODE));
+					}
+					case LEFT_SUBSTATION -> {
+						if (camera.getTarget().getFiducialId() == 4)
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_LEFT_SUBSTATION));
+					}
+					case RIGHT_SUBSTATION -> {
+						if (camera.getTarget().getFiducialId() == 4)
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_RIGHT_SUBSTATION));
 					}
 				}
 			}
