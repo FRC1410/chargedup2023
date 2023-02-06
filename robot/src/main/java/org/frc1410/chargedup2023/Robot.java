@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
+import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
@@ -134,6 +135,8 @@ public final class Robot extends PhaseDrivenRobot {
 		drivetrain.coastMode();
 
 		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
+
+		operatorController.RIGHT_BUMPER.whileHeld(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
 
 		operatorController.Y.whileHeld(new RunLBorkCone(lBork, false), TaskPersistence.EPHEMERAL);
 		operatorController.X.whileHeld(new RunLBorkCone(lBork, true), TaskPersistence.EPHEMERAL);
