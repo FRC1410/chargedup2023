@@ -12,6 +12,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
 import org.frc1410.chargedup2023.commands.actions.intake.ToggleIntake;
 import org.frc1410.chargedup2023.commands.groups.teleop.ConeIntakePosition;
 import org.frc1410.chargedup2023.commands.groups.teleop.CubeIntakePosition;
+import org.frc1410.chargedup2023.commands.groups.teleop.DropHeldPiece;
 import org.frc1410.chargedup2023.commands.groups.teleop.IdleState;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
@@ -84,6 +85,15 @@ public final class Robot extends PhaseDrivenRobot {
 				new CaptureScoringPosition(
 						operatorController.LEFT_Y_AXIS,
 						operatorController.RIGHT_X_AXIS),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.LEFT_BUMPER.whenPressed(
+				new DropHeldPiece(
+						intake,
+						lBork,
+						elevator
+				),
 				TaskPersistence.EPHEMERAL
 		);
 
