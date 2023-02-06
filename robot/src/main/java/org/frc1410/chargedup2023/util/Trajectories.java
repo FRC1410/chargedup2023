@@ -8,6 +8,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 
 import java.util.List;
@@ -75,78 +76,93 @@ public interface Trajectories {
     }
 
 	// TRAJECTORIES
-	static RamseteCommand BarrierMobility(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierMobility(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_COMMUNITY_EXIT),
-				config), realisticFeedforward, leftController, rightController, drivetrain);
+				config), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
-	static RamseteCommand OutsideMobility(Drivetrain drivetrain) {
+	static SequentialCommandGroup OutsideMobility(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_COMMUNITY_EXIT),
-				config), realisticFeedforward, leftController, rightController, drivetrain);
+				config), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
-	static RamseteCommand BarrierCommunityToChargingStation(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierCommunityToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_CHARGING_STATION_COMMUNITY),
-				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
-	static RamseteCommand OutsideCommunityToChargingStation(Drivetrain drivetrain) {
+	static SequentialCommandGroup OutsideCommunityToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_CHARGING_STATION_COMMUNITY),
-				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
-	static RamseteCommand BarrierCommunityToGamePiece(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierCommunityToGamePiece(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_GAME_PIECE_FORWARD),
-				config), realisticFeedforward, leftController, rightController, drivetrain);
+				config), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
-	static RamseteCommand OutsideCommunityToGamePiece(Drivetrain drivetrain) {
+	static SequentialCommandGroup OutsideCommunityToGamePiece(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_START, OUTSIDE_GAME_PIECE_FORWARD),
-				config), realisticFeedforward, leftController, rightController, drivetrain);
+				config), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
-	static RamseteCommand BarrierGamePieceToChargingStation(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierGamePieceToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_CHARGING_STATION_FAR),
-				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 	// FOR GAME PIECE TO CHARGING STATION, BACKWARD IS USED BECAUSE THE ROBOT DOESN'T NEED TO HAVE ELEVATOR FACING SCORING
-	static RamseteCommand OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
+	static SequentialCommandGroup OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_CHARGING_STATION_FAR),
-				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
-	static RamseteCommand BarrierGamePieceToScore(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierGamePieceToScore(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_FORWARD, BARRIER_COMMUNITY_SCORE),
-				reverseConfig), realisticFeedforward, leftController, rightController, drivetrain);
+				reverseConfig), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 	// FOR GAME PIECE TO SCORE, FORWARD AND REVERSED IS USED BECAUSE THE ROBOT SHOULD END WITH ELEVATOR FACING SCORING NODE
-	static RamseteCommand OutsideGamePieceToScore(Drivetrain drivetrain) {
+	static SequentialCommandGroup OutsideGamePieceToScore(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_COMMUNITY_SCORE),
-				reverseConfig), realisticFeedforward, leftController, rightController, drivetrain);
+				reverseConfig), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
-	static RamseteCommand BarrierScoreToChargingStation(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierScoreToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, BARRIER_CHARGING_STATION_COMMUNITY),
-				config), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+				config), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
-	static RamseteCommand OutsideScoreToChargingStation(Drivetrain drivetrain) {
+
+	static SequentialCommandGroup OutsideScoreToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_SCORE, OUTSIDE_CHARGING_STATION_COMMUNITY),
-				config), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+				config), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
-	static RamseteCommand BarrierScoreToMiddleGamePiece(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierScoreToMiddleGamePiece(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, BARRIER_MIDDLE_GAME_PIECE_FORWARD),
-				config), realisticFeedforward, leftController, rightController, drivetrain);
+				config), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
-	static RamseteCommand OutsideScoreToMiddleGamePiece(Drivetrain drivetrain) {
+	static SequentialCommandGroup OutsideScoreToMiddleGamePiece(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_SCORE, OUTSIDE_MIDDLE_GAME_PIECE_FORWARD),
-				config), realisticFeedforward, leftController, rightController, drivetrain);
+				config), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 }

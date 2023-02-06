@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import org.frc1410.test.commands.*;
 import org.frc1410.test.commands.GoToAprilTag;
+import org.frc1410.test.commands.groups.auto.barrier.Barrier2ConeEngage;
 import org.frc1410.test.commands.groups.auto.barrier.BarrierCommunityToGamePiece;
 import org.frc1410.test.commands.groups.auto.barrier.BarrierGamePieceToScore;
 import org.frc1410.test.commands.groups.auto.outside.OutsideCommunityToGamePiece;
@@ -37,7 +38,8 @@ public final class Robot extends PhaseDrivenRobot {
             .add("Barrier Community To Game Piece", () -> new BarrierCommunityToGamePiece(drivetrain))
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
 			.add("Barrier Game Piece To Score", () -> new BarrierGamePieceToScore(drivetrain))
-			.add("Outside Game Piece To Score", () -> new OutsideGamePieceToScore(drivetrain));
+			.add("Outside Game Piece To Score", () -> new OutsideGamePieceToScore(drivetrain))
+			.add("2 Cone Engage", () -> new Barrier2ConeEngage(drivetrain));
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
@@ -70,7 +72,7 @@ public final class Robot extends PhaseDrivenRobot {
     @Override
     public void teleopSequence() {
 		drivetrain.zeroHeading();
-        drivetrain.brakeMode();
+        drivetrain.coastMode();
         scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
 //        scheduler.scheduleDefaultCommand(new RunIntake(intake, driverController.LEFT_TRIGGER), TaskPersistence.GAMEPLAY);
