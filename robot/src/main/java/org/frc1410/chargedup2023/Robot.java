@@ -11,6 +11,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
 import org.frc1410.chargedup2023.commands.actions.intake.ToggleIntake;
 import org.frc1410.chargedup2023.commands.groups.teleop.ConeIntakePosition;
 import org.frc1410.chargedup2023.commands.groups.teleop.CubeIntakePosition;
+import org.frc1410.chargedup2023.commands.groups.teleop.DropHeldPiece;
 import org.frc1410.chargedup2023.commands.groups.teleop.IdleState;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
@@ -86,6 +87,15 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
+		operatorController.LEFT_BUMPER.whenPressed(
+				new DropHeldPiece(
+						intake,
+						lBork,
+						elevator
+				),
+				TaskPersistence.EPHEMERAL
+		);
+
 		operatorController.X.whenPressed(
 				new CubeIntakePosition(
 						intake,
@@ -125,9 +135,9 @@ public final class Robot extends PhaseDrivenRobot {
 
 		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
 
-		operatorController.Y.whileHeld(new RunLBorkCone(lBork, false), TaskPersistence.GAMEPLAY);
-		operatorController.X.whileHeld(new RunLBorkCone(lBork, true), TaskPersistence.GAMEPLAY);
-		operatorController.B.whileHeld(new RunLBorkCube(lBork, false), TaskPersistence.GAMEPLAY);
-		operatorController.A.whileHeld(new RunLBorkCube(lBork, true), TaskPersistence.GAMEPLAY);
+		operatorController.Y.whileHeld(new RunLBorkCone(lBork, false), TaskPersistence.EPHEMERAL);
+		operatorController.X.whileHeld(new RunLBorkCone(lBork, true), TaskPersistence.EPHEMERAL);
+		operatorController.B.whileHeld(new RunLBorkCube(lBork, false), TaskPersistence.EPHEMERAL);
+		operatorController.A.whileHeld(new RunLBorkCube(lBork, true), TaskPersistence.EPHEMERAL);
 	}
 }
