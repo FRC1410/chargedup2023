@@ -20,7 +20,9 @@ public class BarrierGamePieceToScore extends SequentialCommandGroup {
 					System.out.println("TRAJECTORY TIME = " + Trajectories.totalTime);
 //					System.out.println("GYRO? = " + Trajectories.gyroProblem);
 				}),
-				new RunCommand(() -> {})
+				new RunCommand(() -> {
+					drivetrain.resetPoseEstimation(BARRIER_GAME_PIECE_FORWARD);
+				})
         );
 	}
 }

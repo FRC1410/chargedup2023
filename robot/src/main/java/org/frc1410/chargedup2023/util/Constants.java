@@ -19,8 +19,8 @@ public interface Constants {
     double KS = 0.676;
     double KV = 2.67;
     double KA = 0.34;
-    double KV_ANGULAR = 2.84; //Simulation Only
-    double KA_ANGULAR = 0.216; //Simulation Only
+    double KV_ANGULAR = 2.84; //Simulation Only (Should be 2.84)
+    double KA_ANGULAR = 0.216; //Simulation Only (Should be 0.216)
 
     double KS_SLOW = 0.55;
     double KV_SLOW = 2.15;

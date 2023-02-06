@@ -1,8 +1,12 @@
 package org.frc1410.chargedup2023;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.*;
 import org.frc1410.chargedup2023.commands.DriveLooped;
 import org.frc1410.chargedup2023.commands.groups.auto.*;
+import org.frc1410.chargedup2023.commands.groups.auto.barrier.Barrier2ConeCube;
+import org.frc1410.chargedup2023.commands.groups.auto.barrier.Barrier2ConeEngage;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
@@ -23,8 +27,11 @@ public final class Robot extends PhaseDrivenRobot {
     private final NetworkTable table = nt.getTable("Auto");
 
     private final AutoSelector autoSelector = new AutoSelector()
-            .add("Barrier Scoring To Charging Station", () -> new BarrierScoringToChargingStation(drivetrain))
-            .add("GO", () -> new BarrierGamePieceToScore(drivetrain));
+//            .add("Barrier Scoring To Charging Station", () -> new BarrierScoringToChargingStation(drivetrain))
+			.add("Barrier 2 Cone Cube", () -> new Barrier2ConeCube(drivetrain))
+			.add("Barrier 2 Cone Engage", () -> new Barrier2ConeEngage(drivetrain))
+            .add("GO", () -> new BarrierGamePieceToScore(drivetrain))
+			.add("turn", () -> new Turn180(drivetrain));
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
@@ -51,4 +58,9 @@ public final class Robot extends PhaseDrivenRobot {
     public void testSequence() {
         drivetrain.coastMode();
     }
+
+	@Override
+	public void disabledSequence() {
+		drivetrain.resetPoseEstimation(new Pose2d(0, 0, new Rotation2d(0)));
+	}
 }
