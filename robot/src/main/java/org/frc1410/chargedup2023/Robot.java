@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
+import org.frc1410.chargedup2023.commands.actions.LookForAprilTag;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
@@ -79,6 +80,26 @@ public final class Robot extends PhaseDrivenRobot {
 						operatorController.LEFT_TRIGGER,
 						operatorController.RIGHT_TRIGGER),
 				TaskPersistence.GAMEPLAY
+		);
+
+		driverController.LEFT_BUMPER.whenPressed(
+				new LookForAprilTag(
+						driverController.LEFT_BUMPER,
+						drivetrain,
+						camera,
+						scheduler,
+						false),
+				TaskPersistence.EPHEMERAL
+		);
+
+		driverController.RIGHT_BUMPER.whenPressed(
+				new LookForAprilTag(
+						driverController.RIGHT_BUMPER,
+						drivetrain,
+						camera,
+						scheduler,
+						true),
+				TaskPersistence.EPHEMERAL
 		);
 
 		operatorController.RIGHT_BUMPER.whenPressed(

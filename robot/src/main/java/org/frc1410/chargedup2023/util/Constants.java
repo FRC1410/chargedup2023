@@ -1,6 +1,7 @@
 package org.frc1410.chargedup2023.util;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public interface Constants {
 	// AprilTags
 	List<Integer> RED_TAGS = new ArrayList<>(List.of(1, 2, 3, 4));
 	List<Integer> BLUE_TAGS = new ArrayList<>(List.of(5, 6, 7, 8));
+	double WAYPOINT_THRESHOLD = -Units.inchesToMeters(70);
 
 	// Elevator
 	double ELEVATOR_SPEED = 0.5;

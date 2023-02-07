@@ -66,6 +66,13 @@ public class ExternalCamera implements TickedSubsystem {
 		);
 	}
 
+	public Optional<Pose3d> getTargetLocation() {
+		if (getTarget() != null) {
+			return fieldLayout.getTagPose(getTarget().getFiducialId());
+		}
+		return Optional.empty();
+	}
+
     public boolean hasTargets() {
         return camera.getLatestResult().hasTargets();
     }
