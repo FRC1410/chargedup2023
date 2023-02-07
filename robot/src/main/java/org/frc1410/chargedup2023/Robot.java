@@ -84,6 +84,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 		driverController.LEFT_BUMPER.whileHeld(
 				new LookForAprilTag(
+						driverController.LEFT_BUMPER,
 						drivetrain,
 						camera,
 						scheduler,
@@ -93,6 +94,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 		driverController.RIGHT_BUMPER.whileHeld(
 				new LookForAprilTag(
+						driverController.RIGHT_BUMPER,
 						drivetrain,
 						camera,
 						scheduler,
