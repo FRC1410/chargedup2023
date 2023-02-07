@@ -38,27 +38,35 @@ public class LookForAprilTag extends CommandBase {
 
 			// TODO: Replace GoToAprilTag command with the setup command
 			if (camera.getTarget().getFiducialId() == 4 || camera.getTarget().getFiducialId() == 5) {
-				Command command;
-				if (rightBumper) {
-					command = new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.RIGHT_SUBSTATION, scheduler);
-				} else {
-					command = new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.LEFT_SUBSTATION, scheduler);
-				}
-
-				var task = new CommandTask(command);
-				scheduler.schedule(task, TaskPersistence.EPHEMERAL, observer, LockPriority.HIGH);
+				scheduler.schedule(
+					new CommandTask(new GoToAprilTag(
+						drivetrain,
+						camera,
+						rightBumper
+							? GoToAprilTag.Node.RIGHT_SUBSTATION
+							: GoToAprilTag.Node.LEFT_SUBSTATION,
+						scheduler
+					)),
+					TaskPersistence.EPHEMERAL,
+					observer,
+					LockPriority.HIGH
+				);
 			} else {
-				var command = switch (ScoringPosition.targetPosition) {
-					case HIGH_LEFT_CONE, MIDDLE_LEFT_CONE, HYBRID_LEFT ->
-						new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.LEFT_CONE_NODE, scheduler);
-					case HIGH_CUBE, MIDDLE_CUBE, HYBRID_MIDDLE ->
-						new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.CUBE_NODE, scheduler);
-					case HIGH_RIGHT_CONE, MIDDLE_RIGHT_CONE, HYBRID_RIGHT ->
-						new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.RIGHT_CONE_NODE, scheduler);
-				};
-
-				var task = new CommandTask(command);
-				scheduler.schedule(task, TaskPersistence.EPHEMERAL, observer, LockPriority.HIGH);
+				scheduler.schedule(
+					new CommandTask(new GoToAprilTag(
+						drivetrain,
+						camera,
+						switch (ScoringPosition.targetPosition) {
+							case HIGH_LEFT_CONE, MIDDLE_LEFT_CONE, HYBRID_LEFT -> GoToAprilTag.Node.LEFT_CONE_NODE;
+							case HIGH_CUBE, MIDDLE_CUBE, HYBRID_MIDDLE -> GoToAprilTag.Node.CUBE_NODE;
+							case HIGH_RIGHT_CONE, MIDDLE_RIGHT_CONE, HYBRID_RIGHT -> GoToAprilTag.Node.RIGHT_CONE_NODE;
+						},
+						scheduler
+					)),
+					TaskPersistence.EPHEMERAL,
+					observer,
+					LockPriority.HIGH
+				);
 			}
 		});
 	}
