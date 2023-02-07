@@ -16,8 +16,9 @@ public class HighScoringMode extends SequentialCommandGroup {
 	public HighScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
 		addCommands(
 				new ParallelCommandGroup(
-						// TODO: Fix elevator positioning
-						new MoveElevator(lbork, elevator, intake, Elevator.State.MID),
+						targetPosition.equals(HIGH_CUBE)
+							? new MoveElevator(lbork, elevator, intake, Elevator.State.MID, true)
+							: new MoveElevator(lbork, elevator, intake, Elevator.State.RAISED, true),
 						new GoToAprilTag(
 								drivetrain,
 								camera,
@@ -31,8 +32,8 @@ public class HighScoringMode extends SequentialCommandGroup {
 						)
 				),
 				targetPosition.equals(HIGH_CUBE)
-						? new RunLBorkCube(lbork, true)
-						: new RunLBorkCone(lbork, true)
+					? new RunLBorkCube(lbork, true)
+					: new RunLBorkCone(lbork, true)
 		);
 	}
 }

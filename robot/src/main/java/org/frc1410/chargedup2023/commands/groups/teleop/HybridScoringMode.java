@@ -14,8 +14,7 @@ public class HybridScoringMode extends SequentialCommandGroup {
 	public HybridScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
 		addCommands(
 				new ParallelCommandGroup(
-						// TODO: Fix elevator positioning
-						new MoveElevator(lbork, elevator, intake, Elevator.State.MID),
+						new MoveElevator(lbork, elevator, intake, Elevator.State.MID, false),
 						new GoToAprilTag(
 								drivetrain,
 								camera,
@@ -29,8 +28,8 @@ public class HybridScoringMode extends SequentialCommandGroup {
 						)
 				),
 				targetPosition.equals(HYBRID_MIDDLE)
-						? new RunLBorkCube(lbork, true)
-						: new RunLBorkCone(lbork, true)
+					? new RunLBorkCube(lbork, true)
+					: new RunLBorkCone(lbork, true)
 		);
 	}
 }

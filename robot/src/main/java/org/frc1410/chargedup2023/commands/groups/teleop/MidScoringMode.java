@@ -16,8 +16,7 @@ public class MidScoringMode extends SequentialCommandGroup {
 	public MidScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
 		addCommands(
 				new ParallelCommandGroup(
-						// TODO: Fix elevator positioning
-						new MoveElevator(lbork, elevator, intake, Elevator.State.MID),
+						new MoveElevator(lbork, elevator, intake, Elevator.State.MID, false),
 						new GoToAprilTag(
 								drivetrain,
 								camera,
