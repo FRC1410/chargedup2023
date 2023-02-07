@@ -82,7 +82,7 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.GAMEPLAY
 		);
 
-		driverController.LEFT_BUMPER.whileHeld(
+		driverController.LEFT_BUMPER.whenPressed(
 				new LookForAprilTag(
 						driverController.LEFT_BUMPER,
 						drivetrain,
@@ -92,7 +92,7 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-		driverController.RIGHT_BUMPER.whileHeld(
+		driverController.RIGHT_BUMPER.whenPressed(
 				new LookForAprilTag(
 						driverController.RIGHT_BUMPER,
 						drivetrain,
