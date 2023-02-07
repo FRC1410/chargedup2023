@@ -87,6 +87,8 @@ public final class Robot extends PhaseDrivenRobot {
 						driverController.LEFT_BUMPER,
 						drivetrain,
 						camera,
+						lBork,
+						elevator,
 						scheduler,
 						false),
 				TaskPersistence.EPHEMERAL
@@ -97,6 +99,8 @@ public final class Robot extends PhaseDrivenRobot {
 						driverController.RIGHT_BUMPER,
 						drivetrain,
 						camera,
+						lBork,
+						elevator,
 						scheduler,
 						true),
 				TaskPersistence.EPHEMERAL

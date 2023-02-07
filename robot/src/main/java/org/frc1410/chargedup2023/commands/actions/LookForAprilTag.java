@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.GoToAprilTag;
 import org.frc1410.chargedup2023.commands.groups.teleop.SubstationScoringMode;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Elevator;
 import org.frc1410.chargedup2023.subsystems.ExternalCamera;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.framework.control.Button;
@@ -26,7 +27,7 @@ public class LookForAprilTag extends CommandBase {
 	private final TaskScheduler scheduler;
 	private final boolean rightBumper;
 
-	public LookForAprilTag(Button button, Drivetrain drivetrain, ExternalCamera camera, LBork lbork, TaskScheduler scheduler, boolean rightBumper) {
+	public LookForAprilTag(Button button, Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, TaskScheduler scheduler, boolean rightBumper) {
 		this.button = button;
 		this.drivetrain = drivetrain;
 		this.camera = camera;
