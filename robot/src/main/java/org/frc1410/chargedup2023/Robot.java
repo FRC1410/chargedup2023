@@ -4,9 +4,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.*;
 import org.frc1410.chargedup2023.commands.DriveLooped;
-import org.frc1410.chargedup2023.commands.groups.auto.*;
-import org.frc1410.chargedup2023.commands.groups.auto.barrier.Barrier2ConeCube;
+import org.frc1410.chargedup2023.commands.groups.auto.barrier.*;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.Barrier2ConeEngage;
+import org.frc1410.chargedup2023.commands.groups.auto.outside.*;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
@@ -27,11 +27,20 @@ public final class Robot extends PhaseDrivenRobot {
     private final NetworkTable table = nt.getTable("Auto");
 
     private final AutoSelector autoSelector = new AutoSelector()
-//            .add("Barrier Scoring To Charging Station", () -> new BarrierScoringToChargingStation(drivetrain))
-			.add("Barrier 2 Cone Cube", () -> new Barrier2ConeCube(drivetrain))
+			.add("Barrier Score Collect", () -> new BarrierScoreCollect(drivetrain))
+			.add("Barrier Score Collect Engage", () -> new BarrierScoreCollectEngage(drivetrain))
+			.add("Barrier 2 Cone", () -> new Barrier2Cone(drivetrain))
 			.add("Barrier 2 Cone Engage", () -> new Barrier2ConeEngage(drivetrain))
-            .add("GO", () -> new BarrierGamePieceToScore(drivetrain))
-			.add("turn", () -> new Turn180(drivetrain));
+			.add("Barrier 2 Cone Collect Cube", () -> new Barrier2ConeCollectCube(drivetrain))
+			.add("Barrier 2 Cone Cube", () -> new Barrier2ConeCube(drivetrain))
+
+			.add("Outside Score Collect", () -> new OutsideScoreCollect(drivetrain))
+			.add("Outside Score Collect Engage", () -> new OutsideScoreCollectEngage(drivetrain))
+			.add("Outside 2 Cone", () -> new Outside2Cone(drivetrain))
+			.add("Outside 2 Cone Engage", () -> new Outside2ConeEngage(drivetrain))
+			.add("Outside 2 Cone Collect Cube", () -> new Outside2ConeCollectCube(drivetrain))
+			.add("Outside 2 Cone Cube", () -> new Outside2ConeCube(drivetrain));
+
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());

@@ -10,8 +10,8 @@ import org.frc1410.chargedup2023.util.Trajectories;
 
 import static org.frc1410.chargedup2023.auto.POIs.OUTSIDE_COMMUNITY_START;
 
-public class Outside2ConeEngage extends SequentialCommandGroup {
-	public Outside2ConeEngage(Drivetrain drivetrain) {
+public class OutsideScoreCollect extends SequentialCommandGroup {
+	public OutsideScoreCollect(Drivetrain drivetrain) {
 		drivetrain.resetPoseEstimation(OUTSIDE_COMMUNITY_START);
 
 		addCommands(
@@ -21,12 +21,7 @@ public class Outside2ConeEngage extends SequentialCommandGroup {
 				Trajectories.OutsideGridToGamePiece(drivetrain),
 				new TurnToSmallAngle(drivetrain, 180),
 				Trajectories.OutsideGamePieceToIntake(drivetrain),
-				new TurnToSmallAngle(drivetrain, 0),
-				Trajectories.OutsideGamePieceToScore(drivetrain),
-				new WaitCommand(0.7),
-				Trajectories.OutsideScoreToChargingStation(drivetrain),
 				new RunCommand(() -> {})
-				// Engage
 		);
 	}
 }

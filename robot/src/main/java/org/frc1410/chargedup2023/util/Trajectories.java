@@ -120,19 +120,6 @@ public interface Trajectories {
 	}
 
 
-	static SequentialCommandGroup BarrierCommunityToChargingStation(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_CHARGING_STATION_COMMUNITY),
-				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
-				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-	}
-
-	static SequentialCommandGroup OutsideCommunityToChargingStation(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_START, BARRIER_CHARGING_STATION_COMMUNITY),
-				slowConfig), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
-				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-	}
-
-
 	static SequentialCommandGroup BarrierGridToGamePiece(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_GRID, BARRIER_GAME_PIECE_FORWARD_MIDPOINT),
 				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
@@ -161,10 +148,10 @@ public interface Trajectories {
 
 	static SequentialCommandGroup BarrierGamePieceToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_BACKWARD, BARRIER_CHARGING_STATION_FAR),
-				configCentripAccel), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
-	// FOR GAME PIECE TO CHARGING STATION, BACKWARD IS USED BECAUSE THE ROBOT DOESN'T NEED TO HAVE ELEVATOR FACING SCORING
+
 	static SequentialCommandGroup OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_CHARGING_STATION_FAR),
 				configCentripAccel), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
@@ -180,68 +167,35 @@ public interface Trajectories {
 
 	static SequentialCommandGroup OutsideScoreToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_SCORE, OUTSIDE_CHARGING_STATION_COMMUNITY),
-				configCentripAccel), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
 	static SequentialCommandGroup BarrierScoreToMiddleGamePiece(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, BARRIER_MIDDLE_PIECE_FORWARD_MIDPOINT),
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(BARRIER_SCORE_CONE_ANGLED, List.of(BARRIER_MIDDLE_GAME_PIECE_ANGLED_MIDPOINT), BARRIER_MIDDLE_GAME_PIECE_ANGLED_FORWARD,
 				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 	static SequentialCommandGroup OutsideScoreToMiddleGamePiece(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_SCORE, OUTSIDE_MIDDLE_PIECE_FORWARD_MIDPOINT),
-				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
-				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-	}
-
-// NO MIDPOINT????
-//	static SequentialCommandGroup BarrierScoreToMiddleGamePieceNuclear(Drivetrain drivetrain) {
-//		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(NUCLEAR_OPTION_POSE, NUCLEAR_WASTE_PICKUP),
-//				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
-//				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-//	}
-
-//	static SequentialCommandGroup OutsideScoreToMiddleGamePieceNuclear(Drivetrain drivetrain) {
-//		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_COMMUNITY_SCORE, OUTSIDE_MIDDLE_PIECE_FORWARD_MIDPOINT),
-//				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
-//				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-//	}
-
-
-	static SequentialCommandGroup BarrierScoreToMiddleGamePieceNuclear(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(NUCLEAR_OPTION_POSE, List.of(NUCLEAR_MIDPOINT), NUCLEAR_WASTE_PICKUP,
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(OUTSIDE_SCORE_CONE_ANGLED, List.of(OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_MIDPOINT), OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_FORWARD,
 				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
 	static SequentialCommandGroup BarrierMiddleGamePieceToIntake(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_MIDDLE_PIECE_BACKWARD_MIDPOINT, BARRIER_MIDDLE_GAME_PIECE_BACKWARD),
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_MIDDLE_GAME_PIECE_ANGLED_BACKWARD, BARRIER_MIDDLE_GAME_PIECE_INTAKE_ANGLED),
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 	static SequentialCommandGroup OutsideMiddleGamePieceToIntake(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_MIDDLE_PIECE_BACKWARD_MIDPOINT, OUTSIDE_MIDDLE_GAME_PIECE_BACKWARD),
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_BACKWARD, OUTSIDE_MIDDLE_GAME_PIECE_INTAKE_ANGLED),
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
-
-
-	static SequentialCommandGroup BarrierMiddleGamePieceToIntakeNuclear(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(NUCLEAR_WASTE_PICKUP_BACKWARD, NUCLEAR_WASTE_INTAKE),
-				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
-				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-	}
-
-//	static SequentialCommandGroup OutsideMiddleGamePieceToIntakeNuclear(Drivetrain drivetrain) {
-//		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_MIDDLE_PIECE_BACKWARD_MIDPOINT, OUTSIDE_MIDDLE_GAME_PIECE_BACKWARD),
-//				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
-//				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-//	}
 
 
 	static SequentialCommandGroup BarrierGamePieceToScore(Drivetrain drivetrain) {
@@ -250,7 +204,7 @@ public interface Trajectories {
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
-	// FOR GAME PIECE TO SCORE, FORWARD AND REVERSED IS USED BECAUSE THE ROBOT SHOULD END WITH ELEVATOR FACING SCORING NODE
+
 	static SequentialCommandGroup OutsideGamePieceToScore(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
 				OUTSIDE_GAME_PIECE_FORWARD, List.of(OUTSIDE_GAME_PIECE_SCORE_MIDPOINT), OUTSIDE_COMMUNITY_SCORE,
@@ -261,44 +215,28 @@ public interface Trajectories {
 
 	static SequentialCommandGroup BarrierMiddleGamePieceToScoreCube(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-				BARRIER_MIDDLE_GAME_PIECE_FORWARD, List.of(BARRIER_GAME_PIECE_SCORE_MIDPOINT), BARRIER_COMMUNITY_SCORE_CUBE,
+				BARRIER_MIDDLE_GAME_PIECE_ANGLED_FORWARD, List.of(BARRIER_CUBE_SCORE_MIDPOINT), BARRIER_COMMUNITY_SCORE_CUBE,
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
-	// WRONG MIDPOINT
+
 	static SequentialCommandGroup OutsideMiddleGamePieceToScoreCube(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-				OUTSIDE_MIDDLE_GAME_PIECE_FORWARD, List.of(OUTSIDE_GAME_PIECE_SCORE_MIDPOINT), OUTSIDE_COMMUNITY_SCORE_CUBE,
+				OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_FORWARD, List.of(OUTSIDE_CUBE_SCORE_MIDPOINT), OUTSIDE_COMMUNITY_SCORE_CUBE,
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
-
-
-	static SequentialCommandGroup BarrierMiddleGamePieceToScoreCubeNuclear(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-				NUCLEAR_WASTE_PICKUP, List.of(BARRIER_CUBE_SCORE_MIDPOINT), BARRIER_COMMUNITY_SCORE_CUBE,
-				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
-				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-	}
-	// WRONG MIDPOINT
-//	static SequentialCommandGroup OutsideMiddleGamePieceToScoreCubeNuclear(Drivetrain drivetrain) {
-//		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-//				OUTSIDE_MIDDLE_GAME_PIECE_FORWARD, List.of(OUTSIDE_GAME_PIECE_SCORE_MIDPOINT), OUTSIDE_COMMUNITY_SCORE_CUBE,
-//				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
-//				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-//	}
 
 
 	static SequentialCommandGroup BarrierGamePieceToScoreNuclear(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_FORWARD, NUCLEAR_OPTION_POSE),
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_FORWARD, BARRIER_SCORE_CONE_ANGLED),
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
-	// FOR GAME PIECE TO SCORE, FORWARD AND REVERSED IS USED BECAUSE THE ROBOT SHOULD END WITH ELEVATOR FACING SCORING NODE
-//	static SequentialCommandGroup OutsideGamePieceToScoreNuclear(Drivetrain drivetrain) {
-//		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-//				OUTSIDE_GAME_PIECE_FORWARD, List.of(OUTSIDE_GAME_PIECE_SCORE_MIDPOINT), OUTSIDE_COMMUNITY_SCORE,
-//				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
-//				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-//	}
+
+	static SequentialCommandGroup OutsideGamePieceToScoreNuclear(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_SCORE_CONE_ANGLED),
+				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+	}
 }
