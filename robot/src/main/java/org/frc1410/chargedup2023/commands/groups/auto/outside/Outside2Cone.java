@@ -22,7 +22,7 @@ public class Outside2Cone extends SequentialCommandGroup {
 				new TurnToSmallAngle(drivetrain, 180),
 				Trajectories.OutsideGamePieceToIntake(drivetrain),
 				new TurnToSmallAngle(drivetrain, 0),
-				Trajectories.OutsideGamePieceToScoreNuclear(drivetrain),
+				Trajectories.OutsideGamePieceToScoreAngled(drivetrain),
 				new WaitCommand(0.7),
 				new RunCommand(() -> {})
 		);
