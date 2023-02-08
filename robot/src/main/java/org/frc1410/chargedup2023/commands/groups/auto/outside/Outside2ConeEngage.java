@@ -24,8 +24,7 @@ public class Outside2ConeEngage extends SequentialCommandGroup {
 				new TurnToSmallAngle(drivetrain, 0),
 				Trajectories.OutsideGamePieceToScore(drivetrain),
 				new WaitCommand(0.7),
-				Trajectories.OutsideScoreToChargingStation(drivetrain),
-				new RunCommand(() -> {})
+				Trajectories.OutsideScoreToChargingStation(drivetrain)
 				// Engage
 		);
 	}
