@@ -28,8 +28,7 @@ public class Outside2ConeCube extends SequentialCommandGroup {
 				new TurnToSmallAngle(drivetrain, 48-180),
 				Trajectories.OutsideMiddleGamePieceToIntake(drivetrain),
 				new TurnToSmallAngle(drivetrain, 48),
-				Trajectories.OutsideMiddleGamePieceToScoreCube(drivetrain),
-				new RunCommand(() -> {})
+				Trajectories.OutsideMiddleGamePieceToScoreCube(drivetrain)
 		);
 	}
 }
