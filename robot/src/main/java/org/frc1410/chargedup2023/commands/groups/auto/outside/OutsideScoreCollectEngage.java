@@ -21,8 +21,7 @@ public class OutsideScoreCollectEngage extends SequentialCommandGroup {
 				Trajectories.OutsideGridToGamePiece(drivetrain),
 				new TurnToSmallAngle(drivetrain, 180),
 				Trajectories.OutsideGamePieceToIntake(drivetrain),
-				Trajectories.OutsideGamePieceToChargingStation(drivetrain),
-				new RunCommand(() -> {})
+				Trajectories.OutsideGamePieceToChargingStation(drivetrain)
 		);
 	}
 }
