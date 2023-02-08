@@ -91,7 +91,8 @@ public final class Robot extends PhaseDrivenRobot {
 						elevator,
 						intake,
 						scheduler,
-						false),
+						false
+				),
 				TaskPersistence.EPHEMERAL
 		);
 
@@ -104,7 +105,8 @@ public final class Robot extends PhaseDrivenRobot {
 						elevator,
 						intake,
 						scheduler,
-						true),
+						true
+				),
 				TaskPersistence.EPHEMERAL
 		);
 
