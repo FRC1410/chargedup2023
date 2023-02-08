@@ -11,7 +11,7 @@ public class ElevatorHomingSequence extends CommandBase {
 	public ElevatorHomingSequence(Elevator elevator) {
 		this.elevator = elevator;
 
-		addRequirements(this.elevator);
+		addRequirements(elevator);
 	}
 
 	@Override
