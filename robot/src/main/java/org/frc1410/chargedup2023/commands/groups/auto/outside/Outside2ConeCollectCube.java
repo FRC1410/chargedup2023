@@ -26,8 +26,7 @@ public class Outside2ConeCollectCube extends SequentialCommandGroup {
 				new WaitCommand(0.7),
 				Trajectories.OutsideScoreToMiddleGamePiece(drivetrain),
 				new TurnToSmallAngle(drivetrain, 48-180),
-				Trajectories.OutsideMiddleGamePieceToIntake(drivetrain),
-				new RunCommand(() -> {})
+				Trajectories.OutsideMiddleGamePieceToIntake(drivetrain)
 		);
 	}
 }
