@@ -1,8 +1,10 @@
 package org.frc1410.chargedup2023.commands.groups.auto.barrier;
 
 
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToAngle;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.util.Trajectories;
 
@@ -13,12 +15,14 @@ public class BarrierScoreCollectEngage extends SequentialCommandGroup {
 		drivetrain.resetPoseEstimation(BARRIER_COMMUNITY_START);
 
 		addCommands(
-				Trajectories.BarrierCommunityToGamePiece(drivetrain),
-				new TurnToAngle(drivetrain, 180),
-				// Move forward to intake
-				Trajectories.BarrierGamePieceToChargingStation(drivetrain)
-				// Engage
+				new WaitCommand(0.5),
+				Trajectories.BarrierCommunityToGrid(drivetrain),
+				new WaitCommand(0.7),
+				Trajectories.BarrierGridToGamePiece(drivetrain),
+				new TurnToSmallAngle(drivetrain, 180),
+				Trajectories.BarrierGamePieceToIntake(drivetrain),
+				Trajectories.BarrierGamePieceToChargingStation(drivetrain),
+				new RunCommand(() -> {})
 		);
-
 	}
 }
