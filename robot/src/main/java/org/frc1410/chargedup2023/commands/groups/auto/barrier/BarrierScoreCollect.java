@@ -20,8 +20,7 @@ public class BarrierScoreCollect extends SequentialCommandGroup {
 				new WaitCommand(0.7),
 				Trajectories.BarrierGridToGamePiece(drivetrain),
 				new TurnToSmallAngle(drivetrain, 180),
-				Trajectories.BarrierGamePieceToIntake(drivetrain),
-				new RunCommand(() -> {})
+				Trajectories.BarrierGamePieceToIntake(drivetrain)
 		);
 	}
 }
