@@ -202,13 +202,13 @@ public interface Trajectories {
 	}
 
 
-	static SequentialCommandGroup BarrierGamePieceToScoreNuclear(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierGamePieceToScoreAngled(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_FORWARD, BARRIER_SCORE_CONE_ANGLED),
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
-	static SequentialCommandGroup OutsideGamePieceToScoreNuclear(Drivetrain drivetrain) {
+	static SequentialCommandGroup OutsideGamePieceToScoreAngled(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_SCORE_CONE_ANGLED),
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
