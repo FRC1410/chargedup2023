@@ -23,8 +23,7 @@ public class Barrier2Cone extends SequentialCommandGroup {
 				Trajectories.BarrierGamePieceToIntake(drivetrain),
 				new TurnToSmallAngle(drivetrain, 0),
 				Trajectories.BarrierGamePieceToScoreAngled(drivetrain),
-				new WaitCommand(0.7),
-				new RunCommand(() -> {})
+				new WaitCommand(0.7)
 		);
 
 	}
