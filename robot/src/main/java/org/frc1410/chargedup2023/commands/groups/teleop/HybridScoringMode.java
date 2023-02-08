@@ -11,7 +11,7 @@ import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.*;
-import static org.frc1410.chargedup2023.util.Tuning.RUN_LBORK_SCORING_TIME;
+import static org.frc1410.chargedup2023.util.Constants.RUN_LBORK_SCORING_TIME;
 
 public class HybridScoringMode extends SequentialCommandGroup {
 	public HybridScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {

@@ -84,4 +84,6 @@ public interface Constants {
 	// Other stuff
 	double INTAKE_LBORK_EXTEND_TIME = 0.25; // Seconds
 	double SUBSTATION_INTAKE_TIME = 3; // Seconds
+
+	double RUN_LBORK_SCORING_TIME = 3; // Seconds
 }

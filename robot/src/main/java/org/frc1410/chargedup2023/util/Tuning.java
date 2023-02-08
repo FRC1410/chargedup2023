@@ -29,7 +29,4 @@ public interface Tuning {
 	double ELEVATOR_KD = 0;
 
 	double ELEVATOR_MAX_OUTPUT = 0;
-
-	// Scoring
-	double RUN_LBORK_SCORING_TIME = 3; // Seconds
 }
