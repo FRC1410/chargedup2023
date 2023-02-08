@@ -29,8 +29,7 @@ public class Barrier2ConeCube extends SequentialCommandGroup {
 				new TurnToSmallAngle(drivetrain, -48+180),
 				Trajectories.BarrierMiddleGamePieceToIntake(drivetrain),
 				new TurnToSmallAngle(drivetrain, -48),
-				Trajectories.BarrierMiddleGamePieceToScoreCube(drivetrain),
-				new RunCommand(() -> {})
+				Trajectories.BarrierMiddleGamePieceToScoreCube(drivetrain)
 		);
 	}
 }
