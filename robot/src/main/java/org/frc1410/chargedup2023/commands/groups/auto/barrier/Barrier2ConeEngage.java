@@ -24,8 +24,7 @@ public class Barrier2ConeEngage extends SequentialCommandGroup {
 				new TurnToSmallAngle(drivetrain, 0),
 				Trajectories.BarrierGamePieceToScore(drivetrain),
 				new WaitCommand(0.7),
-				Trajectories.BarrierScoreToChargingStation(drivetrain),
-				new RunCommand(() -> {})
+				Trajectories.BarrierScoreToChargingStation(drivetrain)
 				// Engage
 		);
 	}
