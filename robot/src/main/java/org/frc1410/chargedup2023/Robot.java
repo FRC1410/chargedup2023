@@ -89,6 +89,7 @@ public final class Robot extends PhaseDrivenRobot {
 						camera,
 						lBork,
 						elevator,
+						intake,
 						scheduler,
 						false),
 				TaskPersistence.EPHEMERAL
@@ -101,6 +102,7 @@ public final class Robot extends PhaseDrivenRobot {
 						camera,
 						lBork,
 						elevator,
+						intake,
 						scheduler,
 						true),
 				TaskPersistence.EPHEMERAL

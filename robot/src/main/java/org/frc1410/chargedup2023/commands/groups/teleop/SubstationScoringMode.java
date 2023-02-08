@@ -1,13 +1,16 @@
 package org.frc1410.chargedup2023.commands.groups.teleop;
 
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.GoToAprilTag;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.ExternalCamera;
 import org.frc1410.chargedup2023.subsystems.LBork;
-import org.frc1410.chargedup2023.util.Constants;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
-import org.frc1410.framework.scheduler.task.impl.CommandTask;
+
+import static org.frc1410.chargedup2023.util.Constants.SUBSTATION_INTAKE_TIME;
 
 public class SubstationScoringMode extends SequentialCommandGroup {
 	public SubstationScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, TaskScheduler scheduler, boolean rightBumper) {
@@ -19,6 +22,10 @@ public class SubstationScoringMode extends SequentialCommandGroup {
 						? GoToAprilTag.Node.RIGHT_SUBSTATION
 						: GoToAprilTag.Node.LEFT_SUBSTATION,
 					scheduler
+				),
+				new ParallelRaceGroup(
+						new RunLBorkCone(lbork, false),
+						new WaitCommand(SUBSTATION_INTAKE_TIME)
 				)
 		);
 	}
