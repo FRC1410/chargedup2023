@@ -1,7 +1,9 @@
 package org.frc1410.chargedup2023.commands.groups.teleop;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.GoToAprilTag;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
@@ -10,6 +12,7 @@ import org.frc1410.framework.scheduler.task.TaskScheduler;
 
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.HIGH_CUBE;
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.targetPosition;
+import static org.frc1410.chargedup2023.util.Tuning.RUN_LBORK_SCORING_TIME;
 
 public class HighScoringMode extends SequentialCommandGroup {
 
@@ -31,9 +34,12 @@ public class HighScoringMode extends SequentialCommandGroup {
 								scheduler
 						)
 				),
-				targetPosition.equals(HIGH_CUBE)
-					? new RunLBorkCube(lbork, true)
-					: new RunLBorkCone(lbork, true)
+				new ParallelRaceGroup(
+						targetPosition.equals(HIGH_CUBE)
+								? new RunLBorkCube(lbork, true)
+								: new RunLBorkCone(lbork, true),
+						new WaitCommand(RUN_LBORK_SCORING_TIME)
+				)
 		);
 	}
 }
