@@ -20,8 +20,7 @@ public class OutsideScoreCollect extends SequentialCommandGroup {
 				new WaitCommand(0.7),
 				Trajectories.OutsideGridToGamePiece(drivetrain),
 				new TurnToSmallAngle(drivetrain, 180),
-				Trajectories.OutsideGamePieceToIntake(drivetrain),
-				new RunCommand(() -> {})
+				Trajectories.OutsideGamePieceToIntake(drivetrain)
 		);
 	}
 }
