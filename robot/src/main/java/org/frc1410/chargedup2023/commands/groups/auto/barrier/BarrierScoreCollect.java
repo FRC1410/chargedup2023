@@ -10,8 +10,8 @@ import org.frc1410.chargedup2023.util.Trajectories;
 
 import static org.frc1410.chargedup2023.auto.POIs.BARRIER_COMMUNITY_START;
 
-public class Barrier2ConeCollectCube extends SequentialCommandGroup {
-	public Barrier2ConeCollectCube(Drivetrain drivetrain) {
+public class BarrierScoreCollect extends SequentialCommandGroup {
+	public BarrierScoreCollect(Drivetrain drivetrain) {
 		drivetrain.resetPoseEstimation(BARRIER_COMMUNITY_START);
 
 		addCommands(
@@ -21,12 +21,6 @@ public class Barrier2ConeCollectCube extends SequentialCommandGroup {
 				Trajectories.BarrierGridToGamePiece(drivetrain),
 				new TurnToSmallAngle(drivetrain, 180),
 				Trajectories.BarrierGamePieceToIntake(drivetrain),
-				new TurnToSmallAngle(drivetrain, 0),
-				Trajectories.BarrierGamePieceToScoreNuclear(drivetrain),
-				new WaitCommand(0.7),
-				Trajectories.BarrierScoreToMiddleGamePiece(drivetrain),
-				new TurnToSmallAngle(drivetrain, -48+180),
-				Trajectories.BarrierMiddleGamePieceToIntake(drivetrain),
 				new RunCommand(() -> {})
 		);
 	}
