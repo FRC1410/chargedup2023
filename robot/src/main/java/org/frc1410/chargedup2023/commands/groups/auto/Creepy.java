@@ -18,7 +18,7 @@ public class Creepy extends SequentialCommandGroup {
 						drivetrain.tankDriveVolts(-6, -6);
 				}),
 				new WaitCommand(CREEPY_WAIT),
-				new InstantCommand(() -> drivetrain.tankDriveVolts(0,0)),
+				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
 				new Engage(drivetrain)
 		);
 	}
