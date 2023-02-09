@@ -1,33 +1,27 @@
 package org.frc1410.chargedup2023.commands.groups.auto.outside;
 
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
+import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
+import org.frc1410.chargedup2023.commands.groups.teleop.MoveElevator;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Elevator;
+import org.frc1410.chargedup2023.subsystems.Intake;
+import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.Trajectories;
 
-import static org.frc1410.chargedup2023.auto.POIs.OUTSIDE_COMMUNITY_START;
-
 public class Outside2ConeCube extends SequentialCommandGroup {
-	public Outside2ConeCube(Drivetrain drivetrain) {
-		drivetrain.resetPoseEstimation(OUTSIDE_COMMUNITY_START);
-
+	public Outside2ConeCube(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
-				new WaitCommand(0.5),
-				Trajectories.OutsideCommunityToGrid(drivetrain),
-				new WaitCommand(0.7),
-				Trajectories.OutsideGridToGamePiece(drivetrain),
-				new TurnToSmallAngle(drivetrain, 180),
-				Trajectories.OutsideGamePieceToIntake(drivetrain),
-				new TurnToSmallAngle(drivetrain, 0),
-				Trajectories.OutsideGamePieceToScoreAngled(drivetrain),
-				new WaitCommand(0.7),
-				Trajectories.OutsideScoreToMiddleGamePiece(drivetrain),
-				new TurnToSmallAngle(drivetrain, 48-180),
-				Trajectories.OutsideMiddleGamePieceToIntake(drivetrain),
+				new Outside2ConeCollectCube(drivetrain, lbork, elevator, intake),
 				new TurnToSmallAngle(drivetrain, 48),
-				Trajectories.OutsideMiddleGamePieceToScoreCube(drivetrain)
+				new ParallelCommandGroup(
+						new MoveElevator(lbork, elevator, intake, Elevator.State.MID, false),
+						Trajectories.OutsideMiddleGamePieceToScoreCube(drivetrain)
+				),
+				new RetractLBork(lbork)
 		);
 	}
 }

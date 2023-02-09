@@ -18,7 +18,7 @@ public class Outside2ConeCollectCube extends SequentialCommandGroup {
 		addCommands(
 				new Outside2Cone(drivetrain, lbork, elevator, intake),
 				new ParallelCommandGroup(
-						new MoveElevator(lbork, elevator, intake, Elevator.State.DRIVING, false),
+						new MoveElevator(lbork, elevator, intake, Elevator.State.MID, false),
 						Trajectories.OutsideScoreToMiddleGamePiece(drivetrain)
 				),
 				new TurnToSmallAngle(drivetrain, 48-180),
