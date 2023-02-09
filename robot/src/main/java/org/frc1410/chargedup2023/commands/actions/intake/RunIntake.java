@@ -1,16 +1,13 @@
 package org.frc1410.chargedup2023.commands.actions.intake;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Intake;
 
 public class RunIntake extends CommandBase {
 	private final Intake intake;
-	private final Timer timer = new Timer();
 
 	public RunIntake(Intake intake) {
 		this.intake = intake;
-
 		addRequirements(intake);
 	}
 
