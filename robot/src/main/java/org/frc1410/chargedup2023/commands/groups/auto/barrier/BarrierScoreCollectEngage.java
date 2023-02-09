@@ -1,7 +1,7 @@
 package org.frc1410.chargedup2023.commands.groups.auto.barrier;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import org.frc1410.chargedup2023.commands.actions.drivetrain.Engage;
+import org.frc1410.chargedup2023.commands.groups.auto.Creepy;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.Elevator;
 import org.frc1410.chargedup2023.subsystems.Intake;
@@ -13,7 +13,7 @@ public class BarrierScoreCollectEngage extends SequentialCommandGroup {
 		addCommands(
 				new BarrierScoreCollect(drivetrain, lbork, elevator, intake),
 				Trajectories.BarrierGamePieceToChargingStation(drivetrain),
-				new Engage(drivetrain)
+				new Creepy(drivetrain, false)
 		);
 	}
 }
