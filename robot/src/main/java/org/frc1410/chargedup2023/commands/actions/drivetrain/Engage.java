@@ -13,7 +13,6 @@ public class Engage extends CommandBase {
     public Engage(Drivetrain drivetrain) {
         this.drivetrain = drivetrain;
         controller = new PIDController(ENGAGE_P, ENGAGE_I, ENGAGE_D);
-
         controller.setTolerance(ENGAGE_POSITION_TOLERANCE, ENGAGE_VELOCITY_TOLERANCE);
 
         addRequirements(drivetrain);

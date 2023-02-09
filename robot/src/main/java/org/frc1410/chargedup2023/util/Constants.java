@@ -83,7 +83,9 @@ public interface Constants {
 
 	// Other stuff
 	double INTAKE_LBORK_EXTEND_TIME = 0.25; // Seconds
+	double OUTTAKE_TIME = 0.5; // Seconds
 	double SUBSTATION_INTAKE_TIME = 3; // Seconds
+	double CREEPY_WAIT = 3; // Seconds
 
 	double RUN_LBORK_SCORING_TIME = 3; // Seconds
 }

@@ -1,31 +1,35 @@
 package org.frc1410.chargedup2023.commands.groups.auto.outside;
 
-
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
+import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
+import org.frc1410.chargedup2023.commands.groups.teleop.MoveElevator;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Elevator;
+import org.frc1410.chargedup2023.subsystems.Intake;
+import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.Trajectories;
 
-import static org.frc1410.chargedup2023.auto.POIs.OUTSIDE_COMMUNITY_START;
+import static org.frc1410.chargedup2023.util.Constants.OUTTAKE_TIME;
 
 public class Outside2Cone extends SequentialCommandGroup {
-	public Outside2Cone(Drivetrain drivetrain) {
-		drivetrain.resetPoseEstimation(OUTSIDE_COMMUNITY_START);
-
+	public Outside2Cone(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
-				new WaitCommand(0.5),
-				Trajectories.OutsideCommunityToGrid(drivetrain),
-				new WaitCommand(0.7),
-				Trajectories.OutsideGridToGamePiece(drivetrain),
-				new TurnToSmallAngle(drivetrain, 180),
-				Trajectories.OutsideGamePieceToIntake(drivetrain),
+				new OutsideScoreCollect(drivetrain, lbork, elevator, intake),
 				new TurnToSmallAngle(drivetrain, 0),
-				Trajectories.OutsideGamePieceToScoreAngled(drivetrain),
-				new WaitCommand(0.7),
-				new RunCommand(() -> {})
+				new ParallelCommandGroup(
+						Trajectories.OutsideGamePieceToScoreAngled(drivetrain),
+						new MoveElevator(lbork, elevator, intake, Elevator.State.RAISED, true)
+				),
+				new ParallelRaceGroup(
+						new RunLBorkCone(lbork, true),
+						new WaitCommand(OUTTAKE_TIME)
+				),
+				new RetractLBork(lbork)
 		);
-
 	}
 }
