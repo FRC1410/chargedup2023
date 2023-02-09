@@ -1,32 +1,32 @@
 package org.frc1410.chargedup2023.commands.groups.auto.barrier;
 
-
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
+import org.frc1410.chargedup2023.commands.actions.intake.RunIntake;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
+import org.frc1410.chargedup2023.commands.groups.teleop.MoveElevator;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.chargedup2023.subsystems.Elevator;
+import org.frc1410.chargedup2023.subsystems.Intake;
+import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.Trajectories;
 
-import static org.frc1410.chargedup2023.auto.POIs.BARRIER_COMMUNITY_START;
-
 public class Barrier2ConeCollectCube extends SequentialCommandGroup {
-	public Barrier2ConeCollectCube(Drivetrain drivetrain) {
-		drivetrain.resetPoseEstimation(BARRIER_COMMUNITY_START);
-
+	public Barrier2ConeCollectCube(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
-				new WaitCommand(0.5),
-				Trajectories.BarrierCommunityToGrid(drivetrain),
-				new WaitCommand(0.7),
-				Trajectories.BarrierGridToGamePiece(drivetrain),
-				new TurnToSmallAngle(drivetrain, 180),
-				Trajectories.BarrierGamePieceToIntake(drivetrain),
-				new TurnToSmallAngle(drivetrain, 0),
-				Trajectories.BarrierGamePieceToScoreAngled(drivetrain),
-				new WaitCommand(0.7),
-				Trajectories.BarrierScoreToMiddleGamePiece(drivetrain),
-				new TurnToSmallAngle(drivetrain, -48+180),
-				Trajectories.BarrierMiddleGamePieceToIntake(drivetrain)
+				new Barrier2Cone(drivetrain, lbork, elevator, intake),
+				new ParallelCommandGroup(
+						new MoveElevator(lbork, elevator, intake, Elevator.State.MID, false),
+						Trajectories.BarrierScoreToMiddleGamePiece(drivetrain)
+				),
+				new TurnToSmallAngle(drivetrain, -48-180),
+				new ParallelRaceGroup(
+						new RunLBorkCube(lbork, false),
+						new RunIntake(intake),
+						Trajectories.BarrierMiddleGamePieceToIntake(drivetrain)
+				)
 		);
 	}
 }

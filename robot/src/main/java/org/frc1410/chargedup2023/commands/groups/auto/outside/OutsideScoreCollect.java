@@ -4,7 +4,6 @@ package org.frc1410.chargedup2023.commands.groups.auto.outside;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
 import org.frc1410.chargedup2023.commands.actions.intake.RunIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
