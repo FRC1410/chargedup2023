@@ -1,4 +1,4 @@
-package org.frc1410.chargedup2023.commands.groups.auto.outside;
+package org.frc1410.chargedup2023.commands.groups.auto.outside.util;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
