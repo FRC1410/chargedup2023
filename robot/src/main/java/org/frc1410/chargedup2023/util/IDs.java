@@ -12,20 +12,22 @@ public interface IDs {
 	int ELEVATOR_MOTOR_ONE_ID = 11;
 	int ELEVATOR_MOTOR_TWO_ID = 12;
 
-	// lebork rollers
+	int ELEVATOR_BRAKE_FORWARD_ID = 4;
+	int ELEVATOR_BRAKE_BACKWARD_ID = 5;
+
+	// LBork rollers
 	int LBORK_OUTER_ROLLER_ID = 21;
 	int LBORK_INNER_ROLLER_ID = 22;
 
 	// Intake ID's
 	int INTAKE_MOTOR_ID = 31;
 
-
 	// Intake pistons ID's
-	int INTAKE_FLIPPER_FOWARD_ID = 0;
+	int INTAKE_FLIPPER_FORWARD_ID = 0;
 	int INTAKE_FLIPPER_BACKWARD_ID = 1;
 
-	// Lebork piston ID's
-	int LBORK_PISTON_FOWARD_ID = 2;
+	// LBork piston ID's
+	int LBORK_PISTON_FORWARD_ID = 2;
 	int LBORK_PISTON_BACKWARDS_ID = 3;
 
 	int BLINKIN_PORT = 0;

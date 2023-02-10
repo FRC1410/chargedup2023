@@ -11,7 +11,7 @@ import static org.frc1410.chargedup2023.util.IDs.*;
 public class Intake implements Subsystem {
 	
 	private final CANSparkMax intakeMotor = new CANSparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
-	private final DoubleSolenoid intakeFlipper = new DoubleSolenoid(PneumaticsModuleType.REVPH, INTAKE_FLIPPER_FOWARD_ID, INTAKE_FLIPPER_BACKWARD_ID);
+	private final DoubleSolenoid intakeFlipper = new DoubleSolenoid(PneumaticsModuleType.REVPH, INTAKE_FLIPPER_FORWARD_ID, INTAKE_FLIPPER_BACKWARD_ID);
 
 	public Intake() {
 		intakeMotor.restoreFactoryDefaults();

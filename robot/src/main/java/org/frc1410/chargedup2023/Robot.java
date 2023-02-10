@@ -39,6 +39,8 @@ public final class Robot extends PhaseDrivenRobot {
 	private final Intake intake = new Intake();
 	private final LBork lBork = new LBork();
 
+	private final LightBar lightBar = new LightBar();
+
 	private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
 	private final NetworkTable table = nt.getTable("Auto");
 
@@ -130,7 +132,8 @@ public final class Robot extends PhaseDrivenRobot {
 				new CubeIntakePosition(
 						intake,
 						lBork,
-						elevator
+						elevator,
+						lightBar
 				),
 				TaskPersistence.EPHEMERAL
 		);
@@ -139,7 +142,8 @@ public final class Robot extends PhaseDrivenRobot {
 				new ConeIntakePosition(
 						intake,
 						lBork,
-						elevator
+						elevator,
+						lightBar
 				),
 				TaskPersistence.EPHEMERAL
 		);
@@ -148,7 +152,8 @@ public final class Robot extends PhaseDrivenRobot {
 				new IdleState(
 						intake,
 						lBork,
-						elevator
+						elevator,
+						lightBar
 				),
 				TaskPersistence.EPHEMERAL
 		);

@@ -8,12 +8,13 @@ import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
-import static org.frc1410.chargedup2023.util.IDs.ELEVATOR_MOTOR_ONE_ID;
-import static org.frc1410.chargedup2023.util.IDs.ELEVATOR_MOTOR_TWO_ID;
 import static org.frc1410.chargedup2023.util.Constants.*;
+import static org.frc1410.chargedup2023.util.IDs.*;
 
 public class Elevator implements TickedSubsystem {
 
@@ -23,6 +24,8 @@ public class Elevator implements TickedSubsystem {
 
 	private final CANSparkMax leaderMotor = new CANSparkMax(ELEVATOR_MOTOR_ONE_ID, MotorType.kBrushless);
 	private final CANSparkMax followerMotor = new CANSparkMax(ELEVATOR_MOTOR_TWO_ID, MotorType.kBrushless);
+
+	private final DoubleSolenoid brake = new DoubleSolenoid(PneumaticsModuleType.REVPH, ELEVATOR_BRAKE_FORWARD_ID, ELEVATOR_BRAKE_BACKWARD_ID);
 
 	public Elevator() {
 		leaderMotor.restoreFactoryDefaults();
@@ -53,6 +56,14 @@ public class Elevator implements TickedSubsystem {
 	private void setEncoderValue(double value) {
 		leaderMotor.getEncoder().setPosition(value);
 		followerMotor.getEncoder().setPosition(value);
+	}
+
+	public void setBrake() {
+		brake.set(DoubleSolenoid.Value.kForward);
+	}
+
+	public void releaseBrake() {
+		brake.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	@Override

@@ -15,6 +15,11 @@ public class ElevatorHomingSequence extends CommandBase {
 	}
 
 	@Override
+	public void initialize() {
+		elevator.releaseBrake();
+	}
+
+	@Override
 	public void execute() {
 		elevator.setSpeed(ELEVATOR_HOMING_SPEED);
 	}
@@ -27,5 +32,6 @@ public class ElevatorHomingSequence extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		elevator.setSpeed(0);
+		elevator.setBrake();
 	}
 }
