@@ -16,6 +16,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import org.frc1410.chargedup2023.util.Constants;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
@@ -23,13 +24,13 @@ import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Drivetrain implements TickedSubsystem {
+
 	// NetworkTables entries
-	NetworkTableInstance instance = NetworkTableInstance.getDefault();
-	NetworkTable table = instance.getTable("Drivetrain");
-	DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
-	DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
-	DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
-	DoublePublisher voltagePub = NetworkTables.PublisherFactory(table, "Voltage", 0);
+	private final NetworkTable table = NetworkTableInstance.getDefault().getTable("Drivetrain");
+	private final DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
+	private final DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
+	private final DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
+	private final DoublePublisher voltagePub = NetworkTables.PublisherFactory(table, "Voltage", 0);
 
 	private final CANSparkMax leftLeader = new CANSparkMax(DRIVETRAIN_LEFT_FRONT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax leftFollower = new CANSparkMax(DRIVETRAIN_LEFT_BACK_MOTOR_ID, MotorType.kBrushless);
@@ -41,7 +42,7 @@ public class Drivetrain implements TickedSubsystem {
 	private final DifferentialDrive drive;
 
 	private final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
-			new Rotation2d(), 0., 0., new Pose2d());
+			new Rotation2d(), 0, 0, new Pose2d());
 
 	public Drivetrain() {
 		initMotor(leftLeader);
@@ -69,8 +70,8 @@ public class Drivetrain implements TickedSubsystem {
 	public void periodic() {
 		poseEstimator.update(
 				new Rotation2d(Units.degreesToRadians(gyro.getAngle())),
-				(leftLeader.getEncoder().getPosition() + leftFollower.getEncoder().getPosition())/2 * METERS_PER_REVOLUTION,
-				(rightLeader.getEncoder().getPosition() + rightFollower.getEncoder().getPosition())/2 * METERS_PER_REVOLUTION
+				(leftLeader.getEncoder().getPosition() + leftFollower.getEncoder().getPosition()) / 2 * METERS_PER_REVOLUTION,
+				(rightLeader.getEncoder().getPosition() + rightFollower.getEncoder().getPosition()) / 2 * METERS_PER_REVOLUTION
 		);
 		drive.feed();
 
@@ -87,7 +88,7 @@ public class Drivetrain implements TickedSubsystem {
 		} else {
 			double triggerValue = (triggerForwards * 0.75) + (-triggerBackwards * 0.75);
 			double leftValue = (triggerValue + (left * 0.25)) * 12;
-			double rightValue = (triggerValue + (right* 0.25)) * 12;
+			double rightValue = (triggerValue + (right * 0.25)) * 12;
 			
 			tankDriveVolts(leftValue, rightValue);
 		}
@@ -110,7 +111,7 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public void addVisionPose(Pose2d pose, double timestamp) {
-		poseEstimator.addVisionMeasurement(pose, timestamp, new Matrix<>(VecBuilder.fill(0.3, 0.3, 0.3)));
+		poseEstimator.addVisionMeasurement(pose, timestamp, Constants.VISION_STD_DEVS);
 	}
 
 	public void resetPoseEstimation(Pose2d pose) {
@@ -131,6 +132,7 @@ public class Drivetrain implements TickedSubsystem {
 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
 		double leftEncoderVelocity = leftLeader.getEncoder().getVelocity();
 		double rightEncoderVelocity = rightLeader.getEncoder().getVelocity();
+
 		return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
 	}
 

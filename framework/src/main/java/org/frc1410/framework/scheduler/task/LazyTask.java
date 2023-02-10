@@ -1,6 +1,9 @@
 package org.frc1410.framework.scheduler.task;
 
 
+import edu.wpi.first.wpilibj2.command.Command;
+import org.frc1410.framework.scheduler.task.impl.CommandTask;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -12,6 +15,11 @@ public final class LazyTask implements Task {
 
 	public LazyTask(@NotNull Supplier<Task> supplier) {
 		this.supplier = supplier;
+	}
+
+	@Contract("_ -> new")
+	public static LazyTask fromCommand(@NotNull Supplier<Command> commandSupplier) {
+		return new LazyTask(() -> new CommandTask(commandSupplier.get()));
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class ExternalCamera implements TickedSubsystem {
+	
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Vision Data");
 
@@ -40,9 +41,11 @@ public class ExternalCamera implements TickedSubsystem {
 
     @Override
     public void periodic() {
-		if (camera.getLatestResult().hasTargets()) {
+		var target = camera.getLatestResult().getBestTarget();
+
+		if (target != null) {
 			pose = (new Pose3d())
-					.transformBy(camera.getLatestResult().getBestTarget().getBestCameraToTarget().inverse())
+					.transformBy(target.getBestCameraToTarget().inverse())
 					.transformBy(new Transform3d(new Translation3d(Units.inchesToMeters(-16.5), 0, Units.inchesToMeters(25.5)), new Rotation3d()))
 					.toPose2d();
 		}
@@ -55,14 +58,13 @@ public class ExternalCamera implements TickedSubsystem {
         instance.flush();
     }
 
-	public Optional<Pose2d> getEstimatorPose() {
-		return Optional.of(
-				new Pose2d(
-					-pose.getX(),
-					pose.getY(),
-					new Rotation2d(pose.getRotation().getRadians() > 0 ?
-						Math.PI - pose.getRotation().getRadians() :
-						-Math.PI - pose.getRotation().getRadians()))
+	public Pose2d getEstimatorPose() {
+		var rotation = pose.getRotation().getRadians();
+
+		return new Pose2d(
+				-pose.getX(),
+				pose.getY(),
+				new Rotation2d(rotation > 0 ? Math.PI - rotation : -Math.PI - rotation)
 		);
 	}
 

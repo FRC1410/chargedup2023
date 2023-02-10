@@ -1,9 +1,12 @@
 package org.frc1410.chargedup2023.util;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface Constants {
@@ -65,9 +68,11 @@ public interface Constants {
 	double LBORK_CUBE_INTAKE_SPEED = 0.6;
 	double LBORK_CUBE_OUTTAKE_SPEED = 0.3;
 
-	// AprilTags
-	List<Integer> RED_TAGS = new ArrayList<>(List.of(1, 2, 3, 4));
-	List<Integer> BLUE_TAGS = new ArrayList<>(List.of(5, 6, 7, 8));
+	// AprilTags & Vision
+	Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(0.3, 0.3, 0.3);
+	List<Integer> SUBSTATION_TAGS = List.of(4, 5);
+	List<Integer> RED_TAGS = List.of(1, 2, 3, 4);
+
 	double WAYPOINT_THRESHOLD = -Units.inchesToMeters(70);
 
 	// Elevator

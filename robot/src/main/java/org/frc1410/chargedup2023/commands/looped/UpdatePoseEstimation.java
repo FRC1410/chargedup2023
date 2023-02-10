@@ -17,10 +17,9 @@ public class UpdatePoseEstimation extends CommandBase {
 
 	@Override
 	public void execute() {
-		camera.getEstimatorPose().ifPresent(pose -> {
-			if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
-				drivetrain.addVisionPose(pose, camera.getTimestamp());
-			}
-		});
+		var pose = camera.getEstimatorPose();
+		if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
+			drivetrain.addVisionPose(pose, camera.getTimestamp());
+		}
 	}
 }
