@@ -16,39 +16,13 @@ import static org.frc1410.chargedup2023.util.IDs.ELEVATOR_MOTOR_TWO_ID;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Elevator implements TickedSubsystem {
+
 	private final NetworkTableInstance instance = NetworkTableInstance.getDefault();
 	private final NetworkTable table = instance.getTable("Elevator");
 	private final DoublePublisher encoderPub = NetworkTables.PublisherFactory(table, "Encoder Value", 0);
-	private final BooleanPublisher downMagPub = NetworkTables.PublisherFactory(table, "Down Mag Sensor", false);
-	private final BooleanPublisher drivingMagPub = NetworkTables.PublisherFactory(table, "Driving Mag Sensor", false);
-	private final BooleanPublisher cubeMagPub = NetworkTables.PublisherFactory(table, "Cube Mag Sensor", false);
-	private final BooleanPublisher midMagPub = NetworkTables.PublisherFactory(table, "Mid Mag Sensor", false);
 
 	private final CANSparkMax leaderMotor = new CANSparkMax(ELEVATOR_MOTOR_ONE_ID, MotorType.kBrushless);
 	private final CANSparkMax followerMotor = new CANSparkMax(ELEVATOR_MOTOR_TWO_ID, MotorType.kBrushless);
-	private final DigitalInput downMagSensor = new DigitalInput(0);
-	private final DigitalInput drivingMagSensor = new DigitalInput(1);
-	private final DigitalInput cubeMagSensor = new DigitalInput(2);
-	private final DigitalInput midMagSensor = new DigitalInput(3);
-	private final DigitalInput raisedMagSensor = new DigitalInput(4);
-
-	public enum State {
-		DOWN(ELEVATOR_DOWN_POSITION),
-		DRIVING(ELEVATOR_DRIVING_POSITION),
-		CUBE(ELEVATOR_CUBE_POSITION),
-		MID(ELEVATOR_MID_POSITION),
-		RAISED(ELEVATOR_RAISED_POSITION);
-
-		private final double position;
-		State(double position) {
-			this.position = position;
-		}
-
-		public double getPosition() {
-			return position;
-		}
-	}
-
 
 	public Elevator() {
 		leaderMotor.restoreFactoryDefaults();
@@ -73,7 +47,7 @@ public class Elevator implements TickedSubsystem {
 	}
 
 	public boolean getDownMagSensorValue() {
-		return downMagSensor.get();
+		return State.DOWN.isSensorTripped();
 	}
 
 	private void setEncoderValue(double value) {
@@ -85,22 +59,48 @@ public class Elevator implements TickedSubsystem {
 	public void periodic() {
 		// Mag sensors return inverted values
 		encoderPub.set(getEncoderValue());
-		downMagPub.set(!downMagSensor.get());
-		drivingMagPub.set(!drivingMagSensor.get());
-		cubeMagPub.set(!cubeMagSensor.get());
-		midMagPub.set(!midMagSensor.get());
 
-		if (!downMagSensor.get()) {
-			setEncoderValue(ELEVATOR_DOWN_POSITION);
-		} else if (!drivingMagSensor.get()) {
-			setEncoderValue(ELEVATOR_DRIVING_POSITION);
-		} else if (!cubeMagSensor.get()) {
-			setEncoderValue(ELEVATOR_CUBE_POSITION);
-		} else if (!midMagSensor.get()) {
-			setEncoderValue(ELEVATOR_MID_POSITION);
-		} else if (!raisedMagSensor.get()) {
-			setEncoderValue(ELEVATOR_RAISED_POSITION);
+		for (var state : State.values()) {
+			var tripped = state.isSensorTripped();
+			state.debugEntry.set(tripped);
+
+			if (tripped) {
+				setEncoderValue(state.position);
+			}
+		}
+	}
+
+	public enum State {
+		DOWN(ELEVATOR_DOWN_POSITION, 0),
+		DRIVING(ELEVATOR_DRIVING_POSITION, 1),
+		CUBE(ELEVATOR_CUBE_POSITION, 2),
+		MID(ELEVATOR_MID_POSITION, 3),
+		RAISED(ELEVATOR_RAISED_POSITION, 4);
+
+		private final double position;
+		private final BooleanPublisher debugEntry;
+		private final DigitalInput sensor;
+
+		State(double position, int sensorPort) {
+			var networkTable = NetworkTableInstance.getDefault().getTable("Elevator");
+
+			this.position = position;
+			this.debugEntry = NetworkTables.PublisherFactory(networkTable, "Mag Sensor (" + name() + ")", false);
+			this.sensor = new DigitalInput(sensorPort);
+		}
+
+		public double getPosition() {
+			return position;
+		}
+
+		/**
+		 * Checks if the mag sensor at this state is tripped.
+		 *
+		 * @return {@code true} if the sensor is tripped or is not
+		 *         properly connected.
+		 */
+		public boolean isSensorTripped() {
+			return !sensor.get(); // output goes low when a magnet is picked up
 		}
 	}
 }
-
