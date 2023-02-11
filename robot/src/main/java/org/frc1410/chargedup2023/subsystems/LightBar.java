@@ -13,6 +13,9 @@ public class LightBar implements Subsystem {
 	}
 
 	public enum Profile {
+		CONE_PICKUP(0.69),
+		CUBE_PICKUP(0.91),
+		IDLE_STATE(0.75),
 		;
 
 		private final double id;

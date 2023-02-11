@@ -16,7 +16,7 @@ public class LBork implements Subsystem {
 	private final CANSparkMax innerMotor = new CANSparkMax(LBORK_INNER_ROLLER_ID, MotorType.kBrushless);
 
 	// L'Bork actuation
-	private final DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.REVPH, LBORK_PISTON_FOWARD_ID, LBORK_PISTON_BACKWARDS_ID);
+	private final DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.REVPH, LBORK_PISTON_FORWARD_ID, LBORK_PISTON_BACKWARDS_ID);
 
 	public LBork() {
 		innerMotor.restoreFactoryDefaults();

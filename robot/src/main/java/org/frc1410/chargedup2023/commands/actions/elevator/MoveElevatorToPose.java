@@ -24,6 +24,8 @@ public class MoveElevatorToPose extends CommandBase {
 
 	@Override
 	public void initialize() {
+		elevator.releaseBrake();
+
 		pid = new PIDController(ELEVATOR_KP, ELEVATOR_KI, ELEVATOR_KD);
 
 		pid.setSetpoint(state.getPosition());
@@ -44,5 +46,6 @@ public class MoveElevatorToPose extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		elevator.setSpeed(0);
+		elevator.setBrake();
 	}
 }

@@ -46,45 +46,49 @@ public class LookForAprilTag extends CommandBase {
 
 			if (Constants.SUBSTATION_TAGS.contains(camera.getTarget().getFiducialId())) {
 				scheduler.schedule(
-					new CommandTask(new SubstationScoringMode(
-						drivetrain,
-						camera,
-						lbork,
-						scheduler,
-						rightBumper
-					)),
+					new CommandTask(
+							new SubstationScoringMode(
+								drivetrain,
+								camera,
+								lbork,
+								scheduler,
+								rightBumper
+							)
+					),
 					TaskPersistence.EPHEMERAL,
 					observer,
 					LockPriority.HIGH
 				);
 			} else {
 				scheduler.schedule(
-					new CommandTask(switch (targetPosition) {
-						case HIGH_LEFT_CONE, HIGH_CUBE, HIGH_RIGHT_CONE -> new HighScoringMode(
-								drivetrain,
-								camera,
-								lbork,
-								elevator,
-								intake,
-								scheduler
-						);
-						case MIDDLE_LEFT_CONE, MIDDLE_CUBE, MIDDLE_RIGHT_CONE -> new MidScoringMode(
-								drivetrain,
-								camera,
-								lbork,
-								elevator,
-								intake,
-								scheduler
-						);
-						case HYBRID_LEFT, HYBRID_MIDDLE, HYBRID_RIGHT -> new HybridScoringMode(
-								drivetrain,
-								camera,
-								lbork,
-								elevator,
-								intake,
-								scheduler
-						);
-					}),
+					new CommandTask(
+							switch (targetPosition) {
+								case HIGH_LEFT_CONE, HIGH_CUBE, HIGH_RIGHT_CONE -> new HighScoringMode(
+										drivetrain,
+										camera,
+										lbork,
+										elevator,
+										intake,
+										scheduler
+								);
+								case MIDDLE_LEFT_CONE, MIDDLE_CUBE, MIDDLE_RIGHT_CONE -> new MidScoringMode(
+										drivetrain,
+										camera,
+										lbork,
+										elevator,
+										intake,
+										scheduler
+								);
+								case HYBRID_LEFT, HYBRID_MIDDLE, HYBRID_RIGHT -> new HybridScoringMode(
+										drivetrain,
+										camera,
+										lbork,
+										elevator,
+										intake,
+										scheduler
+								);
+							}
+					),
 					TaskPersistence.EPHEMERAL,
 					observer,
 					LockPriority.HIGH
