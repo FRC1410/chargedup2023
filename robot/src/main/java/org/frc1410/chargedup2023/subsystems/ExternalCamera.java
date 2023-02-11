@@ -20,8 +20,8 @@ public class ExternalCamera implements TickedSubsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     NetworkTable table = instance.getTable("Vision Data");
 
-//    private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
-     private final PhotonCamera camera = new PhotonCamera("OV9281");
+    private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+//     private final PhotonCamera camera = new PhotonCamera("OV9281");
 
 	private static final AprilTagFieldLayout fieldLayout;
 
@@ -46,12 +46,14 @@ public class ExternalCamera implements TickedSubsystem {
 		if (target != null) {
 			pose = (new Pose3d())
 					.transformBy(target.getBestCameraToTarget().inverse())
-					.transformBy(new Transform3d(new Translation3d(Units.inchesToMeters(-16.5), 0, Units.inchesToMeters(25.5)), new Rotation3d()))
+					.transformBy(new Transform3d(new Translation3d(Units.inchesToMeters(0), 0, Units.inchesToMeters(0)), new Rotation3d()))
 					.toPose2d();
 		}
 
 		x.set(Units.metersToInches(-pose.getX()));
-		y.set(Units.metersToInches(-pose.getY()));
+		y.set(Units.metersToInches(pose.getY() > 0
+				? pose.getY() + pose.getX() / 1.016
+				: pose.getY() - pose.getX() / 1.016));
 		angle.set(Units.radiansToDegrees(pose.getRotation().getRadians() > 0 ?
 				Math.PI - pose.getRotation().getRadians() :
 				-Math.PI - pose.getRotation().getRadians()));
@@ -63,7 +65,9 @@ public class ExternalCamera implements TickedSubsystem {
 
 		return new Pose2d(
 				-pose.getX(),
-				pose.getY(),
+				pose.getY() > 0
+					? pose.getY() + pose.getX() / 1.016
+					: pose.getY() - pose.getX() / 1.016,
 				new Rotation2d(rotation > 0 ? Math.PI - rotation : -Math.PI - rotation)
 		);
 	}
