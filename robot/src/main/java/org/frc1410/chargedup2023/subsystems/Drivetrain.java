@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.chargedup2023.util.Constants;
 import org.frc1410.chargedup2023.util.NetworkTables;
@@ -37,7 +38,7 @@ public class Drivetrain implements TickedSubsystem {
 	private final CANSparkMax rightLeader = new CANSparkMax(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax rightFollower = new CANSparkMax(DRIVETRAIN_RIGHT_BACK_MOTOR_ID, MotorType.kBrushless);
 
-	public final AHRS gyro = new AHRS(SPI.Port.kMXP);
+	public final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
 	private final DifferentialDrive drive;
 

@@ -15,6 +15,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.test.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
@@ -39,7 +40,7 @@ public class Drivetrain implements TickedSubsystem {
 	public final WPI_TalonFX rightFollower = new WPI_TalonFX(DRIVETRAIN_RIGHT_BACK_MOTOR_ID);
 
 	// Gyro
-	public final AHRS gyro = new AHRS(SPI.Port.kMXP);
+	public final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
 	// Differential Drive for Teleop control
 	private final DifferentialDrive drive;
