@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import java.io.IOException;
@@ -24,6 +25,13 @@ public class ExternalCamera implements TickedSubsystem {
 //     private final PhotonCamera camera = new PhotonCamera("OV9281");
 
 	private static final AprilTagFieldLayout fieldLayout;
+
+	PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(
+			fieldLayout,
+			PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY,
+			camera,
+			new Transform3d()
+	);
 
 	private Pose2d pose = new Pose2d();
 
@@ -41,42 +49,19 @@ public class ExternalCamera implements TickedSubsystem {
 
     @Override
     public void periodic() {
-		var target = camera.getLatestResult().getBestTarget();
-
-		if (target != null) {
-			pose = (new Pose3d())
-					.transformBy(target.getBestCameraToTarget().inverse())
-					.transformBy(new Transform3d(new Translation3d(Units.inchesToMeters(0), 0, Units.inchesToMeters(0)), new Rotation3d()))
-					.toPose2d();
+		if (hasTargets() && photonPoseEstimator.update().isPresent()) {
+			var estimatedPose = photonPoseEstimator.update().get().estimatedPose;
+			pose = estimatedPose.toPose2d();
 		}
 
-		x.set(Units.metersToInches(-pose.getX()));
-		y.set(Units.metersToInches(pose.getY() > 0
-				? pose.getY() + pose.getX() / 1.016
-				: pose.getY() - pose.getX() / 1.016));
-		angle.set(Units.radiansToDegrees(pose.getRotation().getRadians() > 0 ?
-				Math.PI - pose.getRotation().getRadians() :
-				-Math.PI - pose.getRotation().getRadians()));
-        instance.flush();
+		x.set(Units.metersToInches(pose.getX()));
+		y.set(Units.metersToInches(pose.getY()));
+		angle.set(Units.radiansToDegrees(pose.getRotation().getRadians()));
+		instance.flush();
     }
 
-	public Pose2d getEstimatorPose() {
-		var rotation = pose.getRotation().getRadians();
-
-		return new Pose2d(
-				-pose.getX(),
-				pose.getY() > 0
-					? pose.getY() + pose.getX() / 1.016
-					: pose.getY() - pose.getX() / 1.016,
-				new Rotation2d(rotation > 0 ? Math.PI - rotation : -Math.PI - rotation)
-		);
-	}
-
-	public Optional<Pose3d> getTargetLocation() {
-		if (getTarget() != null) {
-			return fieldLayout.getTagPose(getTarget().getFiducialId());
-		}
-		return Optional.empty();
+	public Optional<Pose2d> getEstimatorPose() {
+		return Optional.of(pose);
 	}
 
     public boolean hasTargets() {
@@ -86,6 +71,13 @@ public class ExternalCamera implements TickedSubsystem {
     public PhotonTrackedTarget getTarget() {
         return camera.getLatestResult().getBestTarget();
     }
+
+	public Optional<Pose3d> getTargetLocation() {
+		if (getTarget() != null) {
+			return fieldLayout.getTagPose(getTarget().getFiducialId());
+		}
+		return Optional.empty();
+	}
 
     public double getTimestamp() {
         return camera.getLatestResult().getTimestampSeconds();

@@ -20,5 +20,5 @@ public interface Tuning {
 	double ENGAGE_MAX_POWER = 0.25;
 
 	// AprilTags
-	double ANGLE_THRESHOLD = 10;
+	double ANGLE_THRESHOLD = 7;
 }
