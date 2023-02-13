@@ -56,12 +56,19 @@ public class ExternalCamera implements TickedSubsystem {
 
 		x.set(Units.metersToInches(pose.getX()));
 		y.set(Units.metersToInches(pose.getY()));
-		angle.set(Units.radiansToDegrees(pose.getRotation().getRadians()));
+		angle.set(Units.radiansToDegrees(pose.getRotation().getRadians() > 0 ?
+				Math.PI - pose.getRotation().getRadians() :
+				-Math.PI - pose.getRotation().getRadians()));
 		instance.flush();
     }
 
 	public Optional<Pose2d> getEstimatorPose() {
-		return Optional.of(pose);
+		return Optional.of(new Pose2d(
+				pose.getX(),
+				pose.getY(),
+				new Rotation2d (pose.getRotation().getRadians() > 0 ?
+						Math.PI - pose.getRotation().getRadians() :
+						-Math.PI - pose.getRotation().getRadians())));
 	}
 
     public boolean hasTargets() {

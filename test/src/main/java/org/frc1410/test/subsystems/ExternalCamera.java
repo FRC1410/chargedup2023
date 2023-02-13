@@ -16,17 +16,17 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import java.io.IOException;
 import java.util.Optional;
 
-
 public class ExternalCamera implements TickedSubsystem {
-    NetworkTableInstance instance = NetworkTableInstance.getDefault();
-    NetworkTable table = instance.getTable("Vision Data");
 
-    private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+	NetworkTableInstance instance = NetworkTableInstance.getDefault();
+	NetworkTable table = instance.getTable("Vision Data");
+
+	private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 //     private final PhotonCamera camera = new PhotonCamera("OV9281");
 
 	private static final AprilTagFieldLayout fieldLayout;
 
-	private final PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(
+	PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(
 			fieldLayout,
 			PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY,
 			camera,
@@ -37,19 +37,18 @@ public class ExternalCamera implements TickedSubsystem {
 
 	static {
 		try {
-			// Y isn't flipped for the fieldLayout
 			fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-    DoublePublisher x = NetworkTables.PublisherFactory(table, "X", 0);
-    DoublePublisher y = NetworkTables.PublisherFactory(table, "Y", 0);
-    DoublePublisher angle = NetworkTables.PublisherFactory(table, "Angle", 0);
+	DoublePublisher x = NetworkTables.PublisherFactory(table, "X", 0);
+	DoublePublisher y = NetworkTables.PublisherFactory(table, "Y", 0);
+	DoublePublisher angle = NetworkTables.PublisherFactory(table, "Angle", 0);
 
-    @Override
-    public void periodic() {
+	@Override
+	public void periodic() {
 		if (hasTargets() && photonPoseEstimator.update().isPresent()) {
 			var estimatedPose = photonPoseEstimator.update().get().estimatedPose;
 			pose = estimatedPose.toPose2d();
@@ -57,30 +56,37 @@ public class ExternalCamera implements TickedSubsystem {
 
 		x.set(Units.metersToInches(pose.getX()));
 		y.set(Units.metersToInches(pose.getY()));
-		angle.set(Units.radiansToDegrees(pose.getRotation().getRadians()));
-        instance.flush();
-    }
-
-	public Optional<Pose2d> getEstimatorPose() {
-		return Optional.of(pose);
+		angle.set(Units.radiansToDegrees(pose.getRotation().getRadians() > 0 ?
+				Math.PI - pose.getRotation().getRadians() :
+				-Math.PI - pose.getRotation().getRadians()));
+		instance.flush();
 	}
 
-    public boolean hasTargets() {
-        return camera.getLatestResult().hasTargets();
-    }
+	public Optional<Pose2d> getEstimatorPose() {
+		return Optional.of(new Pose2d(
+				pose.getX(),
+				pose.getY(),
+				new Rotation2d (pose.getRotation().getRadians() > 0 ?
+						Math.PI - pose.getRotation().getRadians() :
+						-Math.PI - pose.getRotation().getRadians())));
+	}
 
-    public PhotonTrackedTarget getTarget() {
-        return camera.getLatestResult().getBestTarget();
-    }
+	public boolean hasTargets() {
+		return camera.getLatestResult().hasTargets();
+	}
 
-    public Optional<Pose3d> getTargetLocation() {
-        if (getTarget() != null) {
-            return fieldLayout.getTagPose(getTarget().getFiducialId());
-        }
-        return Optional.empty();
-    }
+	public PhotonTrackedTarget getTarget() {
+		return camera.getLatestResult().getBestTarget();
+	}
 
-    public double getTimestamp() {
-        return camera.getLatestResult().getTimestampSeconds();
-    }
+	public Optional<Pose3d> getTargetLocation() {
+		if (getTarget() != null) {
+			return fieldLayout.getTagPose(getTarget().getFiducialId());
+		}
+		return Optional.empty();
+	}
+
+	public double getTimestamp() {
+		return camera.getLatestResult().getTimestampSeconds();
+	}
 }
