@@ -40,7 +40,7 @@ public class Drivetrain implements TickedSubsystem {
 	public final WPI_TalonFX rightFollower = new WPI_TalonFX(DRIVETRAIN_RIGHT_BACK_MOTOR_ID);
 
 	// Gyro
-	public final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+	public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
 	// Differential Drive for Teleop control
 	private final DifferentialDrive drive;
