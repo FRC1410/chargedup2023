@@ -9,8 +9,8 @@ public class TurnToSmallAngle extends CommandBase {
     private final Drivetrain drivetrain;
     private double pidOutput = 0;
     private final double kP = 0.15;
-    private final double kI = 0; // 0.0035
-    private final double kD = 0.01; // 0.01
+    private final double kI = 0;
+    private final double kD = 0.01;
     private final double targetAngle;
     private PIDController pid;
 
@@ -36,7 +36,7 @@ public class TurnToSmallAngle extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-        return Math.abs(targetAngle - drivetrain.getHeading()) < 0.5;
+        return Math.abs(targetAngle - (drivetrain.gyro.getAngle() % 360)) < 0.5;
 	}
 
 	@Override

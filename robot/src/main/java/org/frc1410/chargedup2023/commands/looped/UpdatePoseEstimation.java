@@ -1,5 +1,7 @@
 package org.frc1410.chargedup2023.commands.looped;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.ExternalCamera;
@@ -17,9 +19,13 @@ public class UpdatePoseEstimation extends CommandBase {
 
 	@Override
 	public void execute() {
-		var pose = camera.getEstimatorPose();
-		if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
-			drivetrain.addVisionPose(pose, camera.getTimestamp());
-		}
+		camera.getEstimatorPose().ifPresent(pose -> {
+			if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
+				drivetrain.addVisionPose(
+						new Pose2d(pose.getX(), Units.inchesToMeters(315.5) - pose.getY(), pose.getRotation()),
+						camera.getTimestamp()
+				);
+			}
+		});
 	}
 }

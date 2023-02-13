@@ -4,11 +4,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.test.subsystems.Drivetrain;
 
+
 public class TurnToAngle extends CommandBase {
-	
 	private final Drivetrain drivetrain;
 	private double pidOutput = 0;
-	private final double kP = 0.06;
+	private final double kP = 0.08;
 	private final double kI = 0.0035;
 	private final double kD = 0.01;
 	private final double targetAngle;
@@ -32,16 +32,15 @@ public class TurnToAngle extends CommandBase {
 	public void execute() {
 		pidOutput = pid.calculate(drivetrain.gyro.getAngle() % 360);
 		drivetrain.tankDriveVolts(-pidOutput, pidOutput);
-//		System.out.println("pidOutput = " + pidOutput);
+	}
+
+	@Override
+	public boolean isFinished() {
+		return Math.abs(targetAngle - (drivetrain.gyro.getAngle() % 360)) < 1;
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		drivetrain.tankDriveVolts(0, 0);
-	}
-
-	@Override
-	public boolean isFinished() {
-		return Math.abs(targetAngle - drivetrain.getHeading()) < 1;
 	}
 }
