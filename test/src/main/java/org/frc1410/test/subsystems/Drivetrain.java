@@ -15,7 +15,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.test.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
@@ -120,7 +119,7 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public void addVisionPose(Pose2d pose, double timestamp) {
-		poseEstimator.addVisionMeasurement(pose, timestamp, new Matrix<>(VecBuilder.fill(0.3, 0.3, 0.3)));
+		poseEstimator.addVisionMeasurement(pose, timestamp, new Matrix<>(VecBuilder.fill(0.3, 0.3, 1.0)));
 	}
 
 	public void resetPoseEstimation(Pose2d pose) {
