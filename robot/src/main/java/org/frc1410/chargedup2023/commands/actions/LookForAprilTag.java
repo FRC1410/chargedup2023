@@ -1,5 +1,6 @@
 package org.frc1410.chargedup2023.commands.actions;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.commands.groups.teleop.HighScoringMode;
 import org.frc1410.chargedup2023.commands.groups.teleop.HybridScoringMode;
@@ -41,8 +42,15 @@ public class LookForAprilTag extends CommandBase {
 
 	@Override
 	public void initialize() {
-		camera.getTargetLocation().ifPresent(pose -> {
+		camera.getTargetLocation().ifPresent(targetPose -> {
 			var observer = new WhileHeldObserver(button);
+			camera.getEstimatorPose().ifPresent(pose -> drivetrain.resetPoseEstimation(
+					new Pose2d(
+							pose.getX(),
+							pose.getY(),
+							drivetrain.getPoseEstimation().getRotation()
+					)
+			));
 
 			if (Constants.SUBSTATION_TAGS.contains(camera.getTarget().getFiducialId())) {
 				scheduler.schedule(
