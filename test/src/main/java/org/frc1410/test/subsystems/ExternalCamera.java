@@ -30,7 +30,7 @@ public class ExternalCamera implements TickedSubsystem {
 			fieldLayout,
 			PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY,
 			camera,
-			new Transform3d()
+			new Transform3d(new Translation3d(0, 0, 0.569), new Rotation3d())
 	);
 
 	private Pose2d pose = new Pose2d();
@@ -49,10 +49,7 @@ public class ExternalCamera implements TickedSubsystem {
 
 	@Override
 	public void periodic() {
-		if (hasTargets() && photonPoseEstimator.update().isPresent()) {
-			var estimatedPose = photonPoseEstimator.update().get().estimatedPose;
-			pose = estimatedPose.toPose2d();
-		}
+		photonPoseEstimator.update().ifPresent(pose -> this.pose = pose.estimatedPose.toPose2d());
 
 		x.set(Units.metersToInches(pose.getX()));
 		y.set(Units.metersToInches(pose.getY()));
@@ -82,7 +79,7 @@ public class ExternalCamera implements TickedSubsystem {
 		return Optional.empty();
 	}
 
-	public double getTimestamp() {
-		return camera.getLatestResult().getTimestampSeconds();
+	public Optional<Double> getTimestamp() {
+		return Optional.of(camera.getLatestResult().getTimestampSeconds());
 	}
 }

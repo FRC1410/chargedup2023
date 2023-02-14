@@ -9,6 +9,7 @@ import org.frc1410.chargedup2023.subsystems.ExternalCamera;
 import static org.frc1410.chargedup2023.util.Tuning.ANGLE_THRESHOLD;
 
 public class UpdatePoseEstimation extends CommandBase {
+
 	private final Drivetrain drivetrain;
 	private final ExternalCamera camera;
 
@@ -19,13 +20,14 @@ public class UpdatePoseEstimation extends CommandBase {
 
 	@Override
 	public void execute() {
-		camera.getEstimatorPose().ifPresent(pose -> {
-			if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
-				drivetrain.addVisionPose(
-						new Pose2d(pose.getX(), Units.inchesToMeters(315.5) - pose.getY(), pose.getRotation()),
-						camera.getTimestamp()
-				);
-			}
-		});
+		camera.getEstimatorPose().ifPresent(pose -> camera.getTimestamp().ifPresent(time -> {
+					if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
+						drivetrain.addVisionPose(
+								new Pose2d(pose.getX(), Units.inchesToMeters(315.5) - pose.getY(), pose.getRotation()),
+								time
+						);
+					}
+				})
+		);
 	}
 }
