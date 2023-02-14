@@ -19,9 +19,9 @@ public class RunLBorkCube extends CommandBase {
 	@Override
 	public void initialize() {
 		if (outtaking) {
-			lBork.setRollerSpeeds(-LBORK_CUBE_OUTTAKE_SPEED, LBORK_CUBE_OUTTAKE_SPEED);
+			lBork.setRollerSpeeds(LBORK_CUBE_OUTTAKE_SPEED, LBORK_CUBE_OUTTAKE_SPEED);
 		} else {
-			lBork.setRollerSpeeds(-LBORK_CUBE_INTAKE_SPEED, LBORK_CUBE_INTAKE_SPEED);
+			lBork.setRollerSpeeds(LBORK_CUBE_INTAKE_SPEED, LBORK_CUBE_INTAKE_SPEED);
 		}
 	}
 

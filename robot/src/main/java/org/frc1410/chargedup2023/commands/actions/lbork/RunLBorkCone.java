@@ -19,9 +19,9 @@ public class RunLBorkCone extends CommandBase {
 	@Override
 	public void initialize() {
 		if (outtaking) {
-			lBork.setRollerSpeeds(LBORK_CONE_OUTTAKE_SPEED, LBORK_CONE_OUTTAKE_SPEED);
+			lBork.setRollerSpeeds(-LBORK_CONE_OUTTAKE_SPEED, LBORK_CONE_OUTTAKE_SPEED);
 		} else {
-			lBork.setRollerSpeeds(LBORK_CONE_INTAKE_SPEED, LBORK_CONE_INTAKE_SPEED);
+			lBork.setRollerSpeeds(-LBORK_CONE_INTAKE_SPEED, LBORK_CONE_INTAKE_SPEED);
 		}
 	}
 
