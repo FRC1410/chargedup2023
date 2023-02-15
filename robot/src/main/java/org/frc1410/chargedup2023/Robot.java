@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.LookForAprilTag;
+import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
@@ -160,6 +161,11 @@ public final class Robot extends PhaseDrivenRobot {
 
 		operatorController.A.whenPressed(
 				new RetractIntake(intake),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.BACK.whenPressed(
+				new ResetDrivetrain(drivetrain, camera),
 				TaskPersistence.EPHEMERAL
 		);
 	}

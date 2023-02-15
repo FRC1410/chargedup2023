@@ -44,13 +44,15 @@ public class LookForAprilTag extends CommandBase {
 	public void initialize() {
 		camera.getTargetLocation().ifPresent(targetPose -> {
 			var observer = new WhileHeldObserver(button);
-			camera.getEstimatorPose().ifPresent(pose -> drivetrain.resetPoseEstimation(
-					new Pose2d(
-							pose.getX(),
-							pose.getY(),
-							drivetrain.getPoseEstimation().getRotation()
-					)
-			));
+
+			if (!drivetrain.hasBeenReset())
+				camera.getEstimatorPose().ifPresent(pose -> drivetrain.resetPoseEstimation(
+						new Pose2d(
+								pose.getX(),
+								pose.getY(),
+								drivetrain.getPoseEstimation().getRotation()
+						)
+				));
 
 			if (SUBSTATION_TAGS.contains(camera.getTarget().getFiducialId())) {
 				scheduler.schedule(
@@ -108,5 +110,10 @@ public class LookForAprilTag extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		return true;
+	}
+
+	@Override
+	public void end(boolean interrupted) {
+		drivetrain.setReset(false);
 	}
 }

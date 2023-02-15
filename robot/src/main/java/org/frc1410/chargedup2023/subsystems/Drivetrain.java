@@ -42,6 +42,8 @@ public class Drivetrain implements TickedSubsystem {
 
 	private final DifferentialDrive drive;
 
+	private boolean hasBeenReset = false;
+
 	private final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
 			new Rotation2d(), 0, 0, new Pose2d());
 
@@ -161,5 +163,14 @@ public class Drivetrain implements TickedSubsystem {
 
 	public double getPitch() {
 		return gyro.getPitch();
+	}
+
+
+	public boolean hasBeenReset() {
+		return hasBeenReset;
+	}
+
+	public void setReset(boolean hasBeenReset) {
+		this.hasBeenReset = hasBeenReset;
 	}
 }
