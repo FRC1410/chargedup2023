@@ -26,7 +26,8 @@ import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
-import static org.frc1410.chargedup2023.util.Constants.*;
+import static org.frc1410.chargedup2023.util.Constants.DRIVER_CONTROLLER;
+import static org.frc1410.chargedup2023.util.Constants.OPERATOR_CONTROLLER;
 
 public final class Robot extends PhaseDrivenRobot {
 
