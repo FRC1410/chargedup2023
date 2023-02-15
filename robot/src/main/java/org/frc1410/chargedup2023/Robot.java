@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.LookForAprilTag;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
+import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManuel;
 import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
@@ -25,8 +26,7 @@ import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
-import static org.frc1410.chargedup2023.util.Constants.DRIVER_CONTROLLER;
-import static org.frc1410.chargedup2023.util.Constants.OPERATOR_CONTROLLER;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
 
@@ -167,6 +167,8 @@ public final class Robot extends PhaseDrivenRobot {
 	@Override
 	public void testSequence() {
 		drivetrain.coastMode();
+
+		scheduler.scheduleDefaultCommand(new MoveElevatorManuel(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
 
 		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
 
