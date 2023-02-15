@@ -63,16 +63,16 @@ public interface POIs {
 	Pose2d RED_LEFT_CONE_NODE = new Pose2d(-inchesToMeters(40), -inchesToMeters(24), new Rotation2d());
 	Pose2d RED_CUBE_NODE = new Pose2d(-inchesToMeters(40), 0, new Rotation2d());
 	Pose2d RED_RIGHT_CONE_NODE = new Pose2d(-inchesToMeters(40), inchesToMeters(24), new Rotation2d());
-	Translation2d RED_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(0), inchesToMeters(0)); //TODO: DO
-	Translation2d RED_OUTSIDE_WAYPOINT = new Translation2d(inchesToMeters(70.5), inchesToMeters(7));
+	Translation2d RED_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(536.22), inchesToMeters(183.5));
+	Translation2d RED_OUTSIDE_WAYPOINT = new Translation2d(inchesToMeters(536.22), inchesToMeters(284.5));
 	Pose2d RED_LEFT_SUBSTATION = new Pose2d();
 	Pose2d RED_RIGHT_SUBSTATION = new Pose2d();
 
 	Pose2d BLUE_LEFT_CONE_NODE = new Pose2d(inchesToMeters(40), -inchesToMeters(24), Rotation2d.fromDegrees(180));
 	Pose2d BLUE_CUBE_NODE = new Pose2d(inchesToMeters(40), 0, Rotation2d.fromDegrees(180));
 	Pose2d BLUE_RIGHT_CONE_NODE = new Pose2d(inchesToMeters(40), inchesToMeters(24), Rotation2d.fromDegrees(180));
-	Translation2d BLUE_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(75), inchesToMeters(163)); //TODO: DO
-	Translation2d BLUE_OUTSIDE_WAYPOINT = new Translation2d(0, 0); //TODO: DO
+	Translation2d BLUE_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(115), inchesToMeters(183.5));
+	Translation2d BLUE_OUTSIDE_WAYPOINT = new Translation2d(inchesToMeters(115), inchesToMeters(284.5));
 	Pose2d BLUE_LEFT_SUBSTATION = new Pose2d();
 	Pose2d BLUE_RIGHT_SUBSTATION = new Pose2d();
 }
