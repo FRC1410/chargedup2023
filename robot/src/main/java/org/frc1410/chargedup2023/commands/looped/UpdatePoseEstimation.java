@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.ExternalCamera;
 
+import static org.frc1410.chargedup2023.util.Constants.FIELD_WIDTH;
 import static org.frc1410.chargedup2023.util.Tuning.ANGLE_THRESHOLD;
 
 public class UpdatePoseEstimation extends CommandBase {
@@ -23,7 +24,7 @@ public class UpdatePoseEstimation extends CommandBase {
 		camera.getEstimatorPose().ifPresent(pose -> camera.getTimestamp().ifPresent(time -> {
 					if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
 						drivetrain.addVisionPose(
-								new Pose2d(pose.getX(), Units.inchesToMeters(315.5) - pose.getY(), pose.getRotation()),
+								new Pose2d(pose.getX(), FIELD_WIDTH - pose.getY(), pose.getRotation()),
 								time
 						);
 					}

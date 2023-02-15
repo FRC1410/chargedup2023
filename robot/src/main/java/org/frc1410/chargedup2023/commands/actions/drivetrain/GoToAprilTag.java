@@ -40,50 +40,50 @@ public class GoToAprilTag extends CommandBase {
 				switch (targetNode) {
 					case LEFT_CONE_NODE -> {
 						if (camera.getTarget().getFiducialId() == 1 && waypointFlag)
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_OUTSIDE_WAYPOINT, RED_LEFT_CONE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), RED_OUTSIDE_WAYPOINT, RED_LEFT_CONE_NODE));
 						else
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_LEFT_CONE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), RED_LEFT_CONE_NODE));
 					}
 					case CUBE_NODE ->
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_CUBE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), RED_CUBE_NODE));
 					case RIGHT_CONE_NODE -> {
 						if (camera.getTarget().getFiducialId() == 3 && waypointFlag)
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_INSIDE_WAYPOINT, RED_RIGHT_CONE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), RED_INSIDE_WAYPOINT, RED_RIGHT_CONE_NODE));
 						else
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_RIGHT_CONE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), RED_RIGHT_CONE_NODE));
 					}
 					case LEFT_SUBSTATION -> {
 						if (camera.getTarget().getFiducialId() == 5)
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_LEFT_SUBSTATION));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), RED_LEFT_SUBSTATION));
 					}
 					case RIGHT_SUBSTATION -> {
 						if (camera.getTarget().getFiducialId() == 5)
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, RED_RIGHT_SUBSTATION));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), RED_RIGHT_SUBSTATION));
 					}
 				}
 			} else {
 				switch (targetNode) {
 					case LEFT_CONE_NODE -> {
 						if (camera.getTarget().getFiducialId() == 6)
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_INSIDE_WAYPOINT, BLUE_LEFT_CONE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_INSIDE_WAYPOINT, BLUE_LEFT_CONE_NODE));
 						else
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_LEFT_CONE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_LEFT_CONE_NODE));
 					}
 					case CUBE_NODE ->
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_CUBE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_CUBE_NODE));
 					case RIGHT_CONE_NODE -> {
 						if (camera.getTarget().getFiducialId() == 8)
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_OUTSIDE_WAYPOINT, BLUE_RIGHT_CONE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_OUTSIDE_WAYPOINT, BLUE_RIGHT_CONE_NODE));
 						else
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_RIGHT_CONE_NODE));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_RIGHT_CONE_NODE));
 					}
 					case LEFT_SUBSTATION -> {
 						if (camera.getTarget().getFiducialId() == 4)
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_LEFT_SUBSTATION));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_LEFT_SUBSTATION));
 					}
 					case RIGHT_SUBSTATION -> {
 						if (camera.getTarget().getFiducialId() == 4)
-							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, BLUE_RIGHT_SUBSTATION));
+							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_RIGHT_SUBSTATION));
 					}
 				}
 			}
@@ -94,7 +94,6 @@ public class GoToAprilTag extends CommandBase {
 	public boolean isFinished() {
 		return true;
 	}
-
 
 	@Override
 	public void end(boolean interrupted) {

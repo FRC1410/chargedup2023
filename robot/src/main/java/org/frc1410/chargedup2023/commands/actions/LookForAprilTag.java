@@ -7,7 +7,6 @@ import org.frc1410.chargedup2023.commands.groups.teleop.HybridScoringMode;
 import org.frc1410.chargedup2023.commands.groups.teleop.MidScoringMode;
 import org.frc1410.chargedup2023.commands.groups.teleop.SubstationScoringMode;
 import org.frc1410.chargedup2023.subsystems.*;
-import org.frc1410.chargedup2023.util.Constants;
 import org.frc1410.framework.control.Button;
 import org.frc1410.framework.control.observer.WhileHeldObserver;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
@@ -16,6 +15,7 @@ import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.lock.LockPriority;
 
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.targetPosition;
+import static org.frc1410.chargedup2023.util.Constants.SUBSTATION_TAGS;
 
 
 public class LookForAprilTag extends CommandBase {
@@ -52,7 +52,7 @@ public class LookForAprilTag extends CommandBase {
 					)
 			));
 
-			if (Constants.SUBSTATION_TAGS.contains(camera.getTarget().getFiducialId())) {
+			if (SUBSTATION_TAGS.contains(camera.getTarget().getFiducialId())) {
 				scheduler.schedule(
 					new CommandTask(
 							new SubstationScoringMode(

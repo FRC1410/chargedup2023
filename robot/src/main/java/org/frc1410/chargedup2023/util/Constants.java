@@ -72,6 +72,7 @@ public interface Constants {
 	Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(0.3, 0.3, 0.3);
 	List<Integer> SUBSTATION_TAGS = List.of(4, 5);
 	List<Integer> RED_TAGS = List.of(1, 2, 3, 4);
+	double FIELD_WIDTH = Units.inchesToMeters(315.5);
 
 	double WAYPOINT_THRESHOLD = -Units.inchesToMeters(70);
 
