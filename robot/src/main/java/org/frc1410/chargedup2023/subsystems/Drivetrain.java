@@ -56,8 +56,8 @@ public class Drivetrain implements TickedSubsystem {
 		leftFollower.follow(leftLeader);
 		rightFollower.follow(rightLeader);
 
-		leftLeader.setInverted(true);
-		leftFollower.setInverted(true);
+		rightLeader.setInverted(true);
+		rightFollower.setInverted(true);
 
 		drive = new DifferentialDrive(leftLeader, rightLeader);
 
