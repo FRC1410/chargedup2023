@@ -63,10 +63,10 @@ public interface Constants {
 
 	// LBork rollers
 	double LBORK_YANKEE_INTAKE_SPEED = 0.6;
-	double LBORK_YANKEE_OUTTAKE_SPEED = 0.3;
+	double LBORK_YANKEE_OUTTAKE_SPEED = -0.3;
 
 	double LBORK_PAPA_INTAKE_SPEED = 0.6;
-	double LBORK_PAPA_OUTTAKE_SPEED = 0.3;
+	double LBORK_PAPA_OUTTAKE_SPEED = -0.3;
 
 	// AprilTags & Vision
 	Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(0.3, 0.3, 0.3);
