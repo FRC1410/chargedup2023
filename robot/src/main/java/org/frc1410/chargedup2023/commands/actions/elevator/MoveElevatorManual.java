@@ -5,11 +5,11 @@ import org.frc1410.chargedup2023.subsystems.Elevator;
 import org.frc1410.framework.control.Axis;
 
 
-public class MoveElevatorManuel extends CommandBase {
+public class MoveElevatorManual extends CommandBase {
 	private final Elevator elevator;
 	private final Axis leftYAxis;
 
-	public MoveElevatorManuel(Elevator elevator, Axis leftYAxis) {
+	public MoveElevatorManual(Elevator elevator, Axis leftYAxis) {
 		this.elevator = elevator;
 		this.leftYAxis = leftYAxis;
 
