@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.StringSubscriber;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.LookForAprilTag;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
+import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
@@ -167,6 +168,8 @@ public final class Robot extends PhaseDrivenRobot {
 	@Override
 	public void testSequence() {
 		drivetrain.coastMode();
+
+		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
 
 		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
 
