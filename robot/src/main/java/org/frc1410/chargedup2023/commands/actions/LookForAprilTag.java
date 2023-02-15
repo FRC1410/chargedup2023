@@ -45,7 +45,7 @@ public class LookForAprilTag extends CommandBase {
 		camera.getTargetLocation().ifPresent(targetPose -> {
 			var observer = new WhileHeldObserver(button);
 
-			if (!drivetrain.hasBeenReset())
+			if (!drivetrain.hasBeenReset()) {
 				camera.getEstimatorPose().ifPresent(pose -> drivetrain.resetPoseEstimation(
 						new Pose2d(
 								pose.getX(),
@@ -53,6 +53,7 @@ public class LookForAprilTag extends CommandBase {
 								drivetrain.getPoseEstimation().getRotation()
 						)
 				));
+			}
 
 			if (SUBSTATION_TAGS.contains(camera.getTarget().getFiducialId())) {
 				scheduler.schedule(
@@ -73,7 +74,7 @@ public class LookForAprilTag extends CommandBase {
 				scheduler.schedule(
 					new CommandTask(
 							switch (targetPosition) {
-								case HIGH_LEFT_CONE, HIGH_CUBE, HIGH_RIGHT_CONE -> new HighScoringMode(
+								case HIGH_LEFT_YANKEE, HIGH_PAPA, HIGH_RIGHT_YANKEE -> new HighScoringMode(
 										drivetrain,
 										camera,
 										lbork,
@@ -81,7 +82,7 @@ public class LookForAprilTag extends CommandBase {
 										intake,
 										scheduler
 								);
-								case MIDDLE_LEFT_CONE, MIDDLE_CUBE, MIDDLE_RIGHT_CONE -> new MidScoringMode(
+								case MIDDLE_LEFT_YANKEE, MIDDLE_PAPA, MIDDLE_RIGHT_YANKEE -> new MidScoringMode(
 										drivetrain,
 										camera,
 										lbork,

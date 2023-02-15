@@ -9,11 +9,11 @@ import org.frc1410.chargedup2023.commands.actions.LookForAprilTag;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
-import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
-import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
 import org.frc1410.chargedup2023.commands.actions.intake.ToggleIntake;
-import org.frc1410.chargedup2023.commands.groups.teleop.ConeIntakePosition;
-import org.frc1410.chargedup2023.commands.groups.teleop.CubeIntakePosition;
+import org.frc1410.chargedup2023.commands.groups.teleop.YankeeIntakePosition;
+import org.frc1410.chargedup2023.commands.groups.teleop.PapaIntakePosition;
 import org.frc1410.chargedup2023.commands.groups.teleop.DropHeldPiece;
 import org.frc1410.chargedup2023.commands.groups.teleop.IdleState;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
@@ -130,7 +130,7 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 
 		operatorController.X.whenPressed(
-				new CubeIntakePosition(
+				new PapaIntakePosition(
 						intake,
 						lBork,
 						elevator,
@@ -140,7 +140,7 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 
 		operatorController.B.whenPressed(
-				new ConeIntakePosition(
+				new YankeeIntakePosition(
 						intake,
 						lBork,
 						elevator,
@@ -178,9 +178,9 @@ public final class Robot extends PhaseDrivenRobot {
 
 		operatorController.RIGHT_BUMPER.whileHeld(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
 
-		operatorController.Y.whileHeld(new RunLBorkCone(lBork, false), TaskPersistence.EPHEMERAL);
-		operatorController.X.whileHeld(new RunLBorkCone(lBork, true), TaskPersistence.EPHEMERAL);
-		operatorController.B.whileHeld(new RunLBorkCube(lBork, false), TaskPersistence.EPHEMERAL);
-		operatorController.A.whileHeld(new RunLBorkCube(lBork, true), TaskPersistence.EPHEMERAL);
+		operatorController.Y.whileHeld(new RunLBorkYankee(lBork, false), TaskPersistence.EPHEMERAL);
+		operatorController.X.whileHeld(new RunLBorkYankee(lBork, true), TaskPersistence.EPHEMERAL);
+		operatorController.B.whileHeld(new RunLBorkPapa(lBork, false), TaskPersistence.EPHEMERAL);
+		operatorController.A.whileHeld(new RunLBorkPapa(lBork, true), TaskPersistence.EPHEMERAL);
 	}
 }

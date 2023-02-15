@@ -16,10 +16,10 @@ import org.frc1410.chargedup2023.subsystems.LightBar;
 
 import static org.frc1410.chargedup2023.util.Constants.INTAKE_LBORK_EXTEND_TIME;
 
-public class ConeIntakePosition extends SequentialCommandGroup {
-	public ConeIntakePosition(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
+public class YankeeIntakePosition extends SequentialCommandGroup {
+	public YankeeIntakePosition(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
 		super(
-				new InstantCommand(() -> lightBar.set(LightBar.Profile.CONE_PICKUP)),
+				new InstantCommand(() -> lightBar.set(LightBar.Profile.YANKEE_PICKUP)),
 				new ExtendIntake(intake),
 				new RetractLBork(lBork),
 				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),

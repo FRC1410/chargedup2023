@@ -11,14 +11,14 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.Trajectories;
 
-public class Outside2ConeCube extends SequentialCommandGroup {
-	public Outside2ConeCube(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
+public class Outside2YankeePapa extends SequentialCommandGroup {
+	public Outside2YankeePapa(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
-				new Outside2ConeCollectCube(drivetrain, lbork, elevator, intake),
+				new Outside2YankeeCollectPapa(drivetrain, lbork, elevator, intake),
 				new TurnToSmallAngle(drivetrain, 48),
 				new ParallelCommandGroup(
 						new MoveElevator(lbork, elevator, intake, Elevator.State.MID, false),
-						Trajectories.OutsideMiddleGamePieceToScoreCube(drivetrain)
+						Trajectories.OutsideMiddleGamePieceToScorePapa(drivetrain)
 				),
 				new RetractLBork(lbork)
 		);

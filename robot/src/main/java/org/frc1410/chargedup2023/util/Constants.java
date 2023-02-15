@@ -12,13 +12,13 @@ import java.util.List;
 public interface Constants {
 
 	enum ScoringPosition {
-		HIGH_LEFT_CONE(1, 1),
-		HIGH_CUBE(0, 1),
-		HIGH_RIGHT_CONE(-1, 1),
+		HIGH_LEFT_YANKEE(1, 1),
+		HIGH_PAPA(0, 1),
+		HIGH_RIGHT_YANKEE(-1, 1),
 
-		MIDDLE_LEFT_CONE(1, 0),
-		MIDDLE_CUBE(0, 0),
-		MIDDLE_RIGHT_CONE(-1, 0),
+		MIDDLE_LEFT_YANKEE(1, 0),
+		MIDDLE_PAPA(0, 0),
+		MIDDLE_RIGHT_YANKEE(-1, 0),
 
 		HYBRID_LEFT(1, -1),
 		HYBRID_MIDDLE(0, -1),
@@ -62,11 +62,11 @@ public interface Constants {
 	DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH);
 
 	// LBork rollers
-	double LBORK_CONE_INTAKE_SPEED = 0.6;
-	double LBORK_CONE_OUTTAKE_SPEED = 0.3;
+	double LBORK_YANKEE_INTAKE_SPEED = 0.6;
+	double LBORK_YANKEE_OUTTAKE_SPEED = 0.3;
 
-	double LBORK_CUBE_INTAKE_SPEED = 0.6;
-	double LBORK_CUBE_OUTTAKE_SPEED = 0.3;
+	double LBORK_PAPA_INTAKE_SPEED = 0.6;
+	double LBORK_PAPA_OUTTAKE_SPEED = 0.3;
 
 	// AprilTags & Vision
 	Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(0.3, 0.3, 0.3);
@@ -82,7 +82,7 @@ public interface Constants {
 
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0;
-	double ELEVATOR_CUBE_POSITION = 0;
+	double ELEVATOR_PAPA_POSITION = 0;
 	double ELEVATOR_MID_POSITION = 0;
 	double ELEVATOR_RAISED_POSITION = 0;
 	double ELEVATOR_TOLERANCE = 0.1;

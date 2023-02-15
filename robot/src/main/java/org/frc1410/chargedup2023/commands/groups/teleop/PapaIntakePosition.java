@@ -14,14 +14,14 @@ import org.frc1410.chargedup2023.subsystems.LightBar;
 
 import static org.frc1410.chargedup2023.util.Constants.INTAKE_LBORK_EXTEND_TIME;
 
-public class CubeIntakePosition extends SequentialCommandGroup {
-	public CubeIntakePosition(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
+public class PapaIntakePosition extends SequentialCommandGroup {
+	public PapaIntakePosition(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
 		super(
-				new InstantCommand(() -> lightBar.set(LightBar.Profile.CUBE_PICKUP)),
+				new InstantCommand(() -> lightBar.set(LightBar.Profile.PAPA_PICKUP)),
 				new ExtendIntake(intake),
 				new RetractLBork(lBork),
 				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
-				new MoveElevatorToPose(elevator, Elevator.State.CUBE)
+				new MoveElevatorToPose(elevator, Elevator.State.PAPA)
 		);
 	}
 }

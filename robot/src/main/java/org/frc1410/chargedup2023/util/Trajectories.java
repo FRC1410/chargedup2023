@@ -147,13 +147,13 @@ public interface Trajectories {
 
 
 	static SequentialCommandGroup BarrierScoreToMiddleGamePiece(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(BARRIER_SCORE_CONE_ANGLED, List.of(BARRIER_MIDDLE_GAME_PIECE_ANGLED_MIDPOINT), BARRIER_MIDDLE_GAME_PIECE_ANGLED_FORWARD,
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(BARRIER_SCORE_YANKEE_ANGLED, List.of(BARRIER_MIDDLE_GAME_PIECE_ANGLED_MIDPOINT), BARRIER_MIDDLE_GAME_PIECE_ANGLED_FORWARD,
 				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 	static SequentialCommandGroup OutsideScoreToMiddleGamePiece(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(OUTSIDE_SCORE_CONE_ANGLED, List.of(OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_MIDPOINT), OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_FORWARD,
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(OUTSIDE_SCORE_YANKEE_ANGLED, List.of(OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_MIDPOINT), OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_FORWARD,
 				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
@@ -187,29 +187,29 @@ public interface Trajectories {
 	}
 
 
-	static SequentialCommandGroup BarrierMiddleGamePieceToScoreCube(Drivetrain drivetrain) {
+	static SequentialCommandGroup BarrierMiddleGamePieceToScorePapa(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-				BARRIER_MIDDLE_GAME_PIECE_ANGLED_FORWARD, List.of(BARRIER_CUBE_SCORE_MIDPOINT), BARRIER_COMMUNITY_SCORE_CUBE,
+				BARRIER_MIDDLE_GAME_PIECE_ANGLED_FORWARD, List.of(BARRIER_PAPA_SCORE_MIDPOINT), BARRIER_COMMUNITY_SCORE_PAPA,
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
-	static SequentialCommandGroup OutsideMiddleGamePieceToScoreCube(Drivetrain drivetrain) {
+	static SequentialCommandGroup OutsideMiddleGamePieceToScorePapa(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-				OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_FORWARD, List.of(OUTSIDE_CUBE_SCORE_MIDPOINT), OUTSIDE_COMMUNITY_SCORE_CUBE,
+				OUTSIDE_MIDDLE_GAME_PIECE_ANGLED_FORWARD, List.of(OUTSIDE_PAPA_SCORE_MIDPOINT), OUTSIDE_COMMUNITY_SCORE_PAPA,
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
 	static SequentialCommandGroup BarrierGamePieceToScoreAngled(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_FORWARD, BARRIER_SCORE_CONE_ANGLED),
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_GAME_PIECE_FORWARD, BARRIER_SCORE_YANKEE_ANGLED),
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 	static SequentialCommandGroup OutsideGamePieceToScoreAngled(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_SCORE_CONE_ANGLED),
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_SCORE_YANKEE_ANGLED),
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}

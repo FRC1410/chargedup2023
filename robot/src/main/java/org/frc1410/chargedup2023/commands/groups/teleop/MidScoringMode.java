@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.GoToAprilTag;
-import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
-import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCube;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
 import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 
@@ -23,18 +23,18 @@ public class MidScoringMode extends SequentialCommandGroup {
 								drivetrain,
 								camera,
 								switch (targetPosition) {
-									case MIDDLE_LEFT_CONE -> GoToAprilTag.Node.LEFT_CONE_NODE;
-									case MIDDLE_CUBE -> GoToAprilTag.Node.CUBE_NODE;
-									case MIDDLE_RIGHT_CONE -> GoToAprilTag.Node.RIGHT_CONE_NODE;
+									case MIDDLE_LEFT_YANKEE -> GoToAprilTag.Node.LEFT_YANKEE_NODE;
+									case MIDDLE_PAPA -> GoToAprilTag.Node.PAPA_NODE;
+									case MIDDLE_RIGHT_YANKEE -> GoToAprilTag.Node.RIGHT_YANKEE_NODE;
 									default -> null;
 								},
 								scheduler
 						)
 				),
 				new ParallelRaceGroup(
-						targetPosition.equals(MIDDLE_CUBE)
-								? new RunLBorkCube(lbork, true)
-								: new RunLBorkCone(lbork, true),
+						targetPosition.equals(MIDDLE_PAPA)
+								? new RunLBorkPapa(lbork, true)
+								: new RunLBorkYankee(lbork, true),
 						new WaitCommand(RUN_LBORK_SCORING_TIME)
 				)
 		);

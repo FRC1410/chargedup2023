@@ -5,11 +5,11 @@ import org.frc1410.chargedup2023.subsystems.LBork;
 
 import static org.frc1410.chargedup2023.util.Constants.*;
 
-public class RunLBorkCone extends CommandBase {
+public class RunLBorkPapa extends CommandBase {
 	private final LBork lBork;
 	private final boolean outtaking;
 
-	public RunLBorkCone(LBork lBork, boolean outtaking) {
+	public RunLBorkPapa(LBork lBork, boolean outtaking) {
 		this.lBork = lBork;
 		this.outtaking = outtaking;
 
@@ -19,15 +19,10 @@ public class RunLBorkCone extends CommandBase {
 	@Override
 	public void initialize() {
 		if (outtaking) {
-			lBork.setRollerSpeeds(LBORK_CONE_OUTTAKE_SPEED, -LBORK_CONE_OUTTAKE_SPEED);
+			lBork.setRollerSpeeds(LBORK_PAPA_OUTTAKE_SPEED, LBORK_PAPA_OUTTAKE_SPEED);
 		} else {
-			lBork.setRollerSpeeds(LBORK_CONE_INTAKE_SPEED, -LBORK_CONE_INTAKE_SPEED);
+			lBork.setRollerSpeeds(LBORK_PAPA_INTAKE_SPEED, LBORK_PAPA_INTAKE_SPEED);
 		}
-	}
-
-	@Override
-	public boolean isFinished() {
-		return false;
 	}
 
 	@Override
