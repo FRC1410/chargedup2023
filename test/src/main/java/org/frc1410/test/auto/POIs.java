@@ -30,15 +30,15 @@ public interface POIs {
 	Translation2d OUTSIDE_GAME_PIECE_SCORE_MIDPOINT = new Translation2d(inchesToMeters(110), inchesToMeters(275));
 
 	// AprilTag Alignment
-	Pose2d RED_LEFT_CONE_NODE = new Pose2d(-inchesToMeters(40), -inchesToMeters(24), new Rotation2d());
-	Pose2d RED_CUBE_NODE = new Pose2d(-inchesToMeters(40), 0, new Rotation2d());
-	Pose2d RED_RIGHT_CONE_NODE = new Pose2d(-inchesToMeters(40), inchesToMeters(24), new Rotation2d());
-	Translation2d RED_INSIDE_WAYPOINT = new Translation2d(inchesToMeters(0), inchesToMeters(0));
+	Pose2d RED_LEFT_YANKEE_NODE = new Pose2d(-inchesToMeters(40), -inchesToMeters(24), new Rotation2d());
+	Pose2d RED_PAPA_NODE = new Pose2d(-inchesToMeters(40), 0, new Rotation2d());
+	Pose2d RED_RIGHT_YANKEE_NODE = new Pose2d(-inchesToMeters(40), inchesToMeters(24), new Rotation2d());
+	Translation2d RED_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(0), inchesToMeters(0));
 	Translation2d RED_OUTSIDE_WAYPOINT = new Translation2d(-inchesToMeters(70.5), -inchesToMeters(7));
 
-	Pose2d BLUE_LEFT_CONE_NODE = new Pose2d(inchesToMeters(40), -inchesToMeters(24), Rotation2d.fromDegrees(180));
-	Pose2d BLUE_CUBE_NODE = new Pose2d(inchesToMeters(40), 0, Rotation2d.fromDegrees(180));
-	Pose2d BLUE_RIGHT_CONE_NODE = new Pose2d(inchesToMeters(40), inchesToMeters(24), Rotation2d.fromDegrees(180));
-	Translation2d BLUE_INSIDE_WAYPOINT = new Translation2d(0, 0);
+	Pose2d BLUE_LEFT_YANKEE_NODE = new Pose2d(inchesToMeters(40), -inchesToMeters(24), Rotation2d.fromDegrees(180));
+	Pose2d BLUE_PAPA_NODE = new Pose2d(inchesToMeters(40), 0, Rotation2d.fromDegrees(180));
+	Pose2d BLUE_RIGHT_YANKEE_NODE = new Pose2d(inchesToMeters(40), inchesToMeters(24), Rotation2d.fromDegrees(180));
+	Translation2d BLUE_BARRIER_WAYPOINT = new Translation2d(0, 0);
 	Translation2d BLUE_OUTSIDE_WAYPOINT = new Translation2d(0, 0);
 }

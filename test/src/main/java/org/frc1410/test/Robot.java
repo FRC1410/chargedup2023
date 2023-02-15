@@ -4,7 +4,7 @@ import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import org.frc1410.test.commands.*;
 import org.frc1410.test.commands.GoToAprilTag;
-import org.frc1410.test.commands.groups.auto.barrier.Barrier2ConeEngage;
+import org.frc1410.test.commands.groups.auto.barrier.Barrier2YankeeEngage;
 import org.frc1410.test.commands.groups.auto.barrier.BarrierCommunityToGamePiece;
 import org.frc1410.test.commands.groups.auto.barrier.BarrierGamePieceToScore;
 import org.frc1410.test.commands.groups.auto.outside.OutsideCommunityToGamePiece;
@@ -39,7 +39,7 @@ public final class Robot extends PhaseDrivenRobot {
             .add("Outside Community To Game Piece", () -> new OutsideCommunityToGamePiece(drivetrain))
 			.add("Barrier Game Piece To Score", () -> new BarrierGamePieceToScore(drivetrain))
 			.add("Outside Game Piece To Score", () -> new OutsideGamePieceToScore(drivetrain))
-			.add("2 Cone Engage", () -> new Barrier2ConeEngage(drivetrain));
+			.add("2 Yankee Engage", () -> new Barrier2YankeeEngage(drivetrain));
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
             autoSelector.getProfiles().get(0).name());
@@ -77,7 +77,7 @@ public final class Robot extends PhaseDrivenRobot {
         scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
 //        scheduler.scheduleDefaultCommand(new RunIntake(intake, driverController.LEFT_TRIGGER), TaskPersistence.GAMEPLAY);
 
-        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.LEFT_CONE_NODE, scheduler), TaskPersistence.EPHEMERAL);
+        driverController.A.whenPressed(new GoToAprilTag(drivetrain, camera, GoToAprilTag.Node.LEFT_YANKEE_NODE, scheduler), TaskPersistence.EPHEMERAL);
         driverController.X.whileHeld(new DetectAprilTag(camera, driverController), TaskPersistence.EPHEMERAL);
 		drivetrain.resetPoseEstimation(BARRIER_GAME_PIECE_FORWARD);
 		driverController.Y.whenPressed(new InstantCommand(() -> drivetrain.zeroHeading(gyroSub.get())), TaskPersistence.EPHEMERAL);

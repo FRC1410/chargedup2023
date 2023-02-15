@@ -10,9 +10,9 @@ import org.frc1410.test.util.Trajectories;
 
 import static org.frc1410.test.auto.POIs.BARRIER_COMMUNITY_START;
 
-public class Barrier2Cone extends SequentialCommandGroup {
-	public Barrier2Cone(Drivetrain drivetrain) {
-		drivetrain.resetPoseEstimation(BARRIER_COMMUNITY_START);
+public class Barrier2YankeeEngage extends SequentialCommandGroup {
+	public Barrier2YankeeEngage(Drivetrain drivetrain) {
+        drivetrain.resetPoseEstimation(BARRIER_COMMUNITY_START);
 
 		addCommands(
 				Trajectories.BarrierCommunityToGamePiece(drivetrain),
@@ -23,7 +23,9 @@ public class Barrier2Cone extends SequentialCommandGroup {
 				new TurnToAngle(drivetrain, 0),
 				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
 				Trajectories.BarrierGamePieceToScore(drivetrain),
+				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
+				Trajectories.BarrierScoreToChargingStation(drivetrain),
 				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0))
-		);
+        );
 	}
 }

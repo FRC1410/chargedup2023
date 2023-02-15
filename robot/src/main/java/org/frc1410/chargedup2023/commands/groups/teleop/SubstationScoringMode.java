@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.GoToAprilTag;
-import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.ExternalCamera;
 import org.frc1410.chargedup2023.subsystems.LBork;
@@ -24,7 +24,7 @@ public class SubstationScoringMode extends SequentialCommandGroup {
 					scheduler
 				),
 				new ParallelRaceGroup(
-						new RunLBorkCone(lbork, false),
+						new RunLBorkYankee(lbork, false),
 						new WaitCommand(SUBSTATION_INTAKE_TIME)
 				)
 		);

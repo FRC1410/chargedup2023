@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
 import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
-import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkCone;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.commands.groups.teleop.MoveElevator;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.Elevator;
@@ -16,8 +16,8 @@ import org.frc1410.chargedup2023.util.Trajectories;
 
 import static org.frc1410.chargedup2023.util.Constants.OUTTAKE_TIME;
 
-public class Outside2Cone extends SequentialCommandGroup {
-	public Outside2Cone(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
+public class Outside2Yankee extends SequentialCommandGroup {
+	public Outside2Yankee(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
 				new OutsideScoreCollect(drivetrain, lbork, elevator, intake),
 				new TurnToSmallAngle(drivetrain, 0),
@@ -26,7 +26,7 @@ public class Outside2Cone extends SequentialCommandGroup {
 						new MoveElevator(lbork, elevator, intake, Elevator.State.RAISED, true)
 				),
 				new ParallelRaceGroup(
-						new RunLBorkCone(lbork, true),
+						new RunLBorkYankee(lbork, true),
 						new WaitCommand(OUTTAKE_TIME)
 				),
 				new RetractLBork(lbork)

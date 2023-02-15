@@ -1,12 +1,12 @@
 package org.frc1410.chargedup2023.commands.actions;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.commands.groups.teleop.HighScoringMode;
 import org.frc1410.chargedup2023.commands.groups.teleop.HybridScoringMode;
 import org.frc1410.chargedup2023.commands.groups.teleop.MidScoringMode;
 import org.frc1410.chargedup2023.commands.groups.teleop.SubstationScoringMode;
 import org.frc1410.chargedup2023.subsystems.*;
-import org.frc1410.chargedup2023.util.Constants;
 import org.frc1410.framework.control.Button;
 import org.frc1410.framework.control.observer.WhileHeldObserver;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
@@ -15,6 +15,7 @@ import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.lock.LockPriority;
 
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.targetPosition;
+import static org.frc1410.chargedup2023.util.Constants.SUBSTATION_TAGS;
 
 
 public class LookForAprilTag extends CommandBase {
@@ -41,10 +42,20 @@ public class LookForAprilTag extends CommandBase {
 
 	@Override
 	public void initialize() {
-		camera.getTargetLocation().ifPresent(pose -> {
+		camera.getTargetLocation().ifPresent(targetPose -> {
 			var observer = new WhileHeldObserver(button);
 
-			if (Constants.SUBSTATION_TAGS.contains(camera.getTarget().getFiducialId())) {
+			if (!drivetrain.hasBeenReset()) {
+				camera.getEstimatorPose().ifPresent(pose -> drivetrain.resetPoseEstimation(
+						new Pose2d(
+								pose.getX(),
+								pose.getY(),
+								drivetrain.getPoseEstimation().getRotation()
+						)
+				));
+			}
+
+			if (SUBSTATION_TAGS.contains(camera.getTarget().getFiducialId())) {
 				scheduler.schedule(
 					new CommandTask(
 							new SubstationScoringMode(
@@ -63,7 +74,7 @@ public class LookForAprilTag extends CommandBase {
 				scheduler.schedule(
 					new CommandTask(
 							switch (targetPosition) {
-								case HIGH_LEFT_CONE, HIGH_CUBE, HIGH_RIGHT_CONE -> new HighScoringMode(
+								case HIGH_LEFT_YANKEE, HIGH_PAPA, HIGH_RIGHT_YANKEE -> new HighScoringMode(
 										drivetrain,
 										camera,
 										lbork,
@@ -71,7 +82,7 @@ public class LookForAprilTag extends CommandBase {
 										intake,
 										scheduler
 								);
-								case MIDDLE_LEFT_CONE, MIDDLE_CUBE, MIDDLE_RIGHT_CONE -> new MidScoringMode(
+								case MIDDLE_LEFT_YANKEE, MIDDLE_PAPA, MIDDLE_RIGHT_YANKEE -> new MidScoringMode(
 										drivetrain,
 										camera,
 										lbork,
@@ -100,5 +111,10 @@ public class LookForAprilTag extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		return true;
+	}
+
+	@Override
+	public void end(boolean interrupted) {
+		drivetrain.setReset(false);
 	}
 }

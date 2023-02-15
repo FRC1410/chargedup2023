@@ -1,7 +1,6 @@
 package org.frc1410.chargedup2023.commands.groups.teleop;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -12,22 +11,33 @@ import org.frc1410.chargedup2023.util.Trajectories;
 
 import java.util.List;
 
+import static org.frc1410.chargedup2023.util.Constants.FIELD_WIDTH;
 import static org.frc1410.chargedup2023.util.Trajectories.*;
 
 public class OTFToPoint extends SequentialCommandGroup {
-	public OTFToPoint(Drivetrain drivetrain, Pose2d targetPose) {
+	public OTFToPoint(Drivetrain drivetrain, Pose2d tagPose, Pose2d offsetPose) {
+		//<editor-fold desc="SOUT" defaultstate="collapsed">
 		System.out.println("Drivetrain");
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
 		System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
 		System.out.println("Target");
-		System.out.println(Units.metersToInches(targetPose.getX()));
-		System.out.println(Units.metersToInches(targetPose.getY()));
-		System.out.println(targetPose.getRotation().getDegrees());
+		System.out.println(Units.metersToInches(offsetPose.getX()));
+		System.out.println(Units.metersToInches(offsetPose.getY()));
+		System.out.println(offsetPose.getRotation().getDegrees());
+		//</editor-fold>
+		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
-						List.of(drivetrain.getPoseEstimation(), targetPose),
+						List.of(drivetrain.getPoseEstimation(), 
+								tagPose.transformBy(
+										new Transform2d(
+												offsetPose.getTranslation(),
+												tagPose.getRotation()
+										)
+								)
+						),
 						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
 
 		addRequirements(drivetrain);
@@ -43,7 +53,8 @@ public class OTFToPoint extends SequentialCommandGroup {
 		);
 	}
 
-	public OTFToPoint(Drivetrain drivetrain, Translation2d midPose, Pose2d targetPose) {
+	public OTFToPoint(Drivetrain drivetrain, Pose2d tagPose, Translation2d midPose, Pose2d offsetPose) {
+		//<editor-fold desc="SOUT" defaultstate="collapsed">
 		System.out.println("Drivetrain");
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
@@ -52,13 +63,22 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(Units.metersToInches(midPose.getX()));
 		System.out.println(Units.metersToInches(midPose.getY()));
 		System.out.println("Target");
-		System.out.println(Units.metersToInches(targetPose.getX()));
-		System.out.println(Units.metersToInches(targetPose.getY()));
-		System.out.println(targetPose.getRotation().getDegrees());
+		System.out.println(Units.metersToInches(offsetPose.getX()));
+		System.out.println(Units.metersToInches(offsetPose.getY()));
+		System.out.println(offsetPose.getRotation().getDegrees());
+		//</editor-fold>
+		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
-						drivetrain.getPoseEstimation(), List.of(midPose), targetPose,
+						drivetrain.getPoseEstimation(),
+						List.of(midPose),
+						tagPose.transformBy(
+								new Transform2d(
+										offsetPose.getTranslation(),
+										tagPose.getRotation()
+								)
+						),
 						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
 
 		addRequirements(drivetrain);
