@@ -114,6 +114,11 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
+		driverController.A.whenPressed(
+				new RetractIntake(intake),
+				TaskPersistence.EPHEMERAL
+		);
+
 		operatorController.RIGHT_BUMPER.whenPressed(
 				new CaptureScoringPosition(
 						operatorController.LEFT_Y_AXIS,
