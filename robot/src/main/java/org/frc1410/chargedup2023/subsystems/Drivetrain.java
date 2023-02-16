@@ -73,8 +73,8 @@ public class Drivetrain implements TickedSubsystem {
 	public void periodic() {
 		poseEstimator.update(
 				new Rotation2d(Units.degreesToRadians(gyro.getAngle())),
-				(leftLeader.getEncoder().getPosition() + leftFollower.getEncoder().getPosition()) / 2 * METERS_PER_REVOLUTION,
-				(rightLeader.getEncoder().getPosition() + rightFollower.getEncoder().getPosition()) / 2 * METERS_PER_REVOLUTION
+				(leftLeader.getEncoder().getPosition() + leftFollower.getEncoder().getPosition()) / 2 * DRIVETRAIN_ENCODER_CONSTANT,
+				(rightLeader.getEncoder().getPosition() + rightFollower.getEncoder().getPosition()) / 2 * DRIVETRAIN_ENCODER_CONSTANT
 		);
 		drive.feed();
 

@@ -57,7 +57,9 @@ public interface Constants {
 	double KV_SLOW = 0;
 	double KA_SLOW = 0;
 
+	double GEARING = 1 / ((52.0 / 10.0) * (68.0 / 30.0));
 	double METERS_PER_REVOLUTION = .478778;
+	double DRIVETRAIN_ENCODER_CONSTANT = METERS_PER_REVOLUTION * GEARING;
 	double TRACKWIDTH = 0.615; //Meters
 	DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH);
 
