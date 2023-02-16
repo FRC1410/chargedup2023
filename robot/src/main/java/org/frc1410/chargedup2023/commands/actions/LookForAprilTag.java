@@ -62,6 +62,8 @@ public class LookForAprilTag extends CommandBase {
 								drivetrain,
 								camera,
 								lbork,
+								elevator,
+								intake,
 								scheduler,
 								rightBumper
 							)
