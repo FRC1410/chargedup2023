@@ -15,6 +15,8 @@ public interface IDs {
 	int ELEVATOR_BRAKE_FORWARD_ID = 4;
 	int ELEVATOR_BRAKE_BACKWARD_ID = 5;
 
+	int ELEVATOR_ENCODER_ID = 13;
+
 	// LBork rollers
 	int LBORK_OUTER_ROLLER_ID = 21;
 	int LBORK_INNER_ROLLER_ID = 22;
