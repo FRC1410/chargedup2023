@@ -32,7 +32,6 @@ import static org.frc1410.chargedup2023.util.Constants.OPERATOR_CONTROLLER;
 
 public final class Robot extends PhaseDrivenRobot {
 
-	//please dont shit yourself
 	private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER);
 	private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
 
