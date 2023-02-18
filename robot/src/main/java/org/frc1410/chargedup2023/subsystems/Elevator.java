@@ -1,6 +1,8 @@
 package org.frc1410.chargedup2023.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.networktables.BooleanPublisher;
@@ -27,6 +29,8 @@ public class Elevator implements TickedSubsystem {
 
 	private final DoubleSolenoid brake = new DoubleSolenoid(PneumaticsModuleType.REVPH, ELEVATOR_BRAKE_FORWARD_ID, ELEVATOR_BRAKE_BACKWARD_ID);
 
+	private final WPI_TalonSRX encoder = new WPI_TalonSRX(ELEVATOR_ENCODER_ID);
+
 	public Elevator() {
 		leaderMotor.restoreFactoryDefaults();
 		followerMotor.restoreFactoryDefaults();
@@ -36,6 +40,8 @@ public class Elevator implements TickedSubsystem {
 
 		leaderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 		followerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+		encoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 	}
 
 	public void setSpeed(double speed) {
@@ -43,10 +49,12 @@ public class Elevator implements TickedSubsystem {
 	}
 
 	public double getEncoderValue() {
-		double leaderPos = leaderMotor.getEncoder().getPosition();
-		double followerPos = followerMotor.getEncoder().getPosition();
+//		double leaderPos = leaderMotor.getEncoder().getPosition();
+//		double followerPos = followerMotor.getEncoder().getPosition();
+//
+//		return (leaderPos + followerPos) / 2;
 
-		return (leaderPos + followerPos) / 2;
+		return encoder.getSelectedSensorPosition();
 	}
 
 	public boolean getDownMagSensorValue() {
@@ -54,8 +62,10 @@ public class Elevator implements TickedSubsystem {
 	}
 
 	private void setEncoderValue(double value) {
-		leaderMotor.getEncoder().setPosition(value);
-		followerMotor.getEncoder().setPosition(value);
+//		leaderMotor.getEncoder().setPosition(value);
+//		followerMotor.getEncoder().setPosition(value);
+
+		encoder.setSelectedSensorPosition(value);
 	}
 
 	public void setBrake() {
