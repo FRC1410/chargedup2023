@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.LookForAprilTag;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
+import org.frc1410.chargedup2023.commands.actions.elevator.ElevatorHomingSequence;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorToPose;
@@ -32,8 +33,7 @@ import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
-import static org.frc1410.chargedup2023.util.Constants.DRIVER_CONTROLLER;
-import static org.frc1410.chargedup2023.util.Constants.OPERATOR_CONTROLLER;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
 
@@ -85,8 +85,14 @@ public final class Robot extends PhaseDrivenRobot {
 
 		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, driverController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
 
-		driverController.X.whenPressed(new MoveElevatorToPose(elevator, 20), TaskPersistence.EPHEMERAL);
-		driverController.Y.whenPressed(new MoveElevatorToPose(elevator, 10), TaskPersistence.EPHEMERAL);
+		driverController.A.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_DOWN_POSITION), TaskPersistence.EPHEMERAL);
+		driverController.B.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_PAPA_POSITION), TaskPersistence.EPHEMERAL);
+		driverController.X.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_DRIVING_POSITION), TaskPersistence.EPHEMERAL);
+		driverController.Y.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_MID_POSITION), TaskPersistence.EPHEMERAL);
+		driverController.RIGHT_BUMPER.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_RAISED_POSITION), TaskPersistence.EPHEMERAL);
+
+		driverController.LEFT_BUMPER.whenPressed(new InstantCommand(() -> {elevator.setEncoderValue(0);}), TaskPersistence.EPHEMERAL);
+		driverController.BACK.whenPressed(new ElevatorHomingSequence(elevator), TaskPersistence.EPHEMERAL);
 
 		scheduler.scheduleDefaultCommand(
 				new RunIntakeLooped(
