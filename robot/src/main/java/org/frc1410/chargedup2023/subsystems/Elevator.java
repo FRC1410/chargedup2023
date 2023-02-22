@@ -10,8 +10,6 @@ import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
@@ -22,106 +20,60 @@ public class Elevator implements TickedSubsystem {
 
 	private final NetworkTableInstance instance = NetworkTableInstance.getDefault();
 	private final NetworkTable table = instance.getTable("Elevator");
-	private final DoublePublisher encoderPub = NetworkTables.PublisherFactory(table, "Encoder Value", 0);
+	DoublePublisher encoderPub = NetworkTables.PublisherFactory(table, "Encoder Value", 0);
 
-	private final CANSparkMax leaderMotor = new CANSparkMax(ELEVATOR_MOTOR_ONE_ID, MotorType.kBrushless);
-	private final CANSparkMax followerMotor = new CANSparkMax(ELEVATOR_MOTOR_TWO_ID, MotorType.kBrushless);
-
-	private final DoubleSolenoid brake = new DoubleSolenoid(PneumaticsModuleType.REVPH, ELEVATOR_BRAKE_FORWARD_ID, ELEVATOR_BRAKE_BACKWARD_ID);
+	private final CANSparkMax leftMotor = new CANSparkMax(ELEVATOR_LEFT_MOTOR_ID, MotorType.kBrushless);
+	private final CANSparkMax rightMotor = new CANSparkMax(ELEVATOR_RIGHT_MOTOR_ID, MotorType.kBrushless);
 
 	private final WPI_TalonSRX encoder = new WPI_TalonSRX(ELEVATOR_ENCODER_ID);
 
+	private final DigitalInput limitSwitch = new DigitalInput(ELEVATOR_LIMIT_SWITCH_PORT);
+
 	public Elevator() {
-		leaderMotor.restoreFactoryDefaults();
-		followerMotor.restoreFactoryDefaults();
+		leftMotor.restoreFactoryDefaults();
+		rightMotor.restoreFactoryDefaults();
 
-		followerMotor.follow(leaderMotor);
-		followerMotor.setInverted(true);
+		leftMotor.setInverted(true);
+		rightMotor.setInverted(false);
 
-		leaderMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-		followerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+		leftMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+		rightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-		encoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+		leftMotor.setSmartCurrentLimit(10, 40);
+		rightMotor.setSmartCurrentLimit(10, 40);
+
+//		leftMotor.enableSoftLimit();
+
+		encoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+//		encoder.configFeedbackNotContinuous(false, 10);
 	}
 
 	public void setSpeed(double speed) {
-		leaderMotor.set(speed);
+		leftMotor.set(speed);
+		rightMotor.set(speed);
+	}
+
+	public void setVolts(double volts) {
+		leftMotor.setVoltage(volts);
+		rightMotor.setVoltage(volts);
 	}
 
 	public double getEncoderValue() {
-//		double leaderPos = leaderMotor.getEncoder().getPosition();
-//		double followerPos = followerMotor.getEncoder().getPosition();
-//
-//		return (leaderPos + followerPos) / 2;
-
-		return encoder.getSelectedSensorPosition();
+		return encoder.getSelectedSensorPosition() /* ELEVATOR_ENCODER_CONSTANT*/;
+//		return leftMotor.get
 	}
 
-	public boolean getDownMagSensorValue() {
-		return State.DOWN.isSensorTripped();
+	public boolean getLimitSwitchValue() {
+		return limitSwitch.get();
 	}
 
-	private void setEncoderValue(double value) {
-//		leaderMotor.getEncoder().setPosition(value);
-//		followerMotor.getEncoder().setPosition(value);
-
-		encoder.setSelectedSensorPosition(value);
-	}
-
-	public void setBrake() {
-		brake.set(DoubleSolenoid.Value.kForward);
-	}
-
-	public void releaseBrake() {
-		brake.set(DoubleSolenoid.Value.kReverse);
+	public void setEncoderValue(double value) {
+		encoder.setSelectedSensorPosition(value / ELEVATOR_ENCODER_CONSTANT);
 	}
 
 	@Override
 	public void periodic() {
-		// Mag sensors return inverted values
 		encoderPub.set(getEncoderValue());
-
-		for (var state : State.values()) {
-			var tripped = state.isSensorTripped();
-			state.debugEntry.set(tripped);
-
-			if (tripped) {
-				setEncoderValue(state.position);
-			}
-		}
-	}
-
-	public enum State {
-		DOWN(ELEVATOR_DOWN_POSITION, 0),
-		DRIVING(ELEVATOR_DRIVING_POSITION, 1),
-		PAPA(ELEVATOR_PAPA_POSITION, 2),
-		MID(ELEVATOR_MID_POSITION, 3),
-		RAISED(ELEVATOR_RAISED_POSITION, 4);
-
-		private final double position;
-		private final BooleanPublisher debugEntry;
-		private final DigitalInput sensor;
-
-		State(double position, int sensorPort) {
-			var networkTable = NetworkTableInstance.getDefault().getTable("Elevator");
-
-			this.position = position;
-			this.debugEntry = NetworkTables.PublisherFactory(networkTable, "Mag Sensor (" + name() + ")", false);
-			this.sensor = new DigitalInput(sensorPort);
-		}
-
-		public double getPosition() {
-			return position;
-		}
-
-		/**
-		 * Checks if the mag sensor at this state is tripped.
-		 *
-		 * @return {@code true} if the sensor is tripped or is not
-		 *         properly connected.
-		 */
-		public boolean isSensorTripped() {
-			return !sensor.get(); // output goes low when a magnet is picked up
-		}
+		System.out.println(getEncoderValue());
 	}
 }

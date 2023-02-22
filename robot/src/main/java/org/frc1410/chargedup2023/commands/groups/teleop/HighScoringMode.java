@@ -12,7 +12,7 @@ import org.frc1410.framework.scheduler.task.TaskScheduler;
 
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.HIGH_PAPA;
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.targetPosition;
-import static org.frc1410.chargedup2023.util.Constants.RUN_LBORK_SCORING_TIME;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class HighScoringMode extends SequentialCommandGroup {
 
@@ -20,8 +20,8 @@ public class HighScoringMode extends SequentialCommandGroup {
 		addCommands(
 				new ParallelCommandGroup(
 						targetPosition.equals(HIGH_PAPA)
-							? new MoveElevator(lbork, elevator, intake, Elevator.State.MID, true)
-							: new MoveElevator(lbork, elevator, intake, Elevator.State.RAISED, true),
+							? new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, true)
+							: new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true),
 						new GoToAprilTag(
 								drivetrain,
 								camera,

@@ -12,13 +12,15 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.subsystems.LightBar;
 
+import static org.frc1410.chargedup2023.util.Constants.*;
+
 public class IdleState extends SequentialCommandGroup {
 	public IdleState(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
 		super(
 				new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_STATE)),
 				new ExtendIntake(intake),
 				new RetractLBork(lBork),
-				new MoveElevatorToPose(elevator, Elevator.State.DRIVING),
+				new MoveElevatorToPose(elevator,ELEVATOR_DRIVING_POSITION),
 				new RetractIntake(intake)
 		);
 	}

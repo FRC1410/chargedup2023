@@ -12,6 +12,7 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.subsystems.LightBar;
 
+import static org.frc1410.chargedup2023.util.Constants.ELEVATOR_PAPA_POSITION;
 import static org.frc1410.chargedup2023.util.Constants.INTAKE_LBORK_EXTEND_TIME;
 
 public class PapaIntakePosition extends SequentialCommandGroup {
@@ -21,7 +22,7 @@ public class PapaIntakePosition extends SequentialCommandGroup {
 				new ExtendIntake(intake),
 				new RetractLBork(lBork),
 				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
-				new MoveElevatorToPose(elevator, Elevator.State.PAPA)
+				new MoveElevatorToPose(elevator, ELEVATOR_PAPA_POSITION)
 		);
 	}
 }

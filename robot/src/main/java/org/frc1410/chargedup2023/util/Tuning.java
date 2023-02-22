@@ -24,9 +24,9 @@ public interface Tuning {
 	double ANGLE_THRESHOLD = 10;
 
 	// Elevator
-	double ELEVATOR_KP = 0;
+	double ELEVATOR_KP = 3;
 	double ELEVATOR_KI = 0;
 	double ELEVATOR_KD = 0;
 
-	double ELEVATOR_MAX_OUTPUT = 0;
+	double ELEVATOR_MAX_OUTPUT = 6;
 }

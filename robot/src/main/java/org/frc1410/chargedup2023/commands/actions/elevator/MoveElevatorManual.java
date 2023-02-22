@@ -23,7 +23,7 @@ public class MoveElevatorManual extends CommandBase {
 
 	@Override
 	public void execute() {
-		elevator.setSpeed(leftYAxis.get());
+		elevator.setSpeed(leftYAxis.get() / 4);
 	}
 
 	@Override

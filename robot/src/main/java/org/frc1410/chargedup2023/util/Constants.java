@@ -64,11 +64,11 @@ public interface Constants {
 	DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH);
 
 	// LBork rollers
-	double LBORK_YANKEE_INTAKE_SPEED = 0.6;
-	double LBORK_YANKEE_OUTTAKE_SPEED = -0.3;
+	double LBORK_YANKEE_INTAKE_SPEED = 0.3; // 0.6
+	double LBORK_YANKEE_OUTTAKE_SPEED = -0.7; // -0.3
 
-	double LBORK_PAPA_INTAKE_SPEED = 0.6;
-	double LBORK_PAPA_OUTTAKE_SPEED = -0.3;
+	double LBORK_PAPA_INTAKE_SPEED = 0.3; // 0.6
+	double LBORK_PAPA_OUTTAKE_SPEED = -0.7; // -0.3
 
 	// AprilTags & Vision
 	Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(0.3, 0.3, 0.3);
@@ -81,6 +81,10 @@ public interface Constants {
 	// Elevator
 	double ELEVATOR_SPEED = 0.5;
 	double ELEVATOR_HOMING_SPEED = -0.25;
+
+	double ELEVATOR_ENCODER_CONSTANT = 0.00289768969727;
+
+	double ELEVATOR_NEO_ENCODER_CONSTANT = 0.197815616667;
 
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0;

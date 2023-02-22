@@ -10,14 +10,14 @@ import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.chargedup2023.util.Trajectories;
 
 import static org.frc1410.chargedup2023.auto.POIs.OUTSIDE_COMMUNITY_START;
-import static org.frc1410.chargedup2023.util.Constants.OUTTAKE_TIME;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class OutsidePreload extends SequentialCommandGroup {
 	public OutsidePreload(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		drivetrain.resetPoseEstimation(OUTSIDE_COMMUNITY_START);
 
 		addCommands(
-				new MoveElevator(lbork, elevator, intake, Elevator.State.RAISED, true),
+				new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true),
 				Trajectories.OutsideCommunityToGrid(drivetrain),
 				new ParallelRaceGroup(
 						new RunLBorkYankee(lbork, true),

@@ -21,12 +21,12 @@ public class DropHeldPiece extends SequentialCommandGroup {
 				new ExtendIntake(intake),
 				new RetractLBork(lBork),
 				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
-				new MoveElevatorToPose(elevator, Elevator.State.MID),
+				new MoveElevatorToPose(elevator, ELEVATOR_MID_POSITION),
 				new ParallelRaceGroup(
 						new RunLBorkPapa(lBork, true),
 						new WaitCommand(OUTTAKE_TIME)
 				),
-				new MoveElevatorToPose(elevator, Elevator.State.DRIVING),
+				new MoveElevatorToPose(elevator, ELEVATOR_DRIVING_POSITION),
 				new RetractIntake(intake)
 		);
 	}

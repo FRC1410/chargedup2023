@@ -11,14 +11,14 @@ import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
 
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.*;
-import static org.frc1410.chargedup2023.util.Constants.RUN_LBORK_SCORING_TIME;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class MidScoringMode extends SequentialCommandGroup {
 
 	public MidScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
 		addCommands(
 				new ParallelCommandGroup(
-						new MoveElevator(lbork, elevator, intake, Elevator.State.MID, false),
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false),
 						new GoToAprilTag(
 								drivetrain,
 								camera,

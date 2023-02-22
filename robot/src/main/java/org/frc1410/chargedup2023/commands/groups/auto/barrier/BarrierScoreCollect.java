@@ -15,22 +15,24 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.Trajectories;
 
+import static org.frc1410.chargedup2023.util.Constants.*;
+
 public class BarrierScoreCollect extends SequentialCommandGroup {
 	public BarrierScoreCollect(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
 				new BarrierPreload(drivetrain, lbork, elevator, intake),
 				new ParallelCommandGroup(
-						new MoveElevator(lbork, elevator, intake, Elevator.State.DRIVING, false),
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_DRIVING_POSITION, false),
 						Trajectories.BarrierGridToGamePiece(drivetrain)
 				),
 				new TurnToSmallAngle(drivetrain, 180),
-				new MoveElevator(lbork, elevator, intake, Elevator.State.DOWN, false),
+				new MoveElevator(lbork, elevator, intake, ELEVATOR_DOWN_POSITION, false),
 				new ParallelRaceGroup(
 						new RunLBorkYankee(lbork, false),
 						new RunIntake(intake),
 						Trajectories.BarrierGamePieceToIntake(drivetrain)
 				),
-				new MoveElevator(lbork, elevator, intake, Elevator.State.DRIVING, false)
+				new MoveElevator(lbork, elevator, intake, ELEVATOR_DRIVING_POSITION, false)
 		);
 	}
 }
