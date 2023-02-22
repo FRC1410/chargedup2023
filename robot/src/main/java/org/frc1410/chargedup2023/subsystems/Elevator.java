@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,7 +24,7 @@ public class Elevator implements TickedSubsystem {
 	private final CANSparkMax leftMotor = new CANSparkMax(ELEVATOR_LEFT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax rightMotor = new CANSparkMax(ELEVATOR_RIGHT_MOTOR_ID, MotorType.kBrushless);
 
-	private final WPI_TalonSRX encoder = new WPI_TalonSRX(ELEVATOR_ENCODER_ID);
+//	private final WPI_TalonSRX encoder = new WPI_TalonSRX(ELEVATOR_ENCODER_ID);
 
 	private final DigitalInput limitSwitch = new DigitalInput(ELEVATOR_LIMIT_SWITCH_PORT);
 
@@ -44,7 +43,7 @@ public class Elevator implements TickedSubsystem {
 
 //		leftMotor.enableSoftLimit();
 
-		encoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+//		encoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 //		encoder.configFeedbackNotContinuous(false, 10);
 	}
 
@@ -59,8 +58,10 @@ public class Elevator implements TickedSubsystem {
 	}
 
 	public double getEncoderValue() {
-		return encoder.getSelectedSensorPosition() /* ELEVATOR_ENCODER_CONSTANT*/;
-//		return leftMotor.get
+//		return encoder.getSelectedSensorPosition() /* ELEVATOR_ENCODER_CONSTANT*/;
+		double encoderRevolutions = (leftMotor.getEncoder().getPosition() + rightMotor.getEncoder().getPosition()) / 2;
+		return encoderRevolutions * ELEVATOR_NEO_ENCODER_CONSTANT;
+		// This method returns inches (elevator relative)
 	}
 
 	public boolean getLimitSwitchValue() {
@@ -68,12 +69,15 @@ public class Elevator implements TickedSubsystem {
 	}
 
 	public void setEncoderValue(double value) {
-		encoder.setSelectedSensorPosition(value / ELEVATOR_ENCODER_CONSTANT);
+//		encoder.setSelectedSensorPosition(value / ELEVATOR_ENCODER_CONSTANT);
+		// The value input should be in inches so revolutions are set
+		leftMotor.getEncoder().setPosition(value / ELEVATOR_NEO_ENCODER_CONSTANT);
+		rightMotor.getEncoder().setPosition(value / ELEVATOR_NEO_ENCODER_CONSTANT);
 	}
 
 	@Override
 	public void periodic() {
 		encoderPub.set(getEncoderValue());
-		System.out.println(getEncoderValue());
+		System.out.println("Elevator Encoder: " + getEncoderValue());
 	}
 }
