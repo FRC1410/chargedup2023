@@ -9,6 +9,7 @@ import org.frc1410.chargedup2023.commands.actions.intake.ExtendIntake;
 import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
+import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.subsystems.Elevator;
 import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
@@ -16,14 +17,16 @@ import org.frc1410.chargedup2023.subsystems.LBork;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class DropHeldPiece extends SequentialCommandGroup {
-	public DropHeldPiece(Intake intake, LBork lBork, Elevator elevator) {
+	public DropHeldPiece(Intake intake, LBork lBork, Elevator elevator, boolean papa) {
 		super(
 				new ExtendIntake(intake),
 				new RetractLBork(lBork),
 				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
 				new MoveElevatorToPose(elevator, ELEVATOR_MID_POSITION),
 				new ParallelRaceGroup(
-						new RunLBorkPapa(lBork, true),
+						papa
+								? new RunLBorkPapa(lBork, true)
+								: new RunLBorkYankee(lBork, false),
 						new WaitCommand(OUTTAKE_TIME)
 				),
 				new MoveElevatorToPose(elevator, ELEVATOR_DRIVING_POSITION),

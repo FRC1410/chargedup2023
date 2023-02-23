@@ -21,7 +21,7 @@ public class ElevatorHomingSequence extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		return !elevator.getLimitSwitchValue();
+		return elevator.getLimitSwitchValue();
 	}
 
 	@Override

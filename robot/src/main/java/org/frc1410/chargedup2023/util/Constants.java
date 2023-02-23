@@ -65,10 +65,10 @@ public interface Constants {
 
 	// LBork rollers
 	double LBORK_YANKEE_INTAKE_SPEED = 0.3; // 0.6
-	double LBORK_YANKEE_OUTTAKE_SPEED = -0.7; // -0.3
+	double LBORK_YANKEE_OUTTAKE_SPEED = -1; // -0.3
 
-	double LBORK_PAPA_INTAKE_SPEED = 0.3; // 0.6
-	double LBORK_PAPA_OUTTAKE_SPEED = -0.7; // -0.3
+	double LBORK_PAPA_INTAKE_SPEED = 1; // 0.6
+	double LBORK_PAPA_OUTTAKE_SPEED = -0.5; // -0.3
 
 	// AprilTags & Vision
 	Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(0.3, 0.3, 0.3);
@@ -79,22 +79,23 @@ public interface Constants {
 	double WAYPOINT_THRESHOLD = -Units.inchesToMeters(70);
 
 	// Elevator
-	double ELEVATOR_SPEED = 0.5;
-	double ELEVATOR_HOMING_SPEED = -0.25;
+	double ELEVATOR_SPEED = -0.5;
+	double ELEVATOR_HOMING_SPEED = 0.5;
+
 
 	double ELEVATOR_ENCODER_CONSTANT = 0.0013427734375;
 
 	double ELEVATOR_NEO_ENCODER_CONSTANT = 0.0916666666667;
 
 	double ELEVATOR_DOWN_POSITION = 0;
-	double ELEVATOR_DRIVING_POSITION = 3;
-	double ELEVATOR_PAPA_POSITION = 10;
-	double ELEVATOR_MID_POSITION = 24;
-	double ELEVATOR_RAISED_POSITION = 32;
-	double ELEVATOR_TOLERANCE = 0.1;
+	double ELEVATOR_DRIVING_POSITION = 2;
+	double ELEVATOR_PAPA_POSITION = 3.43;
+	double ELEVATOR_MID_POSITION = 22.94;
+	double ELEVATOR_RAISED_POSITION = 31.3;
+	double ELEVATOR_TOLERANCE = 0.2;
 
 	// Other stuff
-	double INTAKE_LBORK_EXTEND_TIME = 0.25; // Seconds
+	double INTAKE_LBORK_EXTEND_TIME = 1; // Seconds
 	double OUTTAKE_TIME = 0.5; // Seconds
 	double SUBSTATION_INTAKE_TIME = 3; // Seconds
 	double CREEPY_WAIT = 3; // Seconds

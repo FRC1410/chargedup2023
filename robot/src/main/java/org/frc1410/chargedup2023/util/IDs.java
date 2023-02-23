@@ -12,7 +12,7 @@ public interface IDs {
 	int ELEVATOR_LEFT_MOTOR_ID = 11;
 	int ELEVATOR_RIGHT_MOTOR_ID = 12;
 
-	int ELEVATOR_LIMIT_SWITCH_PORT = 1;
+	int ELEVATOR_LIMIT_SWITCH_PORT = 9;
 
 	int ELEVATOR_ENCODER_ID = 13;
 
@@ -28,8 +28,8 @@ public interface IDs {
 	int INTAKE_MOTOR_ID = 31;
 
 	// Intake pistons ID's
-	int INTAKE_FLIPPER_FORWARD_ID = 1; // 9
-	int INTAKE_FLIPPER_BACKWARD_ID = 4;
+	int INTAKE_FLIPPER_FORWARD_ID = 14;
+	int INTAKE_FLIPPER_BACKWARD_ID = 9;
 
 	int BLINKIN_PORT = 0;
 }

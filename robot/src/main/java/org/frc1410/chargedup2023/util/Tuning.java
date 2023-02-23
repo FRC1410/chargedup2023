@@ -27,6 +27,4 @@ public interface Tuning {
 	double ELEVATOR_KP = 3;
 	double ELEVATOR_KI = 0;
 	double ELEVATOR_KD = 0;
-
-	double ELEVATOR_MAX_OUTPUT = 6;
 }

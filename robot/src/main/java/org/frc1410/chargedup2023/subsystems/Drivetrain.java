@@ -13,6 +13,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -32,6 +33,7 @@ public class Drivetrain implements TickedSubsystem {
 	private final DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
 	private final DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
 	private final DoublePublisher voltagePub = NetworkTables.PublisherFactory(table, "Voltage", 0);
+	private final StringPublisher selectionPub = NetworkTables.PublisherFactory(table, "Scoring Pose", "");
 
 	private final CANSparkMax leftLeader = new CANSparkMax(DRIVETRAIN_LEFT_FRONT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax leftFollower = new CANSparkMax(DRIVETRAIN_LEFT_BACK_MOTOR_ID, MotorType.kBrushless);
@@ -83,6 +85,8 @@ public class Drivetrain implements TickedSubsystem {
 		xPub.set(poseEstimator.getEstimatedPosition().getX());
 		yPub.set(poseEstimator.getEstimatedPosition().getY());
 		voltagePub.set(RobotController.getBatteryVoltage());
+		if (ScoringPosition.targetPosition != null)
+			selectionPub.set(ScoringPosition.targetPosition.name());
 	}
 
 	public void triggerTankDrive(double left, double right, double triggerForwards, double triggerBackwards) {

@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -19,7 +20,8 @@ public class Elevator implements TickedSubsystem {
 
 	private final NetworkTableInstance instance = NetworkTableInstance.getDefault();
 	private final NetworkTable table = instance.getTable("Elevator");
-	DoublePublisher encoderPub = NetworkTables.PublisherFactory(table, "Encoder Value", 0);
+	private final DoublePublisher encoderPub = NetworkTables.PublisherFactory(table, "Encoder Value", 0);
+	private final BooleanPublisher limitPub = NetworkTables.PublisherFactory(table, "Limit Switch", false);
 
 	private final CANSparkMax leftMotor = new CANSparkMax(ELEVATOR_LEFT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax rightMotor = new CANSparkMax(ELEVATOR_RIGHT_MOTOR_ID, MotorType.kBrushless);
@@ -38,8 +40,8 @@ public class Elevator implements TickedSubsystem {
 		leftMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 		rightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-		leftMotor.setSmartCurrentLimit(10, 40);
-		rightMotor.setSmartCurrentLimit(10, 40);
+		leftMotor.setSmartCurrentLimit(10, 20);
+		rightMotor.setSmartCurrentLimit(10, 20);
 
 //		leftMotor.enableSoftLimit();
 
@@ -60,7 +62,7 @@ public class Elevator implements TickedSubsystem {
 	public double getEncoderValue() {
 //		return encoder.getSelectedSensorPosition() /* ELEVATOR_ENCODER_CONSTANT*/;
 		double encoderRevolutions = (leftMotor.getEncoder().getPosition() + rightMotor.getEncoder().getPosition()) / 2;
-		return encoderRevolutions * ELEVATOR_NEO_ENCODER_CONSTANT;
+		return -encoderRevolutions * ELEVATOR_NEO_ENCODER_CONSTANT;
 		// This method returns inches (elevator relative)
 	}
 
@@ -71,13 +73,13 @@ public class Elevator implements TickedSubsystem {
 	public void setEncoderValue(double value) {
 //		encoder.setSelectedSensorPosition(value / ELEVATOR_ENCODER_CONSTANT);
 		// The value input should be in inches so revolutions are set
-		leftMotor.getEncoder().setPosition(value / ELEVATOR_NEO_ENCODER_CONSTANT);
-		rightMotor.getEncoder().setPosition(value / ELEVATOR_NEO_ENCODER_CONSTANT);
+		leftMotor.getEncoder().setPosition(-value / ELEVATOR_NEO_ENCODER_CONSTANT);
+		rightMotor.getEncoder().setPosition(-value / ELEVATOR_NEO_ENCODER_CONSTANT);
 	}
 
 	@Override
 	public void periodic() {
 		encoderPub.set(getEncoderValue());
-		System.out.println("Elevator Encoder: " + getEncoderValue());
+		limitPub.set(getLimitSwitchValue());
 	}
 }

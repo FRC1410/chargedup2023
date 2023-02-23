@@ -33,7 +33,7 @@ public class MoveElevatorToPose extends CommandBase {
 
 	@Override
 	public void execute() {
-		elevator.setVolts(Math.min(pid.calculate(elevator.getEncoderValue()), ELEVATOR_MAX_OUTPUT));
+		elevator.setVolts(-pid.calculate(elevator.getEncoderValue()));
 	}
 
 	@Override
