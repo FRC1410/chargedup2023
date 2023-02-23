@@ -3,6 +3,8 @@ package org.frc1410.chargedup2023.util;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -24,7 +26,7 @@ import static org.frc1410.chargedup2023.auto.POIs.*;
 public interface Trajectories {
 
 	NetworkTableInstance instance = NetworkTableInstance.getDefault();
-	NetworkTable table = instance.getTable("Drivetrain");
+	NetworkTable table = instance.getTable("Trajectories");
 	DoublePublisher leftMeasurementPub = NetworkTables.PublisherFactory(table, "Left Measurement", 0);
 	DoublePublisher leftReferencePub = NetworkTables.PublisherFactory(table, "Left Desired", 0);
 	DoublePublisher rightMeasurementPub = NetworkTables.PublisherFactory(table, "Right Measurement", 0);
@@ -62,6 +64,13 @@ public interface Trajectories {
 			.setReversed(true)
 			.addConstraint(centripAccelConstraint);
 
+	public TrajectoryConfig reverseCentripOTFConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+			.setKinematics(KINEMATICS)
+			.addConstraint(voltageConstraint)
+			.setReversed(true)
+			.addConstraint(centripAccelConstraint)
+			.setStartVelocity(0);
+
 	SimpleMotorFeedforward realisticFeedforward = new SimpleMotorFeedforward(KS, KV, KA);
 	SimpleMotorFeedforward tunedFeedforward = new SimpleMotorFeedforward(KS_SLOW, KV_SLOW, KA_SLOW);
 
@@ -71,10 +80,7 @@ public interface Trajectories {
 	PIDController leftController = new PIDController(KP_VEL, 0, 0);
 	PIDController rightController = new PIDController(KP_VEL, 0, 0);
 
-	PIDController leftControllerSlow = new PIDController(KP_VEL_SLOW, 0, 0);
-	PIDController rightControllerSlow = new PIDController(KP_VEL_SLOW, 0, 0);
 
-	// THIS IS HERE
 	// THIS IS HERE
 	double totalTime = TrajectoryGenerator.generateTrajectory(
 			BARRIER_GAME_PIECE_FORWARD, List.of(BARRIER_GAME_PIECE_SCORE_MIDPOINT), BARRIER_COMMUNITY_SCORE,
@@ -154,14 +160,14 @@ public interface Trajectories {
 
 	static SequentialCommandGroup OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_CHARGING_STATION_FAR),
-				configCentripAccel), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				configCentripAccel), tunedFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
 	static SequentialCommandGroup BarrierScoreToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, BARRIER_CHARGING_STATION_COMMUNITY),
-				configCentripAccel), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				configCentripAccel), tunedFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 

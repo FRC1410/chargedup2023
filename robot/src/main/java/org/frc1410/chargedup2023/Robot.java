@@ -2,8 +2,10 @@ package org.frc1410.chargedup2023;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.*;
 import org.frc1410.chargedup2023.commands.DriveLooped;
+import org.frc1410.chargedup2023.commands.groups.OTFToPoint;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.*;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.Barrier2ConeEngage;
 import org.frc1410.chargedup2023.commands.groups.auto.outside.*;
@@ -12,8 +14,13 @@ import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
+import org.frc1410.framework.scheduler.task.LazyTask;
+import org.frc1410.framework.scheduler.task.Task;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
+import java.util.function.Supplier;
+
+import static edu.wpi.first.math.util.Units.inchesToMeters;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
@@ -59,7 +66,17 @@ public final class Robot extends PhaseDrivenRobot {
     @Override
     public void teleopSequence() {
         drivetrain.brakeMode();
-        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.RIGHT_X_AXIS, driverController.LEFT_TRIGGER, driverController.RIGHT_TRIGGER), TaskPersistence.GAMEPLAY);
+        scheduler.scheduleDefaultCommand(new DriveLooped(drivetrain, driverController.LEFT_Y_AXIS, driverController.RIGHT_Y_AXIS, driverController.B), TaskPersistence.EPHEMERAL);
+		driverController.B.whenPressed(
+				LazyTask.fromCommand(
+						() -> new OTFToPoint(
+								drivetrain,
+								new Translation2d(inchesToMeters(115), inchesToMeters(183.5)),
+								new Pose2d(inchesToMeters(75), inchesToMeters(152.5), new Rotation2d(0))
+						)
+				),
+				TaskPersistence.EPHEMERAL
+		);
     }
 
 

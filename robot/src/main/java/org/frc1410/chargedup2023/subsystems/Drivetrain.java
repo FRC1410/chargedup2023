@@ -7,6 +7,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -67,8 +69,13 @@ public class Drivetrain implements TickedSubsystem, Subsystem {
 	private boolean isInverted = false;
 	private boolean isArcadeDrive = true;
 
-	public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
-			new Rotation2d(), 0., 0., new Pose2d());
+	public final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(
+			KINEMATICS,
+			new Rotation2d(0),
+			0, 0, new Pose2d(0, 0, new Rotation2d(0)),
+			new MatBuilder<>(Nat.N3(), Nat.N1()).fill(STATE_X, STATE_Y, STATE_THETA),
+			new MatBuilder<>(Nat.N3(), Nat.N1()).fill(VISION_X, VISION_Y, VISION_THETA)
+	);
 
 
 	public Drivetrain() {

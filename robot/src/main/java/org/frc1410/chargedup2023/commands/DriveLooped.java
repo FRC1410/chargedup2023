@@ -3,23 +3,20 @@ package org.frc1410.chargedup2023.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.framework.control.Axis;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.framework.control.Button;
 
 public class DriveLooped extends CommandBase {
 
 	private final Drivetrain drivetrain;
 	private final Axis leftYAxis;
 	private final Axis rightYAxis;
-	private final Axis rightXAxis;
-	private final Axis triggerLeft;
-	private final Axis triggerRight;
+	private final Button b;
 
-	public DriveLooped(Drivetrain drivetrain, Axis leftYAxis, Axis rightYAxis, Axis rightXAxis, Axis triggerLeft, Axis triggerRight) {
+	public DriveLooped(Drivetrain drivetrain, Axis leftYAxis, Axis rightYAxis, Button b) {
 		this.drivetrain = drivetrain;
 		this.leftYAxis = leftYAxis;
 		this.rightYAxis = rightYAxis;
-		this.rightXAxis = rightXAxis;
-		this.triggerLeft = triggerLeft;
-		this.triggerRight = triggerRight;
+		this.b = b;
 
 		addRequirements(drivetrain);
 	}

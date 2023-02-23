@@ -105,7 +105,7 @@ public class Loop {
 
 			case EXECUTING -> {
 				job.execute();
-
+				
 				if (job.isFinished()) {
 					handle.state = TaskState.FLAGGED_COMPLETION;
 				}

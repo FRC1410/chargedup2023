@@ -7,13 +7,20 @@ import edu.wpi.first.math.numbers.N7;
 
 public interface Tuning {
     // Ramsete
-    double KB = 2.0; //3.0
-    double KZ = 0.7; //2.0
+    double KB = 2.0;
+    double KZ = 0.7;
 
-    double KP_VEL = 0.25;
-	double KP_VEL_SLOW = 0.25;
+    double KP_VEL = 0.0; // 175.8, 176.1, 175.97,
     double MAX_SPEED = 3.56; // 3.84 Theoretical Free Speed
     double MAX_ACCEL = 4.2; // Higher farther from top speed
+
+	double STATE_X = 0.01;
+	double STATE_Y = 0.01;
+	double STATE_THETA = 0.01;
+
+	double VISION_X = 0.0001;
+	double VISION_Y = 0.0001;
+	double VISION_THETA = 0.0001;
 
 //    Matrix<N7, N1> NOISE = VecBuilder.fill(0.005, 0.005, 0.005, 0.5, 0.5, 0.025, 0.025); // Too high for IRL?
 //    Matrix<N7, N1> NOISE = VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005);
