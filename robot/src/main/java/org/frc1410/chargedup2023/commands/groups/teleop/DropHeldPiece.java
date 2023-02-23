@@ -26,7 +26,7 @@ public class DropHeldPiece extends SequentialCommandGroup {
 				new ParallelRaceGroup(
 						papa
 								? new RunLBorkPapa(lBork, true)
-								: new RunLBorkYankee(lBork, false),
+								: new RunLBorkYankee(lBork, true),
 						new WaitCommand(OUTTAKE_TIME)
 				),
 				new MoveElevatorToPose(elevator, ELEVATOR_DRIVING_POSITION),
