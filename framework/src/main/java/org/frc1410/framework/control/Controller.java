@@ -1,6 +1,7 @@
 package org.frc1410.framework.control;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -59,6 +60,7 @@ public class Controller {
 	}
 
 	public void rumble(long durationMillis) {
+		backingController.getPOV();
 		var timeout = System.currentTimeMillis() + durationMillis;
 		scheduler.schedule(new RumbleTask(this, timeout), TaskPersistence.GAMEPLAY, Observer.NO_OP, LockPriority.NULL);
 
