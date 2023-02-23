@@ -60,7 +60,6 @@ public class Controller {
 	}
 
 	public void rumble(long durationMillis) {
-		backingController.getPOV();
 		var timeout = System.currentTimeMillis() + durationMillis;
 		scheduler.schedule(new RumbleTask(this, timeout), TaskPersistence.GAMEPLAY, Observer.NO_OP, LockPriority.NULL);
 
