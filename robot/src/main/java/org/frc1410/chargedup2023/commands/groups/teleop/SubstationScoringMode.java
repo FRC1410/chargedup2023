@@ -15,7 +15,7 @@ public class SubstationScoringMode extends SequentialCommandGroup {
 	public SubstationScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler, boolean rightBumper) {
 		addCommands(
 				new ParallelCommandGroup(
-						new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false),
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_SUBSTATION_POSITION, false),
 						new GoToAprilTag(
 							drivetrain,
 							camera,

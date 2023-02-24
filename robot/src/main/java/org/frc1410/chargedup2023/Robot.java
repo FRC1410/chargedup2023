@@ -19,10 +19,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
 import org.frc1410.chargedup2023.commands.actions.intake.ToggleIntake;
-import org.frc1410.chargedup2023.commands.groups.teleop.YankeeIntakePosition;
-import org.frc1410.chargedup2023.commands.groups.teleop.PapaIntakePosition;
-import org.frc1410.chargedup2023.commands.groups.teleop.DropHeldPiece;
-import org.frc1410.chargedup2023.commands.groups.teleop.IdleState;
+import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
 import org.frc1410.chargedup2023.commands.looped.UpdatePoseEstimation;
@@ -31,22 +28,22 @@ import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
+import org.frc1410.framework.scheduler.task.LazyTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
 
-	private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER);
-	private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
+	private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER, 0.12);
+	private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER, 0.25);
 
 	private final Drivetrain drivetrain = subsystems.track(new Drivetrain());
-//	private final ExternalCamera camera = subsystems.track(new ExternalCamera());
+	private final ExternalCamera camera = subsystems.track(new ExternalCamera());
 	private final Elevator elevator = subsystems.track(new Elevator());
 	private final Intake intake = new Intake();
 	private final LBork lBork = new LBork();
-
-//	private final LightBar lightBar = new LightBar();
+	private final LightBar lightBar = new LightBar();
 
 	private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
 	private final NetworkTable table = nt.getTable("Auto");
@@ -70,8 +67,9 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void teleopSequence() {
-		drivetrain.brakeMode();
-//		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
+		drivetrain.zeroHeading();
+		drivetrain.coastMode();
+		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
 
 		scheduler.scheduleDefaultCommand(
 				new DriveLooped(
@@ -83,7 +81,7 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.GAMEPLAY
 		);
 
-		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
+//		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
 
 //		driverController.A.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_DOWN_POSITION), TaskPersistence.EPHEMERAL);
 //		driverController.B.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_PAPA_POSITION), TaskPersistence.EPHEMERAL);
@@ -165,15 +163,15 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-		operatorController.LEFT_BUMPER.whenPressed(
-				new DropHeldPiece(
-						intake,
-						lBork,
-						elevator,
-						true
-				),
-				TaskPersistence.EPHEMERAL
-		);
+//		operatorController.LEFT_BUMPER.whenPressed(
+//				new DropHeldPiece(
+//						intake,
+//						lBork,
+//						elevator,
+//						true
+//				),
+//				TaskPersistence.EPHEMERAL
+//		);
 //
 //		operatorController.X.whenPressed(
 //				new PapaIntakePosition(
@@ -185,15 +183,19 @@ public final class Robot extends PhaseDrivenRobot {
 //				TaskPersistence.EPHEMERAL
 //		);
 //
-//		operatorController.B.whenPressed(
-//				new YankeeIntakePosition(
-//						intake,
-//						lBork,
-//						elevator,
-//						lightBar
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
+		operatorController.LEFT_BUMPER.whenPressed(
+				LazyTask.fromCommand(
+						() -> new HybridScoringMode(
+								drivetrain,
+								camera,
+								lBork,
+								elevator,
+								intake,
+								scheduler
+						)
+				),
+				TaskPersistence.EPHEMERAL
+		);
 //
 //		operatorController.Y.whenPressed(
 //				new IdleState(

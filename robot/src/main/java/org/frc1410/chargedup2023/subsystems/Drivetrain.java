@@ -75,18 +75,17 @@ public class Drivetrain implements TickedSubsystem {
 	public void periodic() {
 		poseEstimator.update(
 				new Rotation2d(Units.degreesToRadians(gyro.getAngle())),
-				(leftLeader.getEncoder().getPosition() + leftFollower.getEncoder().getPosition()) / 2 * DRIVETRAIN_ENCODER_CONSTANT,
-				(rightLeader.getEncoder().getPosition() + rightFollower.getEncoder().getPosition()) / 2 * DRIVETRAIN_ENCODER_CONSTANT
+				-(leftLeader.getEncoder().getPosition() + leftFollower.getEncoder().getPosition()) / 2 * DRIVETRAIN_ENCODER_CONSTANT,
+				-(rightLeader.getEncoder().getPosition() + rightFollower.getEncoder().getPosition()) / 2 * DRIVETRAIN_ENCODER_CONSTANT
 		);
 		drive.feed();
 
 		// NetworkTables updating
 		headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees());
-		xPub.set(poseEstimator.getEstimatedPosition().getX());
-		yPub.set(poseEstimator.getEstimatedPosition().getY());
+		xPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getX()));
+		yPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getY()));
 		voltagePub.set(RobotController.getBatteryVoltage());
-		if (ScoringPosition.targetPosition != null)
-			selectionPub.set(ScoringPosition.targetPosition.name());
+		selectionPub.set(ScoringPosition.targetPosition.name());
 	}
 
 	public void triggerTankDrive(double left, double right, double triggerForwards, double triggerBackwards) {

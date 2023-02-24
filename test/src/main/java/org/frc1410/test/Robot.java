@@ -21,8 +21,8 @@ import static org.frc1410.test.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
 
-    private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER);
-    private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER);
+    private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER, 0.12);
+    private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER, 0.25);
 
     private final ExternalCamera camera = subsystems.track(new ExternalCamera());
     private final Drivetrain drivetrain = subsystems.track(new Drivetrain());

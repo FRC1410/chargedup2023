@@ -32,7 +32,7 @@ public class ExternalCamera implements TickedSubsystem {
 			camera,
 			new Transform3d(
 					new Translation3d(0.18, 0.23, 0.7239),
-					new Rotation3d(0, -Units.degreesToRadians(18), 0))
+					new Rotation3d(0, 0, 0))
 	);
 
 	private Pose2d pose = new Pose2d();

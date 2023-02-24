@@ -15,7 +15,9 @@ import org.frc1410.chargedup2023.subsystems.LightBar;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class IdleState extends SequentialCommandGroup {
-	public IdleState(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
+	public
+
+	IdleState(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
 		super(
 				new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_STATE)),
 				new ExtendIntake(intake),

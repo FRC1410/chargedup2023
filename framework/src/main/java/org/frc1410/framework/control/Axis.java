@@ -2,8 +2,6 @@ package org.frc1410.framework.control;
 
 public class Axis {
 
-	private static final double DEADZONE = 0.12;
-
 	private final Controller controller;
 	private final int id;
 
@@ -20,10 +18,10 @@ public class Axis {
 		double raw = getRaw();
 		double mag = Math.abs(raw);
 
-		if (mag <= DEADZONE) {
+		if (mag <= controller.deadzone) {
 			return 0;
 		}
 
-		return ((mag - DEADZONE) / (1 - DEADZONE)) * (raw / mag);
+		return ((mag - controller.deadzone) / (1 - controller.deadzone)) * (raw / mag);
 	}
 }

@@ -27,7 +27,7 @@ public interface Constants {
 		public final int x;
 		public final int y;
 
-		public static ScoringPosition targetPosition;
+		public static ScoringPosition targetPosition = HYBRID_MIDDLE;
 
 		ScoringPosition(int x, int y) {
 			this.x = x;
@@ -67,7 +67,7 @@ public interface Constants {
 	double LBORK_YANKEE_INTAKE_SPEED = 0.3; // 0.6
 	double LBORK_YANKEE_OUTTAKE_SPEED = -1; // -0.3
 
-	double LBORK_PAPA_INTAKE_SPEED = 1; // 0.6
+	double LBORK_PAPA_INTAKE_SPEED = 0.7; // 0.6
 	double LBORK_PAPA_OUTTAKE_SPEED = -0.5; // -0.3
 
 	// AprilTags & Vision
@@ -88,10 +88,11 @@ public interface Constants {
 	double ELEVATOR_NEO_ENCODER_CONSTANT = 0.0916666666667;
 
 	double ELEVATOR_DOWN_POSITION = 0;
-	double ELEVATOR_DRIVING_POSITION = 2;
-	double ELEVATOR_PAPA_POSITION = 3.43;
-	double ELEVATOR_MID_POSITION = 22.94;
-	double ELEVATOR_RAISED_POSITION = 31.3;
+	double ELEVATOR_DRIVING_POSITION = 0.4;
+	double ELEVATOR_PAPA_POSITION = 3.21;
+	double ELEVATOR_MID_POSITION = 23;
+	double ELEVATOR_RAISED_POSITION = 31.5;
+	double ELEVATOR_SUBSTATION_POSITION = 27.36;
 	double ELEVATOR_TOLERANCE = 0.2;
 
 	// Other stuff
