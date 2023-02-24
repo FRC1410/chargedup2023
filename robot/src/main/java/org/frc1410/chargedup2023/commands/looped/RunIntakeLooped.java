@@ -5,6 +5,9 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.framework.control.Axis;
 
+import static org.frc1410.chargedup2023.util.Constants.LBORK_PAPA_INTAKE_SPEED;
+import static org.frc1410.chargedup2023.util.Constants.LBORK_PAPA_OUTTAKE_SPEED;
+
 
 public class RunIntakeLooped extends CommandBase {
 	private final Intake intake;
@@ -24,7 +27,13 @@ public class RunIntakeLooped extends CommandBase {
 	@Override
 	public void execute() {
 		intake.setSpeed(leftTrigger.get() - rightTrigger.get());
-//		lBork.setRollerSpeeds(leftTrigger.get() - rightTrigger.get(), -leftTrigger.get() - rightTrigger.get());
+		if (rightTrigger.get() > leftTrigger.get()) {
+			lBork.setRollerSpeeds(LBORK_PAPA_INTAKE_SPEED, LBORK_PAPA_INTAKE_SPEED);
+		} else if (rightTrigger.get() < leftTrigger.get()) {
+			lBork.setRollerSpeeds(LBORK_PAPA_OUTTAKE_SPEED, LBORK_PAPA_OUTTAKE_SPEED);
+		} else {
+			lBork.setRollerSpeeds(0, 0);
+		}
 	}
 
 	@Override

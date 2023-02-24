@@ -76,21 +76,10 @@ public final class Robot extends PhaseDrivenRobot {
 						drivetrain,
 						driverController.LEFT_Y_AXIS,
 						driverController.RIGHT_Y_AXIS,
-						driverController.RIGHT_TRIGGER,
-						driverController.LEFT_TRIGGER),
+						driverController.LEFT_TRIGGER,
+						driverController.RIGHT_TRIGGER),
 				TaskPersistence.GAMEPLAY
 		);
-
-//		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
-
-//		driverController.A.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_DOWN_POSITION), TaskPersistence.EPHEMERAL);
-//		driverController.B.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_PAPA_POSITION), TaskPersistence.EPHEMERAL);
-		driverController.X.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_DRIVING_POSITION), TaskPersistence.EPHEMERAL);
-		driverController.Y.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_MID_POSITION), TaskPersistence.EPHEMERAL);
-		driverController.RIGHT_BUMPER.whenPressed(new MoveElevatorToPose(elevator, ELEVATOR_RAISED_POSITION), TaskPersistence.EPHEMERAL);
-
-		driverController.LEFT_BUMPER.whenPressed(new InstantCommand(() -> {elevator.setEncoderValue(0);}), TaskPersistence.EPHEMERAL);
-		driverController.BACK.whenPressed(new ElevatorHomingSequence(elevator), TaskPersistence.EPHEMERAL);
 
 		scheduler.scheduleDefaultCommand(
 				new RunIntakeLooped(
@@ -98,63 +87,41 @@ public final class Robot extends PhaseDrivenRobot {
 						lBork,
 						operatorController.LEFT_TRIGGER,
 						operatorController.RIGHT_TRIGGER),
+				TaskPersistence.GAMEPLAY
+		);
+
+		driverController.LEFT_BUMPER.whenPressed(
+				new LookForAprilTag(
+						driverController.LEFT_BUMPER,
+						drivetrain,
+						camera,
+						lBork,
+						elevator,
+						intake,
+						scheduler,
+						false
+				),
 				TaskPersistence.EPHEMERAL
 		);
-//
-//		driverController.LEFT_BUMPER.whenPressed(
-//				new LookForAprilTag(
-//						driverController.LEFT_BUMPER,
-//						drivetrain,
-//						camera,
-//						lBork,
-//						elevator,
-//						intake,
-//						scheduler,
-//						false
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-//
-//		driverController.RIGHT_BUMPER.whenPressed(
-//				new LookForAprilTag(
-//						driverController.RIGHT_BUMPER,
-//						drivetrain,
-//						camera,
-//						lBork,
-//						elevator,
-//						intake,
-//						scheduler,
-//						true
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
+
+		driverController.RIGHT_BUMPER.whenPressed(
+				new LookForAprilTag(
+						driverController.RIGHT_BUMPER,
+						drivetrain,
+						camera,
+						lBork,
+						elevator,
+						intake,
+						scheduler,
+						true
+				),
+				TaskPersistence.EPHEMERAL
+		);
 
 		driverController.A.whenPressed(
 				new RetractIntake(intake),
 				TaskPersistence.EPHEMERAL
 		);
-
-		driverController.B.whenPressed(
-				new ExtendIntake(intake),
-				TaskPersistence.EPHEMERAL
-		);
-
-		operatorController.A.whenPressed(
-				new RetractLBork(lBork),
-				TaskPersistence.EPHEMERAL
-		);
-
-		operatorController.B.whenPressed(
-				new ExtendLBork(lBork),
-				TaskPersistence.EPHEMERAL
-		);
-		// TEST CONTROLS:
-//		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
-
-		operatorController.Y.whileHeld(new RunLBorkYankee(lBork, false), TaskPersistence.EPHEMERAL);
-		operatorController.X.whileHeld(new RunLBorkYankee(lBork, true), TaskPersistence.EPHEMERAL);
-		operatorController.START.whileHeld(new RunLBorkPapa(lBork, false), TaskPersistence.EPHEMERAL);
-		operatorController.BACK.whileHeld(new RunLBorkPapa(lBork, true), TaskPersistence.EPHEMERAL);
 
 		operatorController.RIGHT_BUMPER.whenPressed(
 				new CaptureScoringPosition(
@@ -163,54 +130,55 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-//		operatorController.LEFT_BUMPER.whenPressed(
-//				new DropHeldPiece(
-//						intake,
-//						lBork,
-//						elevator,
-//						true
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-//
-//		operatorController.X.whenPressed(
-//				new PapaIntakePosition(
-//						intake,
-//						lBork,
-//						elevator,
-//						lightBar
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-//
 		operatorController.LEFT_BUMPER.whenPressed(
-				LazyTask.fromCommand(
-						() -> new HybridScoringMode(
-								drivetrain,
-								camera,
-								lBork,
-								elevator,
-								intake,
-								scheduler
-						)
+				new DropHeldPiece(
+						intake,
+						lBork,
+						elevator,
+						true
 				),
 				TaskPersistence.EPHEMERAL
 		);
-//
-//		operatorController.Y.whenPressed(
-//				new IdleState(
-//						intake,
-//						lBork,
-//						elevator,
-//						lightBar
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-//
-//		operatorController.BACK.whenPressed(
-//				new ResetDrivetrain(drivetrain, camera),
-//				TaskPersistence.EPHEMERAL
-//		);
+
+		operatorController.X.whenPressed(
+				new PapaIntakePosition(
+						intake,
+						lBork,
+						elevator,
+						lightBar
+				),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.B.whenPressed(
+				new YankeeIntakePosition(
+						intake,
+						lBork,
+						elevator,
+						lightBar
+				),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.Y.whenPressed(
+				new IdleState(
+						intake,
+						lBork,
+						elevator,
+						lightBar
+				),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.A.whenPressed(
+				new RetractIntake(intake),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.BACK.whenPressed(
+				new ResetDrivetrain(drivetrain, camera),
+				TaskPersistence.EPHEMERAL
+		);
 	}
 
 	@Override
