@@ -6,6 +6,7 @@ import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
 import java.util.function.Supplier;
 
 public final class LazyTask implements Task {
@@ -33,6 +34,7 @@ public final class LazyTask implements Task {
 
 	@Override
 	public void execute() {
+		if (wrapped == null) return;
 		wrapped.execute();
 	}
 
@@ -43,7 +45,14 @@ public final class LazyTask implements Task {
 
 	@Override
 	public void end(boolean interrupted) {
+		if (wrapped == null) return;
+
 		wrapped.end(interrupted);
 		wrapped = null;
+	}
+
+	@Override
+	public @NotNull Set<? extends @NotNull Object> getLockKeys() {
+		return wrapped.getLockKeys();
 	}
 }
