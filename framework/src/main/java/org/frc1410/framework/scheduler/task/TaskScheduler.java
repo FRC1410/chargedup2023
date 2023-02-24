@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * The class responsible for orchestrating tasks. The scheduler passes
@@ -55,6 +56,11 @@ public final class TaskScheduler {
 
 		schedule(task, loop);
 		return task;
+	}
+
+	public @NotNull BoundTask schedule(@NotNull Supplier<@NotNull Task> jobSupplier, @NotNull TaskPersistence persistence, @NotNull Observer observer, @MagicConstant(valuesFromClass = LockPriority.class) int lockPriority, @NotNull Loop loop) {
+		var deferJob = new DeferredTask(this, jobSupplier, persistence, observer, lockPriority);
+		return schedule(deferJob, persistence, observer, LockPriority.NULL);
 	}
 
 
