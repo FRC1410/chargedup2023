@@ -168,7 +168,6 @@ public class Drivetrain implements TickedSubsystem {
 		return gyro.getPitch();
 	}
 
-
 	public boolean hasBeenReset() {
 		return hasBeenReset;
 	}
