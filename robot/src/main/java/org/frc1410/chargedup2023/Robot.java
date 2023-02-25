@@ -63,7 +63,6 @@ public final class Robot extends PhaseDrivenRobot {
 	public void autonomousSequence() {
 		drivetrain.zeroHeading();
 		drivetrain.brakeMode();
-		drivetrain.resetPoseEstimation(new Pose2d());
 
 		NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
 		String autoProfile = autoSubscriber.get();
@@ -73,7 +72,6 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void teleopSequence() {
-		drivetrain.zeroHeading();
 		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
 
@@ -126,7 +124,6 @@ public final class Robot extends PhaseDrivenRobot {
 
 		driverController.A.whenPressed(
 				new PanicMode(intake, elevator),
-//				new RetractIntake(intake),
 				TaskPersistence.EPHEMERAL
 		);
 
@@ -187,9 +184,7 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-		//Panic Button
 		operatorController.A.whenPressed(
-//				new RetractIntake(intake),
 				new PanicMode(intake, elevator),
 				TaskPersistence.EPHEMERAL
 		);
@@ -207,7 +202,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void testSequence() {
-//		drivetrain.coastMode();
+		drivetrain.coastMode();
 
 //		scheduler.scheduleDefaultCommand(
 //				new DriveLooped(
