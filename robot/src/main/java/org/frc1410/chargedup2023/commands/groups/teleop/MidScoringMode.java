@@ -17,6 +17,7 @@ public class MidScoringMode extends SequentialCommandGroup {
 
 	public MidScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
 		System.out.println("mid running");
+		addRequirements(intake, lbork, elevator);
 		addCommands(
 				new ParallelCommandGroup(
 						new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false)

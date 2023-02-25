@@ -13,6 +13,7 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class SubstationScoringMode extends SequentialCommandGroup {
 	public SubstationScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler, boolean rightBumper) {
+		addRequirements(intake, lbork, elevator);
 		addCommands(
 				new ParallelCommandGroup(
 						new MoveElevator(lbork, elevator, intake, ELEVATOR_SUBSTATION_POSITION, false)

@@ -19,6 +19,7 @@ public class HighScoringMode extends SequentialCommandGroup {
 	public HighScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
 		// THE ELEVATOR MIGHT NEED TO GO TO MID FOR HIGH CUBE
 		System.out.println("high running");
+		addRequirements(intake, lbork, elevator);
 		addCommands(
 				new ParallelCommandGroup(
 						new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true)

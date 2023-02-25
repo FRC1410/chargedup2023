@@ -18,6 +18,7 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class DropHeldPiece extends SequentialCommandGroup {
 	public DropHeldPiece(Intake intake, LBork lBork, Elevator elevator, boolean papa) {
+		addRequirements(intake, lBork, elevator);
 		addCommands(
 				new MoveElevator(lBork, elevator, intake, ELEVATOR_MID_POSITION, false),
 				new ParallelRaceGroup(

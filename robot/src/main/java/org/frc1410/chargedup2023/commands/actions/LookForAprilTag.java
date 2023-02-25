@@ -8,6 +8,7 @@ import org.frc1410.chargedup2023.commands.groups.teleop.MidScoringMode;
 import org.frc1410.chargedup2023.commands.groups.teleop.SubstationScoringMode;
 import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.framework.control.Button;
+import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.control.observer.WhileHeldObserver;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 import org.frc1410.framework.scheduler.task.TaskScheduler;
@@ -20,7 +21,7 @@ import static org.frc1410.chargedup2023.util.Constants.SUBSTATION_TAGS;
 
 
 public class LookForAprilTag extends CommandBase {
-	
+	private final Controller controller;
 	private final Button button;
 	private final Drivetrain drivetrain;
 	private final ExternalCamera camera;
@@ -30,7 +31,8 @@ public class LookForAprilTag extends CommandBase {
 	private final TaskScheduler scheduler;
 	private final boolean rightBumper;
 
-	public LookForAprilTag(Button button, Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler, boolean rightBumper) {
+	public LookForAprilTag(Controller controller, Button button, Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler, boolean rightBumper) {
+		this.controller = controller;
 		this.button = button;
 		this.drivetrain = drivetrain;
 		this.camera = camera;
@@ -45,6 +47,7 @@ public class LookForAprilTag extends CommandBase {
 	public void initialize() {
 		camera.getTargetLocation().ifPresent(targetPose -> {
 			var observer = new WhileHeldObserver(button);
+			controller.rumble(1);
 
 			if (!drivetrain.hasBeenReset()) {
 				camera.getEstimatorPose().ifPresent(pose -> drivetrain.resetPoseEstimation(

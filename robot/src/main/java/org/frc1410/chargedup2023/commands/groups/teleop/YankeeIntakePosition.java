@@ -18,7 +18,8 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class YankeeIntakePosition extends SequentialCommandGroup {
 	public YankeeIntakePosition(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
-		super(
+		addRequirements(intake, lBork, elevator);
+		addCommands(
 				new InstantCommand(() -> lightBar.set(LightBar.Profile.YANKEE_PICKUP)),
 				new MoveElevator(lBork, elevator, intake, ELEVATOR_SUBSTATION_POSITION, false),
 				new RetractIntake(intake)

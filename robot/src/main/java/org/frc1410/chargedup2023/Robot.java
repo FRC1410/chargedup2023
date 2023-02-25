@@ -78,8 +78,8 @@ public final class Robot extends PhaseDrivenRobot {
 		scheduler.scheduleDefaultCommand(
 				new DriveLooped(
 						drivetrain,
-						driverController.RIGHT_Y_AXIS,
 						driverController.LEFT_Y_AXIS,
+						driverController.RIGHT_Y_AXIS,
 						driverController.RIGHT_TRIGGER,
 						driverController.LEFT_TRIGGER),
 				TaskPersistence.GAMEPLAY
@@ -94,8 +94,9 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.GAMEPLAY
 		);
 
-		driverController.LEFT_BUMPER.whenPressed(
+		driverController.LEFT_BUMPER.whileHeld(
 				new LookForAprilTag(
+						driverController,
 						driverController.LEFT_BUMPER,
 						drivetrain,
 						camera,
@@ -108,8 +109,9 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-		driverController.RIGHT_BUMPER.whenPressed(
+		driverController.RIGHT_BUMPER.whileHeld(
 				new LookForAprilTag(
+						driverController,
 						driverController.RIGHT_BUMPER,
 						drivetrain,
 						camera,
@@ -218,6 +220,10 @@ public final class Robot extends PhaseDrivenRobot {
 //
 //		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
 //
+		operatorController.A.whenPressed(new ExtendLBork(lBork), TaskPersistence.EPHEMERAL);
+		operatorController.B.whenPressed(new RetractLBork(lBork), TaskPersistence.EPHEMERAL);
+		operatorController.X.whenPressed(new ExtendIntake(intake), TaskPersistence.EPHEMERAL);
+		operatorController.Y.whenPressed(new RetractIntake(intake), TaskPersistence.EPHEMERAL);
 		operatorController.RIGHT_BUMPER.whenPressed(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
 //
 //		operatorController.Y.whileHeld(new RunLBorkYankee(lBork, false), TaskPersistence.EPHEMERAL);
