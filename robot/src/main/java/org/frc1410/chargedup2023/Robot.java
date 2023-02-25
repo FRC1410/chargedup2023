@@ -125,7 +125,18 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 
 		driverController.A.whenPressed(
-				new RetractIntake(intake),
+				new PanicMode(intake, elevator),
+//				new RetractIntake(intake),
+				TaskPersistence.EPHEMERAL
+		);
+
+		driverController.Y.whileHeld(
+				new RunLBorkYankee(lBork, true),
+				TaskPersistence.EPHEMERAL
+		);
+
+		driverController.X.whileHeld(
+				new RunLBorkPapa(lBork, true),
 				TaskPersistence.EPHEMERAL
 		);
 
@@ -176,20 +187,22 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
+		//Panic Button
 		operatorController.A.whenPressed(
-				new RetractIntake(intake),
+//				new RetractIntake(intake),
+				new PanicMode(intake, elevator),
 				TaskPersistence.EPHEMERAL
 		);
 
-		operatorController.START.whenPressed(
-				new InstantCommand(() -> drivetrain.resetPoseEstimation(new Pose2d())),
-				TaskPersistence.EPHEMERAL
-		);
+//		operatorController.START.whenPressed(
+//				new InstantCommand(() -> drivetrain.resetPoseEstimation(new Pose2d())),
+//				TaskPersistence.EPHEMERAL
+//		);
 
-		operatorController.BACK.whenPressed(
-				new ResetDrivetrain(drivetrain, camera),
-				TaskPersistence.EPHEMERAL
-		);
+//		operatorController.BACK.whenPressed(
+//				new ResetDrivetrain(drivetrain, camera),
+//				TaskPersistence.EPHEMERAL
+//		);
 	}
 
 	@Override

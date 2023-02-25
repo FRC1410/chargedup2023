@@ -26,7 +26,12 @@ public class RunIntakeLooped extends CommandBase {
 
 	@Override
 	public void execute() {
-		intake.setSpeed(leftTrigger.get() - rightTrigger.get());
+		if (!intake.isRetracted()) {
+			intake.setSpeed(leftTrigger.get() - rightTrigger.get());
+		} else {
+			intake.setSpeed(0);
+		}
+
 		if (rightTrigger.get() > leftTrigger.get()) {
 			lBork.setRollerSpeeds(LBORK_PAPA_INTAKE_SPEED, LBORK_PAPA_INTAKE_SPEED);
 		} else if (rightTrigger.get() < leftTrigger.get()) {

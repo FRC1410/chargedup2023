@@ -24,11 +24,11 @@ public class SubstationScoringMode extends SequentialCommandGroup {
 //								: GoToAprilTag.Node.LEFT_SUBSTATION,
 //							scheduler
 //						)
-				),
-				new ParallelRaceGroup(
-						new RunLBorkYankee(lbork, false),
-						new WaitCommand(SUBSTATION_INTAKE_TIME)
 				)
+//				new ParallelRaceGroup(
+//						new RunLBorkYankee(lbork, false),
+//						new WaitCommand(SUBSTATION_INTAKE_TIME)
+//				)
 		);
 	}
 }

@@ -30,13 +30,13 @@ public class MidScoringMode extends SequentialCommandGroup {
 //								},
 //								scheduler
 //						)
-				),
-				new ParallelRaceGroup(
-						targetPosition.equals(MIDDLE_PAPA)
-								? new RunLBorkPapa(lbork, true)
-								: new RunLBorkYankee(lbork, true),
-						new WaitCommand(RUN_LBORK_SCORING_TIME)
 				)
+//				new ParallelRaceGroup(
+//						targetPosition.equals(MIDDLE_PAPA)
+//								? new RunLBorkPapa(lbork, true)
+//								: new RunLBorkYankee(lbork, true),
+//						new WaitCommand(RUN_LBORK_SCORING_TIME)
+//				)
 		);
 	}
 }

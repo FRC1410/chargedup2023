@@ -14,6 +14,7 @@ import org.frc1410.framework.scheduler.task.TaskScheduler;
 import org.frc1410.framework.scheduler.task.impl.CommandTask;
 import org.frc1410.framework.scheduler.task.lock.LockPriority;
 
+import static org.frc1410.chargedup2023.util.Constants.SCORING_TAGS;
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.targetPosition;
 import static org.frc1410.chargedup2023.util.Constants.SUBSTATION_TAGS;
 
@@ -72,7 +73,7 @@ public class LookForAprilTag extends CommandBase {
 					observer,
 					LockPriority.HIGH
 				);
-			} else {
+			} else if (SCORING_TAGS.contains(camera.getTarget().getFiducialId())) {
 				scheduler.schedule(
 					new CommandTask(
 							switch (targetPosition) {
