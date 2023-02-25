@@ -103,7 +103,7 @@ public interface Constants {
 	double ELEVATOR_TOLERANCE = 0.2;
 
 	// Other stuff
-	double INTAKE_LBORK_EXTEND_TIME = 0.5; // Seconds
+	double INTAKE_LBORK_EXTEND_TIME = 1; // Seconds
 	double OUTTAKE_TIME = 0.5; // Seconds
 	double SUBSTATION_INTAKE_TIME = 3; // Seconds
 	double CREEPY_WAIT = 3; // Seconds

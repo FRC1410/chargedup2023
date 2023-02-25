@@ -16,6 +16,7 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 public class MidScoringMode extends SequentialCommandGroup {
 
 	public MidScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
+		System.out.println("mid running");
 		addCommands(
 				new ParallelCommandGroup(
 						new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false)

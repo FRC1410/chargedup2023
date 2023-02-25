@@ -16,6 +16,7 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class HybridScoringMode extends SequentialCommandGroup {
 	public HybridScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
+		System.out.println("hybrid running");
 		addCommands(
 				new ExtendIntake(intake),
 				new ParallelCommandGroup(

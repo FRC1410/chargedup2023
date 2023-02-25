@@ -50,8 +50,8 @@ public final class Robot extends PhaseDrivenRobot {
 	private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
 	private final NetworkTable table = nt.getTable("Auto");
 
-	private final AutoSelector autoSelector = new AutoSelector()
-			.add("Tax", () -> new taxiii(drivetrain));
+	private final AutoSelector autoSelector = new AutoSelector();
+//			.add("Tax", () -> new taxiii(drivetrain));
 
 
 	private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
@@ -78,8 +78,8 @@ public final class Robot extends PhaseDrivenRobot {
 		scheduler.scheduleDefaultCommand(
 				new DriveLooped(
 						drivetrain,
-						driverController.LEFT_Y_AXIS,
 						driverController.RIGHT_Y_AXIS,
+						driverController.LEFT_Y_AXIS,
 						driverController.RIGHT_TRIGGER,
 						driverController.LEFT_TRIGGER),
 				TaskPersistence.GAMEPLAY
@@ -189,10 +189,10 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-//		operatorController.START.whenPressed(
-//				new InstantCommand(() -> drivetrain.resetPoseEstimation(new Pose2d())),
-//				TaskPersistence.EPHEMERAL
-//		);
+		operatorController.START.whenPressed(
+				new HomeElevator(intake, lBork, elevator),
+				TaskPersistence.EPHEMERAL
+		);
 
 //		operatorController.BACK.whenPressed(
 //				new ResetDrivetrain(drivetrain, camera),
@@ -214,8 +214,8 @@ public final class Robot extends PhaseDrivenRobot {
 //				TaskPersistence.GAMEPLAY
 //		);
 
-//		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
-
+		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
+//
 //		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
 //
 		operatorController.RIGHT_BUMPER.whenPressed(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
