@@ -30,12 +30,26 @@ public class OTFToPoint extends SequentialCommandGroup {
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
-						List.of(drivetrain.getPoseEstimation(), 
-								tagPose.transformBy(
-										new Transform2d(
-												offsetPose.getTranslation(),
-												tagPose.getRotation()
-										)
+						List.of(drivetrain.getPoseEstimation(),
+								new Pose2d(
+										tagPose.transformBy(
+												new Transform2d(
+														offsetPose.getTranslation(),
+														Rotation2d.fromDegrees(180)
+												)
+										).getX(),
+										FIELD_WIDTH - tagPose.transformBy(
+												new Transform2d(
+														offsetPose.getTranslation(),
+														Rotation2d.fromDegrees(180)
+												)
+										).getY(),
+										tagPose.transformBy(
+												new Transform2d(
+														offsetPose.getTranslation(),
+														Rotation2d.fromDegrees(180)
+												)
+										).getRotation()
 								)
 						),
 						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
@@ -73,11 +87,25 @@ public class OTFToPoint extends SequentialCommandGroup {
 				TrajectoryGenerator.generateTrajectory(
 						drivetrain.getPoseEstimation(),
 						List.of(midPose),
-						tagPose.transformBy(
-								new Transform2d(
-										offsetPose.getTranslation(),
-										tagPose.getRotation()
-								)
+						new Pose2d(
+								tagPose.transformBy(
+										new Transform2d(
+												offsetPose.getTranslation(),
+												Rotation2d.fromDegrees(180)
+										)
+								).getX(),
+								FIELD_WIDTH - tagPose.transformBy(
+										new Transform2d(
+												offsetPose.getTranslation(),
+												Rotation2d.fromDegrees(180)
+										)
+								).getY(),
+								tagPose.transformBy(
+										new Transform2d(
+												offsetPose.getTranslation(),
+												Rotation2d.fromDegrees(180)
+										)
+								).getRotation()
 						),
 						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
 
