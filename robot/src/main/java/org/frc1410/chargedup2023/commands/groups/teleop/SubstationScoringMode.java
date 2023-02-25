@@ -15,15 +15,15 @@ public class SubstationScoringMode extends SequentialCommandGroup {
 	public SubstationScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler, boolean rightBumper) {
 		addCommands(
 				new ParallelCommandGroup(
-						new MoveElevator(lbork, elevator, intake, ELEVATOR_SUBSTATION_POSITION, false),
-						new GoToAprilTag(
-							drivetrain,
-							camera,
-							rightBumper
-								? GoToAprilTag.Node.RIGHT_SUBSTATION
-								: GoToAprilTag.Node.LEFT_SUBSTATION,
-							scheduler
-						)
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_SUBSTATION_POSITION, false)
+//						new GoToAprilTag(
+//							drivetrain,
+//							camera,
+//							rightBumper
+//								? GoToAprilTag.Node.RIGHT_SUBSTATION
+//								: GoToAprilTag.Node.LEFT_SUBSTATION,
+//							scheduler
+//						)
 				),
 				new ParallelRaceGroup(
 						new RunLBorkYankee(lbork, false),

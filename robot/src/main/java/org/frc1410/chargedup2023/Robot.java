@@ -74,7 +74,7 @@ public final class Robot extends PhaseDrivenRobot {
 	@Override
 	public void teleopSequence() {
 		drivetrain.zeroHeading();
-		drivetrain.coastMode();
+		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
 
 		scheduler.scheduleDefaultCommand(

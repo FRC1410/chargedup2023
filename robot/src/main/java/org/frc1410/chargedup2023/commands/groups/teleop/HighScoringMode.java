@@ -19,20 +19,18 @@ public class HighScoringMode extends SequentialCommandGroup {
 	public HighScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
 		addCommands(
 				new ParallelCommandGroup(
-						targetPosition.equals(HIGH_PAPA)
-							? new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, true)
-							: new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true),
-						new GoToAprilTag(
-								drivetrain,
-								camera,
-								switch (targetPosition) {
-									case HIGH_LEFT_YANKEE -> GoToAprilTag.Node.LEFT_YANKEE_NODE;
-									case HIGH_PAPA -> GoToAprilTag.Node.PAPA_NODE;
-									case HIGH_RIGHT_YANKEE -> GoToAprilTag.Node.RIGHT_YANKEE_NODE;
-									default -> null;
-								},
-								scheduler
-						)
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true)
+//						new GoToAprilTag(
+//								drivetrain,
+//								camera,
+//								switch (targetPosition) {
+//									case HIGH_LEFT_YANKEE -> GoToAprilTag.Node.LEFT_YANKEE_NODE;
+//									case HIGH_PAPA -> GoToAprilTag.Node.PAPA_NODE;
+//									case HIGH_RIGHT_YANKEE -> GoToAprilTag.Node.RIGHT_YANKEE_NODE;
+//									default -> null;
+//								},
+//								scheduler
+//						)
 				),
 				new ParallelRaceGroup(
 						targetPosition.equals(HIGH_PAPA)

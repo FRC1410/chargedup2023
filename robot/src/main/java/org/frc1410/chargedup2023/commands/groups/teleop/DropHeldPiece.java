@@ -18,11 +18,8 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class DropHeldPiece extends SequentialCommandGroup {
 	public DropHeldPiece(Intake intake, LBork lBork, Elevator elevator, boolean papa) {
-		super(
-				new ExtendIntake(intake),
-				new RetractLBork(lBork),
-				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
-				new MoveElevatorToPose(elevator, ELEVATOR_MID_POSITION),
+		addCommands(
+				new MoveElevator(lBork, elevator, intake, ELEVATOR_MID_POSITION, false),
 				new ParallelRaceGroup(
 						papa
 								? new RunLBorkPapa(lBork, true)
