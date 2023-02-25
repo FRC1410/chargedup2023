@@ -18,25 +18,25 @@ public class MidScoringMode extends SequentialCommandGroup {
 	public MidScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
 		addCommands(
 				new ParallelCommandGroup(
-						new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false),
-						new GoToAprilTag(
-								drivetrain,
-								camera,
-								switch (targetPosition) {
-									case MIDDLE_LEFT_YANKEE -> GoToAprilTag.Node.LEFT_YANKEE_NODE;
-									case MIDDLE_PAPA -> GoToAprilTag.Node.PAPA_NODE;
-									case MIDDLE_RIGHT_YANKEE -> GoToAprilTag.Node.RIGHT_YANKEE_NODE;
-									default -> null;
-								},
-								scheduler
-						)
-				),
-				new ParallelRaceGroup(
-						targetPosition.equals(MIDDLE_PAPA)
-								? new RunLBorkPapa(lbork, true)
-								: new RunLBorkYankee(lbork, true),
-						new WaitCommand(RUN_LBORK_SCORING_TIME)
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false)
+//						new GoToAprilTag(
+//								drivetrain,
+//								camera,
+//								switch (targetPosition) {
+//									case MIDDLE_LEFT_YANKEE -> GoToAprilTag.Node.LEFT_YANKEE_NODE;
+//									case MIDDLE_PAPA -> GoToAprilTag.Node.PAPA_NODE;
+//									case MIDDLE_RIGHT_YANKEE -> GoToAprilTag.Node.RIGHT_YANKEE_NODE;
+//									default -> null;
+//								},
+//								scheduler
+//						)
 				)
+//				new ParallelRaceGroup(
+//						targetPosition.equals(MIDDLE_PAPA)
+//								? new RunLBorkPapa(lbork, true)
+//								: new RunLBorkYankee(lbork, true),
+//						new WaitCommand(RUN_LBORK_SCORING_TIME)
+//				)
 		);
 	}
 }

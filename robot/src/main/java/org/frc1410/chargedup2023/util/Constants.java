@@ -76,6 +76,7 @@ public interface Constants {
 
 	// AprilTags & Vision
 	Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(0.3, 0.3, 0.3);
+	List<Integer> SCORING_TAGS = List.of(1, 2, 3, 6, 7, 8);
 	List<Integer> SUBSTATION_TAGS = List.of(4, 5);
 	List<Integer> RED_TAGS = List.of(1, 2, 3, 4);
 	double FIELD_WIDTH = Units.inchesToMeters(315.5);
@@ -93,6 +94,8 @@ public interface Constants {
 
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0.4;
+	double ELEVATOR_IDLE_POSITION = 7.5;
+	// ELEVATOR IDLE POSITION IS A GUESS, NEEDS TO BE TESTED
 	double ELEVATOR_PAPA_POSITION = 3.21;
 	double ELEVATOR_MID_POSITION = 23;
 	double ELEVATOR_RAISED_POSITION = 31.5;
@@ -100,7 +103,7 @@ public interface Constants {
 	double ELEVATOR_TOLERANCE = 0.2;
 
 	// Other stuff
-	double INTAKE_LBORK_EXTEND_TIME = 1; // Seconds
+	double INTAKE_LBORK_EXTEND_TIME = 0.5; // Seconds
 	double OUTTAKE_TIME = 0.5; // Seconds
 	double SUBSTATION_INTAKE_TIME = 3; // Seconds
 	double CREEPY_WAIT = 3; // Seconds

@@ -19,6 +19,7 @@ public class MoveElevator extends SequentialCommandGroup {
 				new RetractLBork(lbork),
 				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
 				new MoveElevatorToPose(elevator, elevatorPosition),
+				// THIS COULD EXTEND THE LBORK TOO EARLY
 				extendLBork ? new ExtendLBork(lbork) : new RetractLBork(lbork)
 		);
 	}

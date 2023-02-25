@@ -12,6 +12,7 @@ public class Intake implements Subsystem {
 	
 	private final CANSparkMax intakeMotor = new CANSparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
 	private final DoubleSolenoid intakeFlipper = new DoubleSolenoid(PneumaticsModuleType.REVPH, INTAKE_FLIPPER_FORWARD_ID, INTAKE_FLIPPER_BACKWARD_ID);
+	private boolean isRetracted = true;
 
 	public Intake() {
 		intakeMotor.restoreFactoryDefaults();
@@ -23,14 +24,20 @@ public class Intake implements Subsystem {
 
 	public void extend() {
 		intakeFlipper.set(DoubleSolenoid.Value.kForward);
+		isRetracted = false;
 	}
 
 	public void retract() {
 		intakeFlipper.set(DoubleSolenoid.Value.kReverse);
+		isRetracted = true;
 	}
 
 	public void toggle() {
 		intakeFlipper.toggle();
+	}
+
+	public boolean isRetracted() {
+		return isRetracted;
 	}
 }
 

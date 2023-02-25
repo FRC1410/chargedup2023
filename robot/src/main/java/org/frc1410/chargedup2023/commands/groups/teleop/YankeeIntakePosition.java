@@ -14,8 +14,7 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.subsystems.LightBar;
 
-import static org.frc1410.chargedup2023.util.Constants.ELEVATOR_MID_POSITION;
-import static org.frc1410.chargedup2023.util.Constants.INTAKE_LBORK_EXTEND_TIME;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class YankeeIntakePosition extends SequentialCommandGroup {
 	public YankeeIntakePosition(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
@@ -24,9 +23,9 @@ public class YankeeIntakePosition extends SequentialCommandGroup {
 				new ExtendIntake(intake),
 				new RetractLBork(lBork),
 				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
-				new MoveElevatorToPose(elevator, ELEVATOR_MID_POSITION),
-				new RetractIntake(intake),
-				new ExtendLBork(lBork)
+				new MoveElevatorToPose(elevator, ELEVATOR_SUBSTATION_POSITION),
+				new RetractIntake(intake)
+//				new ExtendLBork(lBork)
 		);
 	}
 }

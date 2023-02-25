@@ -22,7 +22,7 @@ public class IdleState extends SequentialCommandGroup {
 				new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_STATE)),
 				new ExtendIntake(intake),
 				new RetractLBork(lBork),
-				new MoveElevatorToPose(elevator,ELEVATOR_DRIVING_POSITION),
+				new MoveElevatorToPose(elevator, ELEVATOR_IDLE_POSITION),
 				new RetractIntake(intake)
 		);
 	}

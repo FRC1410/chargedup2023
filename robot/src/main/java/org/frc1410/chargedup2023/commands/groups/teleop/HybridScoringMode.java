@@ -20,6 +20,7 @@ public class HybridScoringMode extends SequentialCommandGroup {
 				new ExtendIntake(intake),
 				new ParallelCommandGroup(
 						new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false)
+						// PAPA INTAKE POSITION WOULD BE BETTER FOR PAPA SCORING
 //						new GoToAprilTag(
 //								drivetrain,
 //								camera,
@@ -31,13 +32,13 @@ public class HybridScoringMode extends SequentialCommandGroup {
 //								},
 //								scheduler
 //						)
-				),
-				new ParallelRaceGroup(
-						targetPosition.equals(HYBRID_MIDDLE)
-								? new RunLBorkPapa(lbork, true)
-								: new RunLBorkYankee(lbork, true),
-						new WaitCommand(RUN_LBORK_SCORING_TIME)
 				)
+//				new ParallelRaceGroup(
+//						targetPosition.equals(HYBRID_MIDDLE)
+//								? new RunLBorkPapa(lbork, true)
+//								: new RunLBorkYankee(lbork, true),
+//						new WaitCommand(RUN_LBORK_SCORING_TIME)
+//				)
 		);
 	}
 }
