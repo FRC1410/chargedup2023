@@ -17,12 +17,10 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 public class HighScoringMode extends SequentialCommandGroup {
 
 	public HighScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
+		// THE ELEVATOR MIGHT NEED TO GO TO MID FOR HIGH CUBE
 		addCommands(
 				new ParallelCommandGroup(
-						targetPosition.equals(HIGH_PAPA)
-							? new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true)
-								// THE ELEVATOR MIGHT NEED TO GO TO MID FOR HIGH CUBE
-							: new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true)
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true)
 //						new GoToAprilTag(
 //								drivetrain,
 //								camera,

@@ -19,16 +19,9 @@ import static org.frc1410.chargedup2023.util.Constants.INTAKE_LBORK_EXTEND_TIME;
 
 public class PapaIntakePosition extends SequentialCommandGroup {
 	public PapaIntakePosition(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
-		super(
+		addCommands(
 				new InstantCommand(() -> lightBar.set(LightBar.Profile.PAPA_PICKUP)),
-				new ParallelCommandGroup(
-						new ExtendIntake(intake),
-						new SequentialCommandGroup(
-								new RetractLBork(lBork),
-								new WaitCommand(INTAKE_LBORK_EXTEND_TIME)
-						)
-				),
-				new MoveElevatorToPose(elevator, ELEVATOR_PAPA_POSITION)
+				new MoveElevator(lBork, elevator, intake, ELEVATOR_PAPA_POSITION, false)
 		);
 	}
 }

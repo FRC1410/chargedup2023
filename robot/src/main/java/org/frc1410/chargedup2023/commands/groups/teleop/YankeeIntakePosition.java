@@ -20,12 +20,8 @@ public class YankeeIntakePosition extends SequentialCommandGroup {
 	public YankeeIntakePosition(Intake intake, LBork lBork, Elevator elevator, LightBar lightBar) {
 		super(
 				new InstantCommand(() -> lightBar.set(LightBar.Profile.YANKEE_PICKUP)),
-				new ExtendIntake(intake),
-				new RetractLBork(lBork),
-				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
-				new MoveElevatorToPose(elevator, ELEVATOR_SUBSTATION_POSITION),
+				new MoveElevator(lBork, elevator, intake, ELEVATOR_SUBSTATION_POSITION, false),
 				new RetractIntake(intake)
-//				new ExtendLBork(lBork)
 		);
 	}
 }

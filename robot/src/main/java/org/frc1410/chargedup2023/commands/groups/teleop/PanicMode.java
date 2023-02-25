@@ -11,7 +11,7 @@ import static org.frc1410.chargedup2023.util.Constants.ELEVATOR_DOWN_POSITION;
 
 public class PanicMode extends SequentialCommandGroup {
 	public PanicMode(Intake intake, Elevator elevator) {
-		super(
+		addCommands(
 				new MoveElevatorToPose(elevator, ELEVATOR_DOWN_POSITION),
 				new RetractIntake(intake)
 		);

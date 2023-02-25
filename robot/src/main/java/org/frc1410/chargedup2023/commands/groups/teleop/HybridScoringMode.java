@@ -19,8 +19,9 @@ public class HybridScoringMode extends SequentialCommandGroup {
 		addCommands(
 				new ExtendIntake(intake),
 				new ParallelCommandGroup(
-						new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false)
-						// PAPA INTAKE POSITION WOULD BE BETTER FOR PAPA SCORING
+						targetPosition.equals(HYBRID_MIDDLE)
+								? new MoveElevator(lbork, elevator, intake, ELEVATOR_PAPA_POSITION, false)
+								: new MoveElevator(lbork, elevator, intake, ELEVATOR_MID_POSITION, false)
 //						new GoToAprilTag(
 //								drivetrain,
 //								camera,
