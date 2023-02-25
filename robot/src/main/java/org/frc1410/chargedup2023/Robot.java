@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.LookForAprilTag;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
@@ -50,7 +51,8 @@ public final class Robot extends PhaseDrivenRobot {
 	private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
 	private final NetworkTable table = nt.getTable("Auto");
 
-	private final AutoSelector autoSelector = new AutoSelector();
+	private final AutoSelector autoSelector = new AutoSelector()
+			.add("Default", SequentialCommandGroup::new);
 //			.add("Tax", () -> new taxiii(drivetrain));
 
 
