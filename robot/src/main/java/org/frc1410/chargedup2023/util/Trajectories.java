@@ -3,11 +3,16 @@ package org.frc1410.chargedup2023.util;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
@@ -22,11 +27,18 @@ import static org.frc1410.chargedup2023.util.Tuning.*;
 
 public interface Trajectories {
 
+	NetworkTableInstance instance = NetworkTableInstance.getDefault();
+	NetworkTable table = instance.getTable("trajectories");
+	DoublePublisher leftMeasurementPub = NetworkTables.PublisherFactory(table, "Left Measurement", 0);
+	DoublePublisher leftReferencePub = NetworkTables.PublisherFactory(table, "Left Desired", 0);
+	DoublePublisher rightMeasurementPub = NetworkTables.PublisherFactory(table, "Right Measurement", 0);
+	DoublePublisher rightReferencePub = NetworkTables.PublisherFactory(table, "Right Desired", 0);
+
 	DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
 
     DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(KS_SLOW, KV_SLOW, KA_SLOW), KINEMATICS, 5);
+            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 4);
 
 	CentripetalAccelerationConstraint centripAccelConstraint = new CentripetalAccelerationConstraint(2.4);
 
@@ -43,7 +55,7 @@ public interface Trajectories {
 	TrajectoryConfig configCentripAccel = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
 			.setKinematics(KINEMATICS)
 			.addConstraint(voltageConstraint)
-			.setReversed(false)
+			.setReversed(true)
 			.addConstraint(centripAccelConstraint);
 
 	TrajectoryConfig reverseConfigCentripAccel = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
@@ -76,8 +88,17 @@ public interface Trajectories {
                 drivetrain::getWheelSpeeds,
                 leftController,
                 rightController,
-                drivetrain::tankDriveVolts
-        );
+				(leftVolts, rightVolts) -> {
+					drivetrain.tankDriveVolts(leftVolts, rightVolts);
+
+					leftMeasurementPub.set(drivetrain.getWheelSpeeds().leftMetersPerSecond);
+					leftReferencePub.set(leftController.getSetpoint());
+
+					rightMeasurementPub.set(drivetrain.getWheelSpeeds().rightMetersPerSecond);
+					rightReferencePub.set(rightController.getSetpoint());
+					instance.flush();
+				}
+		);
     }
 
 	// TRAJECTORIES
@@ -211,6 +232,12 @@ public interface Trajectories {
 	static SequentialCommandGroup OutsideGamePieceToScoreAngled(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_FORWARD, OUTSIDE_SCORE_YANKEE_ANGLED),
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+	}
+
+	static SequentialCommandGroup Taxiiii(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(new Pose2d(0, 0, new Rotation2d()), new Pose2d(1 ,1, Rotation2d.fromDegrees(-90))),
+				slowConfig), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 }

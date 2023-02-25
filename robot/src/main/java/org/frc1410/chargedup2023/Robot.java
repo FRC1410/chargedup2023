@@ -1,5 +1,6 @@
 package org.frc1410.chargedup2023;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
@@ -19,6 +20,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
 import org.frc1410.chargedup2023.commands.actions.intake.ToggleIntake;
+import org.frc1410.chargedup2023.commands.groups.auto.taxiii;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
@@ -48,21 +50,25 @@ public final class Robot extends PhaseDrivenRobot {
 	private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
 	private final NetworkTable table = nt.getTable("Auto");
 
-	private final AutoSelector autoSelector = new AutoSelector();
+	private final AutoSelector autoSelector = new AutoSelector()
+			.add("Tax", () -> new taxiii(drivetrain));
+
 
 	private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
 			autoSelector.getProfiles().isEmpty() ? "" : autoSelector.getProfiles().get(0).name());
+
 	private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 
 	@Override
 	public void autonomousSequence() {
-//		drivetrain.zeroHeading();
-//		drivetrain.brakeMode();
+		drivetrain.zeroHeading();
+		drivetrain.brakeMode();
+		drivetrain.resetPoseEstimation(new Pose2d());
 
 		NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
 		String autoProfile = autoSubscriber.get();
 		var autoCommand = autoSelector.select(autoProfile);
-		scheduler.scheduleDefaultCommand(autoCommand, TaskPersistence.EPHEMERAL);
+		scheduler.scheduleAutoCommand(autoCommand);
 	}
 
 	@Override
@@ -175,6 +181,11 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
+		operatorController.START.whenPressed(
+				new InstantCommand(() -> drivetrain.resetPoseEstimation(new Pose2d())),
+				TaskPersistence.EPHEMERAL
+		);
+
 		operatorController.BACK.whenPressed(
 				new ResetDrivetrain(drivetrain, camera),
 				TaskPersistence.EPHEMERAL
@@ -199,7 +210,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 //		operatorController.LEFT_BUMPER.whenPressed(new ToggleIntake(intake), TaskPersistence.EPHEMERAL);
 //
-//		operatorController.RIGHT_BUMPER.whileHeld(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
+		operatorController.RIGHT_BUMPER.whenPressed(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
 //
 //		operatorController.Y.whileHeld(new RunLBorkYankee(lBork, false), TaskPersistence.EPHEMERAL);
 //		operatorController.X.whileHeld(new RunLBorkYankee(lBork, true), TaskPersistence.EPHEMERAL);

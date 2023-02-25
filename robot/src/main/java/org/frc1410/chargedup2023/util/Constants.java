@@ -49,9 +49,12 @@ public interface Constants {
 	int OPERATOR_CONTROLLER = 1;
 
 	// DRIVETRAIN
-	double KS = 0;
-	double KV = 0;
-	double KA = 0;
+//	double KS = 0.097;
+//	double KV = 3.015;
+//	double KA = 1.017;
+	double KS = 0.6274;
+	double KV = 2.265;
+	double KA = 0.7535;
 
 	double KS_SLOW = 0;
 	double KV_SLOW = 0;
@@ -59,8 +62,9 @@ public interface Constants {
 
 	double GEARING = 1 / ((52.0 / 10.0) * (68.0 / 30.0));
 	double METERS_PER_REVOLUTION = .478778;
-	double DRIVETRAIN_ENCODER_CONSTANT = METERS_PER_REVOLUTION * GEARING;
-	double TRACKWIDTH = 0.615; //Meters
+	double ODOMETRY_OFFSET = 0.989;
+	double DRIVETRAIN_ENCODER_CONSTANT = METERS_PER_REVOLUTION * GEARING * ODOMETRY_OFFSET;
+	double TRACKWIDTH = 0.614; //Meters
 	DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH);
 
 	// LBork rollers
