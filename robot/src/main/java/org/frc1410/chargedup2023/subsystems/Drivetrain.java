@@ -87,7 +87,7 @@ public class Drivetrain implements TickedSubsystem {
 		drive.feed();
 
 		// NetworkTables updating
-		headingPub.set(getHeading());
+		headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees());
 		xPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getX()));
 		yPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getY()));
 		voltagePub.set(RobotController.getBatteryVoltage());
@@ -112,8 +112,8 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
-		leftLeader.setVoltage(leftVolts);
-		rightLeader.setVoltage(rightVolts);
+		leftLeader.setVoltage(rightVolts);
+		rightLeader.setVoltage(leftVolts);
 
 		drive.feed();
 	}

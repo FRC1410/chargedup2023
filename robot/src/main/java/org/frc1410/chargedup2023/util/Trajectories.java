@@ -76,13 +76,14 @@ public interface Trajectories {
 	PIDController leftControllerSlow = new PIDController(KP_VEL_SLOW, 0, 0);
 	PIDController rightControllerSlow = new PIDController(KP_VEL_SLOW, 0, 0);
 
+	RamseteController ramseteController = new RamseteController(KB, KZ);
+
     static RamseteCommand baseRamsete(Trajectory trajectory, SimpleMotorFeedforward simpleMotorFeedforward,
 									  PIDController leftController, PIDController rightController, Drivetrain drivetrain) {
-
         return new RamseteCommand(
                 trajectory,
                 drivetrain::getPoseEstimation,
-                new RamseteController(KB, KZ),
+                ramseteController,
                 simpleMotorFeedforward,
                 KINEMATICS,
                 drivetrain::getWheelSpeeds,
@@ -236,7 +237,7 @@ public interface Trajectories {
 	}
 
 	static SequentialCommandGroup Taxiiii(Drivetrain drivetrain) {
-		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(new Pose2d(0, 0, new Rotation2d()), new Pose2d(1 ,1, Rotation2d.fromDegrees(-90))),
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(new Pose2d(0, 0, new Rotation2d()), new Pose2d(3 ,1, new Rotation2d())),
 				slowConfig), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
