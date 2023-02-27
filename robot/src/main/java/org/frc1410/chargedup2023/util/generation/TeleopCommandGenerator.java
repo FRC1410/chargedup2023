@@ -53,7 +53,7 @@ public class TeleopCommandGenerator {
 		}
 
 		var aprilTagPose = aprilTagPoseOptional.get();
-		generateCommandLog.debug("April Tag found with position: " + aprilTagPose.toString());
+		generateCommandLog.debug("April Tag found with position: " + aprilTagPose);
 
 		// From here on, we assume that we have a valid target we want to act on
 		var toRun = new ArrayList<Command>();
