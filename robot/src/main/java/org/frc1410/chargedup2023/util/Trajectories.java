@@ -38,7 +38,7 @@ public interface Trajectories {
             new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
 
     DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 4);
+            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 6);
 
 	CentripetalAccelerationConstraint centripAccelConstraint = new CentripetalAccelerationConstraint(2.4);
 
@@ -55,7 +55,7 @@ public interface Trajectories {
 	TrajectoryConfig configCentripAccel = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
 			.setKinematics(KINEMATICS)
 			.addConstraint(voltageConstraint)
-			.setReversed(true)
+			.setReversed(false)
 			.addConstraint(centripAccelConstraint);
 
 	TrajectoryConfig reverseConfigCentripAccel = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
@@ -64,17 +64,26 @@ public interface Trajectories {
 			.setReversed(true)
 			.addConstraint(centripAccelConstraint);
 
+	TrajectoryConfig configCentripAccelOTF = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+			.setKinematics(KINEMATICS)
+			.addConstraint(slowVoltageConstraint)
+			.setReversed(false)
+			.addConstraint(centripAccelConstraint)
+			.setStartVelocity(0);
+
+	TrajectoryConfig reverseConfigCentripAccelOTF = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+			.setKinematics(KINEMATICS)
+			.addConstraint(slowVoltageConstraint)
+			.setReversed(true)
+			.addConstraint(centripAccelConstraint)
+			.setStartVelocity(0);
+
     SimpleMotorFeedforward realisticFeedforward = new SimpleMotorFeedforward(KS, KV, KA);
-	SimpleMotorFeedforward tunedFeedforward = new SimpleMotorFeedforward(KS_SLOW, KV_SLOW, KA_SLOW);
 
     static SimpleMotorFeedforward getRealisticFeedforward() {return realisticFeedforward;}
-    static SimpleMotorFeedforward getTunedFeedforward() {return tunedFeedforward;}
 
     PIDController leftController = new PIDController(KP_VEL, 0, 0);
     PIDController rightController = new PIDController(KP_VEL, 0, 0);
-
-	PIDController leftControllerSlow = new PIDController(KP_VEL_SLOW, 0, 0);
-	PIDController rightControllerSlow = new PIDController(KP_VEL_SLOW, 0, 0);
 
 	RamseteController ramseteController = new RamseteController(KB, KZ);
 
@@ -150,14 +159,14 @@ public interface Trajectories {
 
 	static SequentialCommandGroup OutsideGamePieceToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(OUTSIDE_GAME_PIECE_BACKWARD, OUTSIDE_CHARGING_STATION_FAR),
-				configCentripAccel), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 
 
 	static SequentialCommandGroup BarrierScoreToChargingStation(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(List.of(BARRIER_COMMUNITY_SCORE, BARRIER_CHARGING_STATION_COMMUNITY),
-				configCentripAccel), tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain)
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
 

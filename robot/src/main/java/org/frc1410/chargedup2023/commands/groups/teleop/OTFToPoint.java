@@ -26,6 +26,9 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(offsetPose.getRotation().getDegrees());
 		//</editor-fold>
 		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
+//		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
+		var velocity = 0;
+		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
@@ -51,7 +54,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 										).getRotation()
 								)
 						),
-						slowConfig), realisticFeedforward, leftController, rightController, drivetrain);
+						configCentripAccelOTF), realisticFeedforward, leftController, rightController, drivetrain);
 
 		addRequirements(drivetrain);
 
@@ -81,6 +84,9 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(offsetPose.getRotation().getDegrees());
 		//</editor-fold>
 		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
+//		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
+		var velocity = 0;
+		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
@@ -106,7 +112,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 										)
 								).getRotation()
 						),
-						slowConfig), realisticFeedforward, leftController, rightController, drivetrain);
+						configCentripAccelOTF), realisticFeedforward, leftController, rightController, drivetrain);
 
 		addRequirements(drivetrain);
 
