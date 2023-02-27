@@ -139,6 +139,18 @@ public final class Robot extends PhaseDrivenRobot {
 //				),
 //				TaskPersistence.EPHEMERAL
 //		);
+//
+//		driverController.LEFT_BUMPER.whileHeld(
+//				TeleopCommandGenerator.generateCommand(
+//						camera,
+//						drivetrain,
+//						elevator,
+//						intake,
+//						lBork,
+//						false
+//				),
+//				TaskPersistence.EPHEMERAL
+//		);
 		//</editor-fold>
 
 		//<editor-fold desc="Panic Intake Retract">
