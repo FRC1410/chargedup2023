@@ -25,6 +25,9 @@ public class LBork implements Subsystem {
 		innerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 		outerMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
+		innerMotor.setSmartCurrentLimit(10);
+		outerMotor.setSmartCurrentLimit(10);
+
 		innerMotor.setInverted(true);
 	}
 

@@ -49,10 +49,12 @@ public class Controller {
 	public final Axis RIGHT_TRIGGER = new Axis(this, kRightTrigger.value);
 
 	private int rumbleDepth = 0;
+	final double deadzone;
 
-	public Controller(TaskScheduler scheduler, int port) {
+	public Controller(TaskScheduler scheduler, int port, double deadzone) {
 		this.scheduler = scheduler;
 		this.backingController = new XboxController(port);
+		this.deadzone = deadzone;
 	}
 
 	private void setRumble(boolean rumbling) {

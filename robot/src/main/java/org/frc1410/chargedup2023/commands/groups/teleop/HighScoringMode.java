@@ -12,34 +12,35 @@ import org.frc1410.framework.scheduler.task.TaskScheduler;
 
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.HIGH_PAPA;
 import static org.frc1410.chargedup2023.util.Constants.ScoringPosition.targetPosition;
-import static org.frc1410.chargedup2023.util.Constants.RUN_LBORK_SCORING_TIME;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class HighScoringMode extends SequentialCommandGroup {
 
 	public HighScoringMode(Drivetrain drivetrain, ExternalCamera camera, LBork lbork, Elevator elevator, Intake intake, TaskScheduler scheduler) {
+		// THE ELEVATOR MIGHT NEED TO GO TO MID FOR HIGH CUBE
+		System.out.println("high running");
+		addRequirements(intake, lbork, elevator);
 		addCommands(
 				new ParallelCommandGroup(
-						targetPosition.equals(HIGH_PAPA)
-							? new MoveElevator(lbork, elevator, intake, Elevator.State.MID, true)
-							: new MoveElevator(lbork, elevator, intake, Elevator.State.RAISED, true),
-						new GoToAprilTag(
-								drivetrain,
-								camera,
-								switch (targetPosition) {
-									case HIGH_LEFT_YANKEE -> GoToAprilTag.Node.LEFT_YANKEE_NODE;
-									case HIGH_PAPA -> GoToAprilTag.Node.PAPA_NODE;
-									case HIGH_RIGHT_YANKEE -> GoToAprilTag.Node.RIGHT_YANKEE_NODE;
-									default -> null;
-								},
-								scheduler
-						)
-				),
-				new ParallelRaceGroup(
-						targetPosition.equals(HIGH_PAPA)
-								? new RunLBorkPapa(lbork, true)
-								: new RunLBorkYankee(lbork, true),
-						new WaitCommand(RUN_LBORK_SCORING_TIME)
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true)
+//						new GoToAprilTag(
+//								drivetrain,
+//								camera,
+//								switch (targetPosition) {
+//									case HIGH_LEFT_YANKEE -> GoToAprilTag.Node.LEFT_YANKEE_NODE;
+//									case HIGH_PAPA -> GoToAprilTag.Node.PAPA_NODE;
+//									case HIGH_RIGHT_YANKEE -> GoToAprilTag.Node.RIGHT_YANKEE_NODE;
+//									default -> null;
+//								},
+//								scheduler
+//						)
 				)
+//				new ParallelRaceGroup(
+//						targetPosition.equals(HIGH_PAPA)
+//								? new RunLBorkPapa(lbork, true)
+//								: new RunLBorkYankee(lbork, true),
+//						new WaitCommand(RUN_LBORK_SCORING_TIME)
+//				)
 		);
 	}
 }

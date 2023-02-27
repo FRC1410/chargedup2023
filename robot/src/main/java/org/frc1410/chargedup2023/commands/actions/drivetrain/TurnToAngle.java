@@ -31,13 +31,13 @@ public class TurnToAngle extends CommandBase {
 	@Override
 	public void execute() {
 		pidOutput = pid.calculate(drivetrain.gyro.getAngle() % 360);
-		drivetrain.tankDriveVolts(-pidOutput, pidOutput);
+		drivetrain.autoTankDriveVolts(-pidOutput, pidOutput);
 //		System.out.println("pidOutput = " + pidOutput);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		drivetrain.tankDriveVolts(0, 0);
+		drivetrain.autoTankDriveVolts(0, 0);
 	}
 
 	@Override

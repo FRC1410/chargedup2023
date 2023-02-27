@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
-import org.frc1410.chargedup2023.util.Trajectories;
 
 import java.util.List;
 
@@ -27,18 +26,35 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(offsetPose.getRotation().getDegrees());
 		//</editor-fold>
 		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
+//		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
+		var velocity = 0;
+		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
-						List.of(drivetrain.getPoseEstimation(), 
-								tagPose.transformBy(
-										new Transform2d(
-												offsetPose.getTranslation(),
-												tagPose.getRotation()
-										)
+						List.of(drivetrain.getPoseEstimation(),
+								new Pose2d(
+										tagPose.transformBy(
+												new Transform2d(
+														offsetPose.getTranslation(),
+														Rotation2d.fromDegrees(180)
+												)
+										).getX(),
+										FIELD_WIDTH - tagPose.transformBy(
+												new Transform2d(
+														offsetPose.getTranslation(),
+														Rotation2d.fromDegrees(180)
+												)
+										).getY(),
+										tagPose.transformBy(
+												new Transform2d(
+														offsetPose.getTranslation(),
+														Rotation2d.fromDegrees(180)
+												)
+										).getRotation()
 								)
 						),
-						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+						configCentripAccelOTF), realisticFeedforward, leftController, rightController, drivetrain);
 
 		addRequirements(drivetrain);
 
@@ -68,18 +84,35 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(offsetPose.getRotation().getDegrees());
 		//</editor-fold>
 		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
+//		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
+		var velocity = 0;
+		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
 						drivetrain.getPoseEstimation(),
 						List.of(midPose),
-						tagPose.transformBy(
-								new Transform2d(
-										offsetPose.getTranslation(),
-										tagPose.getRotation()
-								)
+						new Pose2d(
+								tagPose.transformBy(
+										new Transform2d(
+												offsetPose.getTranslation(),
+												Rotation2d.fromDegrees(180)
+										)
+								).getX(),
+								FIELD_WIDTH - tagPose.transformBy(
+										new Transform2d(
+												offsetPose.getTranslation(),
+												Rotation2d.fromDegrees(180)
+										)
+								).getY(),
+								tagPose.transformBy(
+										new Transform2d(
+												offsetPose.getTranslation(),
+												Rotation2d.fromDegrees(180)
+										)
+								).getRotation()
 						),
-						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+						configCentripAccelOTF), realisticFeedforward, leftController, rightController, drivetrain);
 
 		addRequirements(drivetrain);
 

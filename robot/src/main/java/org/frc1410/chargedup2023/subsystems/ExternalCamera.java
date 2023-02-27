@@ -30,7 +30,9 @@ public class ExternalCamera implements TickedSubsystem {
 			fieldLayout,
 			PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY,
 			camera,
-			new Transform3d()
+			new Transform3d(
+					new Translation3d(0.18, 0.23, 0.7239),
+					new Rotation3d(0, 0, 0))
 	);
 
 	private Pose2d pose = new Pose2d();

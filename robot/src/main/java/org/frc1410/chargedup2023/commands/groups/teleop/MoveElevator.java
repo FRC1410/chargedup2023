@@ -1,5 +1,6 @@
 package org.frc1410.chargedup2023.commands.groups.teleop;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorToPose;
@@ -13,12 +14,14 @@ import org.frc1410.chargedup2023.subsystems.LBork;
 import static org.frc1410.chargedup2023.util.Constants.INTAKE_LBORK_EXTEND_TIME;
 
 public class MoveElevator extends SequentialCommandGroup {
-	public MoveElevator(LBork lbork, Elevator elevator, Intake intake, Elevator.State state, boolean extendLBork) {
+	public MoveElevator(LBork lbork, Elevator elevator, Intake intake, double elevatorPosition, boolean extendLBork) {
 		addCommands(
-				new ExtendIntake(intake),
-				new RetractLBork(lbork),
+				new ParallelCommandGroup(
+						new ExtendIntake(intake),
+						new RetractLBork(lbork)
+				),
 				new WaitCommand(INTAKE_LBORK_EXTEND_TIME),
-				new MoveElevatorToPose(elevator, state),
+				new MoveElevatorToPose(elevator, elevatorPosition),
 				extendLBork ? new ExtendLBork(lbork) : new RetractLBork(lbork)
 		);
 	}

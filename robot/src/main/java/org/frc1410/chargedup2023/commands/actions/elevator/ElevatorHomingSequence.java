@@ -15,23 +15,18 @@ public class ElevatorHomingSequence extends CommandBase {
 	}
 
 	@Override
-	public void initialize() {
-		elevator.releaseBrake();
-	}
-
-	@Override
 	public void execute() {
 		elevator.setSpeed(ELEVATOR_HOMING_SPEED);
 	}
 
 	@Override
 	public boolean isFinished() {
-		return !elevator.getDownMagSensorValue();
+		return elevator.getLimitSwitchValue();
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		elevator.setSpeed(0);
-		elevator.setBrake();
+		elevator.resetPosition(0);
 	}
 }

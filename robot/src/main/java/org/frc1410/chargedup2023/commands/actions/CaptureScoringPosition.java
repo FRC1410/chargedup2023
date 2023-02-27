@@ -19,7 +19,7 @@ public class CaptureScoringPosition extends CommandBase {
 	@Override
 	public void initialize() {
 		int x = (int) Math.signum(rightX.get());
-		int y = (int) Math.signum(leftY.get());
+		int y = (int) -Math.signum(leftY.get());
 
 		ScoringPosition.targetPosition = ScoringPosition.fromCoords(x, y);
 	}

@@ -53,6 +53,7 @@ public final class LazyTask implements Task {
 
 	@Override
 	public @NotNull Set<? extends @NotNull Object> getLockKeys() {
+		if (wrapped == null) return Set.of();
 		return wrapped.getLockKeys();
 	}
 }

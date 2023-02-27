@@ -14,7 +14,7 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.Trajectories;
 
-import static org.frc1410.chargedup2023.util.Constants.OUTTAKE_TIME;
+import static org.frc1410.chargedup2023.util.Constants.*;
 public class Barrier2Yankee extends SequentialCommandGroup {
 	public Barrier2Yankee(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
@@ -22,7 +22,7 @@ public class Barrier2Yankee extends SequentialCommandGroup {
 				new TurnToSmallAngle(drivetrain, 0),
 				new ParallelCommandGroup(
 						Trajectories.BarrierGamePieceToScoreAngled(drivetrain),
-						new MoveElevator(lbork, elevator, intake, Elevator.State.RAISED, true)
+						new MoveElevator(lbork, elevator, intake, ELEVATOR_RAISED_POSITION, true)
 				),
 				new ParallelRaceGroup(
 						new RunLBorkYankee(lbork, true),

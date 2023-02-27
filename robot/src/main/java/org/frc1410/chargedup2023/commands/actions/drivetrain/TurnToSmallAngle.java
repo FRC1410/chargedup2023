@@ -31,7 +31,7 @@ public class TurnToSmallAngle extends CommandBase {
 	@Override
 	public void execute() {
         pidOutput = pid.calculate(drivetrain.gyro.getAngle() % 360);
-        drivetrain.tankDriveVolts(-pidOutput, pidOutput);
+        drivetrain.autoTankDriveVolts(-pidOutput, pidOutput);
 	}
 
 	@Override
@@ -41,6 +41,6 @@ public class TurnToSmallAngle extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-        drivetrain.tankDriveVolts(0, 0);
+        drivetrain.autoTankDriveVolts(0, 0);
 	}
 }
