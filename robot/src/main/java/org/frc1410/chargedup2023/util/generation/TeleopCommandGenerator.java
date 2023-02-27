@@ -22,9 +22,7 @@ public class TeleopCommandGenerator {
 	private static final Logger generateCommandLog = new Logger("generateCommand");
 
 	private static final Logger generateSubstationLog = new Logger("generateSubstation");
-
 	private static final Logger generateScoringLog = new Logger("generateScoring");
-
 	private static final Logger goToAprilTagLogger = new Logger("goToAprilTag");
 
 
@@ -47,7 +45,7 @@ public class TeleopCommandGenerator {
 		}
 
 		var aprilTagPose = aprilTagPoseOptional.get();
-		generateCommandLog.debug("April Tag found with position: " + aprilTagPose.toString());
+		generateCommandLog.debug("April Tag found with position: " + aprilTagPose);
 
 		// From here on, we assume that we have a valid target we want to act on
 		var toRun = new ArrayList<Command>();

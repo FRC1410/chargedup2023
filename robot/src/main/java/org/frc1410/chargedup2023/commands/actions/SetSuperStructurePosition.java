@@ -60,7 +60,7 @@ public class SetSuperStructurePosition extends CommandBase {
 		pid.setSetpoint(elevatorTargetPosition);
 		pid.setTolerance(ELEVATOR_TOLERANCE);
 
-		//Decide if we need to extend the intake
+		// Decide if we need to extend the intake
 		if (willInterfere()) {
 			intake.extend();
 
