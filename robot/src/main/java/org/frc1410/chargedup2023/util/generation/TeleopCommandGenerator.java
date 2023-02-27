@@ -22,9 +22,7 @@ public class TeleopCommandGenerator {
 	private static final Logger generateCommandLog = new Logger("generateCommand");
 
 	private static final Logger generateSubstationLog = new Logger("generateSubstation");
-
 	private static final Logger generateScoringLog = new Logger("generateScoring");
-
 	private static final Logger goToAprilTagLogger = new Logger("goToAprilTag");
 
 	public enum Node {
