@@ -27,6 +27,6 @@ public class ElevatorHomingSequence extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		elevator.setSpeed(0);
-		elevator.setEncoderValue(0);
+		elevator.resetPosition(0);
 	}
 }

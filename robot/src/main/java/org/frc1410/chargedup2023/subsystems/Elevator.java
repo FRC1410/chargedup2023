@@ -1,10 +1,9 @@
 package org.frc1410.chargedup2023.subsystems;
 
 
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
@@ -26,7 +25,8 @@ public class Elevator implements TickedSubsystem {
 	private final CANSparkMax leftMotor = new CANSparkMax(ELEVATOR_LEFT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax rightMotor = new CANSparkMax(ELEVATOR_RIGHT_MOTOR_ID, MotorType.kBrushless);
 
-//	private final WPI_TalonSRX encoder = new WPI_TalonSRX(ELEVATOR_ENCODER_ID);
+	private final RelativeEncoder leftEncoder = leftMotor.getEncoder();
+	private final RelativeEncoder rightEncoder = rightMotor.getEncoder();
 
 	private final DigitalInput limitSwitch = new DigitalInput(ELEVATOR_LIMIT_SWITCH_PORT);
 
@@ -59,27 +59,24 @@ public class Elevator implements TickedSubsystem {
 		rightMotor.setVoltage(volts);
 	}
 
-	public double getEncoderValue() {
-//		return encoder.getSelectedSensorPosition() /* ELEVATOR_ENCODER_CONSTANT*/;
-		double encoderRevolutions = (leftMotor.getEncoder().getPosition() + rightMotor.getEncoder().getPosition()) / 2;
-		return -encoderRevolutions * ELEVATOR_NEO_ENCODER_CONSTANT;
-		// This method returns inches (elevator relative)
+	public double getPosition() {
+//		double encoderRevolutions = (leftMotor.getEncoder().getPosition() + rightMotor.getEncoder().getPosition()) / 2;
+//		return -encoderRevolutions * ELEVATOR_NEO_ENCODER_CONSTANT;
+		return ((leftEncoder.getPosition() + rightEncoder.getPosition()) / 2) * ELEVATOR_NEO_ENCODER_CONSTANT;
 	}
 
 	public boolean getLimitSwitchValue() {
 		return limitSwitch.get();
 	}
 
-	public void setEncoderValue(double value) {
-//		encoder.setSelectedSensorPosition(value / ELEVATOR_ENCODER_CONSTANT);
-		// The value input should be in inches so revolutions are set
-		leftMotor.getEncoder().setPosition(-value / ELEVATOR_NEO_ENCODER_CONSTANT);
-		rightMotor.getEncoder().setPosition(-value / ELEVATOR_NEO_ENCODER_CONSTANT);
+	public void resetPosition(double value) {
+		leftEncoder.setPosition(value / ELEVATOR_NEO_ENCODER_CONSTANT);
+		rightEncoder.setPosition(value / ELEVATOR_NEO_ENCODER_CONSTANT);
 	}
 
 	@Override
 	public void periodic() {
-		encoderPub.set(getEncoderValue());
+		encoderPub.set(getPosition());
 		limitPub.set(getLimitSwitchValue());
 	}
 }

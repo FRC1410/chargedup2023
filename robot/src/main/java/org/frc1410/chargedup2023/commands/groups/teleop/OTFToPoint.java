@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
-import org.frc1410.chargedup2023.util.Trajectories;
 
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 										).getRotation()
 								)
 						),
-						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+						slowConfig), realisticFeedforward, leftController, rightController, drivetrain);
 
 		addRequirements(drivetrain);
 
@@ -107,7 +106,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 										)
 								).getRotation()
 						),
-						slowConfig), Trajectories.tunedFeedforward, leftControllerSlow, rightControllerSlow, drivetrain);
+						slowConfig), realisticFeedforward, leftController, rightController, drivetrain);
 
 		addRequirements(drivetrain);
 

@@ -64,7 +64,7 @@ public class GoToAprilTag extends CommandBase {
 			} else {
 				switch (targetNode) {
 					case LEFT_YANKEE_NODE -> {
-						if (camera.getTarget().getFiducialId() == 6)
+						if (camera.getTarget().getFiducialId() == 6 && waypointFlag)
 							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_BARRIER_WAYPOINT, BLUE_LEFT_YANKEE_NODE));
 						else
 							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_LEFT_YANKEE_NODE));
@@ -72,7 +72,7 @@ public class GoToAprilTag extends CommandBase {
 					case PAPA_NODE ->
 							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_PAPA_NODE));
 					case RIGHT_YANKEE_NODE -> {
-						if (camera.getTarget().getFiducialId() == 8)
+						if (camera.getTarget().getFiducialId() == 8 && waypointFlag)
 							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_OUTSIDE_WAYPOINT, BLUE_RIGHT_YANKEE_NODE));
 						else
 							scheduler.scheduleAutoCommand(new OTFToPoint(drivetrain, pose.toPose2d(), BLUE_RIGHT_YANKEE_NODE));
