@@ -27,14 +27,6 @@ public class TeleopCommandGenerator {
 
 	private static final Logger goToAprilTagLogger = new Logger("goToAprilTag");
 
-	public enum Node {
-		LEFT_YANKEE_NODE,
-		PAPA_NODE,
-		RIGHT_YANKEE_NODE,
-		LEFT_SUBSTATION,
-		RIGHT_SUBSTATION
-	}
-
 
 	public static Command generateCommand(
 			ExternalCamera camera,

@@ -45,6 +45,14 @@ public interface Constants {
 			throw new IllegalStateException("No matching position for (" + x + ", " + y + ")");
 		}
 	}
+
+	public enum Node {
+		LEFT_YANKEE_NODE,
+		PAPA_NODE,
+		RIGHT_YANKEE_NODE,
+		LEFT_SUBSTATION,
+		RIGHT_SUBSTATION
+	}
 	//</editor-fold>
 
 	//<editor-fold desc="Controllers">
