@@ -19,6 +19,7 @@ import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
 import org.frc1410.chargedup2023.commands.looped.UpdatePoseEstimation;
 import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.chargedup2023.util.NetworkTables;
+import org.frc1410.chargedup2023.util.generation.TeleopCommandGenerator;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
@@ -124,6 +125,20 @@ public final class Robot extends PhaseDrivenRobot {
 				),
 				TaskPersistence.EPHEMERAL
 		);
+
+		// Possible structure with generator functions
+
+//		driverController.RIGHT_BUMPER.whileHeld(
+//				TeleopCommandGenerator.generateCommand(
+//						camera,
+//						drivetrain,
+//						elevator,
+//						intake,
+//						lBork,
+//						true
+//				),
+//				TaskPersistence.EPHEMERAL
+//		);
 		//</editor-fold>
 
 		//<editor-fold desc="Panic Intake Retract">

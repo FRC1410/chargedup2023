@@ -3,8 +3,6 @@ package org.frc1410.chargedup2023.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,7 +14,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.chargedup2023.util.Constants;
 import org.frc1410.chargedup2023.util.NetworkTables;
@@ -101,24 +98,24 @@ public class Drivetrain implements TickedSubsystem {
 
 	public void triggerTankDrive(double left, double right, double triggerForwards, double triggerBackwards) {
 		if (triggerForwards == 0 && triggerBackwards == 0) {
-			tankDriveVoltsDrive((-left * 12), (-right * 12));
+			teleopTankDriveVolts((-left * 12), (-right * 12));
 		} else {
 			double triggerValue = (-triggerForwards * 0.75) + (triggerBackwards * 0.75);
 			double leftValue = (triggerValue + (-left * 0.25)) * 12;
 			double rightValue = (triggerValue + (-right * 0.25)) * 12;
 			
-			tankDriveVoltsDrive(leftValue, rightValue);
+			teleopTankDriveVolts(leftValue, rightValue);
 		}
 	}
 
-	public void tankDriveVoltsDrive(double leftVolts, double rightVolts) {
+	public void teleopTankDriveVolts(double leftVolts, double rightVolts) {
 		leftLeader.setVoltage(leftVolts);
 		rightLeader.setVoltage(rightVolts);
 
 		drive.feed();
 	}
 
-	public void tankDriveVolts(double leftVolts, double rightVolts) {
+	public void autoTankDriveVolts(double leftVolts, double rightVolts) {
 		leftLeader.setVoltage(rightVolts);
 		rightLeader.setVoltage(leftVolts);
 

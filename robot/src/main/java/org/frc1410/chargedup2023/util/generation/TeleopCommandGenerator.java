@@ -10,6 +10,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.commands.groups.teleop.OTFToPoint;
 import org.frc1410.chargedup2023.commands.actions.SetSuperStructurePosition;
 import org.frc1410.chargedup2023.subsystems.*;
+import org.frc1410.framework.util.log.Logger;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,14 @@ import static org.frc1410.chargedup2023.auto.POIs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class TeleopCommandGenerator {
+
+	private static final Logger generateCommandLog = new Logger("generateCommand");
+
+	private static final Logger generateSubstationLog = new Logger("generateSubstation");
+
+	private static final Logger generateScoringLog = new Logger("generateScoring");
+
+	private static final Logger goToAprilTagLogger = new Logger("goToAprilTag");
 
 	public enum Node {
 		LEFT_YANKEE_NODE,
@@ -35,15 +44,18 @@ public class TeleopCommandGenerator {
 			LBork lBork,
 			boolean rightBumper
 	) {
+		generateCommandLog.debug("Generator Called");
 		// Get the target position from the camera
 		var aprilTagPoseOptional = camera.getTargetLocation();
 
 		// If we can't see a target, return
 		if (aprilTagPoseOptional.isEmpty()) {
+			generateCommandLog.error("No AprilTag found");
 			return null;
 		}
 
 		var aprilTagPose = aprilTagPoseOptional.get();
+		generateCommandLog.debug("April Tag found with position: " + aprilTagPose.toString());
 
 		// From here on, we assume that we have a valid target we want to act on
 		var toRun = new ArrayList<Command>();
@@ -51,6 +63,7 @@ public class TeleopCommandGenerator {
 		// Now we need to check if the drivetrain has been reset
 		// And if not, add that to the list of commands to run
 		if (!drivetrain.hasBeenReset()) {
+			generateCommandLog.debug("Resetting drivetrain position");
 			toRun.add(
 					new InstantCommand(() -> {
 						camera.getEstimatorPose().ifPresent(pose -> {
@@ -66,10 +79,12 @@ public class TeleopCommandGenerator {
 
 		// Now on to the tag logic itself
 		var tagID = camera.getTarget().getFiducialId();
+		generateCommandLog.debug("April Tag ID: " + tagID);
 
 		// If we are looking at a substation tag
 		if (SUBSTATION_TAGS.contains(tagID)) {
 			// Generate substation pickup command
+			generateCommandLog.debug("Substation tag found, generating substation pickup command");
 			toRun.add(substationPickupGenerator(
 					drivetrain,
 					lBork,
@@ -81,6 +96,7 @@ public class TeleopCommandGenerator {
 			));
 		} else if (SCORING_TAGS.contains(tagID)) {
 			// Generate scoring command
+			generateCommandLog.debug("Grid tag found, generating scoring command");
 			toRun.add(scoringGenerator(
 					drivetrain,
 					elevator,
@@ -106,8 +122,10 @@ public class TeleopCommandGenerator {
 			Pose3d aprilTagPose,
 			int tagID
 	) {
+		generateSubstationLog.debug("Function entered");
 		var sublist = new ArrayList<Command>();
 
+		generateSubstationLog.debug("Picking up from " + (rightBumper ? "right" : "left") + " side of substation");
 		sublist.add(
 				new ParallelCommandGroup(
 						new SetSuperStructurePosition(
@@ -145,9 +163,14 @@ public class TeleopCommandGenerator {
 		var waypointFlag = drivetrain.getPoseEstimation().getX() < WAYPOINT_THRESHOLD;
 		var isRed = RED_TAGS.contains(tagID);
 
+		goToAprilTagLogger.debug("Function entered");
+		goToAprilTagLogger.debug("Waypoint " + (waypointFlag ? "is necessary" : "is not necessary"));
+		goToAprilTagLogger.debug((isRed ? "Red" : "Blue") + " tag found, generating accordingly");
+
 		switch (targetNode) {
 			case LEFT_YANKEE_NODE -> {
 				if ((tagID == 1 || tagID == 6) && waypointFlag) {
+					goToAprilTagLogger.debug("Target is left yankee");
 					return new OTFToPoint(
 							drivetrain,
 							aprilTagPose.toPose2d(),
@@ -164,6 +187,7 @@ public class TeleopCommandGenerator {
 			}
 
 			case PAPA_NODE -> {
+				goToAprilTagLogger.debug("Target is papa");
 				return new OTFToPoint(
 						drivetrain,
 						aprilTagPose.toPose2d(),
@@ -172,6 +196,7 @@ public class TeleopCommandGenerator {
 			}
 
 			case RIGHT_YANKEE_NODE -> {
+				goToAprilTagLogger.debug("Target is right yankee");
 				if ((tagID == 3 || tagID == 8) && waypointFlag) {
 					return new OTFToPoint(
 							drivetrain,
@@ -189,6 +214,7 @@ public class TeleopCommandGenerator {
 			}
 
 			case LEFT_SUBSTATION -> {
+				goToAprilTagLogger.debug("Target is left substation");
 				return new OTFToPoint(
 						drivetrain,
 						aprilTagPose.toPose2d(),
@@ -197,6 +223,7 @@ public class TeleopCommandGenerator {
 			}
 
 			case RIGHT_SUBSTATION -> {
+				goToAprilTagLogger.debug("Target is right substation");
 				return new OTFToPoint(
 						drivetrain,
 						aprilTagPose.toPose2d(),
@@ -216,6 +243,7 @@ public class TeleopCommandGenerator {
 			Pose3d aprilTagPose,
 			int tagID
 	) {
+		generateScoringLog.debug("Function entered");
 		var targetPosition = ScoringPosition.targetPosition;
 
 		return switch(targetPosition) {
@@ -255,7 +283,7 @@ public class TeleopCommandGenerator {
 			int tagID
 	) {
 		var sublist = new ArrayList<Command>();
-
+		generateScoringLog.debug("Generating command for high scoring");
 		sublist.add(
 				new ParallelCommandGroup(
 						new SetSuperStructurePosition(
@@ -307,7 +335,7 @@ public class TeleopCommandGenerator {
 			int tagID
 	) {
 		var sublist = new ArrayList<Command>();
-
+		generateScoringLog.debug("Generating command for mid scoring");
 		sublist.add(
 				new ParallelCommandGroup(
 						new SetSuperStructurePosition(
@@ -351,7 +379,7 @@ public class TeleopCommandGenerator {
 			int tagID
 	) {
 		var sublist = new ArrayList<Command>();
-
+		generateScoringLog.debug("Generating command for hybrid scoring");
 		sublist.add(
 				new ParallelCommandGroup(
 						new SetSuperStructurePosition(

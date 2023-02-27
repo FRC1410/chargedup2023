@@ -13,12 +13,12 @@ public class Creepy extends SequentialCommandGroup {
 		addCommands(
 				new InstantCommand(() -> {
 					if (reversed)
-						drivetrain.tankDriveVolts(6, 6);
+						drivetrain.autoTankDriveVolts(6, 6);
 					else
-						drivetrain.tankDriveVolts(-6, -6);
+						drivetrain.autoTankDriveVolts(-6, -6);
 				}),
 				new WaitCommand(CREEPY_WAIT),
-				new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
+				new InstantCommand(() -> drivetrain.autoTankDriveVolts(0, 0)),
 				new Engage(drivetrain)
 		);
 	}

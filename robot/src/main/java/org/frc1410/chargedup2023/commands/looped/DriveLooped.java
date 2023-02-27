@@ -34,6 +34,6 @@ public class DriveLooped extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		drivetrain.tankDriveVolts(0, 0);
+		drivetrain.autoTankDriveVolts(0, 0);
 	}
 }
