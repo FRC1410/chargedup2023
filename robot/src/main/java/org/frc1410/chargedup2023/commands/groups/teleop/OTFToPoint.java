@@ -25,7 +25,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(Units.metersToInches(offsetPose.getY()));
 		System.out.println(offsetPose.getRotation().getDegrees());
 		//</editor-fold>
-		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
+//		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
 //		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
 		var velocity = 0;
 		configCentripAccelOTF.setStartVelocity(velocity);
@@ -40,7 +40,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 														Rotation2d.fromDegrees(180)
 												)
 										).getX(),
-										tagPose.transformBy(
+										FIELD_WIDTH - tagPose.transformBy(
 												new Transform2d(
 														offsetPose.getTranslation(),
 														Rotation2d.fromDegrees(180)
@@ -83,7 +83,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(Units.metersToInches(offsetPose.getY()));
 		System.out.println(offsetPose.getRotation().getDegrees());
 		//</editor-fold>
-		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
+//		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
 //		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
 		var velocity = 0;
 		configCentripAccelOTF.setStartVelocity(velocity);
@@ -99,7 +99,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 												Rotation2d.fromDegrees(180)
 										)
 								).getX(),
-								tagPose.transformBy(
+								FIELD_WIDTH - tagPose.transformBy(
 										new Transform2d(
 												offsetPose.getTranslation(),
 												Rotation2d.fromDegrees(180)
