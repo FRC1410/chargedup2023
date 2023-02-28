@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.LookForAprilTag;
+import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.intake.ExtendIntake;
@@ -207,10 +208,11 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 		//</editor-fold>
 
-//		operatorController.BACK.whenPressed(
-//				new ResetDrivetrain(drivetrain, camera),
-//				TaskPersistence.EPHEMERAL
-//		);
+		operatorController.BACK.whenPressed(
+				new ResetDrivetrain(drivetrain, camera, true),
+//				new ResetDrivetrain(drivetrain, camera, false),
+				TaskPersistence.EPHEMERAL
+		);
 
 		// Not necessary?
 //		operatorController.B.whenPressed(
@@ -251,6 +253,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 		// Superstructure movement and sequencing
 		driverController.START.whenPressed(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
+		driverController.BACK.whenPressed(new ResetDrivetrain(drivetrain, camera, true), TaskPersistence.EPHEMERAL);
 
 		driverController.A.whenPressed(new ExtendIntake(intake), TaskPersistence.EPHEMERAL);
 		driverController.B.whenPressed(new RetractIntake(intake), TaskPersistence.EPHEMERAL);

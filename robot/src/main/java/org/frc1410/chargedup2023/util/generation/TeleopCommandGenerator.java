@@ -59,7 +59,7 @@ public class TeleopCommandGenerator {
 						camera.getEstimatorPose().ifPresent(pose -> {
 							drivetrain.resetPoseEstimation(new Pose2d(
 									pose.getX(),
-									pose.getY(),
+									FIELD_WIDTH - pose.getY(),
 									drivetrain.getPoseEstimation().getRotation()
 							));
 						});
@@ -313,6 +313,8 @@ public class TeleopCommandGenerator {
 				new RetractLBork(lBork)
 		);
 
+		// TODO: ADD OUTTAKING WHILE BACKING UP; YOU SHOULD ALWAYS BE ABLE TO BACK UP LIKE ~6in.
+		// TODO: ADD ELEVATOR RETRACT TO IDLE AFTER BACKING UP
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
 	}
 
@@ -357,6 +359,7 @@ public class TeleopCommandGenerator {
 				)
 		);
 
+		// TODO: ADD ELEVATOR RETRACT TO IDLE AFTER BACKING UP
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
 	}
 
@@ -403,6 +406,7 @@ public class TeleopCommandGenerator {
 				)
 		);
 
+		// TODO: ADD ELEVATOR RETRACT TO IDLE AFTER BACKING UP
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
 	}
 }

@@ -40,7 +40,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 														Rotation2d.fromDegrees(180)
 												)
 										).getX(),
-										FIELD_WIDTH - tagPose.transformBy(
+										tagPose.transformBy(
 												new Transform2d(
 														offsetPose.getTranslation(),
 														Rotation2d.fromDegrees(180)
@@ -99,7 +99,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 												Rotation2d.fromDegrees(180)
 										)
 								).getX(),
-								FIELD_WIDTH - tagPose.transformBy(
+								tagPose.transformBy(
 										new Transform2d(
 												offsetPose.getTranslation(),
 												Rotation2d.fromDegrees(180)
