@@ -18,11 +18,14 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.frc1410.chargedup2023.util.Constants;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
+import org.frc1410.framework.util.log.Logger;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Drivetrain implements TickedSubsystem {
+
+	private static final Logger log = new Logger("Drivetrain");
 
 	// NetworkTables entries
 	private final NetworkTable table = NetworkTableInstance.getDefault().getTable("Drivetrain");
@@ -133,6 +136,7 @@ public class Drivetrain implements TickedSubsystem {
 
 	public void addVisionPose(Pose2d pose, double timestamp) {
 		poseEstimator.addVisionMeasurement(pose, timestamp, Constants.VISION_STD_DEVS);
+		log.debug("Vision pose added to pose estimator");
 	}
 
 	public void resetPoseEstimation(Pose2d pose) {
@@ -142,7 +146,9 @@ public class Drivetrain implements TickedSubsystem {
 		rightFollower.getEncoder().setPosition(0);
 
 		poseEstimator.resetPosition(gyro.getRotation2d(), 0, 0, pose);
-//
+
+		log.debug("Pose Estimation Reset to: " + pose);
+
 //		gyro.zeroYaw();
 //		gyro.setAngleAdjustment(pose.getRotation().getRadians());
 	}
@@ -170,6 +176,7 @@ public class Drivetrain implements TickedSubsystem {
 
 	public void zeroHeading() {
 		gyro.reset();
+		log.debug("zeroHeading called. Gyro reset");
 	}
 
 	public double getHeading() {
