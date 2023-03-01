@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
+import org.frc1410.framework.util.log.Logger;
 
 import java.util.List;
 
@@ -14,7 +15,12 @@ import static org.frc1410.chargedup2023.util.Constants.FIELD_WIDTH;
 import static org.frc1410.chargedup2023.util.Trajectories.*;
 
 public class OTFToPoint extends SequentialCommandGroup {
+	private static final Logger log = new Logger("OTFToPoint");
+
 	public OTFToPoint(Drivetrain drivetrain, Pose2d tagPose, Pose2d offsetPose) {
+
+		log.debug(tagPose.toString());
+
 		//<editor-fold desc="SOUT" defaultstate="collapsed">
 		System.out.println("Drivetrain");
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));

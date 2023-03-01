@@ -1,6 +1,7 @@
 package org.frc1410.chargedup2023.commands.looped;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
@@ -21,14 +22,16 @@ public class UpdatePoseEstimation extends CommandBase {
 
 	@Override
 	public void execute() {
-		camera.getEstimatorPose().ifPresent(pose -> camera.getTimestamp().ifPresent(time -> {
-					if (Math.abs(drivetrain.getHeading() - pose.getRotation().getDegrees()) <= ANGLE_THRESHOLD && camera.hasTargets()) {
+		camera.getEstimatorPose().ifPresentOrElse(pose -> {
+//			System.out.println("Cam has targets? " + camera.hasTargets());
+					if (Math.abs(Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees()) - Math.abs(pose.getRotation().getDegrees())) <= ANGLE_THRESHOLD && camera.hasTargets()) {
 						drivetrain.addVisionPose(
-								new Pose2d(pose.getX(), FIELD_WIDTH - pose.getY(), pose.getRotation()),
-								time
+								new Pose2d(pose.getX(), FIELD_WIDTH - pose.getY(), drivetrain.getPoseEstimation().getRotation()),
+								camera.getTimestamp()
 						);
+//						System.out.println(drivetrain.getHeading() + "HEADING");
 					}
-				})
+				}, () -> System.out.println("Tried to update thinf but no thing :(")
 		);
 	}
 }

@@ -26,13 +26,14 @@ public class ExternalCamera implements TickedSubsystem {
 
 	private static final AprilTagFieldLayout fieldLayout;
 
+	//
 	PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(
 			fieldLayout,
 			PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY,
 			camera,
 			new Transform3d(
-					new Translation3d(0.18, 0.23, 0.7239),
-					new Rotation3d(0, 0, 0))
+					new Translation3d(Units.inchesToMeters(12.5), Units.inchesToMeters(-9.25), Units.inchesToMeters(28)),
+					new Rotation3d(0, Units.degreesToRadians(-6), 0))
 	);
 
 	private Pose2d pose = new Pose2d();
@@ -81,7 +82,7 @@ public class ExternalCamera implements TickedSubsystem {
 		return Optional.empty();
 	}
 
-	public Optional<Double> getTimestamp() {
-		return Optional.of(camera.getLatestResult().getTimestampSeconds());
+	public double getTimestamp() {
+		return camera.getLatestResult().getTimestampSeconds();
 	}
 }

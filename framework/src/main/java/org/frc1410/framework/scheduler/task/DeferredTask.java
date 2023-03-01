@@ -1,6 +1,7 @@
 package org.frc1410.framework.scheduler.task;
 
-import org.jetbrains.annotations.Nullable;
+import edu.wpi.first.wpilibj2.command.Command;
+import org.frc1410.framework.scheduler.task.impl.CommandTask;
 
 import java.util.function.Supplier;
 
@@ -21,6 +22,10 @@ public final class DeferredTask implements Task {
 		this.lockPriority = lockPriority;
 	}
 
+	public static DeferredTask fromCommand(TaskScheduler scheduler, Supplier<Command> commandSupplier) {
+		return new DeferredTask(scheduler, () -> new CommandTask(commandSupplier.get()), TaskPersistence.EPHEMERAL, Observer.NO_OP, 4);
+	}
+
 	@Override
 	public void init() {
 		var job = taskSupplier.get();
@@ -34,6 +39,7 @@ public final class DeferredTask implements Task {
 
 	@Override
 	public void end(boolean interrupted) {
-		task.handle().requestTermination();
+		if (task != null) task.handle().requestTermination();
+		task = null;
 	}
 }

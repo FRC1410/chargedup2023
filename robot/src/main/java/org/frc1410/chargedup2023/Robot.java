@@ -1,5 +1,6 @@
 package org.frc1410.chargedup2023;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
@@ -24,6 +25,7 @@ import org.frc1410.chargedup2023.util.generation.TeleopCommandGenerator;
 import org.frc1410.framework.AutoSelector;
 import org.frc1410.framework.PhaseDrivenRobot;
 import org.frc1410.framework.control.Controller;
+import org.frc1410.framework.scheduler.task.DeferredTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
 import static org.frc1410.chargedup2023.util.Constants.*;
@@ -74,6 +76,8 @@ public final class Robot extends PhaseDrivenRobot {
 	public void teleopSequence() {
 		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
+		drivetrain.zeroHeading();
+		drivetrain.resetPoseEstimation(new Pose2d());
 
 		//<editor-fold desc="Default Commands">
 		scheduler.scheduleDefaultCommand(
@@ -97,61 +101,61 @@ public final class Robot extends PhaseDrivenRobot {
 		//</editor-fold>
 
 		//<editor-fold desc="Teleop Automation">
-		driverController.LEFT_BUMPER.whileHeld(
-				new LookForAprilTag(
-						driverController,
-						driverController.LEFT_BUMPER,
-						drivetrain,
-						camera,
-						lBork,
-						elevator,
-						intake,
-						scheduler,
-						false
-				),
-				TaskPersistence.EPHEMERAL
-		);
-
-		driverController.RIGHT_BUMPER.whileHeld(
-				new LookForAprilTag(
-						driverController,
-						driverController.RIGHT_BUMPER,
-						drivetrain,
-						camera,
-						lBork,
-						elevator,
-						intake,
-						scheduler,
-						true
-				),
-				TaskPersistence.EPHEMERAL
-		);
-
-		// Possible structure with generator functions
-
-//		driverController.RIGHT_BUMPER.whileHeld(
-//				TeleopCommandGenerator.generateCommand(
-//						camera,
-//						drivetrain,
-//						elevator,
-//						intake,
-//						lBork,
-//						true
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-//
 //		driverController.LEFT_BUMPER.whileHeld(
-//				TeleopCommandGenerator.generateCommand(
-//						camera,
+//				new LookForAprilTag(
+//						driverController,
+//						driverController.LEFT_BUMPER,
 //						drivetrain,
+//						camera,
+//						lBork,
 //						elevator,
 //						intake,
-//						lBork,
+//						scheduler,
 //						false
 //				),
 //				TaskPersistence.EPHEMERAL
 //		);
+//
+//		driverController.RIGHT_BUMPER.whileHeld(
+//				new LookForAprilTag(
+//						driverController,
+//						driverController.RIGHT_BUMPER,
+//						drivetrain,
+//						camera,
+//						lBork,
+//						elevator,
+//						intake,
+//						scheduler,
+//						true
+//				),
+//				TaskPersistence.EPHEMERAL
+//		);
+
+		// Possible structure with generator functions
+
+		driverController.RIGHT_BUMPER.whileHeld(DeferredTask.fromCommand(scheduler, () ->
+				TeleopCommandGenerator.generateCommand(
+						camera,
+						drivetrain,
+						elevator,
+						intake,
+						lBork,
+						true
+				)),
+				TaskPersistence.EPHEMERAL
+		);
+
+		driverController.LEFT_BUMPER.whileHeld(DeferredTask.fromCommand(scheduler, () ->
+					TeleopCommandGenerator.generateCommand(
+						camera,
+						drivetrain,
+						elevator,
+						intake,
+						lBork,
+						false
+				)),
+				TaskPersistence.EPHEMERAL
+		);
 		//</editor-fold>
 
 		//<editor-fold desc="Panic Intake Retract">
@@ -229,18 +233,18 @@ public final class Robot extends PhaseDrivenRobot {
 	@Override
 	public void testSequence() {
 		// Basic functionality and inversions: Drivetrain
-		scheduler.scheduleDefaultCommand(new DriveLooped(
-						drivetrain,
-						driverController.LEFT_Y_AXIS,
-						driverController.RIGHT_Y_AXIS,
-						driverController.RIGHT_TRIGGER,
-						driverController.LEFT_TRIGGER),
-				TaskPersistence.EPHEMERAL
-		);
-
+//		scheduler.scheduleDefaultCommand(new DriveLooped(
+//						drivetrain,
+//						driverController.LEFT_Y_AXIS,
+//						driverController.RIGHT_Y_AXIS,
+//						driverController.RIGHT_TRIGGER,
+//						driverController.LEFT_TRIGGER),
+//				TaskPersistence.EPHEMERAL
+//		);
+//
 		// Basic functionality and inversions: Elevator
-		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
-
+		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, driverController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
+//
 		// Basic functionality and inversions: LBork
 		// Papa Intake
 		driverController.A.whileHeld(new RunLBorkPapa(lBork, false), TaskPersistence.EPHEMERAL);
@@ -250,13 +254,13 @@ public final class Robot extends PhaseDrivenRobot {
 		driverController.X.whileHeld(new RunLBorkYankee(lBork, false), TaskPersistence.EPHEMERAL);
 		// Yankee outtake
 		driverController.Y.whileHeld(new RunLBorkYankee(lBork, true), TaskPersistence.EPHEMERAL);
-
-		// Superstructure movement and sequencing
+//
+//		// Superstructure movement and sequencing
 		driverController.START.whenPressed(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
 		driverController.BACK.whenPressed(new ResetDrivetrain(drivetrain, camera, true), TaskPersistence.EPHEMERAL);
 
-		driverController.A.whenPressed(new ExtendIntake(intake), TaskPersistence.EPHEMERAL);
-		driverController.B.whenPressed(new RetractIntake(intake), TaskPersistence.EPHEMERAL);
+		operatorController.A.whenPressed(new ExtendIntake(intake), TaskPersistence.EPHEMERAL);
+		operatorController.B.whenPressed(new RetractIntake(intake), TaskPersistence.EPHEMERAL);
 		//
 
 	}

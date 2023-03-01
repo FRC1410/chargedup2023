@@ -17,7 +17,7 @@ public class DropHeldPiece extends SequentialCommandGroup {
 	public DropHeldPiece(Intake intake, LBork lBork, Elevator elevator, boolean papa) {
 		addRequirements(intake, lBork, elevator);
 		addCommands(
-				new SetSuperStructurePosition(elevator, intake, ELEVATOR_MID_POSITION, false),
+				new SetSuperStructurePosition(elevator, intake, ELEVATOR_MID_POSITION, true),
 				new ParallelRaceGroup(
 						papa
 								? new RunLBorkPapa(lBork, true)

@@ -142,6 +142,9 @@ public class Drivetrain implements TickedSubsystem {
 		rightFollower.getEncoder().setPosition(0);
 
 		poseEstimator.resetPosition(gyro.getRotation2d(), 0, 0, pose);
+//
+//		gyro.zeroYaw();
+//		gyro.setAngleAdjustment(pose.getRotation().getRadians());
 	}
 
 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
