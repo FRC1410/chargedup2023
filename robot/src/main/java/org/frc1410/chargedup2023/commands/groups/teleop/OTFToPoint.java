@@ -11,7 +11,6 @@ import org.frc1410.framework.util.log.Logger;
 
 import java.util.List;
 
-import static org.frc1410.chargedup2023.util.Constants.FIELD_WIDTH;
 import static org.frc1410.chargedup2023.util.Trajectories.*;
 
 public class OTFToPoint extends SequentialCommandGroup {
@@ -27,11 +26,25 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
 		System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
 		System.out.println("Target");
-		System.out.println(Units.metersToInches(offsetPose.getX()));
-		System.out.println(Units.metersToInches(offsetPose.getY()));
-		System.out.println(offsetPose.getRotation().getDegrees());
+		System.out.println(Units.metersToInches(tagPose.transformBy(
+				new Transform2d(
+						offsetPose.getTranslation(),
+						Rotation2d.fromDegrees(180)
+				)
+		).getX()));
+		System.out.println(Units.metersToInches(tagPose.transformBy(
+				new Transform2d(
+						offsetPose.getTranslation(),
+						Rotation2d.fromDegrees(180)
+				)
+		).getY()));
+		System.out.println(tagPose.transformBy(
+				new Transform2d(
+						offsetPose.getTranslation(),
+						Rotation2d.fromDegrees(180)
+				)
+		).getRotation().getDegrees());
 		//</editor-fold>
-//		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
 //		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
 		var velocity = 0;
 		configCentripAccelOTF.setStartVelocity(velocity);
@@ -46,7 +59,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 														Rotation2d.fromDegrees(180)
 												)
 										).getX(),
-										FIELD_WIDTH - tagPose.transformBy(
+										tagPose.transformBy(
 												new Transform2d(
 														offsetPose.getTranslation(),
 														Rotation2d.fromDegrees(180)
@@ -105,7 +118,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 												Rotation2d.fromDegrees(180)
 										)
 								).getX(),
-								FIELD_WIDTH - tagPose.transformBy(
+								tagPose.transformBy(
 										new Transform2d(
 												offsetPose.getTranslation(),
 												Rotation2d.fromDegrees(180)

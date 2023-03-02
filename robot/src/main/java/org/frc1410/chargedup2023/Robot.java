@@ -1,6 +1,7 @@
 package org.frc1410.chargedup2023;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
@@ -77,7 +78,6 @@ public final class Robot extends PhaseDrivenRobot {
 		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
 		drivetrain.zeroHeading();
-		drivetrain.resetPoseEstimation(new Pose2d());
 
 		//<editor-fold desc="Default Commands">
 		scheduler.scheduleDefaultCommand(
@@ -145,7 +145,7 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-		driverController.LEFT_BUMPER.whileHeld(DeferredTask.fromCommand(scheduler, () ->
+		driverController.LEFT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
 					TeleopCommandGenerator.generateCommand(
 						camera,
 						drivetrain,
