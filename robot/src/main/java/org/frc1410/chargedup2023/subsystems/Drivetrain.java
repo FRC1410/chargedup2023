@@ -80,7 +80,7 @@ public class Drivetrain implements TickedSubsystem {
 	@Override
 	public void periodic() {
 		poseEstimator.update(
-				new Rotation2d(Units.degreesToRadians(gyro.getAngle())),
+				new Rotation2d(Units.degreesToRadians(getHeading())),
 				(leftLeader.getEncoder().getPosition() + leftFollower.getEncoder().getPosition()) / 2 * DRIVETRAIN_ENCODER_CONSTANT,
 				(rightLeader.getEncoder().getPosition() + rightFollower.getEncoder().getPosition()) / 2 * DRIVETRAIN_ENCODER_CONSTANT
 		);
@@ -88,6 +88,7 @@ public class Drivetrain implements TickedSubsystem {
 
 		// NetworkTables updating
 		headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees());
+//		headingPub.set(-gyro.getRotation2d().getDegrees());
 		xPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getX()));
 		yPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getY()));
 		voltagePub.set(RobotController.getBatteryVoltage());
@@ -119,8 +120,8 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public void autoTankDriveVolts(double leftVolts, double rightVolts) {
-		leftLeader.setVoltage(rightVolts);
-		rightLeader.setVoltage(leftVolts);
+		leftLeader.setVoltage(leftVolts);
+		rightLeader.setVoltage(rightVolts);
 
 		drive.feed();
 	}
@@ -180,7 +181,14 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public double getHeading() {
-		return gyro.getAngle();
+		return gyro.getRotation2d().getDegrees();
+//		double angle = gyro.getAngle() % 360;
+//		if (angle > 180) {
+//			return angle - 360;
+//		} else if (angle < -180) {
+//			return angle + 360;
+//		}
+//		return angle;
 	}
 
 	public double getPitch() {

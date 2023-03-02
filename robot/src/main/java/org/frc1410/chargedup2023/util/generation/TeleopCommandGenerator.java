@@ -62,7 +62,7 @@ public class TeleopCommandGenerator {
 						camera.getEstimatorPose().ifPresent(pose -> {
 							drivetrain.resetPoseEstimation(new Pose2d(
 									pose.getX(),
-									FIELD_WIDTH - pose.getY(),
+									pose.getY(),
 									drivetrain.getPoseEstimation().getRotation()
 							));
 						});
