@@ -64,8 +64,8 @@ public interface POIs {
 	Pose2d RED_LEFT_YANKEE_NODE = new Pose2d(inchesToMeters(40), -inchesToMeters(22), new Rotation2d());
 	Pose2d RED_PAPA_NODE = new Pose2d(inchesToMeters(40), 0, new Rotation2d());
 	Pose2d RED_RIGHT_YANKEE_NODE = new Pose2d(inchesToMeters(40), inchesToMeters(22), new Rotation2d());
-	Translation2d RED_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(536.22), FIELD_WIDTH - inchesToMeters(132));
-	Translation2d RED_OUTSIDE_WAYPOINT = new Translation2d(inchesToMeters(536.22), FIELD_WIDTH - inchesToMeters(284.5));
+	Translation2d RED_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(523), FIELD_WIDTH - inchesToMeters(132));
+	Translation2d RED_OUTSIDE_WAYPOINT = new Translation2d(inchesToMeters(523), inchesToMeters(41));
 	Pose2d RED_LEFT_SUBSTATION = new Pose2d(inchesToMeters(50.529), inchesToMeters(23.808), Rotation2d.fromDegrees(180));
 	Pose2d RED_RIGHT_SUBSTATION = new Pose2d(inchesToMeters(50.529), -inchesToMeters(24.46), Rotation2d.fromDegrees(180));
 

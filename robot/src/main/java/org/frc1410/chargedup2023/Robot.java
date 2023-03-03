@@ -62,10 +62,15 @@ public final class Robot extends PhaseDrivenRobot {
 	private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 	//</editor-fold>
 
+	public Robot() {
+		lightBar.set(LightBar.Profile.DISABLED);
+	}
+
 	@Override
 	public void autonomousSequence() {
 		drivetrain.zeroHeading();
 		drivetrain.brakeMode();
+		lightBar.set(LightBar.Profile.AUTO);
 
 		NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
 		String autoProfile = autoSubscriber.get();
@@ -76,8 +81,9 @@ public final class Robot extends PhaseDrivenRobot {
 	@Override
 	public void teleopSequence() {
 		drivetrain.brakeMode();
-		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
+		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera, lightBar), TaskPersistence.EPHEMERAL);
 		drivetrain.zeroHeading();
+		lightBar.set(LightBar.Profile.IDLE_STATE);
 
 		//<editor-fold desc="Default Commands">
 		scheduler.scheduleDefaultCommand(
@@ -214,7 +220,6 @@ public final class Robot extends PhaseDrivenRobot {
 
 		operatorController.BACK.whenPressed(
 				new ResetDrivetrain(drivetrain, camera, true),
-//				new ResetDrivetrain(drivetrain, camera, false),
 				TaskPersistence.EPHEMERAL
 		);
 
@@ -232,6 +237,8 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void testSequence() {
+		lightBar.set(LightBar.Profile.AUTO);
+		drivetrain.coastMode();
 		// Basic functionality and inversions: Drivetrain
 //		scheduler.scheduleDefaultCommand(new DriveLooped(
 //						drivetrain,
@@ -263,5 +270,10 @@ public final class Robot extends PhaseDrivenRobot {
 		operatorController.B.whenPressed(new RetractIntake(intake), TaskPersistence.EPHEMERAL);
 		//
 
+	}
+
+	@Override
+	public void disabledSequence() {
+		lightBar.set(LightBar.Profile.DISABLED);
 	}
 }

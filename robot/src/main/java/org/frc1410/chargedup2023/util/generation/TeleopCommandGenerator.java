@@ -154,8 +154,10 @@ public class TeleopCommandGenerator {
 			Pose3d aprilTagPose,
 			int tagID
 	) {
-		var waypointFlag = drivetrain.getPoseEstimation().getX() < WAYPOINT_THRESHOLD;
 		var isRed = RED_TAGS.contains(tagID);
+		var waypointFlag = isRed
+				? drivetrain.getPoseEstimation().getX() < RED_OUTSIDE_WAYPOINT.getX()
+				: drivetrain.getPoseEstimation().getX() > BLUE_OUTSIDE_WAYPOINT.getX();
 
 		goToAprilTagLogger.debug("Function entered");
 		goToAprilTagLogger.debug("Waypoint " + (waypointFlag ? "is necessary" : "is not necessary"));
@@ -165,6 +167,7 @@ public class TeleopCommandGenerator {
 			case LEFT_YANKEE_NODE -> {
 				if ((tagID == 1 || tagID == 6) && waypointFlag) {
 					goToAprilTagLogger.debug("Target is left yankee");
+					goToAprilTagLogger.debug("Waypoint go brrrrr");
 					return new OTFToPoint(
 							drivetrain,
 							aprilTagPose.toPose2d(),

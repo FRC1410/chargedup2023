@@ -47,6 +47,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 		//</editor-fold>
 //		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
 		var velocity = 0;
+		System.out.println(velocity);
 		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(

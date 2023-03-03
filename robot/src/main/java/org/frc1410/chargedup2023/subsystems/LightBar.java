@@ -16,7 +16,10 @@ public class LightBar implements Subsystem {
 		YANKEE_PICKUP(0.69),
 		PAPA_PICKUP(0.91),
 		IDLE_STATE(0.75),
+		AUTO(0.14),
+		DISABLED(0.25)
 		;
+
 
 		private final double id;
 

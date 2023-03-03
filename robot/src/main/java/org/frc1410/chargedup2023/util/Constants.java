@@ -98,7 +98,6 @@ public interface Constants {
 	List<Integer> RED_TAGS = List.of(1, 2, 3, 4);
 	double FIELD_WIDTH = Units.inchesToMeters(315.5);
 
-	double WAYPOINT_THRESHOLD = -Units.inchesToMeters(70);
 	//</editor-fold>
 
 	//<editor-fold desc="Elevator">

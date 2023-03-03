@@ -137,7 +137,7 @@ public class Drivetrain implements TickedSubsystem {
 
 	public void addVisionPose(Pose2d pose, double timestamp) {
 		poseEstimator.addVisionMeasurement(pose, timestamp, Constants.VISION_STD_DEVS);
-		log.debug("Vision pose added to pose estimator");
+//		log.debug("Vision pose added to pose estimator");
 	}
 
 	public void resetPoseEstimation(Pose2d pose) {

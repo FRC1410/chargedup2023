@@ -6,6 +6,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.ExternalCamera;
+import org.frc1410.chargedup2023.subsystems.LightBar;
 
 import static org.frc1410.chargedup2023.util.Constants.FIELD_WIDTH;
 import static org.frc1410.chargedup2023.util.Tuning.ANGLE_THRESHOLD;
@@ -14,10 +15,12 @@ public class UpdatePoseEstimation extends CommandBase {
 
 	private final Drivetrain drivetrain;
 	private final ExternalCamera camera;
+	private final LightBar lightBar;
 
-	public UpdatePoseEstimation(Drivetrain drivetrain, ExternalCamera camera) {
+	public UpdatePoseEstimation(Drivetrain drivetrain, ExternalCamera camera, LightBar lightBar) {
 		this.drivetrain = drivetrain;
 		this.camera = camera;
+		this.lightBar = lightBar;
 	}
 
 	@Override
@@ -25,14 +28,17 @@ public class UpdatePoseEstimation extends CommandBase {
 		camera.getEstimatorPose().ifPresentOrElse(pose -> {
 //			System.out.println("Cam has targets? " + camera.hasTargets());
 					if ((Math.abs(Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees()) - Math.abs(-pose.getRotation().getDegrees())) <= ANGLE_THRESHOLD) && camera.hasTargets()) {
+						lightBar.set(LightBar.Profile.IDLE_STATE);
 						System.out.println("If statement true");
-						drivetrain.addVisionPose(
-								new Pose2d(pose.getX(), pose.getY(), drivetrain.getPoseEstimation().getRotation()),
-								camera.getTimestamp()
-						);
+//						drivetrain.addVisionPose(
+//								new Pose2d(pose.getX(), pose.getY(), drivetrain.getPoseEstimation().getRotation()),
+//								camera.getTimestamp()
+//						);
 //						System.out.println(drivetrain.getHeading() + "HEADING");
+					} else {
+						lightBar.set(LightBar.Profile.PAPA_PICKUP);
 					}
-				}, () -> System.out.println("Tried to update thinf but no thing :(")
+				}, () -> System.out.println("Tried to update thing but no thing :(")
 		);
 	}
 }

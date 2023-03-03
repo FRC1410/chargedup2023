@@ -2,6 +2,7 @@ package org.frc1410.chargedup2023.commands.actions;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.subsystems.ExternalCamera;
@@ -28,6 +29,7 @@ public class ResetDrivetrain extends CommandBase {
 						pose.getY(),
 						useVisionAngle ? Rotation2d.fromDegrees(-pose.getRotation().getDegrees()) : new Rotation2d(drivetrain.getHeading())
 				)
+//				new Pose2d(Units.inchesToMeters(490.38), Units.inchesToMeters(36.19), new Rotation2d(Units.degreesToRadians(-1.12)))
 		));
 	}
 

@@ -38,7 +38,7 @@ public interface Trajectories {
             new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
 
     DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 6);
+            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 4);
 
 	CentripetalAccelerationConstraint centripAccelConstraint = new CentripetalAccelerationConstraint(2.4);
 
