@@ -17,7 +17,6 @@ public class OTFToPoint extends SequentialCommandGroup {
 	private static final Logger log = new Logger("OTFToPoint");
 
 	public OTFToPoint(Drivetrain drivetrain, Pose2d tagPose, Pose2d offsetPose) {
-
 		log.debug(tagPose.toString());
 
 		//<editor-fold desc="SOUT" defaultstate="collapsed">

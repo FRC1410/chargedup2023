@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 
 public class TurnToAngle extends CommandBase {
-	
 	private final Drivetrain drivetrain;
 	private double pidOutput = 0;
 	private final double kP = 0.06;
