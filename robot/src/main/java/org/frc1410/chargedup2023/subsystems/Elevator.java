@@ -42,11 +42,6 @@ public class Elevator implements TickedSubsystem {
 
 		leftMotor.setSmartCurrentLimit(10, 20);
 		rightMotor.setSmartCurrentLimit(10, 20);
-
-//		leftMotor.enableSoftLimit();
-
-//		encoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
-//		encoder.configFeedbackNotContinuous(false, 10);
 	}
 
 	public void setSpeed(double speed) {
@@ -60,8 +55,6 @@ public class Elevator implements TickedSubsystem {
 	}
 
 	public double getPosition() {
-//		double encoderRevolutions = (leftMotor.getEncoder().getPosition() + rightMotor.getEncoder().getPosition()) / 2;
-//		return -encoderRevolutions * ELEVATOR_NEO_ENCODER_CONSTANT;
 		return ((leftEncoder.getPosition() + rightEncoder.getPosition()) / 2) * ELEVATOR_NEO_ENCODER_CONSTANT;
 	}
 

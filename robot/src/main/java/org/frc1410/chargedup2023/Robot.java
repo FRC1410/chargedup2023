@@ -114,38 +114,7 @@ public final class Robot extends PhaseDrivenRobot {
 		//</editor-fold>
 
 		//<editor-fold desc="Teleop Automation">
-//		driverController.LEFT_BUMPER.whileHeld(
-//				new LookForAprilTag(
-//						driverController,
-//						driverController.LEFT_BUMPER,
-//						drivetrain,
-//						camera,
-//						lBork,
-//						elevator,
-//						intake,
-//						scheduler,
-//						false
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-//
-//		driverController.RIGHT_BUMPER.whileHeld(
-//				new LookForAprilTag(
-//						driverController,
-//						driverController.RIGHT_BUMPER,
-//						drivetrain,
-//						camera,
-//						lBork,
-//						elevator,
-//						intake,
-//						scheduler,
-//						true
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-
 		// Possible structure with generator functions
-
 		driverController.RIGHT_BUMPER.whileHeld(DeferredTask.fromCommand(scheduler, () ->
 				TeleopCommandGenerator.generateCommand(
 						camera,
@@ -229,17 +198,6 @@ public final class Robot extends PhaseDrivenRobot {
 				new ResetDrivetrain(drivetrain, camera, true),
 				TaskPersistence.EPHEMERAL
 		);
-
-		// Not necessary?
-//		operatorController.B.whenPressed(
-//				new YankeeIntakePosition(
-//						intake,
-//						lBork,
-//						elevator,
-//						lightBar
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
 	}
 
 	@Override

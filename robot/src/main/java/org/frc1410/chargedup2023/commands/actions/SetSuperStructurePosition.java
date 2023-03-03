@@ -79,7 +79,7 @@ public class SetSuperStructurePosition extends CommandBase {
 			}
 		}
 
-		timer.start();
+		timer.restart();
 	}
 
 	@Override
