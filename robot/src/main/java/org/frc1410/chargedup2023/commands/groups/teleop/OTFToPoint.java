@@ -5,6 +5,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.framework.util.log.Logger;
@@ -79,11 +80,13 @@ public class OTFToPoint extends SequentialCommandGroup {
 		addCommands(
 				command,
 				new InstantCommand(() -> {
+					drivetrain.autoTankDriveVolts(0, 0);
 					System.out.println("Results");
 					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
 					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
 					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
-				})
+				}),
+				new RunCommand(() -> {})
 		);
 	}
 
@@ -137,11 +140,13 @@ public class OTFToPoint extends SequentialCommandGroup {
 		addCommands(
 				command,
 				new InstantCommand(() -> {
+					drivetrain.autoTankDriveVolts(0, 0);
 					System.out.println("Results");
 					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
 					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
 					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
-				})
+				}),
+				new RunCommand(() -> {})
 		);
 	}
 }
