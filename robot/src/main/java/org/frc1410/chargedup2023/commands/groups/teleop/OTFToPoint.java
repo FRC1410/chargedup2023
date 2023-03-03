@@ -45,9 +45,9 @@ public class OTFToPoint extends SequentialCommandGroup {
 				)
 		).getRotation().getDegrees());
 		//</editor-fold>
-//		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
-		var velocity = 0;
-		System.out.println(velocity);
+		var velocity = drivetrain.getVelocity();
+		System.out.println("STARTING VELOCITY: " + velocity);
+//		var velocity = 0;
 		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
@@ -105,9 +105,9 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(Units.metersToInches(offsetPose.getY()));
 		System.out.println(offsetPose.getRotation().getDegrees());
 		//</editor-fold>
-//		tagPose = new Pose2d(tagPose.getX(), FIELD_WIDTH - tagPose.getY(), new Rotation2d((tagPose.getRotation().getRadians() + Math.PI) % (2*Math.PI)));
-//		var velocity = (drivetrain.getWheelSpeeds().leftMetersPerSecond + drivetrain.getWheelSpeeds().rightMetersPerSecond) / 2;
-		var velocity = 0;
+		var velocity = drivetrain.getVelocity();
+		System.out.println("STARTING VELOCITY: " + velocity);
+//		var velocity = 0;
 		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(

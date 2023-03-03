@@ -44,7 +44,7 @@ public class Drivetrain implements TickedSubsystem {
 	private final CANSparkMax rightLeader = new CANSparkMax(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax rightFollower = new CANSparkMax(DRIVETRAIN_RIGHT_BACK_MOTOR_ID, MotorType.kBrushless);
 
-	public final AHRS gyro = new AHRS(SPI.Port.kMXP);
+	public final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte)50);
 
 	private final DifferentialDrive drive;
 
@@ -159,6 +159,13 @@ public class Drivetrain implements TickedSubsystem {
 		double rightEncoderVelocity = rightLeader.getEncoder().getVelocity() / 60 * DRIVETRAIN_ENCODER_CONSTANT;
 
 		return new DifferentialDriveWheelSpeeds(leftEncoderVelocity, rightEncoderVelocity);
+	}
+
+	public double getVelocity() {
+		double leftEncoderVelocity = leftLeader.getEncoder().getVelocity() / 60 * DRIVETRAIN_ENCODER_CONSTANT;
+		double rightEncoderVelocity = rightLeader.getEncoder().getVelocity() / 60 * DRIVETRAIN_ENCODER_CONSTANT;
+
+		return (leftEncoderVelocity + rightEncoderVelocity) / 2;
 	}
 
 	public void coastMode() {
