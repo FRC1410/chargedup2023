@@ -116,6 +116,8 @@ public interface Constants {
 	double ELEVATOR_RAISED_POSITION = 31.5;
 	double ELEVATOR_SUBSTATION_POSITION = 27.36;
 	double ELEVATOR_TOLERANCE = 0.2;
+
+	double ELEVATOR_HOLDING_POWER = 0.05; // Percent
 	//</editor-fold>
 
 	//<editor-fold desc="Timing">

@@ -17,6 +17,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
+import org.frc1410.chargedup2023.commands.looped.HoldElevator;
 import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
 import org.frc1410.chargedup2023.commands.looped.UpdatePoseEstimation;
 import org.frc1410.chargedup2023.subsystems.*;
@@ -103,6 +104,13 @@ public final class Robot extends PhaseDrivenRobot {
 						operatorController.RIGHT_TRIGGER),
 				TaskPersistence.GAMEPLAY
 		);
+
+//		scheduler.scheduleDefaultCommand(
+//				new HoldElevator(
+//						elevator
+//				),
+//				TaskPersistence.GAMEPLAY
+//		);
 		//</editor-fold>
 
 		//<editor-fold desc="Teleop Automation">
