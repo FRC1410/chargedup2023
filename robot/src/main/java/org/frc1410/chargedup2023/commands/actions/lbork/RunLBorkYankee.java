@@ -19,9 +19,9 @@ public class RunLBorkYankee extends CommandBase {
 	@Override
 	public void initialize() {
 		if (outtaking) {
-			lBork.setRollerSpeeds(LBORK_YANKEE_OUTTAKE_SPEED, -LBORK_YANKEE_OUTTAKE_SPEED);
+			lBork.setRollerSpeeds(-LBORK_YANKEE_OUTTAKE_SPEED, LBORK_YANKEE_OUTTAKE_SPEED);
 		} else {
-			lBork.setRollerSpeeds(LBORK_YANKEE_INTAKE_SPEED, -LBORK_YANKEE_INTAKE_SPEED);
+			lBork.setRollerSpeeds(-LBORK_YANKEE_INTAKE_SPEED, LBORK_YANKEE_INTAKE_SPEED);
 		}
 	}
 
