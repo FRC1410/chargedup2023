@@ -133,7 +133,6 @@ public interface Constants {
 	//</editor-fold>
 
 	//<editor-fold desc="Auto Timing">
-	double CREEPY_WAIT = 3; // Seconds
-	double OKLAHOMA_WAIT = 1.5; // Seconds
+	double OKLAHOMA_WAIT = 2; // Seconds
 	// </editor-fold>
 }
