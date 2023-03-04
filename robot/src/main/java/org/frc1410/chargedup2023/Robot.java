@@ -12,11 +12,8 @@ import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.Engage;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
-import org.frc1410.chargedup2023.commands.actions.intake.ExtendIntake;
-import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
-import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
-import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
-import org.frc1410.chargedup2023.commands.groups.auto.Creepy;
+import org.frc1410.chargedup2023.commands.actions.intake.*;
+import org.frc1410.chargedup2023.commands.actions.lbork.*;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.HoldElevator;
@@ -63,10 +60,6 @@ public final class Robot extends PhaseDrivenRobot {
 
 	private final StringSubscriber autoSubscriber = NetworkTables.SubscriberFactory(table, autoPublisher.getTopic());
 	//</editor-fold>
-
-	public Robot() {
-		lightBar.set(LightBar.Profile.DISABLED);
-	}
 
 	@Override
 	public void autonomousSequence() {
@@ -206,7 +199,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void testSequence() {
-		lightBar.set(LightBar.Profile.AUTO);
+		lightBar.set(LightBar.Profile.TEST);
 		drivetrain.coastMode();
 		// Basic functionality and inversions: Drivetrain
 //		scheduler.scheduleDefaultCommand(new DriveLooped(
@@ -217,10 +210,10 @@ public final class Robot extends PhaseDrivenRobot {
 //						driverController.LEFT_TRIGGER),
 //				TaskPersistence.EPHEMERAL
 //		);
-//
+
 		// Basic functionality and inversions: Elevator
 		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, driverController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
-//
+
 		// Basic functionality and inversions: LBork
 		// Papa Intake
 		driverController.A.whileHeld(new RunLBorkPapa(lBork, false), TaskPersistence.EPHEMERAL);
@@ -237,12 +230,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 		operatorController.A.whenPressed(new ExtendIntake(intake), TaskPersistence.EPHEMERAL);
 		operatorController.B.whenPressed(new RetractIntake(intake), TaskPersistence.EPHEMERAL);
-		//
-
-	}
-
-	@Override
-	public void disabledSequence() {
-		lightBar.set(LightBar.Profile.DISABLED);
+		operatorController.X.whileHeld(new ExtendLBork(lBork), TaskPersistence.EPHEMERAL);
+		operatorController.Y.whileHeld(new RetractLBork(lBork), TaskPersistence.EPHEMERAL);
 	}
 }
