@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.frc1410.chargedup2023.subsystems.Elevator;
 import org.frc1410.chargedup2023.subsystems.Intake;
+import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.framework.util.log.Logger;
 
 import static org.frc1410.chargedup2023.util.Constants.*;
@@ -12,9 +13,9 @@ import static org.frc1410.chargedup2023.util.Tuning.*;
 
 
 public class SetSuperStructurePosition extends CommandBase {
-
 	private final Elevator elevator;
 	private final Intake intake;
+	private final LBork lBork;
 
 	private final double elevatorTargetPosition;
 	private final double elevatorInitialPosition;
@@ -26,9 +27,10 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	private PIDController pid;
 
-	public SetSuperStructurePosition(Elevator elevator, Intake intake, double elevatorPosition, boolean extendIntake) {
+	public SetSuperStructurePosition(Elevator elevator, Intake intake, LBork lBork, double elevatorPosition, boolean extendIntake) {
 		this.elevator = elevator;
 		this.intake = intake;
+		this.lBork = lBork;
 
 		this.elevatorTargetPosition = elevatorPosition;
 		this.elevatorInitialPosition = elevator.getPosition();
@@ -84,9 +86,10 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (willInterfere() && timer.get() < INTAKE_LBORK_EXTEND_TIME) {
-			return;
-		}
+		if (elevator.getPosition() > ELEVATOR_UPPER_CONFLICT_POSITION) lBork.extend();
+		else lBork.retract();
+
+		if (willInterfere() && timer.get() < INTAKE_LBORK_EXTEND_TIME) return;
 
 		// Use PID to set speed
 		elevator.setVolts(-pid.calculate(elevator.getPosition()));

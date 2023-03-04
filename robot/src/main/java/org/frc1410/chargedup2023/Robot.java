@@ -117,7 +117,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 		//<editor-fold desc="Teleop Automation">
 		// Possible structure with generator functions
-		driverController.RIGHT_BUMPER.whileHeld(DeferredTask.fromCommand(scheduler, () ->
+		driverController.RIGHT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
 				TeleopCommandGenerator.generateCommand(
 						camera,
 						drivetrain,
@@ -144,12 +144,12 @@ public final class Robot extends PhaseDrivenRobot {
 
 		//<editor-fold desc="Panic Intake Retract">
 		driverController.A.whenPressed(
-				new PanicMode(intake, elevator),
+				new PanicMode(intake, elevator, lBork),
 				TaskPersistence.EPHEMERAL
 		);
 
 		operatorController.A.whenPressed(
-				new PanicMode(intake, elevator),
+				new PanicMode(intake, elevator, lBork),
 				TaskPersistence.EPHEMERAL
 		);
 		//</editor-fold>
@@ -176,6 +176,7 @@ public final class Robot extends PhaseDrivenRobot {
 				new PapaIntakePosition(
 						intake,
 						elevator,
+						lBork,
 						lightBar
 				),
 				TaskPersistence.EPHEMERAL
@@ -185,6 +186,7 @@ public final class Robot extends PhaseDrivenRobot {
 				new IdleState(
 						intake,
 						elevator,
+						lBork,
 						lightBar
 				),
 				TaskPersistence.EPHEMERAL

@@ -17,14 +17,14 @@ public class DropHeldPiece extends SequentialCommandGroup {
 	public DropHeldPiece(Intake intake, LBork lBork, Elevator elevator, boolean papa) {
 		addRequirements(intake, lBork, elevator);
 		addCommands(
-				new SetSuperStructurePosition(elevator, intake, ELEVATOR_MID_POSITION, true),
+				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_MID_POSITION, true),
 				new ParallelRaceGroup(
 						papa
 								? new RunLBorkPapa(lBork, true)
 								: new RunLBorkYankee(lBork, true),
 						new WaitCommand(OUTTAKE_TIME)
 				),
-				new SetSuperStructurePosition(elevator, intake, ELEVATOR_DRIVING_POSITION, false)
+				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_DRIVING_POSITION, false)
 		);
 	}
 }
