@@ -19,6 +19,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
 import org.frc1410.chargedup2023.commands.groups.auto.Creepy;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
+import org.frc1410.chargedup2023.commands.looped.HoldElevator;
 import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
 import org.frc1410.chargedup2023.commands.looped.UpdatePoseEstimation;
 import org.frc1410.chargedup2023.subsystems.*;
@@ -105,41 +106,17 @@ public final class Robot extends PhaseDrivenRobot {
 						operatorController.RIGHT_TRIGGER),
 				TaskPersistence.GAMEPLAY
 		);
+
+//		scheduler.scheduleDefaultCommand(
+//				new HoldElevator(
+//						elevator
+//				),
+//				TaskPersistence.GAMEPLAY
+//		);
 		//</editor-fold>
 
 		//<editor-fold desc="Teleop Automation">
-//		driverController.LEFT_BUMPER.whileHeld(
-//				new LookForAprilTag(
-//						driverController,
-//						driverController.LEFT_BUMPER,
-//						drivetrain,
-//						camera,
-//						lBork,
-//						elevator,
-//						intake,
-//						scheduler,
-//						false
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-//
-//		driverController.RIGHT_BUMPER.whileHeld(
-//				new LookForAprilTag(
-//						driverController,
-//						driverController.RIGHT_BUMPER,
-//						drivetrain,
-//						camera,
-//						lBork,
-//						elevator,
-//						intake,
-//						scheduler,
-//						true
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
-
 		// Possible structure with generator functions
-
 		driverController.RIGHT_BUMPER.whileHeld(DeferredTask.fromCommand(scheduler, () ->
 				TeleopCommandGenerator.generateCommand(
 						camera,
@@ -223,17 +200,6 @@ public final class Robot extends PhaseDrivenRobot {
 				new ResetDrivetrain(drivetrain, camera, true),
 				TaskPersistence.EPHEMERAL
 		);
-
-		// Not necessary?
-//		operatorController.B.whenPressed(
-//				new YankeeIntakePosition(
-//						intake,
-//						lBork,
-//						elevator,
-//						lightBar
-//				),
-//				TaskPersistence.EPHEMERAL
-//		);
 	}
 
 	@Override
