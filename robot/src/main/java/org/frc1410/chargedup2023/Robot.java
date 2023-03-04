@@ -93,8 +93,10 @@ public final class Robot extends PhaseDrivenRobot {
 
 		scheduler.scheduleDefaultCommand(
 				new RunIntakeLooped(
+						elevator,
 						intake,
 						lBork,
+						scheduler,
 						operatorController.LEFT_TRIGGER,
 						operatorController.RIGHT_TRIGGER),
 				TaskPersistence.GAMEPLAY
