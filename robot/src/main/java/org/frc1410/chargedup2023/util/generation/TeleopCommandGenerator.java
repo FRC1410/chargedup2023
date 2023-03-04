@@ -131,6 +131,7 @@ public class TeleopCommandGenerator {
 //								elevator,
 //								intake,
 //								ELEVATOR_SUBSTATION_POSITION,
+//								false,
 //								false
 //						),
 						goToAprilTagGenerator(
@@ -292,7 +293,8 @@ public class TeleopCommandGenerator {
 //								elevator,
 //								intake,
 //								ELEVATOR_RAISED_POSITION,
-//								false
+//								false,
+//								true
 //						),
 						goToAprilTagGenerator(
 								drivetrain,
@@ -309,20 +311,12 @@ public class TeleopCommandGenerator {
 		);
 
 //		sublist.add(
-//				new ExtendLBork(lBork)
-//		);
-//
-//		sublist.add(
 //				new ParallelRaceGroup(
 //						ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_PAPA)
 //								? new RunLBorkPapa(lBork, true)
 //								: new RunLBorkYankee(lBork, true),
 //						new WaitCommand(RUN_LBORK_SCORING_TIME)
 //				)
-//		);
-//
-//		sublist.add(
-//				new RetractLBork(lBork)
 //		);
 
 		// TODO: ADD OUTTAKING WHILE BACKING UP; YOU SHOULD ALWAYS BE ABLE TO BACK UP LIKE ~6in.
@@ -346,6 +340,7 @@ public class TeleopCommandGenerator {
 //								elevator,
 //								intake,
 //								ELEVATOR_MID_POSITION,
+//								false,
 //								false
 //						),
 						goToAprilTagGenerator(
@@ -393,7 +388,8 @@ public class TeleopCommandGenerator {
 //								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE)
 //										? ELEVATOR_PAPA_POSITION
 //										: ELEVATOR_MID_POSITION,
-//								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE)
+//								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE),
+//								false
 //						),
 						goToAprilTagGenerator(
 								drivetrain,
