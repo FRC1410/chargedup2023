@@ -16,7 +16,7 @@ public class PanicMode extends SequentialCommandGroup {
 	public PanicMode(Intake intake, Elevator elevator, LBork lBork) {
 		addRequirements(intake, elevator);
 		addCommands(
-				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_DRIVING_POSITION, false),
+				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_DRIVING_POSITION, false, false),
 				new RetractIntake(intake)
 		);
 	}

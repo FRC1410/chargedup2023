@@ -15,7 +15,7 @@ public class IdleState extends SequentialCommandGroup {
 	public IdleState(Intake intake, Elevator elevator, LBork lBork, LightBar lightBar) {
 		addCommands(
 				new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_STATE)),
-				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false)
+				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false, false)
 		);
 	}
 }

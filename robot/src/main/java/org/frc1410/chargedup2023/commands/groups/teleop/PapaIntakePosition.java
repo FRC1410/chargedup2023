@@ -16,7 +16,7 @@ public class PapaIntakePosition extends SequentialCommandGroup {
 		addRequirements(intake, elevator);
 		addCommands(
 				new InstantCommand(() -> lightBar.set(LightBar.Profile.PAPA_PICKUP)),
-				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true)
+				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false)
 		);
 	}
 }

@@ -20,6 +20,7 @@ public class SetSuperStructurePosition extends CommandBase {
 	private final double elevatorTargetPosition;
 	private final double elevatorInitialPosition;
 	private final boolean extendIntake;
+	private final boolean extendLBork;
 
 	private static final Logger log = new Logger("SetSuperStructurePosition");
 
@@ -27,7 +28,7 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	private PIDController pid;
 
-	public SetSuperStructurePosition(Elevator elevator, Intake intake, LBork lBork, double elevatorPosition, boolean extendIntake) {
+	public SetSuperStructurePosition(Elevator elevator, Intake intake, LBork lBork, double elevatorPosition, boolean extendIntake, boolean extendLBork) {
 		this.elevator = elevator;
 		this.intake = intake;
 		this.lBork = lBork;
@@ -36,6 +37,7 @@ public class SetSuperStructurePosition extends CommandBase {
 		this.elevatorInitialPosition = elevator.getPosition();
 
 		this.extendIntake = extendIntake;
+		this.extendLBork = extendLBork;
 
 		addRequirements();
 	}
@@ -108,10 +110,10 @@ public class SetSuperStructurePosition extends CommandBase {
 
 		intake.setSpeed(0);
 
-		if (extendIntake) {
-			intake.extend();
-		} else {
-			intake.retract();
-		}
+		if (extendIntake) intake.extend();
+		else intake.retract();
+
+		if (extendLBork) lBork.extend();
+		else lBork.retract();
 	}
 }
