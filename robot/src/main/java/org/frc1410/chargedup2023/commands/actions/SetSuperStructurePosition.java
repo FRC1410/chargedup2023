@@ -64,6 +64,7 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	@Override
 	public void initialize() {
+		lBork.retract();
 		log.debug("Current Elevator Position: " + elevatorInitialPosition);
 		log.debug("Target Elevator position: " + elevatorTargetPosition);
 
