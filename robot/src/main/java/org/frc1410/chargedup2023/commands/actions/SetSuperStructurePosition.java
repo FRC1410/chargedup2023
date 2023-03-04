@@ -39,7 +39,7 @@ public class SetSuperStructurePosition extends CommandBase {
 		this.extendIntake = extendIntake;
 		this.extendLBork = extendLBork;
 
-		addRequirements();
+		addRequirements(elevator);
 	}
 
 	private boolean willInterfere() {

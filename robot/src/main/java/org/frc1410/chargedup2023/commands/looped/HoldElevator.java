@@ -12,12 +12,12 @@ public class HoldElevator extends CommandBase {
 	public HoldElevator(Elevator elevator) {
 		this.elevator = elevator;
 
-		addRequirements(this.elevator);
+		addRequirements(elevator);
 	}
 
 	@Override
 	public void execute() {
-		if (elevator.getPosition() < 1.5) {
+		if (elevator.getPosition() > 1.5) {
 			elevator.setSpeed(ELEVATOR_HOLDING_POWER);
 		}
 	}

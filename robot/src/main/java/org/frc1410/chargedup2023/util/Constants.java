@@ -105,7 +105,7 @@ public interface Constants {
 
 	//<editor-fold desc="Elevator">
 	// Elevator
-	double ELEVATOR_HOMING_SPEED = 0.5;
+	double ELEVATOR_HOMING_SPEED = 0.2;
 
 	double ELEVATOR_NEO_ENCODER_CONSTANT = -0.0916666666667 * 3;
 
@@ -122,7 +122,7 @@ public interface Constants {
 	double ELEVATOR_LOWER_CONFLICT_POSITION = 12;
 	double ELEVATOR_TOLERANCE = 0.2;
 
-	double ELEVATOR_HOLDING_POWER = 0.05; // Percent
+	double ELEVATOR_HOLDING_POWER = -0.03; // Percent
 	//</editor-fold>
 
 	//<editor-fold desc="Timing">

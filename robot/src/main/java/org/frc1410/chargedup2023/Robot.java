@@ -102,12 +102,10 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.GAMEPLAY
 		);
 
-//		scheduler.scheduleDefaultCommand(
-//				new HoldElevator(
-//						elevator
-//				),
-//				TaskPersistence.GAMEPLAY
-//		);
+		scheduler.scheduleDefaultCommand(
+				new HoldElevator(elevator),
+				TaskPersistence.GAMEPLAY
+		);
 		//</editor-fold>
 
 		//<editor-fold desc="Teleop Automation">
@@ -204,17 +202,22 @@ public final class Robot extends PhaseDrivenRobot {
 		lightBar.set(LightBar.Profile.TEST);
 		drivetrain.coastMode();
 		// Basic functionality and inversions: Drivetrain
-//		scheduler.scheduleDefaultCommand(new DriveLooped(
-//						drivetrain,
-//						driverController.LEFT_Y_AXIS,
-//						driverController.RIGHT_Y_AXIS,
-//						driverController.RIGHT_TRIGGER,
-//						driverController.LEFT_TRIGGER),
-//				TaskPersistence.EPHEMERAL
+		scheduler.scheduleDefaultCommand(new DriveLooped(
+						drivetrain,
+						driverController.LEFT_Y_AXIS,
+						driverController.RIGHT_Y_AXIS,
+						driverController.RIGHT_TRIGGER,
+						driverController.LEFT_TRIGGER),
+				TaskPersistence.EPHEMERAL
+		);
+
+//		scheduler.scheduleDefaultCommand(
+//				new HoldElevator(elevator),
+//				TaskPersistence.GAMEPLAY
 //		);
 
 		// Basic functionality and inversions: Elevator
-		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, driverController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
+		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
 
 		// Basic functionality and inversions: LBork
 		// Papa Intake
@@ -227,6 +230,7 @@ public final class Robot extends PhaseDrivenRobot {
 		driverController.Y.whileHeld(new RunLBorkYankee(lBork, true), TaskPersistence.EPHEMERAL);
 //
 //		// Superstructure movement and sequencing
+
 		driverController.START.whenPressed(new HomeElevator(intake, lBork, elevator), TaskPersistence.EPHEMERAL);
 		driverController.BACK.whenPressed(new ResetDrivetrain(drivetrain, camera, true), TaskPersistence.EPHEMERAL);
 

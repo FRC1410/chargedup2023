@@ -39,13 +39,13 @@ public class RunIntakeLooped extends CommandBase {
 		}
 
 		if (leftTrigger.get() > 0 || rightTrigger.get() > 0) {
-			scheduler.scheduleAutoCommand(new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false));
+//			scheduler.scheduleAutoCommand(new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false));
 		}
 
 		if (rightTrigger.get() > leftTrigger.get()) {
-			lBork.setRollerSpeeds(LBORK_PAPA_INTAKE_OUTER_ROLLER_SPEED, LBORK_PAPA_INTAKE_INNER_ROLLER_SPEED);
+			lBork.setRollerSpeeds(-LBORK_PAPA_INTAKE_OUTER_ROLLER_SPEED, -LBORK_PAPA_INTAKE_INNER_ROLLER_SPEED);
 		} else if (rightTrigger.get() < leftTrigger.get()) {
-			lBork.setRollerSpeeds(LBORK_PAPA_OUTTAKE_OUTER_ROLLER_SPEED, LBORK_PAPA_OUTTAKE_INNER_ROLLER_SPEED);
+			lBork.setRollerSpeeds(-LBORK_PAPA_OUTTAKE_OUTER_ROLLER_SPEED, -LBORK_PAPA_OUTTAKE_INNER_ROLLER_SPEED);
 		} else {
 			lBork.setRollerSpeeds(0, 0);
 		}
