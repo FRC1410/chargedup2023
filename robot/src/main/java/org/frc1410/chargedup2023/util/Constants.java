@@ -82,11 +82,16 @@ public interface Constants {
 
 	//<editor-fold desc="LBork">
 	// LBork rollers
-	double LBORK_YANKEE_INTAKE_SPEED = -1; // 0.6
-	double LBORK_YANKEE_OUTTAKE_SPEED = 0.5; // -0.3
+	double LBORK_YANKEE_INTAKE_SPEED = -1;
+	double LBORK_YANKEE_OUTTAKE_SPEED = 1;
 
-	double LBORK_PAPA_INTAKE_SPEED = 0.7; // 0.6
-	double LBORK_PAPA_OUTTAKE_SPEED = -0.5; // -0.3
+	double LBORK_PAPA_OUTTAKE_OUTER_ROLLER_SPEED = -0.5;
+	double LBORK_PAPA_OUTTAKE_INNER_ROLLER_SPEED = -1;
+
+	double LBORK_PAPA_INTAKE_OUTER_ROLLER_SPEED = 0.5;
+	double LBORK_PAPA_INTAKE_INNER_ROLLER_SPEED = 1;
+
+	double LBORK_PAPA_OUTTAKE_SPEED = -1;
 	//</editor-fold>
 
 	//<editor-fold desc="AprilTags & Vision">
