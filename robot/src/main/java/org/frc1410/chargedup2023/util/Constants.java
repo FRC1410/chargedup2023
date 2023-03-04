@@ -118,18 +118,22 @@ public interface Constants {
 	double ELEVATOR_MID_POSITION = 23;
 	double ELEVATOR_RAISED_POSITION = 31.5;
 	double ELEVATOR_SUBSTATION_POSITION = 27.36;
-	double ELEVATOR_UPPER_CONFLICT_POSITION = 12;
+	double ELEVATOR_UPPER_CONFLICT_POSITION = 16;
+	double ELEVATOR_LOWER_CONFLICT_POSITION = 12;
 	double ELEVATOR_TOLERANCE = 0.2;
 
 	double ELEVATOR_HOLDING_POWER = 0.05; // Percent
 	//</editor-fold>
 
 	//<editor-fold desc="Timing">
-	// Other stuff
 	double INTAKE_LBORK_EXTEND_TIME = 1; // Seconds
 	double OUTTAKE_TIME = 0.5; // Seconds
 	double SUBSTATION_INTAKE_TIME = 3; // Seconds
-	double CREEPY_WAIT = 3; // Seconds
 	double RUN_LBORK_SCORING_TIME = 3; // Seconds
 	//</editor-fold>
+
+	//<editor-fold desc="Auto Timing">
+	double CREEPY_WAIT = 3; // Seconds
+	double OKLAHOMA_WAIT = 1.5; // Seconds
+	// </editor-fold>
 }

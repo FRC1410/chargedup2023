@@ -88,7 +88,10 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (elevator.getPosition() > ELEVATOR_UPPER_CONFLICT_POSITION) lBork.extend();
+		if (
+				elevator.getPosition() < ELEVATOR_UPPER_CONFLICT_POSITION &&
+				elevator.getPosition() > ELEVATOR_LOWER_CONFLICT_POSITION
+		) lBork.extend();
 		else lBork.retract();
 
 		if (willInterfere() && timer.get() < INTAKE_LBORK_EXTEND_TIME) return;
