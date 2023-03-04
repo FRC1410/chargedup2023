@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
+import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
 import org.frc1410.chargedup2023.commands.actions.lbork.ExtendLBork;
 import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
@@ -55,20 +56,22 @@ public class TeleopCommandGenerator {
 
 		// Now we need to check if the drivetrain has been reset
 		// And if not, add that to the list of commands to run
-		if (!drivetrain.hasBeenReset()) {
-			generateCommandLog.debug("Resetting drivetrain position");
-			toRun.add(
-					new InstantCommand(() -> {
-						camera.getEstimatorPose().ifPresent(pose -> {
-							drivetrain.resetPoseEstimation(new Pose2d(
-									pose.getX(),
-									pose.getY(),
-									drivetrain.getPoseEstimation().getRotation()
-							));
-						});
-					})
-			);
-		}
+		generateCommandLog.debug("Resetting drivetrain position");
+//		toRun.add(
+//				new InstantCommand(() -> {
+//					camera.getEstimatorPose().ifPresent(pose -> {
+//						drivetrain.resetPoseEstimation(new Pose2d(
+//								pose.getX(),
+//								pose.getY(),
+//								drivetrain.getPoseEstimation().getRotation()
+//						));
+//					});
+//				})
+//		);
+
+		toRun.add(
+				new ResetDrivetrain(drivetrain, camera, true)
+		);
 
 		// Now on to the tag logic itself
 		var tagID = camera.getTarget().getFiducialId();
@@ -102,6 +105,8 @@ public class TeleopCommandGenerator {
 
 		// Always have to reset if the drivetrain has been reset or not
 		toRun.add(new InstantCommand(() -> drivetrain.setReset(false)));
+
+		toRun.add(new RunCommand(() -> {}));
 
 		return new SequentialCommandGroup(toRun.toArray(new Command[0]));
 //		return new InstantCommand();

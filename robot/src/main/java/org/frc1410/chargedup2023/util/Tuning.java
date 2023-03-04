@@ -5,23 +5,23 @@ public interface Tuning {
 	double KB = 2.0;
 	double KZ = 0.7;
 
-	double KP_VEL = 3.50;
+	double KP_VEL = 3.5;
 	double KP_VEL_SLOW = 0.25;
 
-	double MAX_SPEED = 5;
-	double MAX_ACCEL = 5;
+	double MAX_SPEED = 2;
+	double MAX_ACCEL = 2;
 
 	// Engage
-	double ENGAGE_P = 1;
+	double ENGAGE_P = 0.008;
 	double ENGAGE_I = 0;
-	double ENGAGE_D = 0.5;
+	double ENGAGE_D = 0.001;
 
-	double ENGAGE_POSITION_TOLERANCE = 1;
-	double ENGAGE_VELOCITY_TOLERANCE = 0;
+	double ENGAGE_POSITION_TOLERANCE = 6;
+	double ENGAGE_VELOCITY_TOLERANCE = 2;
 	double ENGAGE_MAX_POWER = 0.25;
 
 	// AprilTags
-	double ANGLE_THRESHOLD = 10;
+	double ANGLE_THRESHOLD = 4;
 
 	// Elevator
 	double ELEVATOR_KP = 3;

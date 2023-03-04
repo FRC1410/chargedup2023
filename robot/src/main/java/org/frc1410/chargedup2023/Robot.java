@@ -9,12 +9,14 @@ import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
+import org.frc1410.chargedup2023.commands.actions.drivetrain.Engage;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.intake.ExtendIntake;
 import org.frc1410.chargedup2023.commands.actions.intake.RetractIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
+import org.frc1410.chargedup2023.commands.groups.auto.Creepy;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
@@ -51,8 +53,8 @@ public final class Robot extends PhaseDrivenRobot {
 	private final NetworkTable table = nt.getTable("Auto");
 
 	private final AutoSelector autoSelector = new AutoSelector()
-			.add("Default", SequentialCommandGroup::new);
-//			.add("Tax", () -> new taxiii(drivetrain));
+			.add("Default", SequentialCommandGroup::new)
+			.add("Creepy", () -> new Engage(drivetrain));
 
 
 	private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",

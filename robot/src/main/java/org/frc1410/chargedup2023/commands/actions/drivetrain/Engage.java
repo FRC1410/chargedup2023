@@ -25,15 +25,22 @@ public class Engage extends CommandBase {
 
     @Override
     public void execute() {
-        var currentAngle = drivetrain.getPitch();
-        var controllerOutput = controller.calculate(currentAngle);
+		var currentAngle = drivetrain.getPitch();
 
-        drivetrain.setEngagePower(Math.min(controllerOutput, ENGAGE_MAX_POWER));
+		if (currentAngle > ENGAGE_POSITION_TOLERANCE || currentAngle < -ENGAGE_POSITION_TOLERANCE) {
+			System.out.println("Running");
+			var controllerOutput = controller.calculate(currentAngle);
+
+			// If somebody changes this they will be skinned alive
+			drivetrain.setEngagePower(-(Math.log1p(Math.min(controllerOutput, ENGAGE_MAX_POWER)))/Math.log1p(Math.PI));
+		} else {
+			drivetrain.autoTankDriveVolts(0, 0);
+		}
     }
 
     @Override
     public boolean isFinished() {
-        return controller.atSetpoint();
+        return false;
     }
 
     @Override

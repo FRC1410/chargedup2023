@@ -29,11 +29,11 @@ public class UpdatePoseEstimation extends CommandBase {
 //			System.out.println("Cam has targets? " + camera.hasTargets());
 					if ((Math.abs(Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees()) - Math.abs(-pose.getRotation().getDegrees())) <= ANGLE_THRESHOLD) && camera.hasTargets()) {
 						lightBar.set(LightBar.Profile.IDLE_STATE);
-						System.out.println("If statement true");
-//						drivetrain.addVisionPose(
-//								new Pose2d(pose.getX(), pose.getY(), drivetrain.getPoseEstimation().getRotation()),
-//								camera.getTimestamp()
-//						);
+//						System.out.println("If statement true");
+						drivetrain.addVisionPose(
+								new Pose2d(pose.getX(), pose.getY(), drivetrain.getPoseEstimation().getRotation()),
+								camera.getTimestamp()
+						);
 //						System.out.println(drivetrain.getHeading() + "HEADING");
 					} else {
 						lightBar.set(LightBar.Profile.PAPA_PICKUP);

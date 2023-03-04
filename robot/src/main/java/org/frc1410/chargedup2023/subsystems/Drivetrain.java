@@ -30,6 +30,7 @@ public class Drivetrain implements TickedSubsystem {
 	// NetworkTables entries
 	private final NetworkTable table = NetworkTableInstance.getDefault().getTable("Drivetrain");
 	private final DoublePublisher headingPub = NetworkTables.PublisherFactory(table, "Heading", 0);
+	private final DoublePublisher pitchPub = NetworkTables.PublisherFactory(table, "Pitch", 0);
 	private final DoublePublisher xPub = NetworkTables.PublisherFactory(table, "X", 0);
 	private final DoublePublisher yPub = NetworkTables.PublisherFactory(table, "Y", 0);
 	private final DoublePublisher voltagePub = NetworkTables.PublisherFactory(table, "Voltage", 0);
@@ -88,7 +89,7 @@ public class Drivetrain implements TickedSubsystem {
 
 		// NetworkTables updating
 		headingPub.set(poseEstimator.getEstimatedPosition().getRotation().getDegrees());
-//		headingPub.set(-gyro.getRotation2d().getDegrees());
+		pitchPub.set(getPitch());
 		xPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getX()));
 		yPub.set(Units.metersToInches(poseEstimator.getEstimatedPosition().getY()));
 		voltagePub.set(RobotController.getBatteryVoltage());
@@ -199,7 +200,7 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public double getPitch() {
-		return gyro.getPitch();
+		return gyro.getRoll() + 2;
 	}
 
 	public boolean hasBeenReset() {

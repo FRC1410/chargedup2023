@@ -13,9 +13,9 @@ public class Creepy extends SequentialCommandGroup {
 		addCommands(
 				new InstantCommand(() -> {
 					if (reversed)
-						drivetrain.autoTankDriveVolts(6, 6);
+						drivetrain.autoTankDriveVolts(-3, -3);
 					else
-						drivetrain.autoTankDriveVolts(-6, -6);
+						drivetrain.autoTankDriveVolts(3, 3);
 				}),
 				new WaitCommand(CREEPY_WAIT),
 				new InstantCommand(() -> drivetrain.autoTankDriveVolts(0, 0)),

@@ -66,12 +66,11 @@ public interface Constants {
 //	double KV = 3.015;
 //	double KA = 1.017;
 	double KS = 0.6274;
+//	double KS = 1;
 	double KV = 2.265;
-	double KA = 0.7535;
 
-	double KS_SLOW = 0;
-	double KV_SLOW = 0;
-	double KA_SLOW = 0;
+	double KA = 0.7535;
+//	double KA = .2;
 
 	double GEARING = 1 / ((52.0 / 10.0) * (68.0 / 30.0));
 	double METERS_PER_REVOLUTION = .478778;
