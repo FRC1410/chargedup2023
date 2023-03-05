@@ -211,13 +211,16 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-//		scheduler.scheduleDefaultCommand(
-//				new HoldElevator(elevator),
-//				TaskPersistence.GAMEPLAY
-//		);
+		scheduler.scheduleDefaultCommand(
+				new HoldElevator(elevator),
+				TaskPersistence.GAMEPLAY
+		);
 
 		// Basic functionality and inversions: Elevator
-		scheduler.scheduleDefaultCommand(new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS), TaskPersistence.EPHEMERAL);
+		operatorController.LEFT_Y_AXIS.button().whileHeld(
+				new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS),
+				TaskPersistence.EPHEMERAL
+		);
 
 		// Basic functionality and inversions: LBork
 		// Papa Intake
