@@ -9,11 +9,14 @@ import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
+import org.frc1410.chargedup2023.commands.actions.SetSuperStructurePosition;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.Engage;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.intake.*;
 import org.frc1410.chargedup2023.commands.actions.lbork.*;
+import org.frc1410.chargedup2023.commands.groups.auto.barrier.BarrierYankeePapa;
+import org.frc1410.chargedup2023.commands.groups.auto.barrier.util.BarrierPreload;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.HoldElevator;
@@ -33,7 +36,7 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 public final class Robot extends PhaseDrivenRobot {
 
 	//<editor-fold desc="Controllers">
-	private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER, 0.12);
+	private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER, 0.2);
 	private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER, 0.25);
 	//</editor-fold>
 
@@ -42,7 +45,7 @@ public final class Robot extends PhaseDrivenRobot {
 	private final ExternalCamera camera = subsystems.track(new ExternalCamera());
 	private final Elevator elevator = subsystems.track(new Elevator());
 	private final Intake intake = new Intake();
-	private final LBork lBork = new LBork();
+	private final LBork lBork = subsystems.track(new LBork());
 	private final LightBar lightBar = new LightBar();
 	//</editor-fold>
 
@@ -52,7 +55,8 @@ public final class Robot extends PhaseDrivenRobot {
 
 	private final AutoSelector autoSelector = new AutoSelector()
 			.add("Default", SequentialCommandGroup::new)
-			.add("Creepy", () -> new Engage(drivetrain));
+			.add("Barrier", () -> new BarrierPreload(drivetrain, lBork, elevator, intake, false))
+			.add("BarrierYankeePapa", () -> new BarrierYankeePapa(drivetrain, lBork, elevator, intake));
 
 
 	private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
@@ -66,6 +70,11 @@ public final class Robot extends PhaseDrivenRobot {
 		drivetrain.zeroHeading();
 		drivetrain.brakeMode();
 		lightBar.set(LightBar.Profile.AUTO);
+
+		scheduler.scheduleDefaultCommand(
+				new HoldElevator(elevator),
+				TaskPersistence.GAMEPLAY
+		);
 
 		NetworkTables.SetPersistence(autoPublisher.getTopic(), true);
 		String autoProfile = autoSubscriber.get();
@@ -93,10 +102,8 @@ public final class Robot extends PhaseDrivenRobot {
 
 		scheduler.scheduleDefaultCommand(
 				new RunIntakeLooped(
-						elevator,
 						intake,
 						lBork,
-						scheduler,
 						operatorController.LEFT_TRIGGER,
 						operatorController.RIGHT_TRIGGER),
 				TaskPersistence.GAMEPLAY
@@ -110,6 +117,16 @@ public final class Robot extends PhaseDrivenRobot {
 
 		//<editor-fold desc="Teleop Automation">
 		// Possible structure with generator functions
+//		operatorController.LEFT_TRIGGER.button().whenPressed(
+//				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false),
+//				TaskPersistence.EPHEMERAL
+//		);
+//
+//		operatorController.RIGHT_TRIGGER.button().whenPressed(
+//				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false),
+//				TaskPersistence.EPHEMERAL
+//		);
+
 		driverController.RIGHT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
 				TeleopCommandGenerator.generateCommand(
 						camera,

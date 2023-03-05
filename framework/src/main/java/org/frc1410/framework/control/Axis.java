@@ -9,7 +9,7 @@ public class Axis {
 	public Axis(Controller controller, int id) {
 		this.controller = controller;
 		this.id = id;
-		this.button = new AxisButton(controller.scheduler, this);
+		this.button = new AxisButton(controller, this);
 	}
 
 	public double getRaw() {

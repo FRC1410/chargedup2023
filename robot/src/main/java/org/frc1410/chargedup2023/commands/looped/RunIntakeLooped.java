@@ -12,22 +12,18 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 
 
 public class RunIntakeLooped extends CommandBase {
-	private final Elevator elevator;
 	private final Intake intake;
 	private final LBork lBork;
-	private final TaskScheduler scheduler;
 	private final Axis rightTrigger;
 	private final Axis leftTrigger;
 
-	public RunIntakeLooped(Elevator elevator, Intake intake, LBork lBork, TaskScheduler scheduler, Axis leftTrigger, Axis rightTrigger) {
-		this.elevator = elevator;
+	public RunIntakeLooped(Intake intake, LBork lBork, Axis leftTrigger, Axis rightTrigger) {
 		this.intake = intake;
 		this.lBork = lBork;
-		this.scheduler = scheduler;
 		this.leftTrigger = leftTrigger;
 		this.rightTrigger = rightTrigger;
 
-		addRequirements(intake);
+		addRequirements(intake, lBork);
 	}
 
 	@Override
@@ -36,10 +32,6 @@ public class RunIntakeLooped extends CommandBase {
 			intake.setSpeed(leftTrigger.get() - rightTrigger.get());
 		} else {
 			intake.setSpeed(0);
-		}
-
-		if (leftTrigger.get() > 0 || rightTrigger.get() > 0) {
-//			scheduler.scheduleAutoCommand(new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false));
 		}
 
 		if (rightTrigger.get() > leftTrigger.get()) {

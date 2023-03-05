@@ -105,34 +105,33 @@ public interface Constants {
 
 	//<editor-fold desc="Elevator">
 	// Elevator
-	double ELEVATOR_HOMING_SPEED = 0.2;
+	double ELEVATOR_HOMING_SPEED = 0.3;
 
 	double ELEVATOR_NEO_ENCODER_CONSTANT = -0.0916666666667 * 3;
 
-	double ELEVATOR_INTAKE_INTERFERENCE_HEIGHT = 8; // Inches
+	double ELEVATOR_INTAKE_INTERFERENCE_HEIGHT = 7; // Inches
 
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0.4;
-	double ELEVATOR_IDLE_POSITION = 9;
-	double ELEVATOR_PAPA_POSITION = 4.21;
-	double ELEVATOR_MID_POSITION = 23;
-	double ELEVATOR_RAISED_POSITION = 31.5;
-	double ELEVATOR_SUBSTATION_POSITION = 27.36;
-	double ELEVATOR_UPPER_CONFLICT_POSITION = 16;
-	double ELEVATOR_LOWER_CONFLICT_POSITION = 12;
+	double ELEVATOR_IDLE_POSITION = 6.2;
+	double ELEVATOR_PAPA_POSITION = 2.21;
+	double ELEVATOR_MID_POSITION = 22.5;
+	double ELEVATOR_RAISED_POSITION = 31.25;
+	double ELEVATOR_SUBSTATION_POSITION = 31;
 	double ELEVATOR_TOLERANCE = 0.2;
 
-	double ELEVATOR_HOLDING_POWER = -0.03; // Percent
+	double ELEVATOR_HOLDING_POWER = -0.02; // Percent
 	//</editor-fold>
 
 	//<editor-fold desc="Timing">
 	double INTAKE_LBORK_EXTEND_TIME = 1; // Seconds
 	double OUTTAKE_TIME = 0.5; // Seconds
 	double SUBSTATION_INTAKE_TIME = 3; // Seconds
-	double RUN_LBORK_SCORING_TIME = 3; // Seconds
+	double RUN_LBORK_SCORING_TIME = 10; // Seconds
 	//</editor-fold>
 
 	//<editor-fold desc="Auto Timing">
 	double OKLAHOMA_WAIT = 2; // Seconds
 	// </editor-fold>
 }
+

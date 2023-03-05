@@ -18,7 +18,7 @@ public class RunLBorkPapa extends CommandBase {
 
 	@Override
 	public void initialize() {
-		if (outtaking) {
+		if (!outtaking) {
 			lBork.setRollerSpeeds(LBORK_PAPA_OUTTAKE_OUTER_ROLLER_SPEED, LBORK_PAPA_OUTTAKE_INNER_ROLLER_SPEED);
 		} else {
 			lBork.setRollerSpeeds(LBORK_PAPA_INTAKE_OUTER_ROLLER_SPEED, LBORK_PAPA_INTAKE_INNER_ROLLER_SPEED);

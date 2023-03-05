@@ -1,15 +1,22 @@
 package org.frc1410.chargedup2023.subsystems;
 
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxLimitSwitch;
+import edu.wpi.first.networktables.BooleanPublisher;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.frc1410.chargedup2023.util.NetworkTables;
+import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
 
-public class LBork implements Subsystem {
+
+public class LBork implements TickedSubsystem {
+	private final NetworkTable table = NetworkTableInstance.getDefault().getTable("LBork");
+	private final BooleanPublisher linePub = NetworkTables.PublisherFactory(table, "Line Break", false);
 	
 	// L'Bork rollers
 	private final CANSparkMax outerMotor = new CANSparkMax(LBORK_OUTER_ROLLER_ID, MotorType.kBrushless);
@@ -31,6 +38,11 @@ public class LBork implements Subsystem {
 		innerMotor.setInverted(true);
 	}
 
+	@Override
+	public void periodic() {
+		linePub.set(getLineBreak());
+	}
+
 	public void setRollerSpeeds(double outerRollerSpeed, double innerRollerSpeed) {
 		innerMotor.set(innerRollerSpeed);
 		outerMotor.set(outerRollerSpeed);
@@ -46,6 +58,10 @@ public class LBork implements Subsystem {
 
 	public void toggle() {
 		piston.toggle();
+	}
+
+	public boolean getLineBreak() {
+		return innerMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed).isPressed();
 	}
 }
 

@@ -113,14 +113,14 @@ public interface Trajectories {
 	static SequentialCommandGroup BarrierGridToOklahoma(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
 				BARRIER_GRID, List.of(OKLAHOMA_MIDPOINT, OKLAHOMA_MIDPOINT2), OKLAHOMA,
-				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.autoTankDriveVolts(0, 0));
 	}
 
 	static SequentialCommandGroup OklahomaToScorePapa(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
 				OKLAHOMA, List.of(OKLAHOMA_G302), BARRIER_SCORE_PAPA,
-				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.autoTankDriveVolts(0, 0));
 	}
 }

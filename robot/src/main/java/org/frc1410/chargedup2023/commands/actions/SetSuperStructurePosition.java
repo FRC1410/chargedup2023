@@ -47,7 +47,6 @@ public class SetSuperStructurePosition extends CommandBase {
 				elevatorInitialPosition > ELEVATOR_INTAKE_INTERFERENCE_HEIGHT
 				&& elevatorTargetPosition < ELEVATOR_INTAKE_INTERFERENCE_HEIGHT
 		) {
-			log.debug("Interference condition encountered");
 			return true;
 		}
 
@@ -55,7 +54,6 @@ public class SetSuperStructurePosition extends CommandBase {
 				elevatorInitialPosition < ELEVATOR_PAPA_POSITION
 				&& elevatorTargetPosition >= ELEVATOR_PAPA_POSITION
 		) {
-			log.debug("Interference condition encountered");
 			return true;
 		}
 
@@ -76,12 +74,6 @@ public class SetSuperStructurePosition extends CommandBase {
 		// Decide if we need to extend the intake
 		if (willInterfere()) {
 			intake.extend();
-
-			if (elevatorTargetPosition > elevatorInitialPosition) {
-				intake.setSpeed(-0.5);
-			} else if (elevatorTargetPosition < elevatorInitialPosition) {
-				intake.setSpeed(0.5);
-			}
 		}
 
 		timer.restart();
@@ -105,7 +97,6 @@ public class SetSuperStructurePosition extends CommandBase {
 	public void end(boolean interrupted) {
 		// Set speed to zero
 		elevator.setVolts(0);
-
 		intake.setSpeed(0);
 
 		if (extendIntake) intake.extend();
