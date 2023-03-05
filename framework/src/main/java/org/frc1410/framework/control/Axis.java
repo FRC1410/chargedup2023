@@ -4,10 +4,12 @@ public class Axis {
 
 	private final Controller controller;
 	private final int id;
+	private final AxisButton button;
 
 	public Axis(Controller controller, int id) {
 		this.controller = controller;
 		this.id = id;
+		this.button = new AxisButton(controller.scheduler, this);
 	}
 
 	public double getRaw() {
@@ -23,5 +25,9 @@ public class Axis {
 		}
 
 		return ((mag - controller.deadzone) / (1 - controller.deadzone)) * (raw / mag);
+	}
+
+	public AxisButton button() {
+		return button;
 	}
 }

@@ -22,7 +22,7 @@ public class WhileHeldOnceObserver implements Observer {
 		}
 
 		if (!button.isActive()) {
-			handle.requestTermination();
+			handle.requestSuspension();
 		}
 
 		wasActive = button.isActive();
