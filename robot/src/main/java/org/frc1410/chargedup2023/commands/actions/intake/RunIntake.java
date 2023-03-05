@@ -16,7 +16,7 @@ public class RunIntake extends CommandBase {
 	@Override
 	public void initialize() {
 		if (outtake) intake.setSpeed(1);
-		else intake.setSpeed(-1);
+		else intake.setSpeed(-0.3);
 	}
 
 	@Override

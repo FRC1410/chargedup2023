@@ -26,6 +26,8 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	private final Timer timer = new Timer();
 
+	private boolean startedRetracted = false;
+
 	private PIDController pid;
 
 	public SetSuperStructurePosition(Elevator elevator, Intake intake, LBork lBork, double elevatorPosition, boolean extendIntake, boolean extendLBork) {
@@ -62,6 +64,8 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	@Override
 	public void initialize() {
+		if (intake.isRetracted()) startedRetracted = true;
+
 		lBork.retract();
 		log.debug("Current Elevator Position: " + elevatorInitialPosition);
 		log.debug("Target Elevator position: " + elevatorTargetPosition);
@@ -81,7 +85,7 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (willInterfere() && timer.get() < INTAKE_LBORK_EXTEND_TIME) return;
+		if (willInterfere() && timer.get() < INTAKE_LBORK_EXTEND_TIME && startedRetracted) return;
 
 		// Use PID to set speed
 		elevator.setVolts(-pid.calculate(elevator.getPosition()));

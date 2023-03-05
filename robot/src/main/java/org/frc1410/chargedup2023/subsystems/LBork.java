@@ -40,7 +40,7 @@ public class LBork implements TickedSubsystem {
 
 	@Override
 	public void periodic() {
-		linePub.set(getLineBreak());
+//		linePub.set(getLineBreak());
 	}
 
 	public void setRollerSpeeds(double outerRollerSpeed, double innerRollerSpeed) {
@@ -60,8 +60,8 @@ public class LBork implements TickedSubsystem {
 		piston.toggle();
 	}
 
-	public boolean getLineBreak() {
-		return innerMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed).isPressed();
-	}
+//	public boolean getLineBreak() {
+//		return innerMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed).isPressed();
+//	}
 }
 

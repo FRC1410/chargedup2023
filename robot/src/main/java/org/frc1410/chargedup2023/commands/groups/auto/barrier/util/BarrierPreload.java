@@ -17,10 +17,10 @@ public class BarrierPreload extends SequentialCommandGroup {
 		drivetrain.resetPoseEstimation(BARRIER_GRID);
 
 		addCommands(
-				new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_RAISED_POSITION, false, true),
+				new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_RAISED_POSITION, true, true),
 				new ParallelRaceGroup(
 						new RunLBorkYankee(lbork, true),
-						new WaitCommand(OUTTAKE_TIME)
+						new WaitCommand(YANKEE_OUTTAKE_TIME)
 				),
 				new RetractLBork(lbork),
 				isComponent

@@ -15,6 +15,7 @@ import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.intake.*;
 import org.frc1410.chargedup2023.commands.actions.lbork.*;
+import org.frc1410.chargedup2023.commands.groups.auto.barrier.BarrierYankeeEngage;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.BarrierYankeePapa;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.util.BarrierPreload;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
@@ -31,6 +32,7 @@ import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.DeferredTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
+import static org.frc1410.chargedup2023.auto.POIs.BARRIER_GRID;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
@@ -54,8 +56,8 @@ public final class Robot extends PhaseDrivenRobot {
 	private final NetworkTable table = nt.getTable("Auto");
 
 	private final AutoSelector autoSelector = new AutoSelector()
-			.add("Default", SequentialCommandGroup::new)
-			.add("Barrier", () -> new BarrierPreload(drivetrain, lBork, elevator, intake, false))
+//			.add("Default", SequentialCommandGroup::new)
+			.add("BarrierYankeeEngage", () -> new BarrierYankeeEngage(drivetrain, lBork, elevator, intake))
 			.add("BarrierYankeePapa", () -> new BarrierYankeePapa(drivetrain, lBork, elevator, intake));
 
 
@@ -67,8 +69,8 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void autonomousSequence() {
-		drivetrain.zeroHeading();
 		drivetrain.brakeMode();
+		drivetrain.zeroHeading();
 		lightBar.set(LightBar.Profile.AUTO);
 
 		scheduler.scheduleDefaultCommand(
@@ -218,6 +220,7 @@ public final class Robot extends PhaseDrivenRobot {
 	public void testSequence() {
 		lightBar.set(LightBar.Profile.TEST);
 		drivetrain.coastMode();
+		drivetrain.resetPoseEstimation(BARRIER_GRID);
 		// Basic functionality and inversions: Drivetrain
 		scheduler.scheduleDefaultCommand(new DriveLooped(
 						drivetrain,

@@ -9,12 +9,12 @@ import static org.frc1410.chargedup2023.util.Constants.FIELD_WIDTH;
 
 public interface POIs {
 	// Auto
-	Pose2d BARRIER_GRID = new Pose2d(inchesToMeters(74.25), inchesToMeters(196.19), new Rotation2d(0));
-	Pose2d OKLAHOMA = new Pose2d(inchesToMeters(293), inchesToMeters(235.5), Rotation2d.fromDegrees(65));
+	Pose2d BARRIER_GRID = new Pose2d(inchesToMeters(74.25), inchesToMeters(196.19), Rotation2d.fromDegrees(180));
+	Pose2d OKLAHOMA = new Pose2d(inchesToMeters(293), inchesToMeters(235.5), Rotation2d.fromDegrees(-115));
 	Translation2d OKLAHOMA_MIDPOINT = new Translation2d(inchesToMeters(148.5), inchesToMeters(196.19));
 	Translation2d OKLAHOMA_MIDPOINT2 = new Translation2d(inchesToMeters(239.4), inchesToMeters(202));
 	Translation2d OKLAHOMA_G302 = new Translation2d(inchesToMeters(279.5), inchesToMeters(190.8));
-	Pose2d BARRIER_SCORE_PAPA = new Pose2d(inchesToMeters(74.25), inchesToMeters(176.19), new Rotation2d(0));
+	Pose2d BARRIER_SCORE_PAPA = new Pose2d(inchesToMeters(68.25), inchesToMeters(176.19), Rotation2d.fromDegrees(180));
 
 
 	// AprilTag Alignment

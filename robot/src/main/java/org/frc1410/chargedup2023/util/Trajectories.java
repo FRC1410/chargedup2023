@@ -34,46 +34,36 @@ public interface Trajectories {
 	DoublePublisher rightMeasurementPub = NetworkTables.PublisherFactory(table, "Right Measurement", 0);
 	DoublePublisher rightReferencePub = NetworkTables.PublisherFactory(table, "Right Desired", 0);
 
-	DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 11);
+	DifferentialDriveVoltageConstraint voltageConstraintAuto = new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 5);
 
-    DifferentialDriveVoltageConstraint slowVoltageConstraint = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 4);
+	DifferentialDriveVoltageConstraint voltageConstraintTeleop = new DifferentialDriveVoltageConstraint(
+			new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 5);
 
 	CentripetalAccelerationConstraint centripAccelConstraint = new CentripetalAccelerationConstraint(2.4);
 
-	TrajectoryConfig slowConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+	TrajectoryConfig configCentripAccel = new TrajectoryConfig(MAX_SPEED_AUTO, MAX_ACCEL_AUTO)
 			.setKinematics(KINEMATICS)
-			.addConstraint(slowVoltageConstraint)
-			.setReversed(false);
-
-	TrajectoryConfig slowReverseConfig = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
-			.setKinematics(KINEMATICS)
-			.addConstraint(slowVoltageConstraint)
-			.setReversed(true);
-
-	TrajectoryConfig configCentripAccel = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
-			.setKinematics(KINEMATICS)
-			.addConstraint(voltageConstraint)
+			.addConstraint(voltageConstraintAuto)
 			.setReversed(false)
 			.addConstraint(centripAccelConstraint);
 
-	TrajectoryConfig reverseConfigCentripAccel = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+	TrajectoryConfig reverseConfigCentripAccel = new TrajectoryConfig(MAX_SPEED_AUTO, MAX_ACCEL_AUTO)
 			.setKinematics(KINEMATICS)
-			.addConstraint(voltageConstraint)
+			.addConstraint(voltageConstraintAuto)
 			.setReversed(true)
 			.addConstraint(centripAccelConstraint);
 
-	TrajectoryConfig configCentripAccelOTF = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+	TrajectoryConfig configCentripAccelOTF = new TrajectoryConfig(MAX_SPEED_TELEOP, MAX_ACCEL_TELEOP)
 			.setKinematics(KINEMATICS)
-			.addConstraint(slowVoltageConstraint)
+			.addConstraint(voltageConstraintTeleop)
 			.setReversed(false)
 			.addConstraint(centripAccelConstraint)
 			.setStartVelocity(0);
 
-	TrajectoryConfig reverseConfigCentripAccelOTF = new TrajectoryConfig(MAX_SPEED, MAX_ACCEL)
+	TrajectoryConfig reverseConfigCentripAccelOTF = new TrajectoryConfig(MAX_SPEED_TELEOP, MAX_ACCEL_TELEOP)
 			.setKinematics(KINEMATICS)
-			.addConstraint(slowVoltageConstraint)
+			.addConstraint(voltageConstraintTeleop)
 			.setReversed(true)
 			.addConstraint(centripAccelConstraint)
 			.setStartVelocity(0);
@@ -104,7 +94,7 @@ public interface Trajectories {
 
 					rightMeasurementPub.set(drivetrain.getWheelSpeeds().rightMetersPerSecond);
 					rightReferencePub.set(rightController.getSetpoint());
-					instance.flush();
+//					instance.flush();
 				}
 		);
     }

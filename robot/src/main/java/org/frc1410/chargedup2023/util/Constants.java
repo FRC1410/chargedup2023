@@ -66,11 +66,8 @@ public interface Constants {
 //	double KV = 3.015;
 //	double KA = 1.017;
 	double KS = 0.6274;
-//	double KS = 1;
 	double KV = 2.265;
-
 	double KA = 0.7535;
-//	double KA = .2;
 
 	double GEARING = 1 / ((52.0 / 10.0) * (68.0 / 30.0));
 	double METERS_PER_REVOLUTION = .478778;
@@ -114,7 +111,7 @@ public interface Constants {
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0.4;
 	double ELEVATOR_IDLE_POSITION = 6.2;
-	double ELEVATOR_PAPA_POSITION = 2.21;
+	double ELEVATOR_PAPA_POSITION = 2.1;
 	double ELEVATOR_MID_POSITION = 22.5;
 	double ELEVATOR_RAISED_POSITION = 31.25;
 	double ELEVATOR_SUBSTATION_POSITION = 31;
@@ -124,14 +121,17 @@ public interface Constants {
 	//</editor-fold>
 
 	//<editor-fold desc="Timing">
-	double INTAKE_LBORK_EXTEND_TIME = 1; // Seconds
-	double OUTTAKE_TIME = 0.5; // Seconds
+	double INTAKE_LBORK_EXTEND_TIME = 0.5; // Seconds
+	double YANKEE_OUTTAKE_TIME = 0.5; // Seconds
+	double PAPA_OUTTAKE_TIME = 2; // Seconds
 	double SUBSTATION_INTAKE_TIME = 3; // Seconds
 	double RUN_LBORK_SCORING_TIME = 10; // Seconds
 	//</editor-fold>
 
-	//<editor-fold desc="Auto Timing">
-	double OKLAHOMA_WAIT = 2; // Seconds
+	//<editor-fold desc="Auto">
+	double OKLAHOMA_WAIT = 3; // Seconds
+	double CREEPY_SPEED = 5; // Volts
+	double CREEPY_TIME = 1.5;
 	// </editor-fold>
 }
 

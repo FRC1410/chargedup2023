@@ -383,6 +383,10 @@ public class AHRS implements Sendable, Gyro {
 		this(serial_port_id, SerialDataType.kProcessedData, NAVX_DEFAULT_UPDATE_RATE_HZ);
 	}
 
+	public AHRS(SerialPort.Port serial_port_id, byte update_rate_hz) {
+		this(serial_port_id, SerialDataType.kProcessedData, update_rate_hz);
+	}
+
 	/**
      * Returns the current pitch value (in degrees, from -180 to 180)
      * reported by the sensor.  Pitch is a measure of rotation around

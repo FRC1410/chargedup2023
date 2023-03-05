@@ -8,11 +8,14 @@ public interface Tuning {
 	double KP_VEL = 3.5;
 	double KP_VEL_SLOW = 0.25;
 
-	double MAX_SPEED = 2;
-	double MAX_ACCEL = 2;
+	double MAX_SPEED_AUTO = 2.5;
+	double MAX_ACCEL_AUTO = 2;
+
+	double MAX_SPEED_TELEOP = 2.5;
+	double MAX_ACCEL_TELEOP = 2;
 
 	// Engage
-	double ENGAGE_P = 0.008;
+	double ENGAGE_P = 0.012;
 	double ENGAGE_I = 0;
 	double ENGAGE_D = 0.001;
 
