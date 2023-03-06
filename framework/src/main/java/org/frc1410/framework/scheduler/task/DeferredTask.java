@@ -29,7 +29,7 @@ public final class DeferredTask implements Task {
 	@Override
 	public void init() {
 		var job = taskSupplier.get();
-		this.task = scheduler.schedule(job, TaskPersistence.EPHEMERAL, observer, lockPriority);
+		this.task = scheduler.schedule(job, persistence, observer, lockPriority);
 	}
 
 	@Override
