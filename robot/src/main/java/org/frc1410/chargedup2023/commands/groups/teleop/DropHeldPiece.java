@@ -22,7 +22,7 @@ public class DropHeldPiece extends SequentialCommandGroup {
 						papa
 								? new RunLBorkPapa(lBork, true)
 								: new RunLBorkYankee(lBork, true),
-						new WaitCommand(OUTTAKE_TIME)
+						new WaitCommand(PAPA_OUTTAKE_TIME)
 				),
 				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_DRIVING_POSITION, false, false)
 		);

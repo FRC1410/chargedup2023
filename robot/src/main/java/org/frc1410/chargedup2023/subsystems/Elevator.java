@@ -55,7 +55,7 @@ public class Elevator implements TickedSubsystem {
 	}
 
 	public double getPosition() {
-		return ((leftEncoder.getPosition() + rightEncoder.getPosition()) / 2) * ELEVATOR_NEO_ENCODER_CONSTANT;
+		return rightEncoder.getPosition() * ELEVATOR_NEO_ENCODER_CONSTANT;
 	}
 
 	public boolean getLimitSwitchValue() {

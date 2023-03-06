@@ -26,6 +26,8 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	private final Timer timer = new Timer();
 
+	private boolean startedRetracted = false;
+
 	private PIDController pid;
 
 	public SetSuperStructurePosition(Elevator elevator, Intake intake, LBork lBork, double elevatorPosition, boolean extendIntake, boolean extendLBork) {
@@ -47,7 +49,6 @@ public class SetSuperStructurePosition extends CommandBase {
 				elevatorInitialPosition > ELEVATOR_INTAKE_INTERFERENCE_HEIGHT
 				&& elevatorTargetPosition < ELEVATOR_INTAKE_INTERFERENCE_HEIGHT
 		) {
-			log.debug("Interference condition encountered");
 			return true;
 		}
 
@@ -55,7 +56,6 @@ public class SetSuperStructurePosition extends CommandBase {
 				elevatorInitialPosition < ELEVATOR_PAPA_POSITION
 				&& elevatorTargetPosition >= ELEVATOR_PAPA_POSITION
 		) {
-			log.debug("Interference condition encountered");
 			return true;
 		}
 
@@ -64,6 +64,8 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	@Override
 	public void initialize() {
+		if (intake.isRetracted()) startedRetracted = true;
+
 		lBork.retract();
 		log.debug("Current Elevator Position: " + elevatorInitialPosition);
 		log.debug("Target Elevator position: " + elevatorTargetPosition);
@@ -76,12 +78,6 @@ public class SetSuperStructurePosition extends CommandBase {
 		// Decide if we need to extend the intake
 		if (willInterfere()) {
 			intake.extend();
-
-			if (elevatorTargetPosition > elevatorInitialPosition) {
-				intake.setSpeed(-0.5);
-			} else if (elevatorTargetPosition < elevatorInitialPosition) {
-				intake.setSpeed(0.5);
-			}
 		}
 
 		timer.restart();
@@ -89,7 +85,7 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (willInterfere() && timer.get() < INTAKE_LBORK_EXTEND_TIME) return;
+		if (willInterfere() && timer.get() < INTAKE_LBORK_EXTEND_TIME && startedRetracted) return;
 
 		// Use PID to set speed
 		elevator.setVolts(-pid.calculate(elevator.getPosition()));
@@ -105,7 +101,6 @@ public class SetSuperStructurePosition extends CommandBase {
 	public void end(boolean interrupted) {
 		// Set speed to zero
 		elevator.setVolts(0);
-
 		intake.setSpeed(0);
 
 		if (extendIntake) intake.extend();

@@ -168,6 +168,7 @@ public final class TaskScheduler {
 	}
 
 	public void printState() {
+		if (true) return;
 		LOG.debug("Scheduler state dump:");
 		for (var loop : loopStore.getLoops(true)) {
 			LOG.debug("\t– Dumping loop " + loop + "...");

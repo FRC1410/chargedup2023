@@ -5,15 +5,18 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 
 public class RunIntake extends CommandBase {
 	private final Intake intake;
+	private final boolean outtake;
 
-	public RunIntake(Intake intake) {
+	public RunIntake(Intake intake, boolean outtake) {
 		this.intake = intake;
+		this.outtake = outtake;
 		addRequirements(intake);
 	}
 
 	@Override
 	public void initialize() {
-		intake.setSpeed(1);
+		if (outtake) intake.setSpeed(1);
+		else intake.setSpeed(-0.3);
 	}
 
 	@Override

@@ -15,13 +15,16 @@ import org.frc1410.chargedup2023.subsystems.Intake;
 import org.frc1410.chargedup2023.subsystems.LBork;
 import org.frc1410.chargedup2023.util.Trajectories;
 
+import static org.frc1410.chargedup2023.auto.POIs.BARRIER_GRID;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 
 public class BarrierYankeePapa extends SequentialCommandGroup {
 	public BarrierYankeePapa(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
+		drivetrain.resetPoseEstimation(BARRIER_GRID);
+
 		addCommands(
-				new BarrierPreload(drivetrain, lbork, elevator, intake),
+				new BarrierPreload(drivetrain, lbork, elevator, intake, true),
 				new ParallelCommandGroup(
 						new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_PAPA_POSITION, true, false),
 						Trajectories.BarrierGridToOklahoma(drivetrain)
@@ -31,7 +34,7 @@ public class BarrierYankeePapa extends SequentialCommandGroup {
 						new SequentialCommandGroup(
 								new ParallelRaceGroup(
 										new RunLBorkPapa(lbork, false),
-										new RunIntake(intake),
+										new RunIntake(intake, false),
 										new WaitCommand(OKLAHOMA_WAIT)
 								),
 								new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_RAISED_POSITION, false, true)
@@ -39,9 +42,8 @@ public class BarrierYankeePapa extends SequentialCommandGroup {
 				),
 				new ParallelRaceGroup(
 						new RunLBorkPapa(lbork, true),
-						new WaitCommand(OUTTAKE_TIME)
+						new WaitCommand(PAPA_OUTTAKE_TIME)
 				),
-				new RetractLBork(lbork),
 				new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_IDLE_POSITION, false, false)
 		);
 	}

@@ -32,7 +32,7 @@ public class Engage extends CommandBase {
 			var controllerOutput = controller.calculate(currentAngle);
 
 			// If somebody changes this they will be skinned alive
-			drivetrain.setEngagePower(-(Math.log1p(Math.min(controllerOutput, ENGAGE_MAX_POWER)))/Math.log1p(Math.PI));
+			drivetrain.setEngagePower(-(Math.log1p(Math.min(controllerOutput, ENGAGE_MAX_POWER)))/Math.log1p(5));
 		} else {
 			drivetrain.autoTankDriveVolts(0, 0);
 		}
