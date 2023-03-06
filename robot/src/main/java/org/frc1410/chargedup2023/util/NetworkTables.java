@@ -48,6 +48,13 @@ public interface NetworkTables {
 		return publisher;
 	}
 
+	static StringArrayPublisher PublisherFactory(NetworkTable table, String name, String[] startingValue) {
+		var publisher = table.getStringArrayTopic(name).publish();
+		publisher.set(startingValue);
+		publisher.setDefault(startingValue);
+		return publisher;
+	}
+
 	static StringSubscriber SubscriberFactory(NetworkTable table, StringTopic topic) {
 		String name = topic.getName().substring(topic.getName().lastIndexOf("/") + 1);
 		return table.getStringTopic(name).subscribe("");

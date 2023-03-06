@@ -104,6 +104,16 @@ public final class Robot extends PhaseDrivenRobot {
 			.add("BarrierYankeeEngage", () -> new BarrierYankeeEngage(drivetrain, lBork, elevator, intake))
 			.add("BarrierYankeePapa", () -> new BarrierYankeePapa(drivetrain, lBork, elevator, intake));
 
+	{
+		var profiles = new String[autoSelector.getProfiles().size()];
+		for (var i = 0; i < profiles.length; i++) {
+			profiles[i] = autoSelector.getProfiles().get(i).name();
+		}
+
+		try (var pub = NetworkTables.PublisherFactory(table, "Choices", profiles)) {
+			pub.accept(profiles);
+		}
+	}
 
 	private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
 			autoSelector.getProfiles().isEmpty() ? "" : autoSelector.getProfiles().get(0).name());
