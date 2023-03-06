@@ -5,14 +5,15 @@ public interface Tuning {
 	double KB = 2.0;
 	double KZ = 0.7;
 
-	double KP_VEL = 3.5;
+	double KP_VEL_AUTO = 3.5;
+	double KP_VEL_TELEOP = 2.0;
 	double KP_VEL_SLOW = 0.25;
 
 	double MAX_SPEED_AUTO = 2.5;
 	double MAX_ACCEL_AUTO = 2;
 
 	double MAX_SPEED_TELEOP = 2.5;
-	double MAX_ACCEL_TELEOP = 2;
+	double MAX_ACCEL_TELEOP = 2.0;
 
 	// Engage
 	double ENGAGE_P = 0.012;

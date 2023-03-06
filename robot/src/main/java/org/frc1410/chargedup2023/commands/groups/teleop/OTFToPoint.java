@@ -48,7 +48,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 		var velocity = drivetrain.getVelocity();
 		System.out.println("STARTING VELOCITY: " + velocity);
 //		var velocity = 0;
-		configCentripAccelOTF.setStartVelocity(velocity);
+//		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
@@ -74,7 +74,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 										).getRotation()
 								)
 						),
-						configCentripAccelOTF), realisticFeedforward, leftController, rightController, drivetrain);
+						configCentripAccelOTF), feedForwardTeleop, leftControllerTeleop, rightControllerTeleop, drivetrain);
 
 		addRequirements(drivetrain);
 
@@ -86,8 +86,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
 					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
 					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
-				}),
-				new RunCommand(() -> {})
+				})
 		);
 	}
 
@@ -108,7 +107,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 		var velocity = drivetrain.getVelocity();
 		System.out.println("STARTING VELOCITY: " + velocity);
 //		var velocity = 0;
-		configCentripAccelOTF.setStartVelocity(velocity);
+//		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
@@ -134,7 +133,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 										)
 								).getRotation()
 						),
-						configCentripAccelOTF), realisticFeedforward, leftController, rightController, drivetrain);
+						configCentripAccelOTF), feedForwardTeleop, leftControllerTeleop, rightControllerTeleop, drivetrain);
 
 		addRequirements(drivetrain);
 
@@ -146,8 +145,7 @@ public class OTFToPoint extends SequentialCommandGroup {
 					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
 					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
 					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
-				}),
-				new RunCommand(() -> {})
+				})
 		);
 	}
 }

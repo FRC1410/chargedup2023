@@ -35,43 +35,48 @@ public interface Trajectories {
 	DoublePublisher rightReferencePub = NetworkTables.PublisherFactory(table, "Right Desired", 0);
 
 	DifferentialDriveVoltageConstraint voltageConstraintAuto = new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 5);
+            new SimpleMotorFeedforward(KS_AUTO, KV_AUTO, KA_AUTO), KINEMATICS, 5);
 
 	DifferentialDriveVoltageConstraint voltageConstraintTeleop = new DifferentialDriveVoltageConstraint(
-			new SimpleMotorFeedforward(KS, KV, KA), KINEMATICS, 5);
+			new SimpleMotorFeedforward(KS_TELEOP, KV_TELEOP, KA_TELEOP), KINEMATICS, 6);
 
-	CentripetalAccelerationConstraint centripAccelConstraint = new CentripetalAccelerationConstraint(2.4);
+	CentripetalAccelerationConstraint centripAccelConstraintAuto = new CentripetalAccelerationConstraint(2.4);
+	CentripetalAccelerationConstraint centripAccelConstraintTeleop = new CentripetalAccelerationConstraint(2.4);
 
 	TrajectoryConfig configCentripAccel = new TrajectoryConfig(MAX_SPEED_AUTO, MAX_ACCEL_AUTO)
 			.setKinematics(KINEMATICS)
 			.addConstraint(voltageConstraintAuto)
 			.setReversed(false)
-			.addConstraint(centripAccelConstraint);
+			.addConstraint(centripAccelConstraintAuto);
 
 	TrajectoryConfig reverseConfigCentripAccel = new TrajectoryConfig(MAX_SPEED_AUTO, MAX_ACCEL_AUTO)
 			.setKinematics(KINEMATICS)
 			.addConstraint(voltageConstraintAuto)
 			.setReversed(true)
-			.addConstraint(centripAccelConstraint);
+			.addConstraint(centripAccelConstraintAuto);
 
 	TrajectoryConfig configCentripAccelOTF = new TrajectoryConfig(MAX_SPEED_TELEOP, MAX_ACCEL_TELEOP)
 			.setKinematics(KINEMATICS)
 			.addConstraint(voltageConstraintTeleop)
 			.setReversed(false)
-			.addConstraint(centripAccelConstraint)
-			.setStartVelocity(0);
+			.addConstraint(centripAccelConstraintTeleop);
+//			.setStartVelocity(0);
 
 	TrajectoryConfig reverseConfigCentripAccelOTF = new TrajectoryConfig(MAX_SPEED_TELEOP, MAX_ACCEL_TELEOP)
 			.setKinematics(KINEMATICS)
 			.addConstraint(voltageConstraintTeleop)
 			.setReversed(true)
-			.addConstraint(centripAccelConstraint)
-			.setStartVelocity(0);
+			.addConstraint(centripAccelConstraintTeleop);
+//			.setStartVelocity(0);
 
-    SimpleMotorFeedforward realisticFeedforward = new SimpleMotorFeedforward(KS, KV, KA);
+    SimpleMotorFeedforward feedForwardAuto = new SimpleMotorFeedforward(KS_AUTO, KV_AUTO, KA_AUTO);
+	SimpleMotorFeedforward feedForwardTeleop = new SimpleMotorFeedforward(KS_TELEOP, KV_TELEOP, KA_TELEOP);
 
-    PIDController leftController = new PIDController(KP_VEL, 0, 0);
-    PIDController rightController = new PIDController(KP_VEL, 0, 0);
+	PIDController leftControllerAuto = new PIDController(KP_VEL_AUTO, 0, 0);
+    PIDController rightControllerAuto = new PIDController(KP_VEL_AUTO, 0, 0);
+
+	PIDController leftControllerTeleop = new PIDController(KP_VEL_TELEOP, 0, 0);
+	PIDController rightControllerTeleop = new PIDController(KP_VEL_TELEOP, 0, 0);
 
 	RamseteController ramseteController = new RamseteController(KB, KZ);
 
@@ -103,14 +108,14 @@ public interface Trajectories {
 	static SequentialCommandGroup BarrierGridToOklahoma(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
 				BARRIER_GRID, List.of(OKLAHOMA_MIDPOINT, OKLAHOMA_MIDPOINT2), OKLAHOMA,
-				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				reverseConfigCentripAccel), feedForwardAuto, leftControllerAuto, rightControllerAuto, drivetrain)
 				.andThen(() -> drivetrain.autoTankDriveVolts(0, 0));
 	}
 
 	static SequentialCommandGroup OklahomaToScorePapa(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
 				OKLAHOMA, List.of(OKLAHOMA_G302), BARRIER_SCORE_PAPA,
-				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				configCentripAccel), feedForwardAuto, leftControllerAuto, rightControllerAuto, drivetrain)
 				.andThen(() -> drivetrain.autoTankDriveVolts(0, 0));
 	}
 }

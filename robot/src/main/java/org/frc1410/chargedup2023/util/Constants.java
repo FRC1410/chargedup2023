@@ -65,9 +65,13 @@ public interface Constants {
 //	double KS = 0.097;
 //	double KV = 3.015;
 //	double KA = 1.017;
-	double KS = 0.6274;
-	double KV = 2.265;
-	double KA = 0.7535;
+	double KS_AUTO = 0.6274;
+	double KV_AUTO = 2.265;
+	double KA_AUTO = 0.7535;
+
+	double KS_TELEOP = 0.6274;
+	double KV_TELEOP = 2.265;
+	double KA_TELEOP = 0.7535;
 
 	double GEARING = 1 / ((52.0 / 10.0) * (68.0 / 30.0));
 	double METERS_PER_REVOLUTION = .478778;
@@ -95,7 +99,7 @@ public interface Constants {
 	Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(0.3, 0.3, 0.3);
 	List<Integer> SUBSTATION_TAGS = List.of(4, 5);
 	List<Integer> SCORING_TAGS = List.of(1, 2, 3, 6, 7, 8);
-	List<Integer> RED_TAGS = List.of(1, 2, 3, 4);
+	List<Integer> RED_TAGS = List.of(1, 2, 3, 5);
 	double FIELD_WIDTH = Units.inchesToMeters(315.5);
 
 	//</editor-fold>

@@ -96,7 +96,7 @@ public final class Robot extends PhaseDrivenRobot {
 			}]
 		}]""";
 		// grid, line break, auto, time
-		try (var pub = NetworkTables.PublisherFactory(nt.getTable("viridian"), "layout", layout)) {}
+		var pub = NetworkTables.PublisherFactory(nt.getTable("viridian"), "layout", layout);
 	}
 
 	private final AutoSelector autoSelector = new AutoSelector()
@@ -110,9 +110,8 @@ public final class Robot extends PhaseDrivenRobot {
 			profiles[i] = autoSelector.getProfiles().get(i).name();
 		}
 
-		try (var pub = NetworkTables.PublisherFactory(table, "Choices", profiles)) {
-			pub.accept(profiles);
-		}
+		var pub = NetworkTables.PublisherFactory(table, "Choices", profiles);
+		pub.accept(profiles);
 	}
 
 	private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
