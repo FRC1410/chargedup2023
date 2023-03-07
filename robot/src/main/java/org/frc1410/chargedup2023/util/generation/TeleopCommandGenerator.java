@@ -136,7 +136,6 @@ public class TeleopCommandGenerator {
 								aprilTagPose,
 								tagID
 						),
-						new InstantCommand(() -> System.out.println("Runinoaidsad")),
 						new ParallelRaceGroup(
 								new SetSuperStructurePosition(
 										elevator,
@@ -166,8 +165,8 @@ public class TeleopCommandGenerator {
 	) {
 		var isRed = RED_TAGS.contains(tagID);
 		var waypointFlag = isRed
-				? drivetrain.getPoseEstimation().getX() < RED_OUTSIDE_WAYPOINT.getX()
-				: drivetrain.getPoseEstimation().getX() > BLUE_OUTSIDE_WAYPOINT.getX();
+				? drivetrain.getPoseEstimation().getX() < RED_OUTSIDE_WAYPOINT.getX() - Units.inchesToMeters(20)
+				: drivetrain.getPoseEstimation().getX() > BLUE_OUTSIDE_WAYPOINT.getX() + Units.inchesToMeters(20);
 
 		goToAprilTagLogger.debug("Function entered");
 		goToAprilTagLogger.debug("Waypoint " + (waypointFlag ? "is necessary" : "is not necessary"));
@@ -182,13 +181,8 @@ public class TeleopCommandGenerator {
 							drivetrain,
 							aprilTagPose.toPose2d(),
 							isRed ? RED_OUTSIDE_WAYPOINT : BLUE_BARRIER_WAYPOINT,
-							isRed
-									? new Pose2d(
-											RED_LEFT_YANKEE_NODE.getX(), RED_LEFT_YANKEE_NODE.getY() - 2, RED_LEFT_YANKEE_NODE.getRotation()
-									)
-									: new Pose2d(
-											BLUE_LEFT_YANKEE_NODE.getX(), BLUE_LEFT_YANKEE_NODE.getY() - 2, BLUE_LEFT_YANKEE_NODE.getRotation()
-									)
+							isRed ? RED_LEFT_YANKEE_NODE : BLUE_LEFT_YANKEE_NODE
+
 					);
 				} else {
 					return new OTFToPoint(
@@ -299,48 +293,44 @@ public class TeleopCommandGenerator {
 		generateScoringLog.debug("Generating command for high scoring");
 		sublist.add(
 				new SequentialCommandGroup(
-						new ParallelCommandGroup(
-//								new SetSuperStructurePosition(
-//										elevator,
-//										intake,
-//										lBork,
-//										ELEVATOR_RAISED_POSITION,
-//										false,
-//										true
-//								),
-								goToAprilTagGenerator(
-										drivetrain,
-										switch (ScoringPosition.targetPosition) {
-											case HIGH_LEFT_YANKEE -> Node.LEFT_YANKEE_NODE;
-											case HIGH_PAPA -> Node.PAPA_NODE;
-											case HIGH_RIGHT_YANKEE -> Node.RIGHT_YANKEE_NODE;
-											default -> null;
-										},
-										aprilTagPose,
-										tagID
-								)
+						goToAprilTagGenerator(
+								drivetrain,
+								switch (ScoringPosition.targetPosition) {
+									case HIGH_LEFT_YANKEE -> Node.LEFT_YANKEE_NODE;
+									case HIGH_PAPA -> Node.PAPA_NODE;
+									case HIGH_RIGHT_YANKEE -> Node.RIGHT_YANKEE_NODE;
+									default -> null;
+								},
+								aprilTagPose,
+								tagID
+						),
+						new SetSuperStructurePosition(
+								elevator,
+								intake,
+								lBork,
+								ELEVATOR_RAISED_POSITION,
+								false,
+								true
+						),
+						new ParallelRaceGroup(
+								ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_PAPA)
+										? new RunLBorkPapa(lBork, true)
+										: new RunLBorkYankee(lBork, true),
+								ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_PAPA)
+										? new WaitCommand(PAPA_OUTTAKE_TIME)
+										: new WaitCommand(YANKEE_OUTTAKE_TIME)
+						),
+						new SetSuperStructurePosition(
+								elevator,
+								intake,
+								lBork,
+								ELEVATOR_IDLE_POSITION,
+								false,
+								false
 						)
-//						new ParallelRaceGroup(
-//								ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_PAPA)
-//										? new RunLBorkPapa(lBork, true)
-//										: new RunLBorkYankee(lBork, true),
-//								ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_PAPA)
-//										? new WaitCommand(PAPA_OUTTAKE_TIME)
-//										: new WaitCommand(YANKEE_OUTTAKE_TIME)
-//						),
-//						new SetSuperStructurePosition(
-//								elevator,
-//								intake,
-//								lBork,
-//								ELEVATOR_IDLE_POSITION,
-//								false,
-//								false
-//						)
 				)
 		);
 
-		// TODO: ADD OUTTAKING WHILE BACKING UP; YOU SHOULD ALWAYS BE ABLE TO BACK UP LIKE ~6in.
-		// TODO: ADD ELEVATOR RETRACT TO IDLE AFTER BACKING UP
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
 	}
 
@@ -356,47 +346,44 @@ public class TeleopCommandGenerator {
 		generateScoringLog.debug("Generating command for mid scoring");
 		sublist.add(
 				new SequentialCommandGroup(
-						new ParallelCommandGroup(
-//								new SetSuperStructurePosition(
-//										elevator,
-//										intake,
-//										lBork,
-//										ELEVATOR_MID_POSITION,
-//										false,
-//										false
-//								),
-								goToAprilTagGenerator(
-										drivetrain,
-										switch (ScoringPosition.targetPosition) {
-											case MIDDLE_LEFT_YANKEE -> Node.LEFT_YANKEE_NODE;
-											case MIDDLE_PAPA -> Node.PAPA_NODE;
-											case MIDDLE_RIGHT_YANKEE -> Node.RIGHT_YANKEE_NODE;
-											default -> null;
-										},
-										aprilTagPose,
-										tagID
-								)
+						goToAprilTagGenerator(
+								drivetrain,
+								switch (ScoringPosition.targetPosition) {
+									case MIDDLE_LEFT_YANKEE -> Node.LEFT_YANKEE_NODE;
+									case MIDDLE_PAPA -> Node.PAPA_NODE;
+									case MIDDLE_RIGHT_YANKEE -> Node.RIGHT_YANKEE_NODE;
+									default -> null;
+								},
+								aprilTagPose,
+								tagID
+						),
+						new SetSuperStructurePosition(
+								elevator,
+								intake,
+								lBork,
+								ELEVATOR_MID_POSITION,
+								false,
+								false
+						),
+						new ParallelRaceGroup(
+								ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_PAPA)
+										? new RunLBorkPapa(lBork, true)
+										: new RunLBorkYankee(lBork, true),
+								ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_PAPA)
+										? new WaitCommand(PAPA_OUTTAKE_TIME)
+										: new WaitCommand(YANKEE_OUTTAKE_TIME)
+						),
+						new SetSuperStructurePosition(
+								elevator,
+								intake,
+								lBork,
+								ELEVATOR_IDLE_POSITION,
+								false,
+								false
 						)
-//						new ParallelRaceGroup(
-//								ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_PAPA)
-//										? new RunLBorkPapa(lBork, true)
-//										: new RunLBorkYankee(lBork, true),
-//								ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_PAPA)
-//										? new WaitCommand(PAPA_OUTTAKE_TIME)
-//										: new WaitCommand(YANKEE_OUTTAKE_TIME)
-//						),
-//						new SetSuperStructurePosition(
-//								elevator,
-//								intake,
-//								lBork,
-//								ELEVATOR_IDLE_POSITION,
-//								false,
-//								false
-//						)
 				)
 		);
 
-		// TODO: ADD ELEVATOR RETRACT TO IDLE AFTER BACKING UP
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
 	}
 
@@ -412,42 +399,39 @@ public class TeleopCommandGenerator {
 		generateScoringLog.debug("Generating command for hybrid scoring");
 		sublist.add(
 				new SequentialCommandGroup(
+						goToAprilTagGenerator(
+								drivetrain,
+								switch (ScoringPosition.targetPosition) {
+									case HYBRID_LEFT -> Node.LEFT_YANKEE_NODE;
+									case HYBRID_MIDDLE -> Node.PAPA_NODE;
+									case HYBRID_RIGHT -> Node.RIGHT_YANKEE_NODE;
+									default -> null;
+								},
+								aprilTagPose,
+								tagID
+						),
+						new SetSuperStructurePosition(
+								elevator,
+								intake,
+								lBork,
+								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE)
+										? ELEVATOR_PAPA_POSITION
+										: ELEVATOR_IDLE_POSITION,
+								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE),
+								false
+						),
 						new ParallelCommandGroup(
-//								new SetSuperStructurePosition(
-//										elevator,
-//										intake,
-//										lBork,
-//										ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE)
-//												? ELEVATOR_PAPA_POSITION
-//												: ELEVATOR_IDLE_POSITION,
-//										ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE),
-//										false
-//								),
-								goToAprilTagGenerator(
-										drivetrain,
-										switch (ScoringPosition.targetPosition) {
-											case HYBRID_LEFT -> Node.LEFT_YANKEE_NODE;
-											case HYBRID_MIDDLE -> Node.PAPA_NODE;
-											case HYBRID_RIGHT -> Node.RIGHT_YANKEE_NODE;
-											default -> null;
-										},
-										aprilTagPose,
-										tagID
-								)
+								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE)
+										? new RunLBorkPapa(lBork, true)
+										: new RunLBorkYankee(lBork, true),
+								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE)
+										? new RunIntake(intake, true)
+										: new InstantCommand(() -> {})
+
 						)
-//						new ParallelCommandGroup(
-//								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE)
-//										? new RunLBorkPapa(lBork, true)
-//										: new RunLBorkYankee(lBork, true),
-//								ScoringPosition.targetPosition.equals(ScoringPosition.HYBRID_MIDDLE)
-//										? new RunIntake(intake, true)
-//										: new InstantCommand(() -> {})
-//
-//						)
 				)
 		);
 
-		// TODO: ADD ELEVATOR RETRACT TO IDLE AFTER BACKING UP
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
 	}
 }

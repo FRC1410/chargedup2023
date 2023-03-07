@@ -38,7 +38,7 @@ public interface Trajectories {
             new SimpleMotorFeedforward(KS_AUTO, KV_AUTO, KA_AUTO), KINEMATICS, 5);
 
 	DifferentialDriveVoltageConstraint voltageConstraintTeleop = new DifferentialDriveVoltageConstraint(
-			new SimpleMotorFeedforward(KS_TELEOP, KV_TELEOP, KA_TELEOP), KINEMATICS, 6);
+			new SimpleMotorFeedforward(KS_TELEOP, KV_TELEOP, KA_TELEOP), KINEMATICS, 4);
 
 	CentripetalAccelerationConstraint centripAccelConstraintAuto = new CentripetalAccelerationConstraint(2.4);
 	CentripetalAccelerationConstraint centripAccelConstraintTeleop = new CentripetalAccelerationConstraint(2.4);
@@ -58,8 +58,8 @@ public interface Trajectories {
 	TrajectoryConfig configCentripAccelOTF = new TrajectoryConfig(MAX_SPEED_TELEOP, MAX_ACCEL_TELEOP)
 			.setKinematics(KINEMATICS)
 			.addConstraint(voltageConstraintTeleop)
-			.setReversed(false)
-			.addConstraint(centripAccelConstraintTeleop);
+			.setReversed(false);
+//			.addConstraint(centripAccelConstraintTeleop);
 //			.setStartVelocity(0);
 
 	TrajectoryConfig reverseConfigCentripAccelOTF = new TrajectoryConfig(MAX_SPEED_TELEOP, MAX_ACCEL_TELEOP)
@@ -82,7 +82,9 @@ public interface Trajectories {
 
     static RamseteCommand baseRamsete(Trajectory trajectory, SimpleMotorFeedforward simpleMotorFeedforward,
 									  PIDController leftController, PIDController rightController, Drivetrain drivetrain) {
-        return new RamseteCommand(
+//        ramseteController.setEnabled(false);
+
+		return new RamseteCommand(
                 trajectory,
                 drivetrain::getPoseEstimation,
                 ramseteController,

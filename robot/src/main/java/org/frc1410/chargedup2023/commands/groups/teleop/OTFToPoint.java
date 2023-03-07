@@ -100,9 +100,24 @@ public class OTFToPoint extends SequentialCommandGroup {
 		System.out.println(Units.metersToInches(midPose.getX()));
 		System.out.println(Units.metersToInches(midPose.getY()));
 		System.out.println("Target");
-		System.out.println(Units.metersToInches(offsetPose.getX()));
-		System.out.println(Units.metersToInches(offsetPose.getY()));
-		System.out.println(offsetPose.getRotation().getDegrees());
+		System.out.println(Units.metersToInches(tagPose.transformBy(
+				new Transform2d(
+						offsetPose.getTranslation(),
+						Rotation2d.fromDegrees(180)
+				)
+		).getX()));
+		System.out.println(Units.metersToInches(tagPose.transformBy(
+				new Transform2d(
+						offsetPose.getTranslation(),
+						Rotation2d.fromDegrees(180)
+				)
+		).getY()));
+		System.out.println(tagPose.transformBy(
+				new Transform2d(
+						offsetPose.getTranslation(),
+						Rotation2d.fromDegrees(180)
+				)
+		).getRotation().getDegrees());
 		//</editor-fold>
 		var velocity = drivetrain.getVelocity();
 		System.out.println("STARTING VELOCITY: " + velocity);

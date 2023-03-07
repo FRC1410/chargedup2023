@@ -69,9 +69,9 @@ public interface Constants {
 	double KV_AUTO = 2.265;
 	double KA_AUTO = 0.7535;
 
-	double KS_TELEOP = 0.6274;
-	double KV_TELEOP = 2.265;
-	double KA_TELEOP = 0.7535;
+	double KS_TELEOP = 0.5274;
+	double KV_TELEOP = 2.165;
+	double KA_TELEOP = 0.3535;
 
 	double GEARING = 1 / ((52.0 / 10.0) * (68.0 / 30.0));
 	double METERS_PER_REVOLUTION = .478778;
