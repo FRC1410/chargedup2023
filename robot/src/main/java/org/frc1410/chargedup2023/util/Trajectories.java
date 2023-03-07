@@ -40,6 +40,9 @@ public interface Trajectories {
 	DifferentialDriveVoltageConstraint voltageConstraintTeleop = new DifferentialDriveVoltageConstraint(
 			new SimpleMotorFeedforward(KS_TELEOP, KV_TELEOP, KA_TELEOP), KINEMATICS, 4);
 
+	DifferentialDriveVoltageConstraint coopertitionVoltageConstraint = new DifferentialDriveVoltageConstraint(
+			new SimpleMotorFeedforward(KS_TELEOP, KV_TELEOP, KA_TELEOP), KINEMATICS, 3);
+
 	CentripetalAccelerationConstraint centripAccelConstraintAuto = new CentripetalAccelerationConstraint(2.4);
 	CentripetalAccelerationConstraint centripAccelConstraintTeleop = new CentripetalAccelerationConstraint(2.4);
 
@@ -59,15 +62,11 @@ public interface Trajectories {
 			.setKinematics(KINEMATICS)
 			.addConstraint(voltageConstraintTeleop)
 			.setReversed(false);
-//			.addConstraint(centripAccelConstraintTeleop);
-//			.setStartVelocity(0);
 
-	TrajectoryConfig reverseConfigCentripAccelOTF = new TrajectoryConfig(MAX_SPEED_TELEOP, MAX_ACCEL_TELEOP)
+	TrajectoryConfig coopertitionConfigOTF = new TrajectoryConfig(MAX_SPEED_TELEOP, MAX_ACCEL_TELEOP)
 			.setKinematics(KINEMATICS)
-			.addConstraint(voltageConstraintTeleop)
-			.setReversed(true)
-			.addConstraint(centripAccelConstraintTeleop);
-//			.setStartVelocity(0);
+			.addConstraint(coopertitionVoltageConstraint)
+			.setReversed(false);
 
     SimpleMotorFeedforward feedForwardAuto = new SimpleMotorFeedforward(KS_AUTO, KV_AUTO, KA_AUTO);
 	SimpleMotorFeedforward feedForwardTeleop = new SimpleMotorFeedforward(KS_TELEOP, KV_TELEOP, KA_TELEOP);
