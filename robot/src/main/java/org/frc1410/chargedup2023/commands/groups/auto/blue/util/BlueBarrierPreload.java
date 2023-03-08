@@ -1,4 +1,4 @@
-package org.frc1410.chargedup2023.commands.groups.auto.barrier.util;
+package org.frc1410.chargedup2023.commands.groups.auto.blue.util;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -9,12 +9,12 @@ import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.subsystems.*;
 
-import static org.frc1410.chargedup2023.auto.POIs.BARRIER_GRID;
+import static org.frc1410.chargedup2023.auto.POIs.BLUE_BARRIER_GRID;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
-public class BarrierPreload extends SequentialCommandGroup {
-	public BarrierPreload(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake, boolean isComponent) {
-		drivetrain.resetPoseEstimation(BARRIER_GRID);
+public class BlueBarrierPreload extends SequentialCommandGroup {
+	public BlueBarrierPreload(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake, boolean isComponent) {
+		drivetrain.resetPoseEstimation(BLUE_BARRIER_GRID);
 
 		addCommands(
 				new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_RAISED_POSITION, true, true),

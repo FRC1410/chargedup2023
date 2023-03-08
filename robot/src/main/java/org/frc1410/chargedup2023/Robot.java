@@ -1,23 +1,17 @@
 package org.frc1410.chargedup2023;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
-import org.frc1410.chargedup2023.commands.actions.SetSuperStructurePosition;
-import org.frc1410.chargedup2023.commands.actions.drivetrain.Engage;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.intake.*;
 import org.frc1410.chargedup2023.commands.actions.lbork.*;
-import org.frc1410.chargedup2023.commands.groups.auto.barrier.BarrierYankeeEngage;
-import org.frc1410.chargedup2023.commands.groups.auto.barrier.BarrierYankeePapa;
-import org.frc1410.chargedup2023.commands.groups.auto.barrier.util.BarrierPreload;
+import org.frc1410.chargedup2023.commands.groups.auto.blue.BlueBarrierYankeeEngage;
+import org.frc1410.chargedup2023.commands.groups.auto.blue.BlueBarrierYankeePapa;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.DriveLooped;
 import org.frc1410.chargedup2023.commands.looped.HoldElevator;
@@ -32,7 +26,6 @@ import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.scheduler.task.DeferredTask;
 import org.frc1410.framework.scheduler.task.TaskPersistence;
 
-import static org.frc1410.chargedup2023.auto.POIs.BARRIER_GRID;
 import static org.frc1410.chargedup2023.util.Constants.*;
 
 public final class Robot extends PhaseDrivenRobot {
@@ -101,8 +94,8 @@ public final class Robot extends PhaseDrivenRobot {
 
 	private final AutoSelector autoSelector = new AutoSelector()
 //			.add("Default", SequentialCommandGroup::new)
-			.add("BarrierYankeeEngage", () -> new BarrierYankeeEngage(drivetrain, lBork, elevator, intake))
-			.add("BarrierYankeePapa", () -> new BarrierYankeePapa(drivetrain, lBork, elevator, intake));
+			.add("Blue 2 Piece Engage", () -> new BlueBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
+			.add("Blue 2 Piece", () -> new BlueBarrierYankeePapa(drivetrain, lBork, elevator, intake));
 
 	{
 		var profiles = new String[autoSelector.getProfiles().size()];
@@ -273,7 +266,6 @@ public final class Robot extends PhaseDrivenRobot {
 	public void testSequence() {
 		lightBar.set(LightBar.Profile.TEST);
 		drivetrain.coastMode();
-		drivetrain.resetPoseEstimation(BARRIER_GRID);
 		// Basic functionality and inversions: Drivetrain
 		scheduler.scheduleDefaultCommand(new DriveLooped(
 						drivetrain,

@@ -110,12 +110,12 @@ public interface Constants {
 
 	double ELEVATOR_NEO_ENCODER_CONSTANT = -0.0916666666667 * 3;
 
-	double ELEVATOR_INTAKE_INTERFERENCE_HEIGHT = 7; // Inches
+	double ELEVATOR_INTAKE_INTERFERENCE_HEIGHT = 6.2; // Inches
 
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0.4;
-	double ELEVATOR_IDLE_POSITION = 6.2;
-	double ELEVATOR_PAPA_POSITION = 2.1;
+	double ELEVATOR_IDLE_POSITION = 6.3;
+	double ELEVATOR_PAPA_POSITION = 1.9;
 	double ELEVATOR_MID_POSITION = 22.5;
 	double ELEVATOR_RAISED_POSITION = 31.25;
 	double ELEVATOR_SUBSTATION_POSITION = 31;
@@ -128,8 +128,7 @@ public interface Constants {
 	double INTAKE_LBORK_EXTEND_TIME = 0.5; // Seconds
 	double YANKEE_OUTTAKE_TIME = 0.5; // Seconds
 	double PAPA_OUTTAKE_TIME = 2; // Seconds
-	double SUBSTATION_INTAKE_TIME = 3; // Seconds
-	double RUN_LBORK_SCORING_TIME = 10; // Seconds
+	double SUBSTATION_INTAKE_TIME = 0.6; // Seconds
 	//</editor-fold>
 
 	//<editor-fold desc="Auto">

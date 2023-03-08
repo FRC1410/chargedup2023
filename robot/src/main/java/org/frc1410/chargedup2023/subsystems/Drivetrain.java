@@ -189,13 +189,10 @@ public class Drivetrain implements TickedSubsystem {
 
 	public double getHeading() {
 		return gyro.getRotation2d().getDegrees();
-//		double angle = gyro.getAngle() % 360;
-//		if (angle > 180) {
-//			return angle - 360;
-//		} else if (angle < -180) {
-//			return angle + 360;
-//		}
-//		return angle;
+	}
+
+	public double getHeadingContinuous() {
+		return gyro.getAngle();
 	}
 
 	public double getPitch() {

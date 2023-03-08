@@ -31,7 +31,7 @@ public class CaptureScoringPosition extends CommandBase {
 		int y = (int) -Math.signum(leftY.get());
 
 		ScoringPosition.targetPosition = ScoringPosition.fromCoords(x, y);
-		selectionIndexPub.accept(ScoringPosition.targetPosition.ordinal());
+		selectionIndexPub.set(ScoringPosition.targetPosition.ordinal());
 	}
 
 	@Override

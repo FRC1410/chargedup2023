@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
+import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
 import org.frc1410.chargedup2023.commands.actions.intake.RunIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.ExtendLBork;
 import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
@@ -136,6 +137,9 @@ public class TeleopCommandGenerator {
 								aprilTagPose,
 								tagID
 						),
+						tagID == 5
+								? new TurnToSmallAngle(drivetrain, 180)
+								: new TurnToSmallAngle(drivetrain, 0),
 						new ParallelRaceGroup(
 								new SetSuperStructurePosition(
 										elevator,
@@ -174,15 +178,50 @@ public class TeleopCommandGenerator {
 
 		switch (targetNode) {
 			case LEFT_YANKEE_NODE -> {
+				goToAprilTagLogger.debug("Target is left yankee");
 				if ((tagID == 1 || tagID == 6) && waypointFlag) {
-					goToAprilTagLogger.debug("Target is left yankee");
-					goToAprilTagLogger.debug("Waypoint go brrrrr");
+					goToAprilTagLogger.debug("Waypoint go brrrrrr");
 					return new OTFToPoint(
 							drivetrain,
 							aprilTagPose.toPose2d(),
 							isRed ? RED_OUTSIDE_WAYPOINT : BLUE_BARRIER_WAYPOINT,
-							isRed ? RED_LEFT_YANKEE_NODE : BLUE_LEFT_YANKEE_NODE
-
+							isRed
+									? new Pose2d(
+									RED_LEFT_YANKEE_NODE.getX(),
+									RED_LEFT_YANKEE_NODE.getY() + Units.inchesToMeters(3),
+									RED_LEFT_YANKEE_NODE.getRotation())
+									: new Pose2d(
+									BLUE_LEFT_YANKEE_NODE.getX(),
+									BLUE_LEFT_YANKEE_NODE.getY() + Units.inchesToMeters(5),
+									BLUE_LEFT_YANKEE_NODE.getRotation())
+					);
+				} else if (tagID == 1 || tagID == 6) {
+					return new OTFToPoint(
+							drivetrain,
+							aprilTagPose.toPose2d(),
+							isRed
+									? new Pose2d(
+									RED_LEFT_YANKEE_NODE.getX(),
+									RED_LEFT_YANKEE_NODE.getY() + Units.inchesToMeters(3),
+									RED_LEFT_YANKEE_NODE.getRotation())
+									: new Pose2d(
+									BLUE_LEFT_YANKEE_NODE.getX(),
+									BLUE_LEFT_YANKEE_NODE.getY() + Units.inchesToMeters(5),
+									BLUE_LEFT_YANKEE_NODE.getRotation())
+					);
+				} else if (tagID == 3 || tagID == 8) {
+					return new OTFToPoint(
+							drivetrain,
+							aprilTagPose.toPose2d(),
+							isRed
+									? new Pose2d(
+									RED_LEFT_YANKEE_NODE.getX(),
+									RED_LEFT_YANKEE_NODE.getY() - Units.inchesToMeters(3),
+									RED_LEFT_YANKEE_NODE.getRotation())
+									: new Pose2d(
+									BLUE_LEFT_YANKEE_NODE.getX(),
+									BLUE_LEFT_YANKEE_NODE.getY() - Units.inchesToMeters(5),
+									BLUE_LEFT_YANKEE_NODE.getRotation())
 					);
 				} else {
 					return new OTFToPoint(
@@ -205,11 +244,48 @@ public class TeleopCommandGenerator {
 			case RIGHT_YANKEE_NODE -> {
 				goToAprilTagLogger.debug("Target is right yankee");
 				if ((tagID == 3 || tagID == 8) && waypointFlag) {
+					goToAprilTagLogger.debug("Waypoint go brrrrrr");
 					return new OTFToPoint(
 							drivetrain,
 							aprilTagPose.toPose2d(),
 							isRed ? RED_BARRIER_WAYPOINT : BLUE_OUTSIDE_WAYPOINT,
-							isRed ? RED_RIGHT_YANKEE_NODE : BLUE_RIGHT_YANKEE_NODE
+							isRed
+									? new Pose2d(
+											RED_RIGHT_YANKEE_NODE.getX(),
+											RED_RIGHT_YANKEE_NODE.getY() - Units.inchesToMeters(2),
+											RED_RIGHT_YANKEE_NODE.getRotation())
+									: new Pose2d(
+											BLUE_RIGHT_YANKEE_NODE.getX(),
+											BLUE_RIGHT_YANKEE_NODE.getY() - Units.inchesToMeters(2),
+											BLUE_RIGHT_YANKEE_NODE.getRotation())
+					);
+				} else if (tagID == 3 || tagID == 8) {
+					return new OTFToPoint(
+							drivetrain,
+							aprilTagPose.toPose2d(),
+							isRed 
+									? new Pose2d(
+											RED_RIGHT_YANKEE_NODE.getX(),
+											RED_RIGHT_YANKEE_NODE.getY() - Units.inchesToMeters(2),
+											RED_RIGHT_YANKEE_NODE.getRotation())
+									: new Pose2d(
+											BLUE_RIGHT_YANKEE_NODE.getX(),
+											BLUE_RIGHT_YANKEE_NODE.getY() - Units.inchesToMeters(2),
+											BLUE_RIGHT_YANKEE_NODE.getRotation())
+							);
+				} else if (tagID == 1 || tagID == 6) {
+					return new OTFToPoint(
+							drivetrain,
+							aprilTagPose.toPose2d(),
+							isRed
+									? new Pose2d(
+											RED_RIGHT_YANKEE_NODE.getX(),
+											RED_RIGHT_YANKEE_NODE.getY() + Units.inchesToMeters(2),
+											RED_RIGHT_YANKEE_NODE.getRotation())
+									: new Pose2d(
+											BLUE_RIGHT_YANKEE_NODE.getX(),
+											BLUE_RIGHT_YANKEE_NODE.getY() + Units.inchesToMeters(2),
+											BLUE_RIGHT_YANKEE_NODE.getRotation())
 					);
 				} else {
 					return new OTFToPoint(
@@ -304,6 +380,28 @@ public class TeleopCommandGenerator {
 								aprilTagPose,
 								tagID
 						),
+						new InstantCommand(() -> drivetrain.autoTankDriveVolts(2, 2)),
+						tagID == 1
+								? !ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_RIGHT_YANKEE)
+										? new WaitCommand(0.5)
+										: new InstantCommand(() -> {})
+								: new InstantCommand(() -> {}),
+						tagID == 6
+								? !ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_RIGHT_YANKEE)
+										? new WaitCommand(0.5)
+										: new InstantCommand(() -> {})
+								: new InstantCommand(() -> {}),
+						tagID == 3
+								? !ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_LEFT_YANKEE)
+										? new WaitCommand(0.5)
+										: new InstantCommand(() -> {})
+								: new InstantCommand(() -> {}),
+						tagID == 8
+								? !ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_LEFT_YANKEE)
+										? new WaitCommand(0.5)
+										: new InstantCommand(() -> {})
+								: new InstantCommand(() -> {}),
+						new InstantCommand(() -> drivetrain.autoTankDriveVolts(0, 0)),
 						new SetSuperStructurePosition(
 								elevator,
 								intake,
@@ -357,6 +455,28 @@ public class TeleopCommandGenerator {
 								aprilTagPose,
 								tagID
 						),
+						new InstantCommand(() -> drivetrain.autoTankDriveVolts(2, 2)),
+						tagID == 1
+								? !ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_RIGHT_YANKEE)
+										? new WaitCommand(0.5)
+										: new InstantCommand(() -> {})
+								: new InstantCommand(() -> {}),
+						tagID == 6
+								? !ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_RIGHT_YANKEE)
+										? new WaitCommand(0.5)
+										: new InstantCommand(() -> {})
+								: new InstantCommand(() -> {}),
+						tagID == 3
+								? !ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_LEFT_YANKEE)
+										? new WaitCommand(0.5)
+										: new InstantCommand(() -> {})
+								: new InstantCommand(() -> {}),
+						tagID == 8
+								? !ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_LEFT_YANKEE)
+										? new WaitCommand(0.5)
+										: new InstantCommand(() -> {})
+								: new InstantCommand(() -> {}),
+						new InstantCommand(() -> drivetrain.autoTankDriveVolts(0, 0)),
 						new SetSuperStructurePosition(
 								elevator,
 								intake,

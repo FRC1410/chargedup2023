@@ -8,7 +8,7 @@ import org.frc1410.chargedup2023.subsystems.Drivetrain;
 public class TurnToSmallAngle extends CommandBase {
     private final Drivetrain drivetrain;
     private double pidOutput = 0;
-    private final double kP = 0.15;
+    private final double kP = 0.2;
     private final double kI = 0; // 0.0035
     private final double kD = 0.01; // 0.01
     private final double targetAngle;
@@ -25,18 +25,24 @@ public class TurnToSmallAngle extends CommandBase {
         pid = new PIDController(kP, kI, kD);
 
         // Set the target of the controller to 0, as that is the middle of the limelight's view
-        pid.setSetpoint(targetAngle);
+		pid.setSetpoint(targetAngle);
+
+		pid.setTolerance(1);
 	}
 
 	@Override
 	public void execute() {
-        pidOutput = pid.calculate(drivetrain.gyro.getAngle() % 360);
+		double angle = drivetrain.getPoseEstimation().getRotation().getDegrees() >= 0
+				? drivetrain.getPoseEstimation().getRotation().getDegrees()
+				: drivetrain.getPoseEstimation().getRotation().getDegrees() + 360;
+
+        pidOutput = pid.calculate(angle);
         drivetrain.autoTankDriveVolts(-pidOutput, pidOutput);
 	}
 
 	@Override
 	public boolean isFinished() {
-        return Math.abs(targetAngle - drivetrain.getHeading()) < 0.5;
+        return pid.atSetpoint();
 	}
 
 	@Override
