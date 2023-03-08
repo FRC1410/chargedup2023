@@ -93,6 +93,7 @@ public interface Constants {
 	double LBORK_PAPA_INTAKE_OUTER_ROLLER_SPEED = 0.5;
 	double LBORK_PAPA_INTAKE_INNER_ROLLER_SPEED = 1;
 
+	double LBORK_PAPA_INTAKE_OFFSET_TIME = 0.5;
 	//</editor-fold>
 
 	//<editor-fold desc="AprilTags & Vision">

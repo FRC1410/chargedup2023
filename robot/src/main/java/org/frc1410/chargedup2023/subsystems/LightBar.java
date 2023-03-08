@@ -12,16 +12,21 @@ public class LightBar implements Subsystem {
 		blinkin.set(profile.id);
 	}
 
+	public double get() {
+		return blinkin.get();
+	}
+
 	public enum Profile {
-		YANKEE_PICKUP(0.69),
-		PAPA_PICKUP(0.91),
-		IDLE_STATE(0.75),
-		AUTO(0.14),
-		TEST(-0.71)
-		;
+		IDLE_NO_PIECE(0.53), // Color Waves, Color 1 and 2
+		IDLE_PIECE(0.85), // Dark Blue
+		APRIL_TAG(0.75), // Dark Green
+		SCORING(-0.71), // Sinelon, Forest Palette
+		SUBSTATION_NO_PIECE(0.91), // Violet
+		SUBSTATION_PIECE(0.69), // Yellow
+		AUTO(-0.47), // Twinkles, Forest Palette
+		TEST(-0.37); // Color Waves, Forest Palette
 
-
-		private final double id;
+		public final double id;
 
 		// Find available IDs at https://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf
 		Profile(double id) {

@@ -2,20 +2,15 @@ package org.frc1410.chargedup2023.util.generation;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
 import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
 import org.frc1410.chargedup2023.commands.actions.intake.RunIntake;
-import org.frc1410.chargedup2023.commands.actions.lbork.ExtendLBork;
-import org.frc1410.chargedup2023.commands.actions.lbork.RetractLBork;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
 import org.frc1410.chargedup2023.commands.groups.teleop.OTFToPoint;
 import org.frc1410.chargedup2023.commands.actions.SetSuperStructurePosition;
-import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
 import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.framework.util.log.Logger;
 
@@ -39,6 +34,7 @@ public class TeleopCommandGenerator {
 			Elevator elevator,
 			Intake intake,
 			LBork lBork,
+			LightBar lightBar,
 			boolean rightBumper
 	) {
 		generateCommandLog.debug("Generator Called");
@@ -60,18 +56,6 @@ public class TeleopCommandGenerator {
 		// Now we need to check if the drivetrain has been reset
 		// And if not, add that to the list of commands to run
 		generateCommandLog.debug("Resetting drivetrain position");
-//		toRun.add(
-//				new InstantCommand(() -> {
-//					camera.getEstimatorPose().ifPresent(pose -> {
-//						drivetrain.resetPoseEstimation(new Pose2d(
-//								pose.getX(),
-//								pose.getY(),
-//								drivetrain.getPoseEstimation().getRotation()
-//						));
-//					});
-//				})
-//		);
-
 		toRun.add(
 				new ResetDrivetrain(drivetrain, camera, true)
 		);
@@ -82,6 +66,9 @@ public class TeleopCommandGenerator {
 
 		// If we are looking at a substation tag
 		if (SUBSTATION_TAGS.contains(tagID)) {
+			// Change lights
+			lightBar.set(LightBar.Profile.SUBSTATION_NO_PIECE);
+
 			// Generate substation pickup command
 			generateCommandLog.debug("Substation tag found, generating substation pickup command");
 			toRun.add(substationPickupGenerator(
@@ -89,11 +76,15 @@ public class TeleopCommandGenerator {
 					lBork,
 					elevator,
 					intake,
+					lightBar,
 					rightBumper,
 					aprilTagPose,
 					tagID
 			));
 		} else if (SCORING_TAGS.contains(tagID)) {
+			// Change lights
+			lightBar.set(LightBar.Profile.SCORING);
+
 			// Generate scoring command
 			generateCommandLog.debug("Grid tag found, generating scoring command");
 			toRun.add(scoringGenerator(
@@ -101,6 +92,7 @@ public class TeleopCommandGenerator {
 					elevator,
 					intake,
 					lBork,
+					lightBar,
 					aprilTagPose,
 					tagID
 			));
@@ -120,6 +112,7 @@ public class TeleopCommandGenerator {
 			LBork lBork,
 			Elevator elevator,
 			Intake intake,
+			LightBar lightBar,
 			boolean rightBumper,
 			Pose3d aprilTagPose,
 			int tagID
@@ -153,8 +146,11 @@ public class TeleopCommandGenerator {
 						),
 						new ParallelRaceGroup(
 								new RunLBorkYankee(lBork, false),
-								new WaitCommand(SUBSTATION_INTAKE_TIME)
-						)
+								new WaitCommand(SUBSTATION_INTAKE_TIME) // TODO: Make linebreak
+						),
+						new InstantCommand(() -> lightBar.set(LightBar.Profile.SUBSTATION_PIECE)),
+						new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false, false),
+						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_PIECE))
 				)
 		);
 
@@ -323,6 +319,7 @@ public class TeleopCommandGenerator {
 			Elevator elevator,
 			Intake intake,
 			LBork lBork,
+			LightBar lightBar,
 			Pose3d aprilTagPose,
 			int tagID
 	) {
@@ -335,6 +332,7 @@ public class TeleopCommandGenerator {
 					elevator,
 					intake,
 					lBork,
+					lightBar,
 					aprilTagPose,
 					tagID
 			);
@@ -343,6 +341,7 @@ public class TeleopCommandGenerator {
 					elevator,
 					intake,
 					lBork,
+					lightBar,
 					aprilTagPose,
 					tagID
 			);
@@ -351,6 +350,7 @@ public class TeleopCommandGenerator {
 					elevator,
 					intake,
 					lBork,
+					lightBar,
 					aprilTagPose,
 					tagID
 			);
@@ -362,6 +362,7 @@ public class TeleopCommandGenerator {
 			Elevator elevator,
 			Intake intake,
 			LBork lBork,
+			LightBar lightBar,
 			Pose3d aprilTagPose,
 			int tagID
 	) {
@@ -425,7 +426,8 @@ public class TeleopCommandGenerator {
 								ELEVATOR_IDLE_POSITION,
 								false,
 								false
-						)
+						),
+						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
 				)
 		);
 
@@ -437,6 +439,7 @@ public class TeleopCommandGenerator {
 			Elevator elevator,
 			Intake intake,
 			LBork lBork,
+			LightBar lightBar,
 			Pose3d aprilTagPose,
 			int tagID
 	) {
@@ -500,7 +503,8 @@ public class TeleopCommandGenerator {
 								ELEVATOR_IDLE_POSITION,
 								false,
 								false
-						)
+						),
+						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
 				)
 		);
 
@@ -512,6 +516,7 @@ public class TeleopCommandGenerator {
 			Elevator elevator,
 			Intake intake,
 			LBork lBork,
+			LightBar lightBar,
 			Pose3d aprilTagPose,
 			int tagID
 	) {
@@ -548,7 +553,8 @@ public class TeleopCommandGenerator {
 										? new RunIntake(intake, true)
 										: new InstantCommand(() -> {})
 
-						)
+						),
+						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
 				)
 		);
 

@@ -135,7 +135,7 @@ public final class Robot extends PhaseDrivenRobot {
 		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera, lightBar), TaskPersistence.EPHEMERAL);
 		drivetrain.zeroHeading();
-		lightBar.set(LightBar.Profile.IDLE_STATE);
+		lightBar.set(LightBar.Profile.IDLE_NO_PIECE);
 
 		//<editor-fold desc="Default Commands">
 		scheduler.scheduleDefaultCommand(
@@ -152,6 +152,7 @@ public final class Robot extends PhaseDrivenRobot {
 				new RunIntakeLooped(
 						intake,
 						lBork,
+						lightBar,
 						operatorController.LEFT_TRIGGER,
 						operatorController.RIGHT_TRIGGER),
 				TaskPersistence.GAMEPLAY
@@ -164,37 +165,28 @@ public final class Robot extends PhaseDrivenRobot {
 		//</editor-fold>
 
 		//<editor-fold desc="Teleop Automation">
-		// Possible structure with generator functions
-//		operatorController.LEFT_TRIGGER.button().whenPressed(
-//				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false),
-//				TaskPersistence.EPHEMERAL
-//		);
-//
-//		operatorController.RIGHT_TRIGGER.button().whenPressed(
-//				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false),
-//				TaskPersistence.EPHEMERAL
-//		);
-
-		driverController.RIGHT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
+		driverController.LEFT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
 				TeleopCommandGenerator.generateCommand(
 						camera,
 						drivetrain,
 						elevator,
 						intake,
 						lBork,
-						true
+						lightBar,
+						false
 				)),
 				TaskPersistence.EPHEMERAL
 		);
 
-		driverController.LEFT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
+		driverController.RIGHT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
 					TeleopCommandGenerator.generateCommand(
 						camera,
 						drivetrain,
 						elevator,
 						intake,
 						lBork,
-						false
+						lightBar,
+						true
 				)),
 				TaskPersistence.EPHEMERAL
 		);
@@ -266,7 +258,7 @@ public final class Robot extends PhaseDrivenRobot {
 	public void testSequence() {
 		lightBar.set(LightBar.Profile.TEST);
 		drivetrain.coastMode();
-		// Basic functionality and inversions: Drivetrain
+
 		scheduler.scheduleDefaultCommand(new DriveLooped(
 						drivetrain,
 						driverController.LEFT_Y_AXIS,
@@ -281,7 +273,6 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.GAMEPLAY
 		);
 
-		// Basic functionality and inversions: Elevator
 		operatorController.LEFT_Y_AXIS.button().whileHeld(
 				new MoveElevatorManual(elevator, operatorController.LEFT_Y_AXIS),
 				TaskPersistence.EPHEMERAL

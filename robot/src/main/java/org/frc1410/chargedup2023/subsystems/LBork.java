@@ -40,7 +40,7 @@ public class LBork implements TickedSubsystem {
 
 	@Override
 	public void periodic() {
-		lineBreakPub.set(getLineBreak());
+		lineBreakPub.set(innerMotor.getAnalog(SparkMaxAnalogSensor.Mode.kRelative).getPosition());
 	}
 
 	public void setRollerSpeeds(double outerRollerSpeed, double innerRollerSpeed) {
@@ -60,8 +60,8 @@ public class LBork implements TickedSubsystem {
 		piston.toggle();
 	}
 
-	public double getLineBreak() {
-		return innerMotor.getAnalog(SparkMaxAnalogSensor.Mode.kRelative).getPosition();
+	public boolean getLineBreak() {
+		return innerMotor.getAnalog(SparkMaxAnalogSensor.Mode.kRelative).getPosition() > 0.5;
 	}
 }
 

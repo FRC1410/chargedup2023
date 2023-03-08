@@ -26,19 +26,18 @@ public class UpdatePoseEstimation extends CommandBase {
 	@Override
 	public void execute() {
 		camera.getEstimatorPose().ifPresentOrElse(pose -> {
-//			System.out.println("Cam has targets? " + camera.hasTargets());
-					if ((Math.abs(Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees()) - Math.abs(-pose.getRotation().getDegrees())) <= ANGLE_THRESHOLD) && camera.hasTargets()) {
-						lightBar.set(LightBar.Profile.IDLE_STATE);
-//						System.out.println("If statement true");
-						drivetrain.addVisionPose(
-								new Pose2d(pose.getX(), pose.getY(), drivetrain.getPoseEstimation().getRotation()),
-								camera.getTimestamp()
-						);
-//						System.out.println(drivetrain.getHeading() + "HEADING");
-					} else {
-						lightBar.set(LightBar.Profile.PAPA_PICKUP);
-					}
-				}, () -> System.out.println("Tried to update thing but no thing :(")
+				if ((Math.abs(Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees()) - Math.abs(-pose.getRotation().getDegrees())) <= ANGLE_THRESHOLD) && camera.hasTargets()) {
+					if (
+							!(lightBar.get() == LightBar.Profile.SCORING.id) &&
+							!(lightBar.get() == LightBar.Profile.SUBSTATION_NO_PIECE.id)
+					) lightBar.set(LightBar.Profile.APRIL_TAG);
+
+					drivetrain.addVisionPose(
+							new Pose2d(pose.getX(), pose.getY(), drivetrain.getPoseEstimation().getRotation()),
+							camera.getTimestamp()
+					);
+				}
+			}, () -> System.out.println("Tried to update thing but no thing :(")
 		);
 	}
 }
