@@ -33,7 +33,6 @@ public class RunLBorkYankee extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		System.out.println("Finishing");
 		lBork.setRollerSpeeds(0, 0);
 	}
 }

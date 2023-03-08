@@ -9,6 +9,7 @@ import org.frc1410.chargedup2023.commands.actions.drivetrain.TurnToSmallAngle;
 import org.frc1410.chargedup2023.commands.actions.intake.RunIntake;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkPapa;
 import org.frc1410.chargedup2023.commands.actions.lbork.RunLBorkYankee;
+import org.frc1410.chargedup2023.commands.actions.lbork.SubstationIntakeWait;
 import org.frc1410.chargedup2023.commands.groups.teleop.OTFToPoint;
 import org.frc1410.chargedup2023.commands.actions.SetSuperStructurePosition;
 import org.frc1410.chargedup2023.subsystems.*;
@@ -146,7 +147,7 @@ public class TeleopCommandGenerator {
 						),
 						new ParallelRaceGroup(
 								new RunLBorkYankee(lBork, false),
-								new WaitCommand(SUBSTATION_INTAKE_TIME) // TODO: Make linebreak
+								new SubstationIntakeWait(lBork)
 						),
 						new InstantCommand(() -> lightBar.set(LightBar.Profile.SUBSTATION_PIECE)),
 						new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false, false),

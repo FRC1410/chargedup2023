@@ -130,7 +130,7 @@ public interface Constants {
 	double INTAKE_LBORK_EXTEND_TIME = 0.5; // Seconds
 	double YANKEE_OUTTAKE_TIME = 0.5; // Seconds
 	double PAPA_OUTTAKE_TIME = 2; // Seconds
-	double SUBSTATION_INTAKE_TIME = 0.6; // Seconds
+	double SUBSTATION_INTAKE_OFFSET_TIME = 0.6; // Seconds
 	//</editor-fold>
 
 	//<editor-fold desc="Auto">
