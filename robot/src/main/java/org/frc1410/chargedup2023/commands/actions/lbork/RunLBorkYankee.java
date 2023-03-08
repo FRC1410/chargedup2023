@@ -22,7 +22,7 @@ public class RunLBorkYankee extends CommandBase {
 		if (outtaking) {
 			lBork.setRollerSpeeds(-LBORK_YANKEE_OUTTAKE_SPEED, LBORK_YANKEE_OUTTAKE_SPEED);
 		} else {
-			lBork.setRollerSpeeds(-LBORK_YANKEE_INTAKE_SPEED, LBORK_YANKEE_INTAKE_SPEED);
+			lBork.setRollerSpeeds(LBORK_YANKEE_INTAKE_OUTER_ROLLER_SPEED, LBORK_YANKEE_INTAKE_INNER_ROLLER_SPEED);
 		}
 	}
 
