@@ -10,11 +10,11 @@ import static org.frc1410.chargedup2023.auto.POIs.RED_BARRIER_GRID;
 
 public class BlueBarrierPreload extends SequentialCommandGroup {
 	public BlueBarrierPreload(Drivetrain drivetrain) {
-		drivetrain.resetPoseEstimation(RED_BARRIER_GRID);
+		drivetrain.resetPoseEstimation(BLUE_BARRIER_GRID);
 
 		addCommands(
-				Trajectories.RedBarrierGridToOklahoma(drivetrain),
-				Trajectories.RedOklahomaToEngage(drivetrain)
+				Trajectories.BlueBarrierGridToOklahoma(drivetrain),
+				Trajectories.BlueOklahomaToScorePapa(drivetrain)
 		);
 	}
 }

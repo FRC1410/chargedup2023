@@ -261,7 +261,7 @@ public interface Trajectories {
 
 	static SequentialCommandGroup BlueOklahomaToScorePapa(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-				BLUE_OKLAHOMA, List.of(BLUE_OKLAHOMA_G302), BLUE_BARRIER_SCORE_PAPA,
+				BLUE_OKLAHOMA, List.of(BLUE_OKLAHOMA_G302, BLUE_OKLAHOMA_BACK), BLUE_BARRIER_SCORE_PAPA,
 				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
@@ -275,7 +275,7 @@ public interface Trajectories {
 
 	static SequentialCommandGroup RedOklahomaToScorePapa(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
-				RED_OKLAHOMA, List.of(RED_OKLAHOMA_G302), RED_BARRIER_SCORE_PAPA,
+				RED_OKLAHOMA, List.of(RED_OKLAHOMA_G302, RED_OKLAHOMA_BACK), RED_BARRIER_SCORE_PAPA,
 				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
