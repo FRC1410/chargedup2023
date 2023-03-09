@@ -120,6 +120,13 @@ public interface Trajectories {
 				.andThen(() -> drivetrain.autoTankDriveVolts(0, 0));
 	}
 
+	static SequentialCommandGroup BlueOklahomaToEngage(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+				BLUE_OKLAHOMA, List.of(BLUE_OKLAHOMA_GAMEPIECE), BLUE_EXTERNAL_ENGAGE,
+				configCentripAccel), feedForwardAuto, leftControllerAuto, rightControllerAuto, drivetrain)
+				.andThen(() -> drivetrain.autoTankDriveVolts(0, 0));
+	}
+
 	static SequentialCommandGroup RedBarrierGridToOklahoma(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
 				RED_BARRIER_GRID, List.of(RED_OKLAHOMA_MIDPOINT, RED_OKLAHOMA_MIDPOINT2), RED_OKLAHOMA,
@@ -130,6 +137,13 @@ public interface Trajectories {
 	static SequentialCommandGroup RedOklahomaToScorePapa(Drivetrain drivetrain) {
 		return baseRamsete(TrajectoryGenerator.generateTrajectory(
 				RED_OKLAHOMA, List.of(RED_OKLAHOMA_G302), RED_BARRIER_SCORE_PAPA,
+				configCentripAccel), feedForwardAuto, leftControllerAuto, rightControllerAuto, drivetrain)
+				.andThen(() -> drivetrain.autoTankDriveVolts(0, 0));
+	}
+
+	static SequentialCommandGroup RedOklahomaToEngage(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+				RED_OKLAHOMA, List.of(RED_OKLAHOMA_GAMEPIECE), RED_EXTERNAL_ENGAGE,
 				configCentripAccel), feedForwardAuto, leftControllerAuto, rightControllerAuto, drivetrain)
 				.andThen(() -> drivetrain.autoTankDriveVolts(0, 0));
 	}

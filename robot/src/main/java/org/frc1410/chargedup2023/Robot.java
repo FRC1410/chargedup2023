@@ -10,8 +10,8 @@ import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.intake.*;
 import org.frc1410.chargedup2023.commands.actions.lbork.*;
-import org.frc1410.chargedup2023.commands.groups.auto.blue.BlueBarrierYankeeEngage;
-import org.frc1410.chargedup2023.commands.groups.auto.blue.BlueBarrierYankeePapa;
+import org.frc1410.chargedup2023.commands.groups.auto.blue.*;
+import org.frc1410.chargedup2023.commands.groups.auto.red.*;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
 import org.frc1410.chargedup2023.commands.looped.*;
 import org.frc1410.chargedup2023.subsystems.*;
@@ -91,8 +91,14 @@ public final class Robot extends PhaseDrivenRobot {
 
 	private final AutoSelector autoSelector = new AutoSelector()
 //			.add("Default", SequentialCommandGroup::new)
-			.add("Blue 2 Piece Engage", () -> new BlueBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
-			.add("Blue 2 Piece", () -> new BlueBarrierYankeePapa(drivetrain, lBork, elevator, intake));
+			.add("Blue 2 Piece", () -> new BlueBarrierYankeePapa(drivetrain, lBork, elevator, intake))
+			.add("Blue 1 Piece Engage", () -> new BlueBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
+			.add("Blue 1 Piece Pickup", () -> new BlueBarrierPickup(drivetrain, lBork, elevator, intake))
+			.add("Blue 1 Piece Pickup Engage", () -> new BlueBarrierPickupEngage(drivetrain, lBork, elevator, intake))
+			.add("Red 2 Piece", () -> new RedBarrierYankeePapa(drivetrain, lBork, elevator, intake))
+			.add("Red 1 Piece Engage", () -> new RedBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
+			.add("Red 1 Piece Pickup", () -> new RedBarrierPickup(drivetrain, lBork, elevator, intake))
+			.add("Red 1 Piece Pickup Engage", () -> new RedBarrierPickupEngage(drivetrain, lBork, elevator, intake));
 
 	{
 		var profiles = new String[autoSelector.getProfiles().size()];
