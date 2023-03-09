@@ -91,14 +91,12 @@ public final class Robot extends PhaseDrivenRobot {
 
 	private final AutoSelector autoSelector = new AutoSelector()
 //			.add("Default", SequentialCommandGroup::new)
-			.add("Blue 2 Piece", () -> new BlueBarrierYankeePapa(drivetrain, lBork, elevator, intake))
-			.add("Blue 1 Piece Engage", () -> new BlueBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
-			.add("Blue 1 Piece Pickup", () -> new BlueBarrierPickup(drivetrain, lBork, elevator, intake))
-			.add("Blue 1 Piece Pickup Engage", () -> new BlueBarrierPickupEngage(drivetrain, lBork, elevator, intake))
-			.add("Red 2 Piece", () -> new RedBarrierYankeePapa(drivetrain, lBork, elevator, intake))
-			.add("Red 1 Piece Engage", () -> new RedBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
-			.add("Red 1 Piece Pickup", () -> new RedBarrierPickup(drivetrain, lBork, elevator, intake))
-			.add("Red 1 Piece Pickup Engage", () -> new RedBarrierPickupEngage(drivetrain, lBork, elevator, intake));
+			.add("B2P", () -> new BlueBarrierYankeePapa(drivetrain, lBork, elevator, intake))
+			.add("BSEND", () -> new BlueBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
+//			.add("B1PPE", () -> new BlueBarrierPickupEngage(drivetrain, lBork, elevator, intake))
+			.add("R2P", () -> new RedBarrierYankeePapa(drivetrain, lBork, elevator, intake))
+			.add("RSEND", () -> new RedBarrierYankeeEngage(drivetrain, lBork, elevator, intake));
+//			.add("R1PPE", () -> new RedBarrierPickupEngage(drivetrain, lBork, elevator, intake));
 
 	{
 		var profiles = new String[autoSelector.getProfiles().size()];
@@ -137,7 +135,7 @@ public final class Robot extends PhaseDrivenRobot {
 	public void teleopSequence() {
 		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera, lightBar), TaskPersistence.EPHEMERAL);
-		drivetrain.zeroHeading();
+//		drivetrain.zeroHeading();
 		lightBar.set(LightBar.Profile.IDLE_NO_PIECE);
 
 		//<editor-fold desc="Default Commands">
