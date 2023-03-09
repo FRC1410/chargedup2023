@@ -2,6 +2,7 @@ package org.frc1410.framework;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import org.frc1410.framework.util.log.Logger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -17,6 +18,8 @@ import java.util.function.Supplier;
  * when they are needed. The list of profiles can also be accessed.
  */
 public final class AutoSelector {
+
+	private static final Logger LOG = new Logger("AutoSelector");
 
 	private final List<@NotNull AutoProfile> profiles = new ArrayList<>();
 
@@ -52,6 +55,7 @@ public final class AutoSelector {
 			}
 		}
 
+		LOG.warn("Auto profile was invalid: \"" + profileName + "\" (skipping)");
 		return new InstantCommand(() -> {});
 	}
 
