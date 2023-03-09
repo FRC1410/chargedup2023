@@ -135,7 +135,6 @@ public final class Robot extends PhaseDrivenRobot {
 	public void teleopSequence() {
 		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera, lightBar), TaskPersistence.EPHEMERAL);
-//		drivetrain.zeroHeading();
 		lightBar.set(LightBar.Profile.IDLE_NO_PIECE);
 
 		//<editor-fold desc="Default Commands">
@@ -166,31 +165,36 @@ public final class Robot extends PhaseDrivenRobot {
 		//</editor-fold>
 
 		//<editor-fold desc="Teleop Automation">
-		driverController.LEFT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
-				TeleopCommandGenerator.generateCommand(
-						camera,
-						drivetrain,
-						elevator,
-						intake,
-						lBork,
-						lightBar,
-						false
-				)),
-				TaskPersistence.EPHEMERAL
-		);
+		try {
+			driverController.LEFT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
+							TeleopCommandGenerator.generateCommand(
+									camera,
+									drivetrain,
+									elevator,
+									intake,
+									lBork,
+									lightBar,
+									false
+							)),
+					TaskPersistence.EPHEMERAL
+			);
 
-		driverController.RIGHT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
-					TeleopCommandGenerator.generateCommand(
-						camera,
-						drivetrain,
-						elevator,
-						intake,
-						lBork,
-						lightBar,
-						true
-				)),
-				TaskPersistence.EPHEMERAL
-		);
+			driverController.RIGHT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
+							TeleopCommandGenerator.generateCommand(
+									camera,
+									drivetrain,
+									elevator,
+									intake,
+									lBork,
+									lightBar,
+									true
+							)),
+					TaskPersistence.EPHEMERAL
+			);
+		} catch (Exception e) {
+			driverController.rumble(1000);
+			operatorController.rumble(1000);
+		}
 		//</editor-fold>
 
 		//<editor-fold desc="Panic Intake Retract">
