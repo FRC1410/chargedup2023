@@ -1,6 +1,7 @@
 package org.frc1410.framework;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -43,8 +44,6 @@ public final class AutoSelector {
 	 *
 	 * @return The {@link Command} to be scheduled for this profile.
 	 * @throws NullPointerException If {@code profileName} is null.
-	 * @throws IllegalStateException If there is no profile stored matching
-	 *							   the given {@code profileName}.
 	 */
 	public @NotNull Command select(@NotNull String profileName) {
 		for (var profile : profiles) {
@@ -53,7 +52,7 @@ public final class AutoSelector {
 			}
 		}
 
-		throw new IllegalStateException("No such auto \"" + profileName + "\"");
+		return new InstantCommand(() -> {});
 	}
 
 	/**
