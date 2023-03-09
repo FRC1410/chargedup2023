@@ -4,8 +4,11 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import org.frc1410.chargedup2023.commands.actions.CaptureScoringPosition;
 import org.frc1410.chargedup2023.commands.actions.ResetDrivetrain;
+import org.frc1410.chargedup2023.commands.actions.SetSuperStructurePosition;
 import org.frc1410.chargedup2023.commands.actions.elevator.HomeElevator;
 import org.frc1410.chargedup2023.commands.actions.elevator.MoveElevatorManual;
 import org.frc1410.chargedup2023.commands.actions.intake.*;
@@ -251,16 +254,33 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
+//		operatorController.START.whenPressed(
+//				new HomeElevator(intake, lBork, elevator),
+//				TaskPersistence.EPHEMERAL
+//		);
+
 		operatorController.START.whenPressed(
-				new HomeElevator(intake, lBork, elevator),
+				new SequentialCommandGroup(
+						switch (ScoringPosition.targetPosition) {
+							case HIGH_LEFT_YANKEE, HIGH_PAPA, HIGH_RIGHT_YANKEE -> new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_RAISED_POSITION, false, true);
+							case MIDDLE_LEFT_YANKEE, MIDDLE_PAPA, MIDDLE_RIGHT_YANKEE -> new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_MID_POSITION, false, false);
+							case HYBRID_LEFT, HYBRID_RIGHT -> new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false, false);
+							case HYBRID_MIDDLE -> new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false);
+						}
+				),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.BACK.whenPressed(
+				new SequentialCommandGroup(
+						switch (ScoringPosition.targetPosition) {
+							case HIGH_LEFT_YANKEE, HIGH_RIGHT_YANKEE, MIDDLE_LEFT_YANKEE, MIDDLE_RIGHT_YANKEE, HYBRID_LEFT, HYBRID_RIGHT -> new RunLBorkYankee(lBork, true);
+							case HIGH_PAPA, MIDDLE_PAPA, HYBRID_MIDDLE -> new InstantCommand(() -> {});
+						}
+				),
 				TaskPersistence.EPHEMERAL
 		);
 		//</editor-fold>
-
-		operatorController.BACK.whenPressed(
-				new ResetDrivetrain(drivetrain, camera, true),
-				TaskPersistence.EPHEMERAL
-		);
 	}
 
 	@Override
