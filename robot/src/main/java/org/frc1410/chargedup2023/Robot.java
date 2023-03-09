@@ -165,36 +165,35 @@ public final class Robot extends PhaseDrivenRobot {
 		//</editor-fold>
 
 		//<editor-fold desc="Teleop Automation">
-		try {
-			driverController.LEFT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
-							TeleopCommandGenerator.generateCommand(
-									camera,
-									drivetrain,
-									elevator,
-									intake,
-									lBork,
-									lightBar,
-									false
-							)),
-					TaskPersistence.EPHEMERAL
-			);
+		driverController.LEFT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
+						TeleopCommandGenerator.generateCommand(
+								camera,
+								drivetrain,
+								elevator,
+								intake,
+								lBork,
+								lightBar,
+								driverController,
+								operatorController,
+								false
+						)),
+				TaskPersistence.EPHEMERAL
+		);
 
-			driverController.RIGHT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
-							TeleopCommandGenerator.generateCommand(
-									camera,
-									drivetrain,
-									elevator,
-									intake,
-									lBork,
-									lightBar,
-									true
-							)),
-					TaskPersistence.EPHEMERAL
-			);
-		} catch (Exception e) {
-			driverController.rumble(1000);
-			operatorController.rumble(1000);
-		}
+		driverController.RIGHT_BUMPER.whileHeldOnce(DeferredTask.fromCommand(scheduler, () ->
+						TeleopCommandGenerator.generateCommand(
+								camera,
+								drivetrain,
+								elevator,
+								intake,
+								lBork,
+								lightBar,
+								driverController,
+								operatorController,
+								true
+						)),
+				TaskPersistence.EPHEMERAL
+		);
 		//</editor-fold>
 
 		//<editor-fold desc="Panic Intake Retract">

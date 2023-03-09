@@ -13,6 +13,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.SubstationIntakeWait;
 import org.frc1410.chargedup2023.commands.groups.teleop.OTFToPoint;
 import org.frc1410.chargedup2023.commands.actions.SetSuperStructurePosition;
 import org.frc1410.chargedup2023.subsystems.*;
+import org.frc1410.framework.control.Controller;
 import org.frc1410.framework.util.log.Logger;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class TeleopCommandGenerator {
 			Intake intake,
 			LBork lBork,
 			LightBar lightBar,
+			Controller driverController,
+			Controller operatorController,
 			boolean rightBumper
 	) {
 		generateCommandLog.debug("Generator Called");
@@ -65,47 +68,53 @@ public class TeleopCommandGenerator {
 		var tagID = camera.getTarget().getFiducialId();
 		generateCommandLog.debug("April Tag ID: " + tagID);
 
-		// If we are looking at a substation tag
-		if (SUBSTATION_TAGS.contains(tagID)) {
-			// Change lights
-			lightBar.set(LightBar.Profile.SUBSTATION_NO_PIECE);
+		try {
+			// If we are looking at a substation tag
+			if (SUBSTATION_TAGS.contains(tagID)) {
+				// Change lights
+				lightBar.set(LightBar.Profile.SUBSTATION_NO_PIECE);
 
-			// Generate substation pickup command
-			generateCommandLog.debug("Substation tag found, generating substation pickup command");
-			toRun.add(substationPickupGenerator(
-					drivetrain,
-					lBork,
-					elevator,
-					intake,
-					lightBar,
-					rightBumper,
-					aprilTagPose,
-					tagID
-			));
-		} else if (SCORING_TAGS.contains(tagID)) {
-			// Change lights
-			lightBar.set(LightBar.Profile.SCORING);
+				// Generate substation pickup command
+				generateCommandLog.debug("Substation tag found, generating substation pickup command");
+				toRun.add(substationPickupGenerator(
+						drivetrain,
+						lBork,
+						elevator,
+						intake,
+						lightBar,
+						rightBumper,
+						aprilTagPose,
+						tagID
+				));
+			} else if (SCORING_TAGS.contains(tagID)) {
+				// Change lights
+				lightBar.set(LightBar.Profile.SCORING);
 
-			// Generate scoring command
-			generateCommandLog.debug("Grid tag found, generating scoring command");
-			toRun.add(scoringGenerator(
-					drivetrain,
-					elevator,
-					intake,
-					lBork,
-					lightBar,
-					aprilTagPose,
-					tagID
-			));
+				// Generate scoring command
+				generateCommandLog.debug("Grid tag found, generating scoring command");
+				toRun.add(scoringGenerator(
+						drivetrain,
+						elevator,
+						intake,
+						lBork,
+						lightBar,
+						aprilTagPose,
+						tagID
+				));
+			}
+
+			// Always have to reset if the drivetrain has been reset or not
+			toRun.add(new InstantCommand(() -> drivetrain.setReset(false)));
+
+			toRun.add(new RunCommand(() -> {
+			}));
+
+			return new SequentialCommandGroup(toRun.toArray(new Command[0]));
+		} catch (Exception e) {
+			driverController.rumble(1000);
+			operatorController.rumble(1000);
+			return new InstantCommand(() -> {});
 		}
-
-		// Always have to reset if the drivetrain has been reset or not
-		toRun.add(new InstantCommand(() -> drivetrain.setReset(false)));
-
-		toRun.add(new RunCommand(() -> {}));
-
-		return new SequentialCommandGroup(toRun.toArray(new Command[0]));
-//		return new InstantCommand();
 	}
 
 	private static Command substationPickupGenerator(
