@@ -17,9 +17,8 @@ public class HoldElevator extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (elevator.getPosition() > 1.5) {
-			elevator.setSpeed(ELEVATOR_HOLDING_POWER);
-		}
+		if (elevator.getPosition() > 1.5) elevator.setSpeed(ELEVATOR_HOLDING_POWER);
+		else elevator.setSpeed(0);
 	}
 
 	@Override

@@ -31,4 +31,9 @@ public interface Tuning {
 	double ELEVATOR_KP = 3;
 	double ELEVATOR_KI = 0;
 	double ELEVATOR_KD = 0;
+
+	double ELEVATOR_HOLD_KP = 2;
+	double ELEVATOR_HOLD_KI = 0;
+	double ELEVATOR_HOLD_KD = 0;
+
 }

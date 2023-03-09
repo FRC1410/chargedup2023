@@ -13,10 +13,7 @@ import org.frc1410.chargedup2023.commands.actions.lbork.*;
 import org.frc1410.chargedup2023.commands.groups.auto.blue.BlueBarrierYankeeEngage;
 import org.frc1410.chargedup2023.commands.groups.auto.blue.BlueBarrierYankeePapa;
 import org.frc1410.chargedup2023.commands.groups.teleop.*;
-import org.frc1410.chargedup2023.commands.looped.DriveLooped;
-import org.frc1410.chargedup2023.commands.looped.HoldElevator;
-import org.frc1410.chargedup2023.commands.looped.RunIntakeLooped;
-import org.frc1410.chargedup2023.commands.looped.UpdatePoseEstimation;
+import org.frc1410.chargedup2023.commands.looped.*;
 import org.frc1410.chargedup2023.subsystems.*;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.chargedup2023.util.generation.TeleopCommandGenerator;
@@ -120,7 +117,7 @@ public final class Robot extends PhaseDrivenRobot {
 		lightBar.set(LightBar.Profile.AUTO);
 
 		scheduler.scheduleDefaultCommand(
-				new HoldElevator(elevator),
+				new HoldElevatorPID(elevator),
 				TaskPersistence.GAMEPLAY
 		);
 
@@ -159,7 +156,7 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 
 		scheduler.scheduleDefaultCommand(
-				new HoldElevator(elevator),
+				new HoldElevatorPID(elevator),
 				TaskPersistence.GAMEPLAY
 		);
 		//</editor-fold>
@@ -269,7 +266,7 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 
 		scheduler.scheduleDefaultCommand(
-				new HoldElevator(elevator),
+				new HoldElevatorPID(elevator),
 				TaskPersistence.GAMEPLAY
 		);
 
