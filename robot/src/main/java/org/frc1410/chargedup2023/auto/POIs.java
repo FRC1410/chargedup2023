@@ -36,14 +36,14 @@ public interface POIs {
 	Pose2d RED_RIGHT_YANKEE_NODE = new Pose2d(inchesToMeters(42.5), inchesToMeters(22), new Rotation2d());
 	Translation2d RED_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(525), FIELD_WIDTH - inchesToMeters(132)); //TODO
 	Translation2d RED_OUTSIDE_WAYPOINT = new Translation2d(inchesToMeters(525), inchesToMeters(34));
-	Pose2d RED_LEFT_SUBSTATION = new Pose2d(inchesToMeters(53), -inchesToMeters(25), Rotation2d.fromDegrees(180));
-	Pose2d RED_RIGHT_SUBSTATION = new Pose2d(inchesToMeters(53), inchesToMeters(25), Rotation2d.fromDegrees(180));
+	Pose2d RED_LEFT_SUBSTATION = new Pose2d(inchesToMeters(53), -inchesToMeters(33), Rotation2d.fromDegrees(180));
+	Pose2d RED_RIGHT_SUBSTATION = new Pose2d(inchesToMeters(53), inchesToMeters(33), Rotation2d.fromDegrees(180));
 
 	Pose2d BLUE_LEFT_YANKEE_NODE = new Pose2d(inchesToMeters(44.5), -inchesToMeters(22), Rotation2d.fromDegrees(180));
 	Pose2d BLUE_PAPA_NODE = new Pose2d(inchesToMeters(39.5), 0, Rotation2d.fromDegrees(180));
 	Pose2d BLUE_RIGHT_YANKEE_NODE = new Pose2d(inchesToMeters(42.5), inchesToMeters(22), Rotation2d.fromDegrees(180));
 	Translation2d BLUE_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(115), FIELD_WIDTH - inchesToMeters(132)); //TODO
 	Translation2d BLUE_OUTSIDE_WAYPOINT = new Translation2d(inchesToMeters(115), FIELD_WIDTH - inchesToMeters(284.5)); //TODO
-	Pose2d BLUE_LEFT_SUBSTATION = new Pose2d(inchesToMeters(53), -inchesToMeters(25), new Rotation2d());
-	Pose2d BLUE_RIGHT_SUBSTATION = new Pose2d(inchesToMeters(53), inchesToMeters(25), new Rotation2d());
+	Pose2d BLUE_LEFT_SUBSTATION = new Pose2d(inchesToMeters(53), -inchesToMeters(33), new Rotation2d());
+	Pose2d BLUE_RIGHT_SUBSTATION = new Pose2d(inchesToMeters(53), inchesToMeters(33), new Rotation2d());
 }
