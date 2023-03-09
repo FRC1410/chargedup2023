@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.*;
 import org.frc1410.chargedup2023.commands.DriveLooped;
 import org.frc1410.chargedup2023.commands.groups.OTFToPoint;
+import org.frc1410.chargedup2023.commands.groups.auto.BlueBarrierPreload;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.*;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.Barrier2ConeEngage;
 import org.frc1410.chargedup2023.commands.groups.auto.outside.*;
@@ -34,19 +35,7 @@ public final class Robot extends PhaseDrivenRobot {
     private final NetworkTable table = nt.getTable("Auto");
 
     private final AutoSelector autoSelector = new AutoSelector()
-			.add("Barrier Score Collect", () -> new BarrierScoreCollect(drivetrain))
-			.add("Barrier Score Collect Engage", () -> new BarrierScoreCollectEngage(drivetrain))
-			.add("Barrier 2 Cone", () -> new Barrier2Cone(drivetrain))
-			.add("Barrier 2 Cone Engage", () -> new Barrier2ConeEngage(drivetrain))
-			.add("Barrier 2 Cone Collect Cube", () -> new Barrier2ConeCollectCube(drivetrain))
-			.add("Barrier 2 Cone Cube", () -> new Barrier2ConeCube(drivetrain))
-
-			.add("Outside Score Collect", () -> new OutsideScoreCollect(drivetrain))
-			.add("Outside Score Collect Engage", () -> new OutsideScoreCollectEngage(drivetrain))
-			.add("Outside 2 Cone", () -> new Outside2Cone(drivetrain))
-			.add("Outside 2 Cone Engage", () -> new Outside2ConeEngage(drivetrain))
-			.add("Outside 2 Cone Collect Cube", () -> new Outside2ConeCollectCube(drivetrain))
-			.add("Outside 2 Cone Cube", () -> new Outside2ConeCube(drivetrain));
+			.add("Go", () -> new BlueBarrierPreload(drivetrain));
 
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
@@ -55,11 +44,10 @@ public final class Robot extends PhaseDrivenRobot {
 
     @Override
     public void autonomousSequence() {
-        drivetrain.zeroHeading();
         drivetrain.brakeMode();
         var autoProfile = autoSubscriber.get();
         var autoCommand = autoSelector.select(autoProfile);
-        scheduler.scheduleDefaultCommand(autoCommand, TaskPersistence.EPHEMERAL);
+        scheduler.scheduleAutoCommand(autoCommand);
         System.out.println("Auto Done");
     }
 

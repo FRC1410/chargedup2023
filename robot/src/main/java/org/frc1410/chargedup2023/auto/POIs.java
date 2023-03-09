@@ -55,4 +55,26 @@ public interface POIs {
 
 	Translation2d BARRIER_CUBE_SCORE_MIDPOINT = new Translation2d(inchesToMeters(215), inchesToMeters(177.19));
 	Translation2d OUTSIDE_CUBE_SCORE_MIDPOINT = new Translation2d(inchesToMeters(215), inchesToMeters(38.31));
+
+
+
+	// Blue
+	Pose2d BLUE_BARRIER_GRID = new Pose2d(inchesToMeters(74.25), inchesToMeters(196.19), Rotation2d.fromDegrees(180));
+	Pose2d BLUE_OKLAHOMA = new Pose2d(inchesToMeters(293), inchesToMeters(235.5), Rotation2d.fromDegrees(-115));
+	Translation2d BLUE_OKLAHOMA_MIDPOINT = new Translation2d(inchesToMeters(148.5), inchesToMeters(196.19));
+	Translation2d BLUE_OKLAHOMA_MIDPOINT2 = new Translation2d(inchesToMeters(239.4), inchesToMeters(202));
+	Translation2d BLUE_OKLAHOMA_G302 = new Translation2d(inchesToMeters(279.5), inchesToMeters(190.8));
+	Translation2d BLUE_OKLAHOMA_GAMEPIECE = new Translation2d(inchesToMeters(278.25), inchesToMeters(180.2));
+	Pose2d BLUE_BARRIER_SCORE_PAPA = new Pose2d(inchesToMeters(68.25), inchesToMeters(176.19), Rotation2d.fromDegrees(180));
+	Pose2d BLUE_EXTERNAL_ENGAGE = new Pose2d(inchesToMeters(217), inchesToMeters(133.5), Rotation2d.fromDegrees(180));
+
+	// Red
+	Pose2d RED_BARRIER_GRID = new Pose2d(inchesToMeters(576.97), inchesToMeters(196.19), Rotation2d.fromDegrees(0));
+	Pose2d RED_OKLAHOMA = new Pose2d(inchesToMeters(358.22), inchesToMeters(235.5), Rotation2d.fromDegrees(-65));
+	Translation2d RED_OKLAHOMA_MIDPOINT = new Translation2d(inchesToMeters(502.72), inchesToMeters(196.19));
+	Translation2d RED_OKLAHOMA_MIDPOINT2 = new Translation2d(inchesToMeters(411.82), inchesToMeters(202));
+	Translation2d RED_OKLAHOMA_G302 = new Translation2d(inchesToMeters(371.72), inchesToMeters(190.8));
+	Translation2d RED_OKLAHOMA_GAMEPIECE = new Translation2d(inchesToMeters(372.97), inchesToMeters(180.2));
+	Pose2d RED_BARRIER_SCORE_PAPA = new Pose2d(inchesToMeters(582.97), inchesToMeters(176.19), Rotation2d.fromDegrees(0));
+	Pose2d RED_EXTERNAL_ENGAGE = new Pose2d(inchesToMeters(434.22), inchesToMeters(133.5), Rotation2d.fromDegrees(0));
 }

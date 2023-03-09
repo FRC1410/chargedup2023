@@ -245,4 +245,54 @@ public interface Trajectories {
 				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
 				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
 	}
+
+
+
+
+
+
+	// TRAJECTORIES
+	static SequentialCommandGroup BlueBarrierGridToOklahoma(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+				BLUE_BARRIER_GRID, List.of(BLUE_OKLAHOMA_MIDPOINT, BLUE_OKLAHOMA_MIDPOINT2), BLUE_OKLAHOMA,
+				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+	}
+
+	static SequentialCommandGroup BlueOklahomaToScorePapa(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+				BLUE_OKLAHOMA, List.of(BLUE_OKLAHOMA_G302), BLUE_BARRIER_SCORE_PAPA,
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+	}
+
+	static SequentialCommandGroup RedBarrierGridToOklahoma(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+				RED_BARRIER_GRID, List.of(RED_OKLAHOMA_MIDPOINT, RED_OKLAHOMA_MIDPOINT2), RED_OKLAHOMA,
+				reverseConfigCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+	}
+
+	static SequentialCommandGroup RedOklahomaToScorePapa(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+				RED_OKLAHOMA, List.of(RED_OKLAHOMA_G302), RED_BARRIER_SCORE_PAPA,
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+	}
+
+
+
+	static SequentialCommandGroup BlueOklahomaToEngage(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+				BLUE_OKLAHOMA, List.of(BLUE_OKLAHOMA_GAMEPIECE), BLUE_EXTERNAL_ENGAGE,
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+	}
+
+	static SequentialCommandGroup RedOklahomaToEngage(Drivetrain drivetrain) {
+		return baseRamsete(TrajectoryGenerator.generateTrajectory(
+				RED_OKLAHOMA, List.of(RED_OKLAHOMA_GAMEPIECE), RED_EXTERNAL_ENGAGE,
+				configCentripAccel), realisticFeedforward, leftController, rightController, drivetrain)
+				.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+	}
 }
