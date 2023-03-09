@@ -30,6 +30,8 @@ public class Elevator implements TickedSubsystem {
 
 	private final DigitalInput limitSwitch = new DigitalInput(ELEVATOR_LIMIT_SWITCH_PORT);
 
+	private double desired_position;
+
 	public Elevator() {
 		leftMotor.restoreFactoryDefaults();
 		rightMotor.restoreFactoryDefaults();
@@ -71,5 +73,13 @@ public class Elevator implements TickedSubsystem {
 	public void periodic() {
 		encoderPub.set(getPosition());
 		limitPub.set(getLimitSwitchValue());
+	}
+
+	public double getDesired_position() {
+		return desired_position;
+	}
+
+	public void setDesired_position(double desired_position) {
+		this.desired_position = desired_position;
 	}
 }

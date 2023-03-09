@@ -22,7 +22,9 @@ public class HoldElevatorPID extends CommandBase {
 	public void initialize() {
 		pid = new PIDController(ELEVATOR_HOLD_KP, ELEVATOR_HOLD_KI, ELEVATOR_HOLD_KD);
 		pid.setTolerance(ELEVATOR_TOLERANCE);
-		pid.setSetpoint(elevator.getPosition());
+
+		System.out.println(elevator.getDesired_position());
+		pid.setSetpoint(elevator.getDesired_position());
 	}
 
 	@Override

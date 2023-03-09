@@ -84,7 +84,7 @@ public interface Constants {
 	//<editor-fold desc="LBork">
 	// LBork rollers
 	double LBORK_YANKEE_INTAKE_OUTER_ROLLER_SPEED = 1;
-	double LBORK_YANKEE_INTAKE_INNER_ROLLER_SPEED = -0.5;
+	double LBORK_YANKEE_INTAKE_INNER_ROLLER_SPEED = -0.3;
 	double LBORK_YANKEE_OUTTAKE_SPEED = 1;
 
 	double LBORK_PAPA_OUTTAKE_OUTER_ROLLER_SPEED = -0.5;
@@ -128,7 +128,7 @@ public interface Constants {
 
 	//<editor-fold desc="Timing">
 	double INTAKE_LBORK_EXTEND_TIME = 0.5; // Seconds
-	double YANKEE_OUTTAKE_TIME = 0.5; // Seconds
+	double YANKEE_OUTTAKE_TIME = 0.7; // Seconds
 	double PAPA_OUTTAKE_TIME = 2; // Seconds
 	double SUBSTATION_INTAKE_OFFSET_TIME = 0.6; // Seconds
 	//</editor-fold>

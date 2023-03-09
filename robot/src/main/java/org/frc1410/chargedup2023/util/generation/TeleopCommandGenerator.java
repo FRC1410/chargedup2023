@@ -131,9 +131,9 @@ public class TeleopCommandGenerator {
 								aprilTagPose,
 								tagID
 						),
-						tagID == 5
-								? new TurnToSmallAngle(drivetrain, 180)
-								: new TurnToSmallAngle(drivetrain, 0),
+//						tagID == 5
+//								? new TurnToSmallAngle(drivetrain, 180)
+//								: new TurnToSmallAngle(drivetrain, 0),
 						new ParallelRaceGroup(
 								new SetSuperStructurePosition(
 										elevator,

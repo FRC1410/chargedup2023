@@ -28,5 +28,6 @@ public class ElevatorHomingSequence extends CommandBase {
 	public void end(boolean interrupted) {
 		elevator.setSpeed(0);
 		elevator.resetPosition(0);
+		elevator.setDesired_position(0);
 	}
 }

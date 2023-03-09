@@ -10,11 +10,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
+import org.frc1410.framework.util.log.Logger;
 
 import static org.frc1410.chargedup2023.util.IDs.*;
 
 
 public class LBork implements TickedSubsystem {
+
+	private static final Logger log = new Logger("LBork");
 	private final NetworkTable table = NetworkTableInstance.getDefault().getTable("LBork");
 	private final DoublePublisher lineBreakPub = NetworkTables.PublisherFactory(table, "Line Break", 0);
 	
@@ -36,11 +39,12 @@ public class LBork implements TickedSubsystem {
 		outerMotor.setSmartCurrentLimit(7);
 
 		innerMotor.setInverted(true);
+
 	}
 
 	@Override
 	public void periodic() {
-		lineBreakPub.set(innerMotor.getAnalog(SparkMaxAnalogSensor.Mode.kRelative).getPosition());
+		lineBreakPub.set(innerMotor.getAnalog(SparkMaxAnalogSensor.Mode.kAbsolute).getVoltage());
 	}
 
 	public void setRollerSpeeds(double outerRollerSpeed, double innerRollerSpeed) {
@@ -61,7 +65,7 @@ public class LBork implements TickedSubsystem {
 	}
 
 	public boolean getLineBreak() {
-		return innerMotor.getAnalog(SparkMaxAnalogSensor.Mode.kRelative).getPosition() > 0.5;
+		return innerMotor.getAnalog(SparkMaxAnalogSensor.Mode.kAbsolute).getVoltage() > 0.5;
 	}
 }
 

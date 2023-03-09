@@ -44,6 +44,6 @@ public interface POIs {
 	Pose2d BLUE_RIGHT_YANKEE_NODE = new Pose2d(inchesToMeters(42.5), inchesToMeters(22), Rotation2d.fromDegrees(180));
 	Translation2d BLUE_BARRIER_WAYPOINT = new Translation2d(inchesToMeters(115), FIELD_WIDTH - inchesToMeters(132)); //TODO
 	Translation2d BLUE_OUTSIDE_WAYPOINT = new Translation2d(inchesToMeters(115), FIELD_WIDTH - inchesToMeters(284.5)); //TODO
-	Pose2d BLUE_LEFT_SUBSTATION = new Pose2d(inchesToMeters(53), inchesToMeters(25), new Rotation2d());
-	Pose2d BLUE_RIGHT_SUBSTATION = new Pose2d(inchesToMeters(53), -inchesToMeters(25), new Rotation2d());
+	Pose2d BLUE_LEFT_SUBSTATION = new Pose2d(inchesToMeters(53), -inchesToMeters(25), new Rotation2d());
+	Pose2d BLUE_RIGHT_SUBSTATION = new Pose2d(inchesToMeters(53), inchesToMeters(25), new Rotation2d());
 }
