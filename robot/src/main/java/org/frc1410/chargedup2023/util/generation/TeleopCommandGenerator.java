@@ -43,7 +43,7 @@ public class TeleopCommandGenerator {
 	) {
 		generateCommandLog.debug("Generator Called");
 		// Get the target position from the camera
-		var aprilTagPoseOptional = camera.getTargetLocation();
+		var aprilTagPoseOptional = camera.getTargetLocation(drivetrain.getPoseEstimation());
 
 		// If we can't see a target, return
 		if (aprilTagPoseOptional.isEmpty()) {
@@ -65,7 +65,7 @@ public class TeleopCommandGenerator {
 		);
 
 		// Now on to the tag logic itself
-		var tagID = camera.getTarget().getFiducialId();
+		var tagID = camera.getTarget(drivetrain.getPoseEstimation()).getFiducialId();
 		generateCommandLog.debug("April Tag ID: " + tagID);
 
 		try {
@@ -134,6 +134,9 @@ public class TeleopCommandGenerator {
 
 		sublist.add(
 				new SequentialCommandGroup(
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 180)
+								: new TurnToSmallAngle(drivetrain, 0),
 						goToAprilTagGenerator(
 								drivetrain,
 								rightBumper ? Node.RIGHT_SUBSTATION : Node.LEFT_SUBSTATION,
@@ -194,11 +197,11 @@ public class TeleopCommandGenerator {
 							isRed
 									? new Pose2d(
 									RED_LEFT_YANKEE_NODE.getX(),
-									RED_LEFT_YANKEE_NODE.getY() + Units.inchesToMeters(3),
+									RED_LEFT_YANKEE_NODE.getY(),
 									RED_LEFT_YANKEE_NODE.getRotation())
 									: new Pose2d(
 									BLUE_LEFT_YANKEE_NODE.getX(),
-									BLUE_LEFT_YANKEE_NODE.getY() + Units.inchesToMeters(5),
+									BLUE_LEFT_YANKEE_NODE.getY(),
 									BLUE_LEFT_YANKEE_NODE.getRotation())
 					);
 				} else if (tagID == 1 || tagID == 6) {
@@ -222,11 +225,11 @@ public class TeleopCommandGenerator {
 							isRed
 									? new Pose2d(
 									RED_LEFT_YANKEE_NODE.getX(),
-									RED_LEFT_YANKEE_NODE.getY() - Units.inchesToMeters(3),
+									RED_LEFT_YANKEE_NODE.getY(),
 									RED_LEFT_YANKEE_NODE.getRotation())
 									: new Pose2d(
 									BLUE_LEFT_YANKEE_NODE.getX(),
-									BLUE_LEFT_YANKEE_NODE.getY() - Units.inchesToMeters(5),
+									BLUE_LEFT_YANKEE_NODE.getY(),
 									BLUE_LEFT_YANKEE_NODE.getRotation())
 					);
 				} else {
@@ -258,11 +261,11 @@ public class TeleopCommandGenerator {
 							isRed
 									? new Pose2d(
 											RED_RIGHT_YANKEE_NODE.getX(),
-											RED_RIGHT_YANKEE_NODE.getY() - Units.inchesToMeters(2),
+											RED_RIGHT_YANKEE_NODE.getY(),
 											RED_RIGHT_YANKEE_NODE.getRotation())
 									: new Pose2d(
 											BLUE_RIGHT_YANKEE_NODE.getX(),
-											BLUE_RIGHT_YANKEE_NODE.getY() - Units.inchesToMeters(2),
+											BLUE_RIGHT_YANKEE_NODE.getY(),
 											BLUE_RIGHT_YANKEE_NODE.getRotation())
 					);
 				} else if (tagID == 3 || tagID == 8) {
@@ -286,11 +289,11 @@ public class TeleopCommandGenerator {
 							isRed
 									? new Pose2d(
 											RED_RIGHT_YANKEE_NODE.getX(),
-											RED_RIGHT_YANKEE_NODE.getY() + Units.inchesToMeters(2),
+											RED_RIGHT_YANKEE_NODE.getY(),
 											RED_RIGHT_YANKEE_NODE.getRotation())
 									: new Pose2d(
 											BLUE_RIGHT_YANKEE_NODE.getX(),
-											BLUE_RIGHT_YANKEE_NODE.getY() + Units.inchesToMeters(2),
+											BLUE_RIGHT_YANKEE_NODE.getY(),
 											BLUE_RIGHT_YANKEE_NODE.getRotation())
 					);
 				} else {
@@ -380,6 +383,9 @@ public class TeleopCommandGenerator {
 		generateScoringLog.debug("Generating command for high scoring");
 		sublist.add(
 				new SequentialCommandGroup(
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 0)
+								: new TurnToSmallAngle(drivetrain, 180),
 						goToAprilTagGenerator(
 								drivetrain,
 								switch (ScoringPosition.targetPosition) {
@@ -391,6 +397,9 @@ public class TeleopCommandGenerator {
 								aprilTagPose,
 								tagID
 						),
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 0)
+								: new TurnToSmallAngle(drivetrain, 180),
 						new InstantCommand(() -> drivetrain.autoTankDriveVolts(2, 2)),
 						tagID == 1
 								? !ScoringPosition.targetPosition.equals(ScoringPosition.HIGH_RIGHT_YANKEE)
@@ -437,6 +446,9 @@ public class TeleopCommandGenerator {
 								false,
 								false
 						),
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 0)
+								: new TurnToSmallAngle(drivetrain, 180),
 						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
 				)
 		);
@@ -457,6 +469,9 @@ public class TeleopCommandGenerator {
 		generateScoringLog.debug("Generating command for mid scoring");
 		sublist.add(
 				new SequentialCommandGroup(
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 0)
+								: new TurnToSmallAngle(drivetrain, 180),
 						goToAprilTagGenerator(
 								drivetrain,
 								switch (ScoringPosition.targetPosition) {
@@ -468,6 +483,9 @@ public class TeleopCommandGenerator {
 								aprilTagPose,
 								tagID
 						),
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 0)
+								: new TurnToSmallAngle(drivetrain, 180),
 						new InstantCommand(() -> drivetrain.autoTankDriveVolts(2, 2)),
 						tagID == 1
 								? !ScoringPosition.targetPosition.equals(ScoringPosition.MIDDLE_RIGHT_YANKEE)
@@ -534,6 +552,9 @@ public class TeleopCommandGenerator {
 		generateScoringLog.debug("Generating command for hybrid scoring");
 		sublist.add(
 				new SequentialCommandGroup(
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 0)
+								: new TurnToSmallAngle(drivetrain, 180),
 						goToAprilTagGenerator(
 								drivetrain,
 								switch (ScoringPosition.targetPosition) {
@@ -545,6 +566,9 @@ public class TeleopCommandGenerator {
 								aprilTagPose,
 								tagID
 						),
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 0)
+								: new TurnToSmallAngle(drivetrain, 180),
 						new SetSuperStructurePosition(
 								elevator,
 								intake,

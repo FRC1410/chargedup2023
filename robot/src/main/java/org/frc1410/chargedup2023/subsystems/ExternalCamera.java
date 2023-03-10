@@ -18,8 +18,10 @@ import java.util.Optional;
 
 public class ExternalCamera implements TickedSubsystem {
 
-	NetworkTableInstance instance = NetworkTableInstance.getDefault();
-	NetworkTable table = instance.getTable("Vision Data");
+	private final NetworkTableInstance instance = NetworkTableInstance.getDefault();
+	private final NetworkTable table = instance.getTable("Vision Data");
+	private final DoublePublisher idPub = NetworkTables.PublisherFactory(table, "AprilTag ID", 0);
+
 	private final PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
 	private static final AprilTagFieldLayout fieldLayout;
@@ -69,13 +71,29 @@ public class ExternalCamera implements TickedSubsystem {
 		return camera.getLatestResult().hasTargets();
 	}
 
-	public PhotonTrackedTarget getTarget() {
-		return camera.getLatestResult().getBestTarget();
+	public PhotonTrackedTarget getTarget(Pose2d referencePose) {
+		var referenceTranslation = referencePose.getTranslation();
+		double minDistance = 10000000;
+		PhotonTrackedTarget bestTarget = null;
+
+		for (var target : camera.getLatestResult().getTargets()) {
+			var fieldPose = fieldLayout.getTagPose(target.getFiducialId());
+			if (fieldPose.isPresent()) {
+				var distance = referenceTranslation.getDistance(fieldPose.get().toPose2d().getTranslation());
+				if (distance < minDistance) {
+					minDistance = distance;
+					bestTarget = target;
+				}
+			}
+		}
+		if (bestTarget != null) idPub.set(bestTarget.getFiducialId());
+
+		return bestTarget;
 	}
 
-	public Optional<Pose3d> getTargetLocation() {
-		if (getTarget() != null) {
-			return fieldLayout.getTagPose(getTarget().getFiducialId());
+	public Optional<Pose3d> getTargetLocation(Pose2d referencePose) {
+		if (getTarget(referencePose) != null) {
+			return fieldLayout.getTagPose(getTarget(referencePose).getFiducialId());
 		}
 		return Optional.empty();
 	}

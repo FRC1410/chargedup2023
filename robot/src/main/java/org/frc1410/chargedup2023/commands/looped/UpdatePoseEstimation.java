@@ -26,12 +26,16 @@ public class UpdatePoseEstimation extends CommandBase {
 	@Override
 	public void execute() {
 		camera.getEstimatorPose().ifPresentOrElse(pose -> {
-				if ((Math.abs(Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees()) - Math.abs(-pose.getRotation().getDegrees())) <= ANGLE_THRESHOLD) && camera.hasTargets()) {
+				if (camera.getEstimatorPose().isPresent()) {
 					if (
 							!(lightBar.get() == LightBar.Profile.SCORING.id) &&
 							!(lightBar.get() == LightBar.Profile.SUBSTATION_NO_PIECE.id)
 					) lightBar.set(LightBar.Profile.APRIL_TAG);
+				} else {
+					lightBar.set(LightBar.Profile.IDLE_NO_PIECE);
+				}
 
+				if ((Math.abs(Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees()) - Math.abs(-pose.getRotation().getDegrees())) <= ANGLE_THRESHOLD) && camera.hasTargets()) {
 					drivetrain.addVisionPose(
 							new Pose2d(pose.getX(), pose.getY(), drivetrain.getPoseEstimation().getRotation()),
 							camera.getTimestamp()

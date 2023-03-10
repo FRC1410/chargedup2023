@@ -260,6 +260,7 @@ public final class Robot extends PhaseDrivenRobot {
 //		);
 
 		operatorController.START.whenPressed(
+				DeferredTask.fromCommand(scheduler, () ->
 				new SequentialCommandGroup(
 						switch (ScoringPosition.targetPosition) {
 							case HIGH_LEFT_YANKEE, HIGH_PAPA, HIGH_RIGHT_YANKEE -> new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_RAISED_POSITION, false, true);
@@ -267,17 +268,18 @@ public final class Robot extends PhaseDrivenRobot {
 							case HYBRID_LEFT, HYBRID_RIGHT -> new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false, false);
 							case HYBRID_MIDDLE -> new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false);
 						}
-				),
+				)),
 				TaskPersistence.EPHEMERAL
 		);
 
-		operatorController.BACK.whenPressed(
+		operatorController.BACK.whileHeld(
+				DeferredTask.fromCommand(scheduler, () ->
 				new SequentialCommandGroup(
 						switch (ScoringPosition.targetPosition) {
 							case HIGH_LEFT_YANKEE, HIGH_RIGHT_YANKEE, MIDDLE_LEFT_YANKEE, MIDDLE_RIGHT_YANKEE, HYBRID_LEFT, HYBRID_RIGHT -> new RunLBorkYankee(lBork, true);
 							case HIGH_PAPA, MIDDLE_PAPA, HYBRID_MIDDLE -> new InstantCommand(() -> {});
 						}
-				),
+				)),
 				TaskPersistence.EPHEMERAL
 		);
 		//</editor-fold>

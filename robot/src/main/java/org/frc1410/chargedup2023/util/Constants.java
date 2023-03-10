@@ -116,9 +116,10 @@ public interface Constants {
 
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0.4;
-	double ELEVATOR_IDLE_POSITION = 6.3;
-	double ELEVATOR_PAPA_POSITION = 1.9;
+	double ELEVATOR_IDLE_POSITION = 9.5;
+	double ELEVATOR_PAPA_POSITION = 2.3;
 	double ELEVATOR_MID_POSITION = 22.5;
+	double ELEVATOR_HYBRID_POSITION = 18.5;
 	double ELEVATOR_RAISED_POSITION = 31.25;
 	double ELEVATOR_SUBSTATION_POSITION = 31;
 	double ELEVATOR_TOLERANCE = 0.2;
@@ -136,7 +137,7 @@ public interface Constants {
 	//<editor-fold desc="Auto">
 	double OKLAHOMA_WAIT = 3; // Seconds
 	double CREEPY_SPEED = 5; // Volts
-	double CREEPY_TIME = 1.5;
+	double CREEPY_TIME = 2.3;
 	// </editor-fold>
 }
 
