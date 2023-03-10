@@ -96,11 +96,10 @@ public final class Robot extends PhaseDrivenRobot {
 //			.add("Default", SequentialCommandGroup::new)
 			.add("B2P", () -> new BlueBarrierYankeePapa(drivetrain, lBork, elevator, intake))
 			.add("BSEND", () -> new BlueBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
-//			.add("B1PPE", () -> new BlueBarrierPickupEngage(drivetrain, lBork, elevator, intake))
+			.add("B1PPE", () -> new BlueBarrierPickupEngage(drivetrain, lBork, elevator, intake))
 			.add("R2P", () -> new RedBarrierYankeePapa(drivetrain, lBork, elevator, intake))
-			.add("RSEND", () -> new RedBarrierYankeeEngage(drivetrain, lBork, elevator, intake));
-//			.add("R1PPE", () -> new RedBarrierPickupEngage(drivetrain, lBork, elevator, intake));
-
+			.add("RSEND", () -> new RedBarrierYankeeEngage(drivetrain, lBork, elevator, intake))
+			.add("R1PPE", () -> new RedBarrierPickupEngage(drivetrain, lBork, elevator, intake));
 	{
 		var profiles = new String[autoSelector.getProfiles().size()];
 		for (var i = 0; i < profiles.length; i++) {
