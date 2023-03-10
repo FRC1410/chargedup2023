@@ -164,7 +164,7 @@ public class TeleopCommandGenerator {
 						new InstantCommand(() -> lightBar.set(LightBar.Profile.SUBSTATION_PIECE)),
 						new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false, false),
 						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_PIECE))
-				)
+				).andThen(new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_PIECE)))
 		);
 
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
@@ -178,8 +178,8 @@ public class TeleopCommandGenerator {
 	) {
 		var isRed = RED_TAGS.contains(tagID);
 		var waypointFlag = isRed
-				? drivetrain.getPoseEstimation().getX() < RED_OUTSIDE_WAYPOINT.getX() - Units.inchesToMeters(20)
-				: drivetrain.getPoseEstimation().getX() > BLUE_OUTSIDE_WAYPOINT.getX() + Units.inchesToMeters(20);
+				? drivetrain.getPoseEstimation().getX() < RED_OUTSIDE_WAYPOINT.getX() - Units.inchesToMeters(40)
+				: drivetrain.getPoseEstimation().getX() > BLUE_OUTSIDE_WAYPOINT.getX() + Units.inchesToMeters(40);
 
 		goToAprilTagLogger.debug("Function entered");
 		goToAprilTagLogger.debug("Waypoint " + (waypointFlag ? "is necessary" : "is not necessary"));
@@ -380,7 +380,7 @@ public class TeleopCommandGenerator {
 			int tagID
 	) {
 		var sublist = new ArrayList<Command>();
-		generateScoringLog.debug("Generating command for high scoring");
+		generateScoringLog.debug("Generating command for high scoring, id " + tagID);
 		sublist.add(
 				new SequentialCommandGroup(
 						RED_TAGS.contains(tagID)
@@ -422,6 +422,9 @@ public class TeleopCommandGenerator {
 										: new InstantCommand(() -> {})
 								: new InstantCommand(() -> {}),
 						new InstantCommand(() -> drivetrain.autoTankDriveVolts(0, 0)),
+						RED_TAGS.contains(tagID)
+								? new TurnToSmallAngle(drivetrain, 0)
+								: new TurnToSmallAngle(drivetrain, 180),
 						new SetSuperStructurePosition(
 								elevator,
 								intake,
@@ -446,11 +449,8 @@ public class TeleopCommandGenerator {
 								false,
 								false
 						),
-						RED_TAGS.contains(tagID)
-								? new TurnToSmallAngle(drivetrain, 0)
-								: new TurnToSmallAngle(drivetrain, 180),
 						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
-				)
+				).andThen(new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE)))
 		);
 
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
@@ -466,7 +466,7 @@ public class TeleopCommandGenerator {
 			int tagID
 	) {
 		var sublist = new ArrayList<Command>();
-		generateScoringLog.debug("Generating command for mid scoring");
+		generateScoringLog.debug("Generating command for mid scoring, id " + tagID);
 		sublist.add(
 				new SequentialCommandGroup(
 						RED_TAGS.contains(tagID)
@@ -533,7 +533,7 @@ public class TeleopCommandGenerator {
 								false
 						),
 						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
-				)
+				).andThen(new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE)))
 		);
 
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));
@@ -549,7 +549,7 @@ public class TeleopCommandGenerator {
 			int tagID
 	) {
 		var sublist = new ArrayList<Command>();
-		generateScoringLog.debug("Generating command for hybrid scoring");
+		generateScoringLog.debug("Generating command for hybrid scoring, id " + tagID);
 		sublist.add(
 				new SequentialCommandGroup(
 						RED_TAGS.contains(tagID)
@@ -589,7 +589,7 @@ public class TeleopCommandGenerator {
 
 						),
 						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
-				)
+				).andThen(new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE)))
 		);
 
 		return new SequentialCommandGroup(sublist.toArray(new Command[0]));

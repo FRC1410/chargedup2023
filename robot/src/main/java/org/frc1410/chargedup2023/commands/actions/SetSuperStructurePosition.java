@@ -73,7 +73,7 @@ public class SetSuperStructurePosition extends CommandBase {
 		// Setup PID controller
 		pid = new PIDController(ELEVATOR_KP, ELEVATOR_KI, ELEVATOR_KD);
 		pid.setSetpoint(elevatorTargetPosition);
-		elevator.setDesired_position(elevatorTargetPosition);
+		elevator.setDesiredPosition(elevatorTargetPosition);
 		pid.setTolerance(ELEVATOR_TOLERANCE);
 
 		// Decide if we need to extend the intake

@@ -19,37 +19,32 @@ public class OTFToPoint extends SequentialCommandGroup {
 	private static final Logger log = new Logger("OTFToPoint");
 
 	public OTFToPoint(Drivetrain drivetrain, Pose2d tagPose, Pose2d offsetPose) {
-		log.debug(tagPose.toString());
-
 		//<editor-fold desc="SOUT" defaultstate="collapsed">
-		System.out.println("Drivetrain");
-		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
-		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
-		System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
-		System.out.println("Target");
-		System.out.println(Units.metersToInches(tagPose.transformBy(
-				new Transform2d(
-						offsetPose.getTranslation(),
-						Rotation2d.fromDegrees(180)
-				)
-		).getX()));
-		System.out.println(Units.metersToInches(tagPose.transformBy(
-				new Transform2d(
-						offsetPose.getTranslation(),
-						Rotation2d.fromDegrees(180)
-				)
-		).getY()));
-		System.out.println(tagPose.transformBy(
-				new Transform2d(
-						offsetPose.getTranslation(),
-						Rotation2d.fromDegrees(180)
-				)
-		).getRotation().getDegrees());
+		log.debug("Drivetrain X: " + Units.metersToInches(drivetrain.getPoseEstimation().getX()));
+		log.debug("Drivetrain Y: " + Units.metersToInches(drivetrain.getPoseEstimation().getY()));
+		log.debug("Drivetrain Rotation: " + Units.metersToInches(drivetrain.getPoseEstimation().getRotation().getDegrees()));
+
+		log.debug("Target X: " + Units.metersToInches(
+				tagPose.transformBy(
+					new Transform2d(
+							offsetPose.getTranslation(),
+							Rotation2d.fromDegrees(180)
+				)).getX()));
+		log.debug("Target Y: " + Units.metersToInches(
+				tagPose.transformBy(
+					new Transform2d(
+							offsetPose.getTranslation(),
+							Rotation2d.fromDegrees(180)
+				)).getY()));
+		log.debug("Target Rotation: " + tagPose.transformBy(
+					new Transform2d(
+							offsetPose.getTranslation(),
+							Rotation2d.fromDegrees(180)
+					)
+				).getRotation().getDegrees());
+
+		log.debug("Starting Velocity: " + drivetrain.getVelocity());
 		//</editor-fold>
-		var velocity = drivetrain.getVelocity();
-		System.out.println("STARTING VELOCITY: " + velocity);
-//		var velocity = 0;
-//		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
@@ -83,46 +78,40 @@ public class OTFToPoint extends SequentialCommandGroup {
 				command,
 				new InstantCommand(() -> {
 					drivetrain.autoTankDriveVolts(0, 0);
-					System.out.println("Results");
-					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
-					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
-					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
+					log.debug("Result X: " + drivetrain.getPoseEstimation().getX());
+					log.debug("Result Y: " + drivetrain.getPoseEstimation().getY());
+					log.debug("Result Rotation: " + drivetrain.getPoseEstimation().getRotation().getDegrees());
 				})
 		);
 	}
 
 	public OTFToPoint(Drivetrain drivetrain, Pose2d tagPose, Pose2d offsetPose, boolean isCoopertitionGrid) {
-		log.debug(tagPose.toString());
-
 		//<editor-fold desc="SOUT" defaultstate="collapsed">
-		System.out.println("Drivetrain");
-		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
-		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
-		System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
-		System.out.println("Target");
-		System.out.println(Units.metersToInches(tagPose.transformBy(
-				new Transform2d(
-						offsetPose.getTranslation(),
-						Rotation2d.fromDegrees(180)
-				)
-		).getX()));
-		System.out.println(Units.metersToInches(tagPose.transformBy(
-				new Transform2d(
-						offsetPose.getTranslation(),
-						Rotation2d.fromDegrees(180)
-				)
-		).getY()));
-		System.out.println(tagPose.transformBy(
+		log.debug("Drivetrain X: " + Units.metersToInches(drivetrain.getPoseEstimation().getX()));
+		log.debug("Drivetrain Y: " + Units.metersToInches(drivetrain.getPoseEstimation().getY()));
+		log.debug("Drivetrain Rotation: " + Units.metersToInches(drivetrain.getPoseEstimation().getRotation().getDegrees()));
+
+		log.debug("Target X: " + Units.metersToInches(
+				tagPose.transformBy(
+						new Transform2d(
+								offsetPose.getTranslation(),
+								Rotation2d.fromDegrees(180)
+						)).getX()));
+		log.debug("Target Y: " + Units.metersToInches(
+				tagPose.transformBy(
+						new Transform2d(
+								offsetPose.getTranslation(),
+								Rotation2d.fromDegrees(180)
+						)).getY()));
+		log.debug("Target Rotation: " + tagPose.transformBy(
 				new Transform2d(
 						offsetPose.getTranslation(),
 						Rotation2d.fromDegrees(180)
 				)
 		).getRotation().getDegrees());
+
+		log.debug("Starting Velocity: " + drivetrain.getVelocity());
 		//</editor-fold>
-		var velocity = drivetrain.getVelocity();
-		System.out.println("STARTING VELOCITY: " + velocity);
-//		var velocity = 0;
-//		configCentripAccelOTF.setStartVelocity(velocity);
 
 		Trajectory trajectory;
 
@@ -187,47 +176,43 @@ public class OTFToPoint extends SequentialCommandGroup {
 				command,
 				new InstantCommand(() -> {
 					drivetrain.autoTankDriveVolts(0, 0);
-					System.out.println("Results");
-					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
-					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
-					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
+					log.debug("Result X: " + drivetrain.getPoseEstimation().getX());
+					log.debug("Result Y: " + drivetrain.getPoseEstimation().getY());
+					log.debug("Result Rotation: " + drivetrain.getPoseEstimation().getRotation().getDegrees());
 				})
 		);
 	}
 
 	public OTFToPoint(Drivetrain drivetrain, Pose2d tagPose, Translation2d midPose, Pose2d offsetPose) {
 		//<editor-fold desc="SOUT" defaultstate="collapsed">
-		System.out.println("Drivetrain");
-		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
-		System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
-		System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
-		System.out.println("Waypoint");
-		System.out.println(Units.metersToInches(midPose.getX()));
-		System.out.println(Units.metersToInches(midPose.getY()));
-		System.out.println("Target");
-		System.out.println(Units.metersToInches(tagPose.transformBy(
-				new Transform2d(
-						offsetPose.getTranslation(),
-						Rotation2d.fromDegrees(180)
-				)
-		).getX()));
-		System.out.println(Units.metersToInches(tagPose.transformBy(
-				new Transform2d(
-						offsetPose.getTranslation(),
-						Rotation2d.fromDegrees(180)
-				)
-		).getY()));
-		System.out.println(tagPose.transformBy(
+		log.debug("Drivetrain X: " + Units.metersToInches(drivetrain.getPoseEstimation().getX()));
+		log.debug("Drivetrain Y: " + Units.metersToInches(drivetrain.getPoseEstimation().getY()));
+		log.debug("Drivetrain Rotation: " + Units.metersToInches(drivetrain.getPoseEstimation().getRotation().getDegrees()));
+
+		log.debug("Waypoint X: " + midPose.getX());
+		log.debug("Waypoint Y: " + midPose.getY());
+
+		log.debug("Target X: " + Units.metersToInches(
+				tagPose.transformBy(
+						new Transform2d(
+								offsetPose.getTranslation(),
+								Rotation2d.fromDegrees(180)
+						)).getX()));
+		log.debug("Target Y: " + Units.metersToInches(
+				tagPose.transformBy(
+						new Transform2d(
+								offsetPose.getTranslation(),
+								Rotation2d.fromDegrees(180)
+						)).getY()));
+		log.debug("Target Rotation: " + tagPose.transformBy(
 				new Transform2d(
 						offsetPose.getTranslation(),
 						Rotation2d.fromDegrees(180)
 				)
 		).getRotation().getDegrees());
+
+		log.debug("Starting Velocity: " + drivetrain.getVelocity());
 		//</editor-fold>
-		var velocity = drivetrain.getVelocity();
-		System.out.println("STARTING VELOCITY: " + velocity);
-//		var velocity = 0;
-//		configCentripAccelOTF.setStartVelocity(velocity);
 
 		RamseteCommand command = baseRamsete(
 				TrajectoryGenerator.generateTrajectory(
@@ -261,10 +246,9 @@ public class OTFToPoint extends SequentialCommandGroup {
 				command,
 				new InstantCommand(() -> {
 					drivetrain.autoTankDriveVolts(0, 0);
-					System.out.println("Results");
-					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getX()));
-					System.out.println(Units.metersToInches(drivetrain.getPoseEstimation().getY()));
-					System.out.println(drivetrain.getPoseEstimation().getRotation().getDegrees());
+					log.debug("Result X: " + drivetrain.getPoseEstimation().getX());
+					log.debug("Result Y: " + drivetrain.getPoseEstimation().getY());
+					log.debug("Result Rotation: " + drivetrain.getPoseEstimation().getRotation().getDegrees());
 				})
 		);
 	}

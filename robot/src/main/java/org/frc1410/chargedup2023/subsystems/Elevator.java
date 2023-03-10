@@ -11,12 +11,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import org.frc1410.chargedup2023.util.NetworkTables;
 import org.frc1410.framework.scheduler.subsystem.TickedSubsystem;
+import org.frc1410.framework.util.log.Logger;
 
 import static org.frc1410.chargedup2023.util.Constants.*;
 import static org.frc1410.chargedup2023.util.IDs.*;
 
 public class Elevator implements TickedSubsystem {
-
+	private final Logger log = new Logger("Elevator");
 	private final NetworkTableInstance instance = NetworkTableInstance.getDefault();
 	private final NetworkTable table = instance.getTable("Elevator");
 	private final DoublePublisher encoderPub = NetworkTables.PublisherFactory(table, "Encoder Value", 0);
@@ -30,7 +31,7 @@ public class Elevator implements TickedSubsystem {
 
 	private final DigitalInput limitSwitch = new DigitalInput(ELEVATOR_LIMIT_SWITCH_PORT);
 
-	private double desired_position;
+	private double desiredPosition;
 
 	public Elevator() {
 		leftMotor.restoreFactoryDefaults();
@@ -75,11 +76,12 @@ public class Elevator implements TickedSubsystem {
 		limitPub.set(getLimitSwitchValue());
 	}
 
-	public double getDesired_position() {
-		return desired_position;
+	public double getDesiredPosition() {
+		return desiredPosition;
 	}
 
-	public void setDesired_position(double desired_position) {
-		this.desired_position = desired_position;
+	public void setDesiredPosition(double desiredPosition) {
+		log.debug("Elevator Desired Position Set: " + desiredPosition);
+		this.desiredPosition = desiredPosition;
 	}
 }

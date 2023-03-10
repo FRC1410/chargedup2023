@@ -124,7 +124,7 @@ public final class Robot extends PhaseDrivenRobot {
 		lightBar.set(LightBar.Profile.AUTO);
 
 		scheduler.scheduleDefaultCommand(
-				new HoldElevatorPID(elevator),
+				new HoldElevator(elevator),
 				TaskPersistence.GAMEPLAY
 		);
 

@@ -28,7 +28,6 @@ public class Engage extends CommandBase {
 		var currentAngle = drivetrain.getPitch();
 
 		if (currentAngle > ENGAGE_POSITION_TOLERANCE || currentAngle < -ENGAGE_POSITION_TOLERANCE) {
-			System.out.println("Running");
 			var controllerOutput = controller.calculate(currentAngle);
 
 			// If somebody changes this they will be skinned alive
