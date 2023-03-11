@@ -12,7 +12,7 @@ public class RedBarrierPickupEngage extends SequentialCommandGroup {
 	public RedBarrierPickupEngage(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
 				new RedBarrierPickup(drivetrain, lbork, elevator, intake),
-				new Creepy(drivetrain, false),
+				new Creepy(drivetrain, false, 0.5),
 				new Engage(drivetrain)
 		);
 	}

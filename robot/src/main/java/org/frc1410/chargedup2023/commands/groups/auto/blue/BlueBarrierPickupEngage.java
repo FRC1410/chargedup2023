@@ -12,7 +12,7 @@ public class BlueBarrierPickupEngage extends SequentialCommandGroup {
 	public BlueBarrierPickupEngage(Drivetrain drivetrain, LBork lbork, Elevator elevator, Intake intake) {
 		addCommands(
 				new BlueBarrierPickup(drivetrain, lbork, elevator, intake),
-				new Creepy(drivetrain, false),
+				new Creepy(drivetrain, false, 0.5),
 				new Engage(drivetrain)
 		);
 	}

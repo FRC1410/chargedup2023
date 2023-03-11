@@ -11,10 +11,16 @@ public class Creepy extends CommandBase {
 	private final Drivetrain drivetrain;
 	private final boolean reversed;
 	private final Timer timer = new Timer();
-
+	private double creepyTime = CREEPY_TIME;
 	public Creepy(Drivetrain drivetrain, boolean reversed) {
 		this.drivetrain = drivetrain;
 		this.reversed = reversed;
+	}
+
+	public Creepy(Drivetrain drivetrain, boolean reversed, double creepyTime) {
+		this.drivetrain = drivetrain;
+		this.reversed = reversed;
+		this.creepyTime = creepyTime;
 	}
 
 	@Override
@@ -29,7 +35,7 @@ public class Creepy extends CommandBase {
 
 	@Override
 	public boolean isFinished() {
-		return timer.get() > CREEPY_TIME;
+		return timer.get() > creepyTime;
 	}
 
 	@Override
