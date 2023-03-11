@@ -10,7 +10,7 @@ public interface Tuning {
     double KB = 2.0;
     double KZ = 0.7;
 
-    double KP_VEL = 0.0; // 175.8, 176.1, 175.97,
+    double KP_VEL = 0; // 175.8, 176.1, 175.97,
     double MAX_SPEED = 3.56; // 3.84 Theoretical Free Speed
     double MAX_ACCEL = 4.2; // Higher farther from top speed
 

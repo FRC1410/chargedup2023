@@ -5,8 +5,6 @@ import org.frc1410.chargedup2023.subsystems.Drivetrain;
 import org.frc1410.chargedup2023.util.Trajectories;
 
 import static org.frc1410.chargedup2023.auto.POIs.BLUE_BARRIER_GRID;
-import static org.frc1410.chargedup2023.auto.POIs.RED_BARRIER_GRID;
-
 
 public class BlueBarrierPreload extends SequentialCommandGroup {
 	public BlueBarrierPreload(Drivetrain drivetrain) {

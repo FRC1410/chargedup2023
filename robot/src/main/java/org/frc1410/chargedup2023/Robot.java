@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.*;
 import org.frc1410.chargedup2023.commands.DriveLooped;
 import org.frc1410.chargedup2023.commands.groups.OTFToPoint;
 import org.frc1410.chargedup2023.commands.groups.auto.BlueBarrierPreload;
+import org.frc1410.chargedup2023.commands.groups.auto.RedBarrierPreload;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.*;
 import org.frc1410.chargedup2023.commands.groups.auto.barrier.Barrier2ConeEngage;
 import org.frc1410.chargedup2023.commands.groups.auto.outside.*;
@@ -35,7 +36,8 @@ public final class Robot extends PhaseDrivenRobot {
     private final NetworkTable table = nt.getTable("Auto");
 
     private final AutoSelector autoSelector = new AutoSelector()
-			.add("Go", () -> new BlueBarrierPreload(drivetrain));
+			.add("Blue", () -> new BlueBarrierPreload(drivetrain))
+			.add("Red", () -> new RedBarrierPreload(drivetrain));
 
 
     private final StringPublisher autoPublisher = NetworkTables.PublisherFactory(table, "Profile",
