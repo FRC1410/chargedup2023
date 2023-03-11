@@ -46,15 +46,17 @@ public class SetSuperStructurePosition extends CommandBase {
 
 	private boolean willInterfere() {
 		if (
-				elevatorInitialPosition > ELEVATOR_INTAKE_INTERFERENCE_HEIGHT
-				&& elevatorTargetPosition < ELEVATOR_INTAKE_INTERFERENCE_HEIGHT
+				(elevatorInitialPosition > ELEVATOR_INTAKE_INTERFERENCE_HEIGHT
+				&& elevatorTargetPosition < ELEVATOR_INTAKE_INTERFERENCE_HEIGHT)
+				&& intake.isRetracted()
 		) {
 			return true;
 		}
 
 		if (
-				elevatorInitialPosition < ELEVATOR_PAPA_POSITION
-				&& elevatorTargetPosition >= ELEVATOR_PAPA_POSITION
+				(elevatorInitialPosition < ELEVATOR_PAPA_POSITION
+				&& elevatorTargetPosition >= ELEVATOR_PAPA_POSITION)
+				&& intake.isRetracted()
 		) {
 			return true;
 		}

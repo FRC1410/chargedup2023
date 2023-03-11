@@ -212,10 +212,21 @@ public final class Robot extends PhaseDrivenRobot {
 		//</editor-fold>
 
 		//<editor-fold desc="Operator WhenPressed Commands">
-		operatorController.RIGHT_BUMPER.whenPressed(
-				new CaptureScoringPosition(
+//		operatorController.RIGHT_BUMPER.whenPressed(
+//				new CaptureScoringPosition(
+//						operatorController.LEFT_Y_AXIS,
+//						operatorController.RIGHT_X_AXIS),
+//				TaskPersistence.EPHEMERAL
+//		);
+
+		operatorController.RIGHT_BUMPER.whenPressed(DeferredTask.fromCommand(scheduler, () ->
+				new ManualScoringPosition(
 						operatorController.LEFT_Y_AXIS,
-						operatorController.RIGHT_X_AXIS),
+						operatorController.RIGHT_X_AXIS,
+						elevator,
+						lBork,
+						intake
+				)),
 				TaskPersistence.EPHEMERAL
 		);
 
@@ -272,14 +283,19 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
+//		operatorController.BACK.whileHeld(
+//				DeferredTask.fromCommand(scheduler, () ->
+//				new SequentialCommandGroup(
+//						switch (ScoringPosition.targetPosition) {
+//							case HIGH_LEFT_YANKEE, HIGH_RIGHT_YANKEE, MIDDLE_LEFT_YANKEE, MIDDLE_RIGHT_YANKEE, HYBRID_LEFT, HYBRID_RIGHT -> new RunLBorkYankee(lBork, true);
+//							case HIGH_PAPA, MIDDLE_PAPA, HYBRID_MIDDLE -> new InstantCommand(() -> {});
+//						}
+//				)),
+//				TaskPersistence.EPHEMERAL
+//		);
+
 		operatorController.BACK.whileHeld(
-				DeferredTask.fromCommand(scheduler, () ->
-				new SequentialCommandGroup(
-						switch (ScoringPosition.targetPosition) {
-							case HIGH_LEFT_YANKEE, HIGH_RIGHT_YANKEE, MIDDLE_LEFT_YANKEE, MIDDLE_RIGHT_YANKEE, HYBRID_LEFT, HYBRID_RIGHT -> new RunLBorkYankee(lBork, true);
-							case HIGH_PAPA, MIDDLE_PAPA, HYBRID_MIDDLE -> new InstantCommand(() -> {});
-						}
-				)),
+				new RunLBorkYankee(lBork, true),
 				TaskPersistence.EPHEMERAL
 		);
 		//</editor-fold>
