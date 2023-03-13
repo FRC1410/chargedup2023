@@ -51,7 +51,7 @@ public class RunIntakeLooped extends CommandBase {
 			timerRunning = false;
 		}
 
-		intake.setSpeed(leftTrigger.get() - rightTrigger.get());
+		intake.setSpeed(0.8 * (leftTrigger.get() - rightTrigger.get()));
 
 		if (rightTrigger.get() > leftTrigger.get()) {
 			lBork.setRollerSpeeds(-LBORK_PAPA_INTAKE_OUTER_ROLLER_SPEED, -LBORK_PAPA_INTAKE_INNER_ROLLER_SPEED);
