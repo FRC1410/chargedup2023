@@ -34,15 +34,15 @@ public class RunIntakeLooped extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (lBork.getLineBreak() && !timerRunning) {
+		if (lBork.getLimitSwitch() && !timerRunning) {
 			timer.restart();
 			timerRunning = true;
 		}
 
-		if (timerRunning && timer.get() >= LBORK_PAPA_INTAKE_OFFSET_TIME && lBork.getLineBreak()) {
+		if (timerRunning && timer.get() >= LBORK_PAPA_INTAKE_OFFSET_TIME && lBork.getLimitSwitch()) {
 			lightBar.set(LightBar.Profile.IDLE_PIECE);
 			timerRunning = false;
-		} else if (!lBork.getLineBreak()) {
+		} else if (!lBork.getLimitSwitch()) {
 			if (
 					!(lightBar.get() == LightBar.Profile.SCORING.id) &&
 					!(lightBar.get() == LightBar.Profile.SUBSTATION_NO_PIECE.id) &&

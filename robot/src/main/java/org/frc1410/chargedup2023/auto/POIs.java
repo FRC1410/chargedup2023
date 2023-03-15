@@ -3,7 +3,6 @@ package org.frc1410.chargedup2023.auto;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 import static org.frc1410.chargedup2023.util.Constants.FIELD_WIDTH;

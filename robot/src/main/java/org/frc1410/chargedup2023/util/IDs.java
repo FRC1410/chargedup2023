@@ -8,7 +8,7 @@ public interface IDs {
 	int DRIVETRAIN_LEFT_BACK_MOTOR_ID = 3;
 	int DRIVETRAIN_RIGHT_BACK_MOTOR_ID = 4;
 
-	// Elevator ID's
+	// Elevator IDs
 	int ELEVATOR_LEFT_MOTOR_ID = 11;
 	int ELEVATOR_RIGHT_MOTOR_ID = 12;
 
@@ -16,13 +16,12 @@ public interface IDs {
 
 	int ELEVATOR_ENCODER_ID = 13;
 
-	// LBork rollers
+	// LBork IDs
 	int LBORK_OUTER_ROLLER_ID = 21;
 	int LBORK_INNER_ROLLER_ID = 22;
-
-	// LBork piston ID's
 	int LBORK_PISTON_FORWARD_ID = 15;
 	int LBORK_PISTON_BACKWARDS_ID = 8;
+	int LBORK_LIMIT_SWITCH_PORT = 8;
 
 	// Intake ID's
 	int INTAKE_MOTOR_ID = 31;

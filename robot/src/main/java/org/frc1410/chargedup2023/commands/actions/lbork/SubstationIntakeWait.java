@@ -17,10 +17,10 @@ public class SubstationIntakeWait extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (lBork.getLineBreak() && !timerRunning) {
+		if (lBork.getLimitSwitch() && !timerRunning) {
 			timer.restart();
 			timerRunning = true;
-		} else if (!lBork.getLineBreak()) {
+		} else if (!lBork.getLimitSwitch()) {
 			timerRunning = false;
 		}
 	}
