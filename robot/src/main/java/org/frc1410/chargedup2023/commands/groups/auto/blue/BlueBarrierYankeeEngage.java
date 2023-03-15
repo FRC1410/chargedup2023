@@ -25,9 +25,9 @@ public class BlueBarrierYankeeEngage extends SequentialCommandGroup {
 				),
 				new BlueBarrierPreload(drivetrain, lbork, elevator, intake, true),
 				new ParallelCommandGroup(
-						new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_DRIVING_POSITION, false, false),
-						new Creepy(drivetrain, true)
+						new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_DRIVING_POSITION, false, false)
 				),
+				new Creepy(drivetrain, true),
 				new Engage(drivetrain)
 		);
 	}
