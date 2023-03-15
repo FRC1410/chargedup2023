@@ -138,8 +138,7 @@ public final class Robot extends PhaseDrivenRobot {
 	@Override
 	public void teleopSequence() {
 		drivetrain.brakeMode();
-		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera, lightBar), TaskPersistence.EPHEMERAL);
-		lightBar.set(LightBar.Profile.IDLE_NO_PIECE);
+		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
 
 		//<editor-fold desc="Default Commands">
 		scheduler.scheduleDefaultCommand(
@@ -245,8 +244,7 @@ public final class Robot extends PhaseDrivenRobot {
 				new PapaIntakePosition(
 						intake,
 						elevator,
-						lBork,
-						lightBar
+						lBork
 				),
 				TaskPersistence.EPHEMERAL
 		);
@@ -255,8 +253,7 @@ public final class Robot extends PhaseDrivenRobot {
 				new IdleState(
 						intake,
 						elevator,
-						lBork,
-						lightBar
+						lBork
 				),
 				TaskPersistence.EPHEMERAL
 		);
@@ -265,11 +262,6 @@ public final class Robot extends PhaseDrivenRobot {
 				RunLBorkYankee(lBork, false),
 				TaskPersistence.EPHEMERAL
 		);
-
-//		operatorController.START.whenPressed(
-//				new HomeElevator(intake, lBork, elevator),
-//				TaskPersistence.EPHEMERAL
-//		);
 
 		operatorController.START.whenPressed(
 				DeferredTask.fromCommand(scheduler, () ->
@@ -284,17 +276,6 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-//		operatorController.BACK.whileHeld(
-//				DeferredTask.fromCommand(scheduler, () ->
-//				new SequentialCommandGroup(
-//						switch (ScoringPosition.targetPosition) {
-//							case HIGH_LEFT_YANKEE, HIGH_RIGHT_YANKEE, MIDDLE_LEFT_YANKEE, MIDDLE_RIGHT_YANKEE, HYBRID_LEFT, HYBRID_RIGHT -> new RunLBorkYankee(lBork, true);
-//							case HIGH_PAPA, MIDDLE_PAPA, HYBRID_MIDDLE -> new InstantCommand(() -> {});
-//						}
-//				)),
-//				TaskPersistence.EPHEMERAL
-//		);
-
 		operatorController.BACK.whileHeld(
 				new RunLBorkYankee(lBork, true),
 				TaskPersistence.EPHEMERAL
@@ -304,8 +285,8 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void testSequence() {
-		lightBar.set(LightBar.Profile.TEST);
 		drivetrain.coastMode();
+		lightBar.set(LightBar.Profile.TEST);
 
 		scheduler.scheduleDefaultCommand(new DriveLooped(
 						drivetrain,

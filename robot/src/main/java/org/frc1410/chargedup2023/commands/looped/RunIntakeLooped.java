@@ -19,8 +19,6 @@ public class RunIntakeLooped extends CommandBase {
 	private final LightBar lightBar;
 	private final Axis rightTrigger;
 	private final Axis leftTrigger;
-	private final Timer timer = new Timer();
-	private boolean timerRunning = false;
 
 	public RunIntakeLooped(Intake intake, LBork lBork, LightBar lightBar, Axis leftTrigger, Axis rightTrigger) {
 		this.intake = intake;
@@ -34,22 +32,8 @@ public class RunIntakeLooped extends CommandBase {
 
 	@Override
 	public void execute() {
-		if (lBork.getLimitSwitch() && !timerRunning) {
-			timer.restart();
-			timerRunning = true;
-		}
-
-		if (timerRunning && timer.get() >= LBORK_PAPA_INTAKE_OFFSET_TIME && lBork.getLimitSwitch()) {
-			lightBar.set(LightBar.Profile.IDLE_PIECE);
-			timerRunning = false;
-		} else if (!lBork.getLimitSwitch()) {
-			if (
-					!(lightBar.get() == LightBar.Profile.SCORING.id) &&
-					!(lightBar.get() == LightBar.Profile.SUBSTATION_NO_PIECE.id) &&
-					!(lightBar.get() == LightBar.Profile.APRIL_TAG.id)
-			) lightBar.set(LightBar.Profile.IDLE_NO_PIECE);
-			timerRunning = false;
-		}
+		if (lBork.getLimitSwitch()) lightBar.set(LightBar.Profile.IDLE_PIECE);
+		else lightBar.set(LightBar.Profile.IDLE_NO_PIECE);
 
 		intake.setSpeed(0.8 * (leftTrigger.get() - rightTrigger.get()));
 

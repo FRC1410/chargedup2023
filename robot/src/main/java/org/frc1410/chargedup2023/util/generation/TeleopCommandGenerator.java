@@ -162,8 +162,7 @@ public class TeleopCommandGenerator {
 								new SubstationIntakeWait(lBork)
 						),
 						new InstantCommand(() -> lightBar.set(LightBar.Profile.SUBSTATION_PIECE)),
-						new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false, false),
-						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_PIECE))
+						new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_IDLE_POSITION, false, false)
 				).andThen(new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_PIECE)))
 		);
 
@@ -448,8 +447,7 @@ public class TeleopCommandGenerator {
 								ELEVATOR_IDLE_POSITION,
 								false,
 								false
-						),
-						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
+						)
 				).andThen(new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE)))
 		);
 
@@ -531,8 +529,7 @@ public class TeleopCommandGenerator {
 								ELEVATOR_IDLE_POSITION,
 								false,
 								false
-						),
-						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
+						)
 				).andThen(new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE)))
 		);
 
@@ -587,8 +584,7 @@ public class TeleopCommandGenerator {
 										? new RunIntake(intake, true)
 										: new InstantCommand(() -> {})
 
-						),
-						new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE))
+						)
 				).andThen(new InstantCommand(() -> lightBar.set(LightBar.Profile.IDLE_NO_PIECE)))
 		);
 

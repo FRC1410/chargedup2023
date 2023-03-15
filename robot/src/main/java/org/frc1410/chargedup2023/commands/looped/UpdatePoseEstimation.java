@@ -12,30 +12,17 @@ import static org.frc1410.chargedup2023.util.Constants.FIELD_WIDTH;
 import static org.frc1410.chargedup2023.util.Tuning.ANGLE_THRESHOLD;
 
 public class UpdatePoseEstimation extends CommandBase {
-
 	private final Drivetrain drivetrain;
 	private final ExternalCamera camera;
-	private final LightBar lightBar;
 
-	public UpdatePoseEstimation(Drivetrain drivetrain, ExternalCamera camera, LightBar lightBar) {
+	public UpdatePoseEstimation(Drivetrain drivetrain, ExternalCamera camera) {
 		this.drivetrain = drivetrain;
 		this.camera = camera;
-		this.lightBar = lightBar;
 	}
 
 	@Override
 	public void execute() {
 		camera.getEstimatorPose().ifPresentOrElse(pose -> {
-				if (camera.getEstimatorPose().isPresent()) {
-					if (
-							!(lightBar.get() == LightBar.Profile.SCORING.id) &&
-							!(lightBar.get() == LightBar.Profile.SUBSTATION_NO_PIECE.id)
-					) lightBar.set(LightBar.Profile.APRIL_TAG);
-				} else if (
-							!(lightBar.get() == LightBar.Profile.SCORING.id) &&
-							!(lightBar.get() == LightBar.Profile.SUBSTATION_NO_PIECE.id)
-				) lightBar.set(LightBar.Profile.IDLE_NO_PIECE);
-
 				if ((Math.abs(Math.abs(drivetrain.getPoseEstimation().getRotation().getDegrees()) - Math.abs(-pose.getRotation().getDegrees())) <= ANGLE_THRESHOLD) && camera.hasTargets()) {
 					drivetrain.addVisionPose(
 							new Pose2d(pose.getX(), pose.getY(), drivetrain.getPoseEstimation().getRotation()),

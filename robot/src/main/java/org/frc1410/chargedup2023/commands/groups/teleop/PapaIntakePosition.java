@@ -12,7 +12,7 @@ import org.frc1410.chargedup2023.subsystems.LightBar;
 import static org.frc1410.chargedup2023.util.Constants.ELEVATOR_PAPA_POSITION;
 
 public class PapaIntakePosition extends SequentialCommandGroup {
-	public PapaIntakePosition(Intake intake, Elevator elevator, LBork lBork, LightBar lightBar) {
+	public PapaIntakePosition(Intake intake, Elevator elevator, LBork lBork) {
 		addRequirements(intake, elevator);
 		addCommands(
 				new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false)
