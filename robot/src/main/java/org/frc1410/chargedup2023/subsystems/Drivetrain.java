@@ -116,6 +116,8 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public void adaptiveTankDrive(double left, double right, double triggerForwards, double triggerBackwards, double voltageLimiter) {
+		if (voltageLimiter >= 1) voltageLimiter = 1;
+
 		double triggerValue = -triggerForwards + triggerBackwards;
 		double scalar = 1 - Math.abs(triggerValue);
 		double leftValue = ((scalar * -left) + triggerValue) * voltageLimiter * 12;
