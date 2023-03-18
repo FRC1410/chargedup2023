@@ -12,7 +12,7 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 import static org.frc1410.chargedup2023.util.Tuning.*;
 
 
-public class SetSuperStructurePosition extends CommandBase {
+public class  SetSuperStructurePosition extends CommandBase {
 	private final Elevator elevator;
 	private final Intake intake;
 	private final LBork lBork;

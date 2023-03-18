@@ -28,6 +28,7 @@ public class HoldElevatorPID extends CommandBase {
 
 	@Override
 	public void execute() {
+		pid.setSetpoint(elevator.getDesiredPosition());
 		if (elevator.getPosition() > 1.5) elevator.setVolts(-(pid.calculate(elevator.getPosition()) + 0.24));
 		else elevator.setVolts(0);
 	}

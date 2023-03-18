@@ -65,7 +65,7 @@ public interface Constants {
 //	double KS = 0.097;
 //	double KV = 3.015;
 //	double KA = 1.017;
-	double DRIVETRAIN_GRID_SPEED = 0.1;
+	double DRIVETRAIN_GRID_SPEED = 0.3;
 	double KS_AUTO = 0.6274;
 	double KV_AUTO = 2.265;
 	double KA_AUTO = 0.7535;
@@ -118,10 +118,10 @@ public interface Constants {
 	double ELEVATOR_DOWN_POSITION = 0;
 	double ELEVATOR_DRIVING_POSITION = 0.4;
 	double ELEVATOR_IDLE_POSITION = 9.5;
-	double ELEVATOR_PAPA_POSITION = 2.8;
+	double ELEVATOR_PAPA_POSITION = 1.9;
 	double ELEVATOR_MID_POSITION = 22.5;
 	double ELEVATOR_HYBRID_POSITION = 18.5;
-	double ELEVATOR_RAISED_POSITION = 31.25;
+	double ELEVATOR_RAISED_POSITION = 30.5;
 	double ELEVATOR_SUBSTATION_POSITION = 31;
 	double ELEVATOR_TOLERANCE = 0.2;
 

@@ -163,7 +163,7 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 
 		scheduler.scheduleDefaultCommand(
-				new HoldElevator(elevator),
+				new HoldElevatorPID(elevator),
 				TaskPersistence.GAMEPLAY
 		);
 		//</editor-fold>
@@ -206,8 +206,12 @@ public final class Robot extends PhaseDrivenRobot {
 				TaskPersistence.EPHEMERAL
 		);
 
-		operatorController.A.whenPressed(
-				new PanicMode(intake, elevator, lBork),
+//		operatorController.A.whenPressed(
+//				new PanicMode(intake, elevator, lBork),
+//				TaskPersistence.EPHEMERAL
+//		);
+		operatorController.A.whileHeld(
+				new RunLBorkYankee(lBork, false),
 				TaskPersistence.EPHEMERAL
 		);
 		//</editor-fold>
@@ -260,7 +264,7 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 
 		operatorController.B.whileHeld(new
-				RunLBorkYankee(lBork, false),
+				RunLBorkYankee(lBork, true),
 				TaskPersistence.EPHEMERAL
 		);
 

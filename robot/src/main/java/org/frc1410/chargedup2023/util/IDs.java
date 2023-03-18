@@ -30,5 +30,5 @@ public interface IDs {
 	int INTAKE_FLIPPER_FORWARD_ID = 14;
 	int INTAKE_FLIPPER_BACKWARD_ID = 9;
 
-	int BLINKIN_PORT = 9;
+	int BLINKIN_PORT = 0;
 }
