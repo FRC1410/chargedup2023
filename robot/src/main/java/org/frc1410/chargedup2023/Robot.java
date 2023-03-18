@@ -144,6 +144,7 @@ public final class Robot extends PhaseDrivenRobot {
 		scheduler.scheduleDefaultCommand(
 				new DriveLooped(
 						drivetrain,
+						elevator,
 						driverController.LEFT_Y_AXIS,
 						driverController.RIGHT_Y_AXIS,
 						driverController.RIGHT_TRIGGER,
@@ -290,6 +291,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 		scheduler.scheduleDefaultCommand(new DriveLooped(
 						drivetrain,
+						elevator,
 						driverController.LEFT_Y_AXIS,
 						driverController.RIGHT_Y_AXIS,
 						driverController.RIGHT_TRIGGER,

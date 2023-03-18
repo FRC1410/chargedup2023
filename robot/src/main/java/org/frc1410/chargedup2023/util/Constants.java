@@ -65,6 +65,7 @@ public interface Constants {
 //	double KS = 0.097;
 //	double KV = 3.015;
 //	double KA = 1.017;
+	double DRIVETRAIN_GRID_SPEED = 0.1;
 	double KS_AUTO = 0.6274;
 	double KV_AUTO = 2.265;
 	double KA_AUTO = 0.7535;
