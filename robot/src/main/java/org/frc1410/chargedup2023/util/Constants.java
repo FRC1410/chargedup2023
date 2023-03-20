@@ -137,7 +137,7 @@ public interface Constants {
 
 	//<editor-fold desc="Auto">
 	double OKLAHOMA_WAIT = 3; // Seconds
-	double CREEPY_SPEED = 5; // Volts
+	double CREEPY_SPEED = 8; // Volts
 	double CREEPY_TIME = 1.7;
 	// </editor-fold>
 }

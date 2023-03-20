@@ -27,6 +27,7 @@ public class RedBarrierPreload extends SequentialCommandGroup {
 						new SetSuperStructurePosition(elevator, intake, lbork, ELEVATOR_RAISED_POSITION, true, true),
 						new RunLBorkYankee(lbork, false)
 				),
+				new WaitCommand(0.25),
 				new ParallelRaceGroup(
 						new RunLBorkYankee(lbork, true),
 						new WaitCommand(YANKEE_OUTTAKE_TIME + 1.0)

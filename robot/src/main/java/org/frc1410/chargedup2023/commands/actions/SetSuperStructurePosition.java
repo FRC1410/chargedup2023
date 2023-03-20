@@ -44,6 +44,10 @@ public class  SetSuperStructurePosition extends CommandBase {
 		addRequirements(elevator);
 	}
 
+	private boolean isHighScoring() {
+		return (elevatorTargetPosition == ELEVATOR_RAISED_POSITION) && (extendLBork);
+	}
+
 	private boolean willInterfere() {
 		if (
 				(elevatorInitialPosition > ELEVATOR_INTAKE_INTERFERENCE_HEIGHT
@@ -92,6 +96,10 @@ public class  SetSuperStructurePosition extends CommandBase {
 
 		// Use PID to set speed
 		elevator.setVolts(-pid.calculate(elevator.getPosition()));
+
+		if (isHighScoring() && elevator.getPosition() > ELEVATOR_MID_POSITION) {
+			lBork.extend();
+		}
 	}
 
 	@Override

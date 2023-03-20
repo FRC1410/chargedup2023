@@ -17,8 +17,10 @@ public class LightBar implements Subsystem {
 	}
 
 	public enum Profile {
-		IDLE_NO_PIECE(0.53), // Color Waves, Color 1 and 2
-		IDLE_PIECE(0.85), // Dark Blue
+//		IDLE_NO_PIECE(0.53), // Color Waves, Color 1 and 2
+
+		IDLE_NO_PIECE(-0.41), // Ocean palette
+		IDLE_PIECE(-0.59), // fire medium
 		APRIL_TAG(0.75), // Dark Green
 		SCORING(-0.71), // Sinelon, Forest Palette
 		SUBSTATION_NO_PIECE(0.91), // Violet
