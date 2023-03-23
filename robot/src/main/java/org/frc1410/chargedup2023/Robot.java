@@ -31,7 +31,7 @@ import static org.frc1410.chargedup2023.util.Constants.*;
 public final class Robot extends PhaseDrivenRobot {
 
 	//<editor-fold desc="Controllers">
-	private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER, 0.2);
+	private final Controller driverController = new Controller(scheduler, DRIVER_CONTROLLER, 0.1);
 	private final Controller operatorController = new Controller(scheduler, OPERATOR_CONTROLLER, 0.25);
 	//</editor-fold>
 
@@ -236,30 +236,20 @@ public final class Robot extends PhaseDrivenRobot {
 		);
 
 		operatorController.LEFT_BUMPER.whenPressed(
-				new DropHeldPiece(
-						intake,
-						lBork,
-						elevator,
-						true
-				),
-				TaskPersistence.EPHEMERAL
-		);
-
-		operatorController.X.whenPressed(
-				new PapaIntakePosition(
-						intake,
-						elevator,
-						lBork
-				),
-				TaskPersistence.EPHEMERAL
-		);
-
-		operatorController.Y.whenPressed(
 				new IdleState(
 						intake,
 						elevator,
 						lBork
 				),
+				TaskPersistence.EPHEMERAL
+		);
+
+		operatorController.X.whenPressed(DeferredTask.fromCommand(scheduler, () ->
+				new PapaIntakePosition(
+						intake,
+						elevator,
+						lBork
+				)),
 				TaskPersistence.EPHEMERAL
 		);
 

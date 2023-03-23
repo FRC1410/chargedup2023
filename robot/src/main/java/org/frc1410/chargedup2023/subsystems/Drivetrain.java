@@ -120,9 +120,11 @@ public class Drivetrain implements TickedSubsystem {
 
 		double triggerValue = -triggerForwards + triggerBackwards;
 		double scalar = 1 - Math.abs(triggerValue);
-		double leftValue = ((scalar * -left) + triggerValue) * voltageLimiter * 12;
-		double rightValue = ((scalar * -right) + triggerValue) * voltageLimiter * 12;
-		teleopTankDriveVolts(leftValue, rightValue);
+		double leftValue = ((scalar * -left) + triggerValue) * voltageLimiter;
+		double rightValue = ((scalar * -right) + triggerValue) * voltageLimiter;
+//		leftValue *= leftValue * Math.signum(leftValue);
+//		rightValue *= rightValue * Math.signum(rightValue);
+		teleopTankDriveVolts(leftValue * 12, rightValue * 12);
 	}
 
 	public void teleopTankDriveVolts(double leftVolts, double rightVolts) {
