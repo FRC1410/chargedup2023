@@ -11,6 +11,7 @@ public class Engage extends CommandBase {
     private final PIDController controller;
 
     public Engage(Drivetrain drivetrain) {
+
         this.drivetrain = drivetrain;
         controller = new PIDController(ENGAGE_P, ENGAGE_I, ENGAGE_D);
         controller.setTolerance(ENGAGE_POSITION_TOLERANCE, ENGAGE_VELOCITY_TOLERANCE);
@@ -33,7 +34,7 @@ public class Engage extends CommandBase {
 			var controllerOutput = controller.calculate(currentAngle);
 
 			// If somebody changes this they will be skinned alive
-			drivetrain.setEngagePower(-(Math.log1p(Math.min(controllerOutput, ENGAGE_MAX_POWER)))/Math.log1p(3));
+			drivetrain.setEngagePower(-(Math.log1p(Math.min(controllerOutput, ENGAGE_MAX_POWER)))/Math.log1p(4));
 		} else {
 			drivetrain.autoTankDriveVolts(0, 0);
 		}

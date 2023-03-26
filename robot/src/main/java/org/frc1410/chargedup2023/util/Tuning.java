@@ -16,13 +16,13 @@ public interface Tuning {
 	double MAX_ACCEL_TELEOP = 4; // 2.5 2
 
 	// Engage
-	double ENGAGE_P = 0.018;
+	double ENGAGE_P = 0.012;
 	double ENGAGE_I = 0;
 	double ENGAGE_D = 0.001;
 
 	double ENGAGE_POSITION_TOLERANCE = 6;
 	double ENGAGE_VELOCITY_TOLERANCE = 2;
-	double ENGAGE_MAX_POWER = 0.40;
+	double ENGAGE_MAX_POWER = 0.25;
 
 	// AprilTags
 	double ANGLE_THRESHOLD = 4;

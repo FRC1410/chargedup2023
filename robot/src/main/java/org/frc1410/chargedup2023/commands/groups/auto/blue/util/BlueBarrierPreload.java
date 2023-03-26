@@ -27,7 +27,7 @@ public class BlueBarrierPreload extends SequentialCommandGroup {
 				new WaitCommand(0.25),
 				new ParallelRaceGroup(
 						new RunLBorkYankee(lbork, true),
-						new WaitCommand(YANKEE_OUTTAKE_TIME + 1.0)
+						new WaitCommand(YANKEE_OUTTAKE_TIME)
 				),
 				new RetractLBork(lbork),
 				isComponent

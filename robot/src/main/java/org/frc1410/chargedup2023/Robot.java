@@ -120,6 +120,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void autonomousSequence() {
+		elevator.resetInversions();
 		drivetrain.brakeMode();
 		drivetrain.zeroHeading();
 		lightBar.set(LightBar.Profile.AUTO);
@@ -137,6 +138,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void teleopSequence() {
+		elevator.resetInversions();
 		drivetrain.brakeMode();
 		scheduler.scheduleDefaultCommand(new UpdatePoseEstimation(drivetrain, camera), TaskPersistence.EPHEMERAL);
 
@@ -280,6 +282,7 @@ public final class Robot extends PhaseDrivenRobot {
 
 	@Override
 	public void testSequence() {
+		elevator.resetInversions();
 		drivetrain.coastMode();
 		lightBar.set(LightBar.Profile.TEST);
 

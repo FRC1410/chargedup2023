@@ -121,7 +121,7 @@ public interface Constants {
 	double ELEVATOR_PAPA_POSITION = 1.9;
 	double ELEVATOR_MID_POSITION = 22.5;
 	double ELEVATOR_HYBRID_POSITION = 18.5;
-	double ELEVATOR_RAISED_POSITION = 30.5;
+	double ELEVATOR_RAISED_POSITION = 30.7;
 	double ELEVATOR_SUBSTATION_POSITION = 31;
 	double ELEVATOR_TOLERANCE = 0.2;
 
@@ -130,7 +130,7 @@ public interface Constants {
 
 	//<editor-fold desc="Timing">
 	double INTAKE_LBORK_EXTEND_TIME = 0.5; // Seconds
-	double YANKEE_OUTTAKE_TIME = 0.7; // Seconds
+	double YANKEE_OUTTAKE_TIME = 0.6; // Seconds
 	double PAPA_OUTTAKE_TIME = 2; // Seconds
 	double SUBSTATION_INTAKE_OFFSET_TIME = 0.6; // Seconds
 	//</editor-fold>

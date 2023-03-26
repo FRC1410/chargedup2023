@@ -45,6 +45,9 @@ public class Elevator implements TickedSubsystem {
 
 		leftMotor.setSmartCurrentLimit(10, 20);
 		rightMotor.setSmartCurrentLimit(10, 20);
+
+		leftMotor.burnFlash();
+		rightMotor.burnFlash();
 	}
 
 	public void setSpeed(double speed) {
@@ -83,5 +86,10 @@ public class Elevator implements TickedSubsystem {
 	public void setDesiredPosition(double desiredPosition) {
 		log.debug("Elevator Desired Position Set: " + desiredPosition);
 		this.desiredPosition = desiredPosition;
+	}
+
+	public void resetInversions() {
+		leftMotor.setInverted(true);
+		rightMotor.setInverted(false);
 	}
 }
