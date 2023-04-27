@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import static org.frc1410.chargedup2023.util.IDs.*;
+import static org.frc1410.chargedup2023.util.Constants.*;
 
 public class Intake implements Subsystem {
 	private final CANSparkMax intakeMotor = new CANSparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
@@ -17,7 +18,7 @@ public class Intake implements Subsystem {
 	}
 
 	public void setSpeed(double speed) {
-		intakeMotor.set(speed);
+		intakeMotor.set(speed * INTAKE_VOLTAGE_SCALE);
 	}
 
 	public void extend() {

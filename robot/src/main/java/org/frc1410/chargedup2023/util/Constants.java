@@ -141,6 +141,7 @@ public interface Constants {
 	double CREEPY_TIME = 1.7;
 	// </editor-fold>
 
-	double DRIVETRAIN_VOLTAGE_SCALE = 0.3;
+	double DRIVETRAIN_VOLTAGE_SCALE = 0.4;
+	double INTAKE_VOLTAGE_SCALE = 0.6;
 }
 
