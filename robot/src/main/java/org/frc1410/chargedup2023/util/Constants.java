@@ -140,5 +140,7 @@ public interface Constants {
 	double CREEPY_SPEED = 8; // Volts
 	double CREEPY_TIME = 1.7;
 	// </editor-fold>
+
+	double DRIVETRAIN_VOLTAGE_SCALE = 0.3;
 }
 

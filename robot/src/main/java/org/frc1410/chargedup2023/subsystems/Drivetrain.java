@@ -128,8 +128,8 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public void teleopTankDriveVolts(double leftVolts, double rightVolts) {
-		leftLeader.setVoltage(leftVolts);
-		rightLeader.setVoltage(rightVolts);
+		leftLeader.setVoltage(leftVolts * DRIVETRAIN_VOLTAGE_SCALE);
+		rightLeader.setVoltage(rightVolts * DRIVETRAIN_VOLTAGE_SCALE);
 
 		drive.feed();
 	}
