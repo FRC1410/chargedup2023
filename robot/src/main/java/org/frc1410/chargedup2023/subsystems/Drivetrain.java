@@ -56,6 +56,8 @@ public class Drivetrain implements TickedSubsystem {
 	private final DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(KINEMATICS,
 			new Rotation2d(), 0, 0, new Pose2d());
 
+	public boolean lowVoltageMode = false;
+
 	public Drivetrain() {
 		initMotor(leftLeader);
 		initMotor(leftFollower);
@@ -128,8 +130,8 @@ public class Drivetrain implements TickedSubsystem {
 	}
 
 	public void teleopTankDriveVolts(double leftVolts, double rightVolts) {
-		leftLeader.setVoltage(leftVolts * DRIVETRAIN_VOLTAGE_SCALE);
-		rightLeader.setVoltage(rightVolts * DRIVETRAIN_VOLTAGE_SCALE);
+		leftLeader.setVoltage(lowVoltageMode ? leftVolts * DRIVETRAIN_VOLTAGE_SCALE : leftVolts);
+		rightLeader.setVoltage(lowVoltageMode ? rightVolts * DRIVETRAIN_VOLTAGE_SCALE : rightVolts);
 
 		drive.feed();
 	}

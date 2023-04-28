@@ -13,12 +13,14 @@ public class Intake implements Subsystem {
 	private final CANSparkMax intakeMotor = new CANSparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
 	private final DoubleSolenoid intakeFlipper = new DoubleSolenoid(PneumaticsModuleType.REVPH, INTAKE_FLIPPER_FORWARD_ID, INTAKE_FLIPPER_BACKWARD_ID);
 
+	public boolean lowVoltageMode = false;
+
 	public Intake() {
 		intakeMotor.restoreFactoryDefaults();
 	}
 
 	public void setSpeed(double speed) {
-		intakeMotor.set(speed * INTAKE_VOLTAGE_SCALE);
+		intakeMotor.set(lowVoltageMode ? speed * INTAKE_VOLTAGE_SCALE : speed);
 	}
 
 	public void extend() {
