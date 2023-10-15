@@ -46,8 +46,10 @@ public class Drivetrain implements TickedSubsystem {
 	private final CANSparkMax rightLeader = new CANSparkMax(DRIVETRAIN_RIGHT_FRONT_MOTOR_ID, MotorType.kBrushless);
 	private final CANSparkMax rightFollower = new CANSparkMax(DRIVETRAIN_RIGHT_BACK_MOTOR_ID, MotorType.kBrushless);
 
-	public final AHRS gyro = new AHRS(SerialPort.Port.kUSB, (byte) 50);
+	// public final AHRS gyro = new AHRS(SerialPort.Port.kUSB, (byte) 50);
 //	public final AHRS gyro = new AHRS(SPI.Port.kMXP, (byte) 50);
+
+	public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
 	private final DifferentialDrive drive;
 
@@ -73,6 +75,8 @@ public class Drivetrain implements TickedSubsystem {
 		drive = new DifferentialDrive(leftLeader, rightLeader);
 
 		gyro.calibrate();
+
+		System.out.println("drivetrain init");
 	}
 
 	private void initMotor(CANSparkMax motor) {

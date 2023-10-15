@@ -27,7 +27,7 @@ public class PapaIntakePosition extends SequentialCommandGroup {
 			commands.add(new WaitCommand(0.15));
 		}
 
-		commands.add(new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, false));
+		commands.add(new SetSuperStructurePosition(elevator, intake, lBork, ELEVATOR_PAPA_POSITION, true, true));
 
 		addCommands(
 				commands.toArray(new Command[0])
